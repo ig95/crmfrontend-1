@@ -1,38 +1,124 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.dark_overlay,
+.drop_down_hamburger:hover .drop_down_content,
+.nav_bar,
+.main_content,
+.scheduling_four_week_overlay {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+.links,
+.cal_divs {
+  text-decoration: none;
+}
+h1 {
+  text-align: center;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f7f4f4;
+}
+.app {
+  min-width: 100vw;
+  min-height: 100vh;
+  justify-content: flex-start;
+  background-image: url("./images/building_background.jpg");
+  background-size: cover;
+}
+.welcome_title {
+  font-size: 2.5em;
+  margin-bottom: 10%;
   color: white;
+  font-family: "Ubuntu", sans-serif;
 }
-
-.App-link {
-  color: #61dafb;
+.dark_overlay {
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: rgba(0, 0, 0, 0.692);
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.nav_line {
+  width: 2vw;
+  height: 0.35rem;
+  margin-bottom: 0.15rem;
+  margin-left: 0.5rem;
+  background-color: #f7f4f4;
+}
+.drop_down_content {
+  display: none;
+}
+.drop_down_hamburger:hover .drop_down_content {
+  position: absolute;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #232f3e;
+  padding: 1%;
+  width: 4vw;
+}
+.links {
+  color: #f7f4f4;
+}
+.link_style:hover {
+  background-color: grey;
+  min-width: 4.5vw;
+}
+.home_content {
+  display: grid;
+  min-height: 100vh;
+  min-width: 100vw;
+  grid-template-columns: 100vw;
+  grid-template-rows: 5vh 95vh;
+  grid-template-areas: "nav_bar" "main_content";
+}
+.nav_bar {
+  grid-area: nav_bar;
+  justify-content: space-between;
+  background-color: #232f3e;
+  color: #f7f4f4;
+}
+.main_content {
+  grid-area: main_content;
+  background-color: #f7f4f4;
+}
+.calandar_container {
+  width: 20vw;
+  margin-left: 1%;
+}
+.nav_current_date {
+  margin-right: 5px;
+}
+.scheduling_four_week_overlay {
+  margin-left: 5%;
+  flex-wrap: wrap;
+  margin-right: 5%;
+}
+.cal_divs {
+  border: 1px solid black;
+  flex: 1 0 14%;
+  height: 10vh;
+  width: 4vw;
+  margin-bottom: 5px;
+  background-color: white;
+  color: black;
+  z-index: 0;
+  font-family: "Ubuntu", sans-serif;
+}
+.cal_divs:hover {
+  transform: translateY(-2px);
+  box-shadow: 1px 1px 3px black;
+  z-index: 1;
+  background-color: #232f3e;
+  color: #f7f4f4;
+}
+.inner_calander_text {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+@media only screen and (max-width: 1050px) {
+  .cal_divs {
+    flex: 1 0 13%;
   }
 }

@@ -1,0 +1,160 @@
+  $offWhite: rgb(247, 244, 244);
+  $amazon_blue: #232F3E;
+
+  $ubuntu_font: 'Ubuntu', sans-serif;
+  
+  %centerThings {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  %remove_link {
+    text-decoration: none;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color:   $offWhite;
+  }
+
+  /****************************************  WELCOME PAGE STYLE ************************************************************/
+  .app {
+    min-width: 100vw;
+    min-height: 100vh;
+    justify-content: flex-start;
+    background-image: url('./images/building_background.jpg');
+    background-size: cover;
+  }
+  
+  .welcome_title {
+    font-size: 2.5em;
+    margin-bottom: 10%;
+    color: white;
+    font-family: $ubuntu_font;
+  }
+  
+  .dark_overlay {
+    @extend %centerThings;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: rgba(0, 0, 0, 0.692);
+  }
+  
+  /****************************************  NAV BAR STYLE ************************************************************/
+  .nav_line {
+    width: 2vw;
+    height: .35rem;
+    margin-bottom: .15rem;
+    margin-left: .5rem;
+    background-color: $offWhite;
+  }
+
+  .drop_down_content {
+    display: none;
+  }
+
+  .drop_down_hamburger:hover .drop_down_content{
+    position: absolute;
+    @extend %centerThings;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: $amazon_blue;
+    padding: 1%;
+    width: 4vw;
+  }
+
+  .links {
+    @extend %remove_link;
+    color: $offWhite;
+  }
+
+  .link_style:hover {
+    background-color: grey;
+    min-width: 4.5vw;
+  }
+
+  /****************************************  WELCOME PAGE STYLE ************************************************************/
+  .home_content {
+    display: grid;
+    min-height: 100vh;
+    min-width: 100vw;
+    grid-template-columns: 100vw;
+    grid-template-rows: 5vh 95vh;
+    grid-template-areas: 
+    "nav_bar"
+    "main_content"
+    ;
+  }
+  
+  .nav_bar {
+    grid-area: nav_bar;
+    @extend %centerThings;
+    justify-content: space-between;
+    background-color: $amazon_blue;
+    color: $offWhite;
+  }
+  
+  .main_content {
+    grid-area: main_content;
+    background-color: $offWhite;
+    @extend %centerThings;
+    
+  }
+  
+  .calandar_container {
+    width: 20vw;
+    margin-left: 1%;
+  }
+  
+  .nav_current_date {
+    margin-right: 5px;
+  }
+  
+  /****************************************  DIVWEEK STYLE ************************************************************/
+
+  .scheduling_four_week_overlay {
+    @extend %centerThings;
+    margin-left: 5%;
+    flex-wrap: wrap;
+    margin-right: 5%;
+  }
+
+  .cal_divs {
+    border: 1px solid black;
+    flex: 1 0 14%;
+    height: 10vh;
+    width: 4vw;
+    margin-bottom: 5px;
+    background-color: white;
+    color: black;
+    z-index: 0;
+    @extend %remove_link;
+    font-family: $ubuntu_font;
+  }
+
+  .cal_divs:hover {
+    transform: translateY(-2px);
+    box-shadow: 1px 1px 3px black;
+    z-index: 1;
+    background-color: $amazon_blue;
+    color: $offWhite;
+  }
+
+  .inner_calander_text {
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+
+  @media only screen and (max-width: 1050px) {
+    .cal_divs {
+      flex: 1 0 13%;
+    }
+  }
