@@ -49,7 +49,7 @@ const App = () => {
         <div className='dark_overlay'>
           <h1 className='welcome_title'>Amazon Delivery Network</h1>
           <GoogleLogin
-            clientId="801108272625-cbbc8i5j8v8s423p95mkte842cdp7d32.apps.googleusercontent.com"
+            clientId="289466662721-f1sj8vu0c15fioleb134nr0oo0ppfk8t.apps.googleusercontent.com"
             buttonText="Login"
             className='googleButton'
             onSuccess={responseGoogle}
