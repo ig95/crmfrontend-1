@@ -81,7 +81,7 @@
     min-width: 4.5vw;
   }
 
-  /****************************************  WELCOME PAGE STYLE ************************************************************/
+  /****************************************  HOME PAGE STYLE ************************************************************/
   .home_content {
     display: grid;
     min-height: 100vh;
@@ -105,23 +105,31 @@
   .main_content {
     grid-area: main_content;
     background-color: $offWhite;
+    align-items: flex-start;
+    min-height: 80vh;
     @extend %centerThings;
     
   }
   
   .calandar_container {
     width: 20vw;
+    margin-top: 5vh;
     margin-left: 1%;
   }
   
   .nav_current_date {
     margin-right: 5px;
   }
+
+  .drop_down_bar_container {
+    margin-bottom: 1VH;
+  }
   
   /****************************************  DIVWEEK STYLE ************************************************************/
 
   .scheduling_four_week_overlay {
     @extend %centerThings;
+    margin-top: 30vh;
     margin-left: 5%;
     flex-wrap: wrap;
     margin-right: 5%;

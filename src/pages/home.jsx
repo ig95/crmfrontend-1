@@ -2,22 +2,38 @@ import React, { useState, useEffect} from 'react'
 import Calendar from 'react-calendar'
 import DivWeek from './DivWeek'
 import 'react-calendar/dist/Calendar.css';
-import {
-    Link
-  } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 const Home = (props) => {
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ currentDate, setCurrentDate ] = useState(new Date())
+    const [ selectedCity, setSelectedCity ] = useState('')
 
+    // keep the time going
     useEffect( () => {
         setInterval( () => {
             setCurrentDate(new Date())
         }, 1000)
     }, [])
 
+    // changes the selected date with the calendar selections
     const handleCalendarChange = (e) => {
         setSelectedDate(e)
+    }
+
+    // dropdown menu options
+    const options = [
+        'Essex',
+        'Bristol',
+        'London'
+    ]
+    const defaultOption = options[0];
+
+    // dropdown menu selection function
+    const onSelect = (e) => {
+        setSelectedCity(e.value)
     }
 
     return (
@@ -42,6 +58,9 @@ const Home = (props) => {
             </div>
             <div className='main_content'>
                 <div className='calandar_container'>
+                    <div className='drop_down_bar_container'>
+                        <Dropdown options={options} onChange={onSelect} value={defaultOption} placeholder="Select an option" className='drop_down_bar'/>
+                    </div>
                     <Calendar 
                         onChange={handleCalendarChange}
                         value={selectedDate}
@@ -49,7 +68,10 @@ const Home = (props) => {
                     />
                 </div>
                 <div className='scheduling_four_week_overlay'>
-                    <DivWeek currentDate={selectedDate}/>
+                    <DivWeek 
+                        currentDate={selectedDate}
+                        selectedLocation={selectedCity ? selectedCity : 'Essex'}
+                    />
                 </div>
             </div>
         </div>

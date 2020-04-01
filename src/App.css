@@ -82,15 +82,22 @@ body {
 .main_content {
   grid-area: main_content;
   background-color: #f7f4f4;
+  align-items: flex-start;
+  min-height: 80vh;
 }
 .calandar_container {
   width: 20vw;
+  margin-top: 5vh;
   margin-left: 1%;
 }
 .nav_current_date {
   margin-right: 5px;
 }
+.drop_down_bar_container {
+  margin-bottom: 1vh;
+}
 .scheduling_four_week_overlay {
+  margin-top: 30vh;
   margin-left: 5%;
   flex-wrap: wrap;
   margin-right: 5%;

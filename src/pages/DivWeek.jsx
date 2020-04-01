@@ -9,7 +9,7 @@ const DivWeek = (props) => {
         let selectedDate = props.currentDate
         for (let i = 7; i > 0; i--) {
             let dateVar = new Date(selectedDate.setDate(selectedDate.getDate() - i)).toDateString()
-            lastWeekDivs.push(<Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}`} className='cal_divs'><div key={i}><h4 className='inner_calander_text'>{dateVar}</h4></div></Link>)
+            lastWeekDivs.push(<Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}/${props.selectedLocation}`} className='cal_divs'><div key={i}><h4 className='inner_calander_text'>{dateVar}</h4></div></Link>)
             selectedDate.setDate(selectedDate.getDate() + i )
         }
         return lastWeekDivs
@@ -21,7 +21,7 @@ const DivWeek = (props) => {
         let selectedDate = props.currentDate
         for (let i = 0; i < 7; i++) {
             let dateVar = new Date(selectedDate.setDate(selectedDate.getDate() + i)).toDateString()
-            thisWeekDivs.push(<Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}`} className='cal_divs'><div key={i+8}><h4 className='inner_calander_text'>{dateVar}</h4></div></Link>)
+            thisWeekDivs.push(<Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}/${props.selectedLocation}`} className='cal_divs'><div key={i+8}><h4 className='inner_calander_text'>{dateVar}</h4></div></Link>)
             selectedDate.setDate(selectedDate.getDate() - i )
         }  
         let almostFinalDivs = [...lastWeekDivs, ...thisWeekDivs]
@@ -34,7 +34,7 @@ const DivWeek = (props) => {
         let selectedDate = props.currentDate
         for (let i = 7; i < 14; i++) {
             let dateVar = new Date(selectedDate.setDate(selectedDate.getDate() + i)).toDateString()
-            nextWeekDivs.push(<Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}`} className='cal_divs'><div key={i+8}><h4 className='inner_calander_text'>{dateVar}</h4></div></Link>)
+            nextWeekDivs.push(<Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}/${props.selectedLocation}`} className='cal_divs'><div key={i+8}><h4 className='inner_calander_text'>{dateVar}</h4></div></Link>)
             selectedDate.setDate(selectedDate.getDate() - i )
         }  
         let finalDivs = [...thisWeekDivs, ...nextWeekDivs]

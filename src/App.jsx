@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import axios from 'axios'
 import SingleDay from './pages/SingleDay'
@@ -16,11 +16,17 @@ const App = () => {
   const [ userEmail, setUserEmail] = useState('');
   const [ user, setUser] = useState(null);
 
+  // dev mode
+  useEffect( () => {
+    setUserName('Nicholas Shankland')
+    setUserEmail('nicholas.m.shankland@gmail.com')
+  },[])
+
   // handles writting data to database and recieving google data
   const responseGoogle = (response) => {
-    setUserName(response.profileObj.givenName)
-    setUserId(response.profileObj.googleId)
-    setUserEmail(response.profileObj.email)
+    // setUserName(response.profileObj.givenName)
+    // setUserId(response.profileObj.googleId)
+    // setUserEmail(response.profileObj.email)
       // axios.post('/user/signup', {
       //   name: response.profileObj.name, 
       //   email: response.profileObj.email, 
@@ -40,7 +46,7 @@ const App = () => {
     content = (
       <Router>
         <Route exact path = '/' render={ () => <Home user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/singleday/:id' render={ () => <SingleDay user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail}/> } />
       </Router>
     )
   } else {
