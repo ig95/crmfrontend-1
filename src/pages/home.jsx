@@ -1,21 +1,28 @@
 import React, { useState, useEffect} from 'react'
 import Calendar from 'react-calendar'
-import DivWeek from './DivWeek'
-import 'react-calendar/dist/Calendar.css';
+import DivWeek from '../components/DivWeek'
 import { Link } from 'react-router-dom';
 import Dropdown from 'react-dropdown';
+import 'react-calendar/dist/Calendar.css';
 import 'react-dropdown/style.css';
 
+var myInterval
 const Home = (props) => {
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ currentDate, setCurrentDate ] = useState(new Date())
     const [ selectedCity, setSelectedCity ] = useState('')
 
-    // keep the time going
+    
+    // handling the clock
     useEffect( () => {
-        setInterval( () => {
-            setCurrentDate(new Date())
-        }, 1000)
+        clearInterval(myInterval)
+        const timeFunction = () => {
+            let setTime = () => {
+                setCurrentDate(new Date())
+            }
+            myInterval = setInterval( setTime, 1000)
+        }
+        timeFunction()
     }, [])
 
     // changes the selected date with the calendar selections
@@ -25,11 +32,10 @@ const Home = (props) => {
 
     // dropdown menu options
     const options = [
-        'Essex',
-        'Bristol',
-        'London'
+        'DBS2',
+        'DSN1',
+        'DEX2'
     ]
-    const defaultOption = options[0];
 
     // dropdown menu selection function
     const onSelect = (e) => {
@@ -47,6 +53,9 @@ const Home = (props) => {
                         <div className='link_style'>
                             <Link to="/" className='links'>Home</Link>
                         </div>
+                        <div className='link_style'>
+                            <Link to="/weekschedule" className='links'>Week Schedule</Link>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -59,7 +68,13 @@ const Home = (props) => {
             <div className='main_content'>
                 <div className='calandar_container'>
                     <div className='drop_down_bar_container'>
-                        <Dropdown options={options} onChange={onSelect} value={defaultOption} placeholder="Select an option" className='drop_down_bar'/>
+                        <Dropdown 
+                            options={options} 
+                            onChange={onSelect} 
+                            value={selectedCity} 
+                            placeholder="Select an option" 
+                            className='drop_down_bar'
+                        />
                     </div>
                     <Calendar 
                         onChange={handleCalendarChange}
@@ -70,7 +85,7 @@ const Home = (props) => {
                 <div className='scheduling_four_week_overlay'>
                     <DivWeek 
                         currentDate={selectedDate}
-                        selectedLocation={selectedCity ? selectedCity : 'Essex'}
+                        selectedLocation={selectedCity ? selectedCity : 'DBS2'}
                     />
                 </div>
             </div>

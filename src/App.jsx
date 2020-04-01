@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import axios from 'axios'
 import SingleDay from './pages/SingleDay'
+import WeekSchedule from './pages/WeekSchedule'
 import './App.scss';
 import Home from './pages/home'
 import {
@@ -14,7 +15,7 @@ const App = () => {
   const [ userName, setUserName] = useState('');
   const [ userId, setUserId] = useState('');
   const [ userEmail, setUserEmail] = useState('');
-  const [ user, setUser] = useState(null);
+  // const [ user, setUser] = useState(null);
 
   // dev mode
   // useEffect( () => {
@@ -45,7 +46,8 @@ const App = () => {
   if (userName) {
     content = (
       <Router>
-        <Route exact path = '/' render={ () => <Home user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/' render={ () => <Home user_name={userName} user_email={userEmail} user_id={userId} /> } />
+        <Route exact path = '/weekschedule' render={ () => <WeekSchedule user_name={userName} user_email={userEmail}/> } />
         <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail}/> } />
       </Router>
     )

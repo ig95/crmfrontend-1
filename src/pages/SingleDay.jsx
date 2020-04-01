@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom';
 
+var myInterval
 const SingleDay = () => {
     const [selectedDate, setSelectedDate] = useState(new Date())
     const [currentDate, setCurrentDate] = useState(new Date())
@@ -20,11 +21,18 @@ const SingleDay = () => {
         setSelectedDate(new Date(finalDate))
     }, [])
 
-    // make this not a memory leak
+    
     useEffect( () => {
-        setInterval( () => {
-            setCurrentDate(new Date())
-        }, 1000)
+        // make this not a memory leak
+        const timeFunction = () => {
+            // handling the clock
+            let setTime = () => {
+                setCurrentDate(new Date())
+            }
+            myInterval = setInterval( setTime, 1000)
+        }
+        clearInterval(myInterval)
+        timeFunction()
     }, [])
 
     return (
@@ -38,6 +46,9 @@ const SingleDay = () => {
                         <div className='link_style'>
                             <Link to="/" className='links'>Home</Link>
                         </div>
+                        <div className='link_style'>
+                            <Link to="/weekschedule" className='links'>Week Schedule</Link>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -47,7 +58,6 @@ const SingleDay = () => {
                     <h3 className='nav_current_date'>{currentDate.toDateString()} {' | '}{currentDate.toLocaleTimeString()}</h3>
                 </div>
             </div>
-            
         </div>
     )
 }

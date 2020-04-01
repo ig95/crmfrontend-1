@@ -1,5 +1,7 @@
   $offWhite: rgb(247, 244, 244);
   $amazon_blue: #232F3E;
+  $calendar_top_background: #F3F6F6;
+  $calendar_text_color: rgb(54, 134, 148);
 
   $ubuntu_font: 'Ubuntu', sans-serif;
   
@@ -7,6 +9,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  %calendar_divs_class {
+    border: 1px solid black;
+    flex: 1 0 14%;
+    height: 10vh;
+    width: 4vw;
+    margin-bottom: 5px;
+    background-color: white;
+    color: black;
+    z-index: 0;
+    @extend %remove_link;
+    font-family: $ubuntu_font;
   }
 
   %remove_link {
@@ -68,7 +83,8 @@
     align-items: flex-start;
     background-color: $amazon_blue;
     padding: 1%;
-    width: 4vw;
+    width: 8vw;
+    z-index: 1;
   }
 
   .links {
@@ -78,7 +94,7 @@
 
   .link_style:hover {
     background-color: grey;
-    min-width: 4.5vw;
+    min-width: 8vw;
   }
 
   /****************************************  HOME PAGE STYLE ************************************************************/
@@ -126,7 +142,7 @@
   }
   
   /****************************************  DIVWEEK STYLE ************************************************************/
-
+  
   .scheduling_four_week_overlay {
     @extend %centerThings;
     margin-top: 30vh;
@@ -134,20 +150,11 @@
     flex-wrap: wrap;
     margin-right: 5%;
   }
-
+  
   .cal_divs {
-    border: 1px solid black;
-    flex: 1 0 14%;
-    height: 10vh;
-    width: 4vw;
-    margin-bottom: 5px;
-    background-color: white;
-    color: black;
-    z-index: 0;
-    @extend %remove_link;
-    font-family: $ubuntu_font;
+    @extend %calendar_divs_class;
   }
-
+  
   .cal_divs:hover {
     transform: translateY(-2px);
     box-shadow: 1px 1px 3px black;
@@ -155,14 +162,73 @@
     background-color: $amazon_blue;
     color: $offWhite;
   }
-
+  
   .inner_calander_text {
     margin-top: 5px;
     margin-left: 5px;
   }
-
+  
   @media only screen and (max-width: 1050px) {
     .cal_divs {
       flex: 1 0 13%;
     }
+  }
+  
+  /****************************************  SINGLEDIVWEEK STYLE ************************************************************/
+
+  .single_week_grid {
+    margin-top: 3vh;
+    margin-left: 5vw;
+    display: grid;
+    height: 80vh;
+    width: 60vw;
+    grid-template-columns: 100%;
+    grid-template-rows: 7.5% 85% 7.5%;
+    grid-template-areas: 
+    "top_row"
+    "middle_row"
+    "bottom_row"
+    ;
+  }
+
+  .cal_divs_single {
+    @extend %calendar_divs_class;
+    width: 6vw;
+    flex: 1 0 11%;
+    height: 5vh;
+    margin-bottom: 5px;
+    background-color: $calendar_top_background;
+    color: $calendar_text_color;
+  }
+
+
+  .cal_divs_single_first {
+    @extend %calendar_divs_class;
+    min-width: 10vw;
+    width: 6vw;
+    flex: 1 0 11%;
+    height: 5vh;
+    margin-bottom: 5px;
+    background-color: $calendar_top_background;
+    color: $calendar_text_color;
+  }
+
+  .top_row {
+    grid-area: top_row;
+    display: flex;
+    width: 59vw;
+  }
+
+  .middle_row {
+    grid-area: middle_row;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: scroll;
+    max-height: 68vh;
+  }
+
+  .bottom_row {
+    grid-area: bottom_row;
+    display: flex;
+    width: 59vw;
   }
