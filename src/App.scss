@@ -201,6 +201,26 @@
     color: $calendar_text_color;
   }
 
+  .cal_divs_single_table {
+    @extend %calendar_divs_class;
+    width: 6vw;
+    flex: 1 0 11%;
+    height: 5vh;
+    margin-bottom: 5px;
+    background-color: white;
+    color: black;
+  }
+
+  .cal_divs_single_booked {
+    @extend %calendar_divs_class;
+    width: 6vw;
+    flex: 1 0 11%;
+    height: 5vh;
+    margin-bottom: 5px;
+    background-color: $amazon_blue;
+    color: $offWhite;
+  }
+
 
   .cal_divs_single_first {
     @extend %calendar_divs_class;
