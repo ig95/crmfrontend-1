@@ -103,20 +103,20 @@ const WeekSchedule = () => {
             AnderewPaulThreeFive: {
                 booked: [
                     'sat apr 11 2020',
-                    'sunapr122020',
+                    'sun apr 12 2020',
                     'mon apr 13 2020'
                 ]
             },
             AdrianHutchinsonFourFive: {
                 booked: [
                     'sat apr 11 2020',
-                    'sunapr122020'
+                    'sun apr 12 2020'
                 ]
             },
             AnderewPaulFourFive: {
                 booked: [
                     'sat apr 11 2020',
-                    'sunapr122020',
+                    'sun apr 12 2020',
                     'mon apr 13 2020'
                 ]
             }

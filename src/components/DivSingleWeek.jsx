@@ -26,15 +26,19 @@ const DivSingleWeek = (props) => {
         // middle row mapped divs
         function middleRows () {
             var mappedProps = []
-            let localAwesomeArray = []
+            let localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1]
             console.log('*******************************************************************************************')
+            console.log(checkForDate)
             for (let ele in props.drivers) {
                 mappedProps.push(<div className='cal_divs_single_first'>{ele}</div>)
-                for (let i = 0; i < 7; i++) { 
-                    localAwesomeArray.push(checkForDate.indexOf(new Date(props.drivers[ele].booked[i]).toDateString()))
-                }
                 for (let i = 0; i < 7; i++) {
-                    if (localAwesomeArray.includes(i)) {
+                    if (checkForDate.includes(new Date(props.drivers[ele].booked[i]).toDateString())) {
+                        localAwesomeArray[checkForDate.indexOf(new Date(props.drivers[ele].booked[i]).toDateString())] = i
+                    }
+                }
+                console.log(localAwesomeArray)
+                for (let i = 0; i < 7; i++) {
+                    if (localAwesomeArray[i] !== -1) {
                         // logic for date booked or not
                         mappedProps.push(<div key={Math.random()} className='cal_divs_single_booked'>
                             <h5 className='inner_calander_text'>
@@ -45,12 +49,12 @@ const DivSingleWeek = (props) => {
                         // logic for date booked or not
                         mappedProps.push(<div key={Math.random()} className='cal_divs_single_table'>
                             <h5 className='inner_calander_text'>
-                                'available'
+                                
                             </h5>
                         </div>)
                     }
-                    
                 }  
+                localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1]
             }
             return mappedProps
         }
