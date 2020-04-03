@@ -27,8 +27,6 @@ const DivSingleWeek = (props) => {
         function middleRows () {
             var mappedProps = []
             let localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1]
-            console.log('*******************************************************************************************')
-            console.log(checkForDate)
             for (let ele in props.drivers) {
                 mappedProps.push(<div className='cal_divs_single_first'>{ele}</div>)
                 for (let i = 0; i < 7; i++) {
@@ -36,7 +34,6 @@ const DivSingleWeek = (props) => {
                         localAwesomeArray[checkForDate.indexOf(new Date(props.drivers[ele].booked[i]).toDateString())] = i
                     }
                 }
-                console.log(localAwesomeArray)
                 for (let i = 0; i < 7; i++) {
                     if (localAwesomeArray[i] !== -1) {
                         // logic for date booked or not
