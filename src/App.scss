@@ -158,7 +158,7 @@
   .cal_divs:hover {
     transform: translateY(-2px);
     box-shadow: 1px 1px 3px black;
-    z-index: 1;
+    z-index: .9;
     background-color: $amazon_blue;
     color: $offWhite;
   }
@@ -166,6 +166,14 @@
   .inner_calander_text {
     margin-top: 5px;
     margin-left: 5px;
+  }
+
+  .inner_calender_form {
+    margin: 14vh auto;
+    z-index: 1;
+    width: 40vw;
+    height: 40vh;
+    border: 3px solid black;
   }
   
   @media only screen and (max-width: 1050px) {
@@ -211,6 +219,11 @@
     color: black;
   }
 
+  .cal_divs_single_table:hover {
+    transform: translateY(-.25rem);
+    box-shadow: 2px 2px 2px black;
+  }
+
   .cal_divs_single_booked {
     @extend %calendar_divs_class;
     width: 6vw;
@@ -221,6 +234,10 @@
     color: $offWhite;
   }
 
+  .cal_divs_single_booked:hover {
+    transform: translateY(-.25rem);
+    box-shadow: 2px 2px 2px black;
+  }
 
   .cal_divs_single_first {
     @extend %calendar_divs_class;
