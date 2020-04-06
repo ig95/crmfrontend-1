@@ -7,6 +7,8 @@ const DivSingleWeek = (props) => {
     const [ bottomRow, setBottomRow ] = useState([])
 
     useEffect( () => {
+        console.log(props)
+
         // top row mapped divs
         var checkForDate = []
         function thisWeekDivs () {
@@ -39,9 +41,10 @@ const DivSingleWeek = (props) => {
             var mappedProps = []
             let localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1]
             for (let ele in props.drivers) {
-                mappedProps.push(<div className='cal_divs_single_first'>{ele}</div>)
+                console.log()
+                mappedProps.push(<div className='cal_divs_single_first'>{props.drivers[ele].name}</div>)
                 for (let i = 0; i < 7; i++) {
-                    if (checkForDate.includes(new Date(props.drivers[ele].booked[i]).toDateString())) {
+                    if (checkForDate.includes(new Date(props.drivers[ele].datesList[i]).toDateString())) {
                         localAwesomeArray[checkForDate.indexOf(new Date(props.drivers[ele].booked[i]).toDateString())] = i
                     }
                 }

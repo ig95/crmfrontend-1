@@ -43,7 +43,7 @@ const MakeEmployee = (props) => {
             location: e.target.location.value,
             route: e.target.route.value}).then( (response) => {
                 console.log(response)
-            })
+        })
 
         e.target.submit.value = 'Thanks'
         e.target.name.value = ''

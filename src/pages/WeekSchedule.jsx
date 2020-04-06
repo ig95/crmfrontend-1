@@ -15,113 +15,24 @@ const WeekSchedule = () => {
 
     // dev data ... note to self... the following component only accepts format day dat 11 1212
     useEffect(() => {
-        const drivers = {
-            AdrianHutchinson: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020'
-                ]
-            },
-            AnderewPaul: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020',
-                    'mon apr 13 2020'
-                ]
-            },
-            AdrianHutchinsonTwo: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020'
-                ]
-            },
-            AnderewPaulTwo: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020',
-                    'mon apr 13 2020'
-                ]
-            },
-            AdrianHutchinsonThree: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020'
-                ]
-            },
-            AnderewPaulThree: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020',
-                    'mon apr 13 2020'
-                ]
-            },
-            AdrianHutchinsonFour: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020'
-                ]
-            },
-            AnderewPaulFour: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020',
-                    'mon apr 13 2020'
-                ]
-            },
-            AdrianHutchinsonFive: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020'
-                ]
-            },
-            AnderewPaulFive: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020',
-                    'mon apr 13 2020'
-                ]
-            },
-            AdrianHutchinsonTwoFive: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020'
-                ]
-            },
-            AnderewPaulTwoFive: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020',
-                    'mon apr 13 2020'
-                ]
-            },
-            AdrianHutchinsonThreeFive: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020'
-                ]
-            },
-            AnderewPaulThreeFive: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020',
-                    'mon apr 13 2020'
-                ]
-            },
-            AdrianHutchinsonFourFive: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020'
-                ]
-            },
-            AnderewPaulFourFive: {
-                booked: [
-                    'sat apr 11 2020',
-                    'sun apr 12 2020',
-                    'mon apr 13 2020'
-                ]
-            }
-        }
-        setDrivers(drivers)
+        async function getData(url = '') {
+            const response = await fetch(url, {
+                method: 'GET', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            return response ? response.json() : console.log('no reponse')
+
+        };
+
+        getData('https://pythonicbackend.herokuapp.com/employees/').then( (response) => {
+            setDrivers(response.results)
+        })
     }, [])
     
     // handling the clock
