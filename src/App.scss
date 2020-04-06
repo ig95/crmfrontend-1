@@ -1,5 +1,6 @@
   $offWhite: rgb(247, 244, 244);
   $amazon_blue: #232F3E;
+  $amazon_blue_hover: rgb(43, 58, 77);
   $calendar_top_background: #F3F6F6;
   $calendar_text_color: rgb(54, 134, 148);
 
@@ -26,6 +27,39 @@
 
   %remove_link {
     text-decoration: none;
+  }
+
+  %input_bars {
+    border-radius: .25rem;
+    border: 1px solid $amazon_blue;
+    width: 15vw;
+    height: 3vh;
+    font-family: $ubuntu_font;
+    font-size: 1.2em;
+  }
+
+  %input_bars:hover {
+    border: 1px solid rgb(113, 113, 185);
+  }
+
+  %label_text {
+    font-size: 1.3em;
+    margin: 2vh 0 .5vh 0;
+  }
+
+  %buttons {
+    background-color: $amazon_blue;
+    margin-top: 1vh;
+    border: none;
+    color: $offWhite;
+    width: 8vw;
+    height: 3vh;
+    border-radius: .25rem;
+  }
+
+  %buttons:hover {
+    background-color: $amazon_blue_hover;
+    transform: translateY(-.15vh);
   }
 
   h1 {
@@ -183,7 +217,7 @@
   }
   
   /****************************************  SINGLEDIVWEEK STYLE ************************************************************/
-
+  
   .single_week_grid {
     margin-top: 3vh;
     margin-left: 5vw;
@@ -198,7 +232,7 @@
     "bottom_row"
     ;
   }
-
+  
   .cal_divs_single {
     @extend %calendar_divs_class;
     width: 6vw;
@@ -208,7 +242,7 @@
     background-color: $calendar_top_background;
     color: $calendar_text_color;
   }
-
+  
   .cal_divs_single_table {
     @extend %calendar_divs_class;
     width: 6vw;
@@ -218,12 +252,12 @@
     background-color: white;
     color: black;
   }
-
+  
   .cal_divs_single_table:hover {
     transform: translateY(-.25rem);
     box-shadow: 2px 2px 2px black;
   }
-
+  
   .cal_divs_single_booked {
     @extend %calendar_divs_class;
     width: 6vw;
@@ -233,12 +267,12 @@
     background-color: $amazon_blue;
     color: $offWhite;
   }
-
+  
   .cal_divs_single_booked:hover {
     transform: translateY(-.25rem);
     box-shadow: 2px 2px 2px black;
   }
-
+  
   .cal_divs_single_first {
     @extend %calendar_divs_class;
     min-width: 10vw;
@@ -249,13 +283,13 @@
     background-color: $calendar_top_background;
     color: $calendar_text_color;
   }
-
+  
   .top_row {
     grid-area: top_row;
     display: flex;
     width: 59vw;
   }
-
+  
   .middle_row {
     grid-area: middle_row;
     display: flex;
@@ -263,9 +297,32 @@
     overflow: scroll;
     max-height: 68vh;
   }
-
+  
   .bottom_row {
     grid-area: bottom_row;
     display: flex;
     width: 59vw;
+  }
+
+  /****************************************  NEW EMPLOYEE PAGE STYLE ************************************************************/
+  .new_employee_form {
+    height: 90vh;
+    width: 90vw;
+    padding-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .inputs {
+    @extend %input_bars;
+  }
+
+  .labels {
+    @extend %label_text;
+  }
+
+  .submit_button {
+    @extend %buttons;
   }

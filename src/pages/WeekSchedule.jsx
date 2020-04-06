@@ -167,6 +167,9 @@ const WeekSchedule = () => {
                                 <Link to="/" className='links'>Home</Link>
                             </div>
                             <div className='link_style'>
+                                <Link to="/makemployee" className='links'>Make Employee</Link>
+                            </div>
+                            <div className='link_style'>
                                 <Link to="/weekschedule" className='links'>Week Schedule</Link>
                             </div>
                         </div>
