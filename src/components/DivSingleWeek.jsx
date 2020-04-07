@@ -5,9 +5,10 @@ const DivSingleWeek = (props) => {
     const [ topRow, setTopRow ] = useState([])
     const [ middleRow, setMiddleRow ] = useState([])
     const [ bottomRow, setBottomRow ] = useState([])
+    const [ selectedCityDrivers, setSelectedCityDrivers ] = useState([])
 
     useEffect( () => {
-        console.log(props)
+        console.log(selectedCityDrivers)
 
         // top row mapped divs
         var checkForDate = []
@@ -36,50 +37,81 @@ const DivSingleWeek = (props) => {
             return lastWeekDivsArray
         }
 
+        var middleRows
         // middle row mapped divs
-        function middleRows () {
-            var mappedProps = []
-            let localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1]
-            for (let ele in props.drivers) {
-                console.log()
-                mappedProps.push(<div className='cal_divs_single_first'>{props.drivers[ele].name}</div>)
-                for (let i = 0; i < 7; i++) {
-                    if (checkForDate.includes(new Date(props.drivers[ele].datesList[i]).toDateString())) {
-                        localAwesomeArray[checkForDate.indexOf(new Date(props.drivers[ele].booked[i]).toDateString())] = i
+        if (selectedCityDrivers.length > 0) {
+            console.log(selectedCityDrivers)
+             middleRows = () => {
+                var mappedProps = []
+                let localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1]
+                for (let ele in selectedCityDrivers) {
+                    mappedProps.push(<div className='cal_divs_single_first'>{selectedCityDrivers[ele].name}</div>)
+                    for (let i = 0; i < 7; i++) {
+                        if (checkForDate.includes(new Date(selectedCityDrivers[ele].datesList[i]).toDateString())) {
+                            localAwesomeArray[checkForDate.indexOf(new Date(selectedCityDrivers[ele].booked[i]).toDateString())] = i
+                        }
                     }
+                    for (let i = 0; i < 7; i++) {
+                        if (localAwesomeArray[i] !== -1) {
+                            // logic for date booked or not
+                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_booked' onClick={(e) => handleClick(e, checkForDate[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList)}>
+                                    <h5 className='inner_calander_text'>
+                                        BOOKED
+                                    </h5>
+                            </div>)
+                        } else {
+                            // logic for date booked or not
+                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, checkForDate[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList)}>
+                                    <h5 className='inner_calander_text'>
+                                        ---
+                                    </h5>
+                            </div>)
+                        }
+                    }  
+                    localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1]
                 }
-                for (let i = 0; i < 7; i++) {
-                    if (localAwesomeArray[i] !== -1) {
-                        // logic for date booked or not
-                        mappedProps.push(<div key={Math.random()} className='cal_divs_single_booked' onClick={(e) => handleClick(e, checkForDate[i], ele)}>
-                                <h5 className='inner_calander_text'>
-                                    BOOKED
-                                </h5>
-                        </div>)
-                    } else {
-                        // logic for date booked or not
-                        mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, checkForDate[i], ele)}>
-                                <h5 className='inner_calander_text'>
-                                    ---
-                                </h5>
-                        </div>)
-                    }
-                }  
-                localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1]
+                return mappedProps
             }
-            return mappedProps
+        } else {
+            middleRows = () => {
+                return ''
+            }
         }
 
-        const handleSubmitButton = () => {
+        const handleSubmitButton = (myDate, myList) => {
+            // myList.push(myDate)
+            var endList = myList ? myList.push(myDate) : [myDate]
+
+            async function postData(url = '', data = {}) {
+                const response = await fetch(url, {
+                    method: 'PUT', 
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                    });
+    
+                return response ? response.json() : console.log('no reponse')
+    
+            };
+    
+            postData('https://pythonicbackend.herokuapp.com/employees/', {
+                endList
+            }).then( (response) => {
+                    console.log(response)
+            })
             setMiddleRow(middleRows())
         }
 
-        const makeForm = (dateSelection, nameSelection) => {
+        const makeForm = (dateSelection, nameSelection, dateList) => {
             return (
                 <div className='inner_calender_form'>
                     <h3>{nameSelection}</h3>
                     <h3>{dateSelection}</h3>
-                    <button onClick={handleSubmitButton}>Add Work</button>
+                    <button onClick={handleSubmitButton(dateSelection, dateList)}>Add Work</button>
                 </div>
             )
         }
@@ -93,9 +125,18 @@ const DivSingleWeek = (props) => {
         setTopRow(thisWeekDivs())
         setMiddleRow(middleRows())
         setBottomRow(bottomDivs())
-    }, [props.selectedDate])
-
-
+    }, [props.selectedDate, selectedCityDrivers])
+ 
+    useEffect( () => {
+        console.log(props)
+        let localList = []
+        props.drivers.forEach( (ele, id) => {
+            if (ele.route === props.selectedCity) {
+                localList.push(ele)
+            }
+        })
+        setSelectedCityDrivers(localList)
+    }, [props.selectedCity])
 
     return (
         <div className='single_week_grid'>
