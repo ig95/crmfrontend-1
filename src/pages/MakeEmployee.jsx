@@ -41,7 +41,10 @@ const MakeEmployee = (props) => {
         postData('https://pythonicbackend.herokuapp.com/employees/', {
             name: e.target.name.value, 
             location: e.target.location.value,
-            route: e.target.route.value}).then( (response) => {
+            route: e.target.route.value,
+            logIn_time: e.target.logIn_time.value,
+            logOut_time: e.target.logOut_time.value,
+        }).then( (response) => {
                 console.log(response)
         })
 
@@ -50,6 +53,13 @@ const MakeEmployee = (props) => {
         e.target.location.value = ''
         e.target.route.value = ''
     }
+
+    let myDateTime = new Date()
+    let hours = myDateTime.getHours()
+    let submitHours = hours > 12 ? (hours - 12) : hours
+    let minutes = myDateTime.getMinutes()
+
+    let timeEntry = `${submitHours}:${minutes} ${hours > 12 ? 'PM' : 'AM'}`
 
     return (
         <div className='home_content'>
@@ -87,9 +97,9 @@ const MakeEmployee = (props) => {
                         <label className='labels'>Route</label>
                             <input className='inputs' type="text" name='route'/>
                         <label className='labels'>Log in time</label>
-                            <input className='inputs' type="text" name='logIn_time'/>
+                            <input className='inputs' type="text" value={timeEntry} name='logIn_time'/>
                         <label className='labels'>Log out time</label>
-                            <input className='inputs' type="text" name='logOut_time'/>
+                            <input className='inputs' type="text" value={timeEntry} name='logOut_time'/>
                         <input type="submit" value="Submit" name='submit' className='submit_button'/>    
                     </form>
                 </div>

@@ -6,8 +6,10 @@ const DivSingleWeek = (props) => {
     const [ middleRow, setMiddleRow ] = useState([])
     const [ bottomRow, setBottomRow ] = useState([])
     const [ selectedCityDrivers, setSelectedCityDrivers ] = useState([])
+    const [ reRenderGate, setReRenderGate ] = useState(false)
 
     useEffect( () => {
+        console.log(props)
         // top row mapped divs
         var checkForDate = []
         function thisWeekDivs () {
@@ -59,7 +61,7 @@ const DivSingleWeek = (props) => {
                             </div>)
                         } else {
                             // logic for date booked or not
-                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, checkForDate[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList)}>
+                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, checkForDate[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].employee_id)}>
                                     <h5 className='inner_calander_text'>
                                         ---
                                     </h5>
@@ -76,14 +78,8 @@ const DivSingleWeek = (props) => {
             }
         }
 
-        const handleSubmitButton = (myDate, nameSelection, myList) => {
-            console.log(myList)
-            let myIndex = -1
-            props.drivers.forEach((ele, id) => {
-                if (ele.name === nameSelection) {
-                    myIndex=(id+1)
-                }
-            })
+        const handleSubmitButton = (myDate, nameSelection, myList, id) => {
+            console.log(props)
             // myList.push(myDate)
             const myListFunc = () => {
                 let localArray = []
@@ -102,7 +98,6 @@ const DivSingleWeek = (props) => {
             let minutes = myDateTime.getMinutes()
 
             let timeEntry = `${submitHours}:${minutes} ${hours > 12 ? 'PM' : 'AM'}`
-            console.log('endList: ', endList)
             async function postData(url = '', data = {}) {
                 const response = await fetch(url, {
                     method: 'PUT', 
@@ -118,30 +113,32 @@ const DivSingleWeek = (props) => {
                 return response ? response.json() : console.log('no reponse')
             };
             
-            postData(`https://pythonicbackend.herokuapp.com/employees/${myIndex}/`, {
+            postData(`https://pythonicbackend.herokuapp.com/employees/${id}/`, {
                 datesList: endList,
                 logIn_time: timeEntry,
                 logOut_time: timeEntry
             }).then( (response) => {
+                    props.drivers[id] = response
+                    reRenderGate ? setReRenderGate(false) : setReRenderGate(true)
                     console.log(response)
             })
             setMiddleRow(middleRows())
         }
 
-        const makeForm = (dateSelection, nameSelection, dateList) => {
+        const makeForm = (dateSelection, nameSelection, dateList, id) => {
             console.log(dateList)
             return (
                 <div className='inner_calender_form'>
                     <h3>{nameSelection}</h3>
                     <h3>{dateSelection}</h3>
-                    <button onClick={() => { handleSubmitButton(dateSelection, nameSelection, dateList)} }>Add Work</button>
+                    <button onClick={() => { handleSubmitButton(dateSelection, nameSelection, dateList, id)} }>Add Work</button>
                 </div>
             )
         }
 
-        const handleClick = (e, weekDaySelected, theName, datesList) => {
+        const handleClick = (e, weekDaySelected, theName, datesList, id) => {
             e.preventDefault()
-            setMiddleRow(makeForm(weekDaySelected, theName, datesList))
+            setMiddleRow(makeForm(weekDaySelected, theName, datesList, id))
         }
 
 
@@ -158,7 +155,7 @@ const DivSingleWeek = (props) => {
             }
         })
         setSelectedCityDrivers(localList)
-    }, [props.selectedCity])
+    }, [props.selectedCity, reRenderGate])
 
     return (
         <div className='single_week_grid'>
