@@ -8,8 +8,6 @@ const DivSingleWeek = (props) => {
     const [ selectedCityDrivers, setSelectedCityDrivers ] = useState([])
 
     useEffect( () => {
-        console.log(selectedCityDrivers)
-
         // top row mapped divs
         var checkForDate = []
         function thisWeekDivs () {
@@ -48,7 +46,7 @@ const DivSingleWeek = (props) => {
                     mappedProps.push(<div className='cal_divs_single_first'>{selectedCityDrivers[ele].name}</div>)
                     for (let i = 0; i < 7; i++) {
                         if (checkForDate.includes(new Date(selectedCityDrivers[ele].datesList[i]).toDateString())) {
-                            localAwesomeArray[checkForDate.indexOf(new Date(selectedCityDrivers[ele].booked[i]).toDateString())] = i
+                            localAwesomeArray[checkForDate.indexOf(new Date(selectedCityDrivers[ele].datesList[i]).toDateString())] = i
                         }
                     }
                     for (let i = 0; i < 7; i++) {
@@ -78,10 +76,33 @@ const DivSingleWeek = (props) => {
             }
         }
 
-        const handleSubmitButton = (myDate, myList) => {
+        const handleSubmitButton = (myDate, nameSelection, myList) => {
+            console.log(myList)
+            let myIndex = -1
+            props.drivers.forEach((ele, id) => {
+                if (ele.name === nameSelection) {
+                    myIndex=(id+1)
+                }
+            })
             // myList.push(myDate)
-            var endList = myList ? myList.push(myDate) : [myDate]
+            const myListFunc = () => {
+                let localArray = []
+                if (myList.length > 0) {
+                    localArray = [...myList]
+                    localArray.push(myDate)
+                } else {
+                    localArray.push(myDate)
+                }
+                return localArray
+            }
+            let endList = myListFunc()
+            let myDateTime = new Date()
+            let hours = myDateTime.getHours()
+            let submitHours = hours > 12 ? (hours - 12) : hours
+            let minutes = myDateTime.getMinutes()
 
+            let timeEntry = `${submitHours}:${minutes} ${hours > 12 ? 'PM' : 'AM'}`
+            console.log('endList: ', endList)
             async function postData(url = '', data = {}) {
                 const response = await fetch(url, {
                     method: 'PUT', 
@@ -95,11 +116,12 @@ const DivSingleWeek = (props) => {
                     });
     
                 return response ? response.json() : console.log('no reponse')
-    
             };
-    
-            postData('https://pythonicbackend.herokuapp.com/employees/', {
-                endList
+            
+            postData(`https://pythonicbackend.herokuapp.com/employees/${myIndex}/`, {
+                datesList: endList,
+                logIn_time: timeEntry,
+                logOut_time: timeEntry
             }).then( (response) => {
                     console.log(response)
             })
@@ -107,18 +129,19 @@ const DivSingleWeek = (props) => {
         }
 
         const makeForm = (dateSelection, nameSelection, dateList) => {
+            console.log(dateList)
             return (
                 <div className='inner_calender_form'>
                     <h3>{nameSelection}</h3>
                     <h3>{dateSelection}</h3>
-                    <button onClick={handleSubmitButton(dateSelection, dateList)}>Add Work</button>
+                    <button onClick={() => { handleSubmitButton(dateSelection, nameSelection, dateList)} }>Add Work</button>
                 </div>
             )
         }
 
-        const handleClick = (e, weekDaySelected, theName) => {
-            setMiddleRow(makeForm(weekDaySelected, theName))
-
+        const handleClick = (e, weekDaySelected, theName, datesList) => {
+            e.preventDefault()
+            setMiddleRow(makeForm(weekDaySelected, theName, datesList))
         }
 
 
@@ -128,7 +151,6 @@ const DivSingleWeek = (props) => {
     }, [props.selectedDate, selectedCityDrivers])
  
     useEffect( () => {
-        console.log(props)
         let localList = []
         props.drivers.forEach( (ele, id) => {
             if (ele.route === props.selectedCity) {

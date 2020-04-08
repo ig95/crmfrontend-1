@@ -86,6 +86,10 @@ const MakeEmployee = (props) => {
                             <input className='inputs' type="text" name='location'/>
                         <label className='labels'>Route</label>
                             <input className='inputs' type="text" name='route'/>
+                        <label className='labels'>Log in time</label>
+                            <input className='inputs' type="text" name='logIn_time'/>
+                        <label className='labels'>Log out time</label>
+                            <input className='inputs' type="text" name='logOut_time'/>
                         <input type="submit" value="Submit" name='submit' className='submit_button'/>    
                     </form>
                 </div>
