@@ -118,7 +118,11 @@ const DivSingleWeek = (props) => {
                 logIn_time: timeEntry,
                 logOut_time: timeEntry
             }).then( (response) => {
-                    props.drivers[id] = response
+                    props.drivers.forEach( (ele, setterId) => {
+                        if (ele.employee_id === id) {
+                            props.drivers[setterId] = response
+                        }
+                    })
                     reRenderGate ? setReRenderGate(false) : setReRenderGate(true)
                     console.log(response)
             })
