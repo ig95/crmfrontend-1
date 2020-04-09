@@ -8,6 +8,7 @@ const DivSingleWeek = (props) => {
     const [ selectedCityDrivers, setSelectedCityDrivers ] = useState([])
     const [ reRenderGate, setReRenderGate ] = useState(false)
 
+    // making the rows
     useEffect( () => {
         // top row mapped divs
         var checkForDate = []
@@ -53,7 +54,7 @@ const DivSingleWeek = (props) => {
                     for (let i = 0; i < 7; i++) {
                         if (localAwesomeArray[i] !== -1) {
                             // logic for date booked or not
-                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_booked' onClick={(e) => handleClick(e, checkForDate[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList)}>
+                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_booked' onClick={(e) => handleClick(e, checkForDate[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].employee_id)}>
                                     <h5 className='inner_calander_text'>
                                         BOOKED
                                     </h5>
@@ -77,29 +78,16 @@ const DivSingleWeek = (props) => {
             }
         }
 
-        const handleSubmitButton = (myDate, nameSelection, myList, id) => {
-            console.log(props)
-            // myList.push(myDate)
-            const myListFunc = () => {
-                let localArray = []
-                if (myList.length > 0) {
-                    localArray = [...myList]
-                    localArray.push(myDate)
-                } else {
-                    localArray.push(myDate)
-                }
-                return localArray
-            }
-            let endList = myListFunc()
+        // send data to database from from
+        const handleSubmitButton = (myDate, id) => {
             let myDateTime = new Date()
             let hours = myDateTime.getHours()
-            let submitHours = hours > 12 ? (hours - 12) : hours
             let minutes = myDateTime.getMinutes()
 
-            let timeEntry = `${submitHours}:${minutes} ${hours > 12 ? 'PM' : 'AM'}`
+            let timeEntry = `${hours}:${minutes}`
             async function postData(url = '', data = {}) {
                 const response = await fetch(url, {
-                    method: 'PUT', 
+                    method: 'POST', 
                     mode: 'cors',
                     cache: 'no-cache',
                     credentials: 'same-origin',
@@ -112,35 +100,44 @@ const DivSingleWeek = (props) => {
                 return response ? response.json() : console.log('no reponse')
             };
             
-            postData(`https://pythonicbackend.herokuapp.com/employees/${id}/`, {
-                datesList: endList,
+            postData(`https://pythonicbackend.herokuapp.com/schedule/`, {
+                date: myDate,
                 logIn_time: timeEntry,
-                logOut_time: timeEntry
-            }).then( (response) => {
+                logOut_time: timeEntry,
+                employee_id: `https://pythonicbackend.herokuapp.com/employees/${id}/`
+            }).then( response => {
+                console.log(response)
+                if (response.date) {
                     props.drivers.forEach( (ele, setterId) => {
                         if (ele.employee_id === id) {
-                            props.drivers[setterId] = response
+                            props.drivers[setterId].datesList.push(response.date)
                         }
                     })
                     reRenderGate ? setReRenderGate(false) : setReRenderGate(true)
-                    console.log(response)
+                }
             })
             setMiddleRow(middleRows())
         }
 
+        // render the form div
         const makeForm = (dateSelection, nameSelection, dateList, id) => {
             console.log(dateList)
             return (
                 <div className='inner_calender_form'>
                     <h3>{nameSelection}</h3>
                     <h3>{dateSelection}</h3>
-                    <button onClick={() => { handleSubmitButton(dateSelection, nameSelection, dateList, id)} }>Add Work</button>
+                    <button onClick={() => { handleSubmitButton(dateSelection, id)} }>Add Work</button>
                 </div>
             )
         }
 
+        // when click on a date to book
         const handleClick = (e, weekDaySelected, theName, datesList, id) => {
             e.preventDefault()
+            console.log(
+                'weekDaySelected: ', weekDaySelected,
+                'theid: ', id
+            )
             setMiddleRow(makeForm(weekDaySelected, theName, datesList, id))
         }
 
@@ -150,6 +147,7 @@ const DivSingleWeek = (props) => {
         setBottomRow(bottomDivs())
     }, [props.selectedDate, selectedCityDrivers])
  
+    // mapping the data into correct state
     useEffect( () => {
         console.log(props)
         let localList = []
@@ -158,9 +156,7 @@ const DivSingleWeek = (props) => {
                 props.schedule.forEach( (scheduleElement, scheduleId) => {
                     let matchingId = /\d/.exec(scheduleElement.employee_id)
                     if (parseInt(matchingId[0]) === driverElement.employee_id) {
-                        // driverElement['datesList'] ?  : driverElement['datesList'] = [scheduleElement.date] 
                         driverElement['datesList'].push(scheduleElement.date)
-                        console.log('match found: ', driverElement)
                     }
                 })
             })
