@@ -11,7 +11,30 @@ const Home = (props) => {
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ currentDate, setCurrentDate ] = useState(new Date())
     const [ selectedCity, setSelectedCity ] = useState('')
+    const [ schedule, setSchedule ] = useState(null)
 
+    // grab the data
+    useEffect(() => {
+        async function getData(url = '') {
+            const response = await fetch(url, {
+                method: 'GET', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            return response ? response.json() : console.log('no reponse')
+
+        };
+
+        getData('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
+            setSchedule(response.results)
+            console.log(response.results)
+        })
+    }, [])
     
     // handling the clock
     useEffect( () => {
@@ -88,6 +111,7 @@ const Home = (props) => {
                 <div className='scheduling_four_week_overlay'>
                     <DivWeek 
                         currentDate={selectedDate}
+                        scheduleDates={schedule}
                         selectedLocation={selectedCity ? selectedCity : 'DBS2'}
                     />
                 </div>
