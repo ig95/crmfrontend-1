@@ -124,9 +124,11 @@ const DivSingleWeek = (props) => {
             console.log(dateList)
             return (
                 <div className='inner_calender_form'>
-                    <h3>{nameSelection}</h3>
-                    <h3>{dateSelection}</h3>
-                    <button onClick={() => { handleSubmitButton(dateSelection, id)} }>Add Work</button>
+                    <div className='inner_form_div'>
+                        <h3>{nameSelection}</h3>
+                        <h3>{dateSelection}</h3>
+                        <button className='form_button' onClick={() => { handleSubmitButton(dateSelection, id)} }>Add Work</button>
+                    </div>
                 </div>
             )
         }

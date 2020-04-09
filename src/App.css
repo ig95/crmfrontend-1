@@ -45,6 +45,7 @@
   font-size: 1.3em;
   margin: 2vh 0 0.5vh 0;
 }
+.form_button,
 .submit_button {
   background-color: #232f3e;
   margin-top: 1vh;
@@ -54,6 +55,7 @@
   height: 3vh;
   border-radius: 0.25rem;
 }
+.form_button:hover,
 .submit_button:hover {
   background-color: #2b3a4d;
   transform: translateY(-0.15vh);
@@ -240,6 +242,10 @@ body {
   grid-area: bottom_row;
   display: flex;
   width: 59vw;
+}
+.inner_form_div {
+  margin: 2rem 0 0 5rem;
+  font-size: 1.2rem;
 }
 .new_employee_form {
   height: 90vh;

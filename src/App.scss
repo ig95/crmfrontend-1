@@ -304,6 +304,15 @@
     width: 59vw;
   }
 
+  .form_button {
+    @extend %buttons;
+  }
+
+  .inner_form_div {
+    margin: 2rem 0 0 5rem;
+    font-size: 1.2rem;
+  }
+
   /****************************************  NEW EMPLOYEE PAGE STYLE ************************************************************/
   .new_employee_form {
     height: 90vh;

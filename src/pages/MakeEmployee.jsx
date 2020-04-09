@@ -56,10 +56,9 @@ const MakeEmployee = (props) => {
 
     let myDateTime = new Date()
     let hours = myDateTime.getHours()
-    let submitHours = hours > 12 ? (hours - 12) : hours
     let minutes = myDateTime.getMinutes()
 
-    let timeEntry = `${submitHours}:${minutes} ${hours > 12 ? 'PM' : 'AM'}`
+    let timeEntry = `${hours}:${minutes}`
 
     return (
         <div className='home_content'>
