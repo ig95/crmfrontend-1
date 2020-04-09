@@ -9,7 +9,6 @@ const DivSingleWeek = (props) => {
     const [ reRenderGate, setReRenderGate ] = useState(false)
 
     useEffect( () => {
-        console.log(props)
         // top row mapped divs
         var checkForDate = []
         function thisWeekDivs () {
@@ -152,14 +151,27 @@ const DivSingleWeek = (props) => {
     }, [props.selectedDate, selectedCityDrivers])
  
     useEffect( () => {
+        console.log(props)
         let localList = []
-        props.drivers.forEach( (ele, id) => {
-            if (ele.route === props.selectedCity) {
-                localList.push(ele)
-            }
-        })
-        setSelectedCityDrivers(localList)
-    }, [props.selectedCity, reRenderGate])
+        if (props.schedule) {
+            props.drivers.forEach( (driverElement, driverId) => {
+                props.schedule.forEach( (scheduleElement, scheduleId) => {
+                    let matchingId = /\d/.exec(scheduleElement.employee_id)
+                    if (parseInt(matchingId[0]) === driverElement.employee_id) {
+                        // driverElement['datesList'] ?  : driverElement['datesList'] = [scheduleElement.date] 
+                        driverElement['datesList'].push(scheduleElement.date)
+                        console.log('match found: ', driverElement)
+                    }
+                })
+            })
+            props.drivers.forEach( (ele, id) => {
+                if (ele.route === props.selectedCity) {
+                    localList.push(ele)
+                }
+            })
+            setSelectedCityDrivers(localList)
+        }
+    }, [props.selectedCity, reRenderGate, props.schedule])
 
     return (
         <div className='single_week_grid'>

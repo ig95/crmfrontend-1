@@ -9,6 +9,7 @@ import 'react-calendar/dist/Calendar.css';
 var myInterval
 const WeekSchedule = () => {
     const [ drivers, setDrivers ] = useState(null)
+    const [ schedule, setSchedule ] = useState(null)
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ currentDate, setCurrentDate ] = useState(new Date())
     const [ selectedCity, setSelectedCity ] = useState('')
@@ -32,6 +33,9 @@ const WeekSchedule = () => {
 
         getData('https://pythonicbackend.herokuapp.com/employees/').then( (response) => {
             setDrivers(response.results)
+            getData('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
+                setSchedule(response.results)
+            })
         })
     }, [])
     
@@ -112,6 +116,7 @@ const WeekSchedule = () => {
                     <div className='scheduling_single_week_overlay'>
                         <DivSingleWeek 
                             drivers={drivers} 
+                            schedule={schedule}
                             selectedDate={selectedDate}
                             selectedCity={selectedCity ? selectedCity : 'DBS2'}
                         />
