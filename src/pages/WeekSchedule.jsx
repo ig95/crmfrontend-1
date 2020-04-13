@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import NavBar from '../components/NavBar'
 import Dropdown from 'react-dropdown';
 import Calendar from 'react-calendar';
 import DivSingleWeek from '../components/DivSingleWeek'
@@ -72,30 +72,7 @@ const WeekSchedule = () => {
     if (drivers) {
         content = (
             <div className='home_content'>
-                <div className='nav_bar'>
-                    <div className='drop_down_hamburger'>
-                        <div className='nav_line'></div>
-                        <div className='nav_line'></div>
-                        <div className='nav_line'></div>
-                        <div className='drop_down_content'>
-                            <div className='link_style'>
-                                <Link to="/" className='links'>Home</Link>
-                            </div>
-                            <div className='link_style'>
-                                <Link to="/makemployee" className='links'>Make Employee</Link>
-                            </div>
-                            <div className='link_style'>
-                                <Link to="/weekschedule" className='links'>Week Schedule</Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <h1>Week Schedule for: {selectedCity}</h1>
-                    </div>
-                    <div>
-                        <h3 className='nav_current_date'>{currentDate.toDateString()} {' | '}{currentDate.toLocaleTimeString()}</h3>
-                    </div>
-                </div>
+                <NavBar title='Week Schedule'/>
                 <div className='main_content'>
                     <div className='calandar_container'>
                         <div className='drop_down_bar_container'>

@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
-import {Link} from 'react-router-dom';
+import NavBar from '../components/NavBar'
 
 var myInterval
 const SingleDay = () => {
     const [selectedDate, setSelectedDate] = useState(new Date())
+    const [selectedDateString, setSelectedDateString] = useState('')
     const [currentDate, setCurrentDate] = useState(new Date())
     const [ selectedLocation, setSelectedLocation ] = useState('')
 
@@ -18,6 +19,7 @@ const SingleDay = () => {
             locationString += dateArray[i]
         }
         setSelectedLocation(locationString)
+        setSelectedDateString(finalDate)
         setSelectedDate(new Date(finalDate))
     }, [])
 
@@ -37,27 +39,7 @@ const SingleDay = () => {
 
     return (
         <div className='home_content'>
-            <div className='nav_bar'>
-                <div className='drop_down_hamburger'>
-                    <div className='nav_line'></div>
-                    <div className='nav_line'></div>
-                    <div className='nav_line'></div>
-                    <div className='drop_down_content'>
-                        <div className='link_style'>
-                            <Link to="/" className='links'>Home</Link>
-                        </div>
-                        <div className='link_style'>
-                            <Link to="/weekschedule" className='links'>Week Schedule</Link>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h1>Schedule for: {selectedDate.toDateString()}{' | '}{selectedLocation}</h1>
-                </div>
-                <div>
-                    <h3 className='nav_current_date'>{currentDate.toDateString()} {' | '}{currentDate.toLocaleTimeString()}</h3>
-                </div>
-            </div>
+            <NavBar title={`${selectedLocation}: ${selectedDateString}`}/>
         </div>
     )
 }
