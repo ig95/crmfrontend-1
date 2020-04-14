@@ -39,13 +39,13 @@ const DivSingleWeek = (props) => {
         var middleRows
         // middle row mapped divs
         if (selectedCityDrivers.length > 0) {
-            console.log(selectedCityDrivers)
-             middleRows = () => {
+            middleRows = () => {
+                let myLocalArray = checkForDate
                 var mappedProps = []
                 let localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1]
                 for (let ele in selectedCityDrivers) {
                     mappedProps.push(<div className='cal_divs_single_first'>{selectedCityDrivers[ele].name}</div>)
-                    for (let i = 0; i < 7; i++) {
+                    for (let i = 0; i < selectedCityDrivers[ele].datesList.length; i++) {
                         if (checkForDate.includes(new Date(selectedCityDrivers[ele].datesList[i]).toDateString())) {
                             localAwesomeArray[checkForDate.indexOf(new Date(selectedCityDrivers[ele].datesList[i]).toDateString())] = i
                         }
@@ -53,14 +53,14 @@ const DivSingleWeek = (props) => {
                     for (let i = 0; i < 7; i++) {
                         if (localAwesomeArray[i] !== -1) {
                             // logic for date booked or not
-                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_booked' onClick={(e) => handleClick(e, checkForDate[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].employee_id)}>
+                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_booked' onClick={(e) => handleClick(e, myLocalArray[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].employee_id)}>
                                     <h5 className='inner_calander_text'>
                                         BOOKED
                                     </h5>
                             </div>)
                         } else {
                             // logic for date booked or not
-                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, checkForDate[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].employee_id)}>
+                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, myLocalArray[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].employee_id)}>
                                     <h5 className='inner_calander_text'>
                                         ---
                                     </h5>
@@ -79,6 +79,7 @@ const DivSingleWeek = (props) => {
 
         // send data to database from from
         const handleSubmitButton = (myDate, id) => {
+            console.log(props)
             let myDateTime = new Date()
             let hours = myDateTime.getHours()
             let minutes = myDateTime.getMinutes()
@@ -112,6 +113,7 @@ const DivSingleWeek = (props) => {
                             props.drivers[setterId].datesList.push(response.date)
                         }
                     })
+                    // add here
                     reRenderGate ? setReRenderGate(false) : setReRenderGate(true)
                 }
             })
@@ -120,7 +122,6 @@ const DivSingleWeek = (props) => {
 
         // render the form div
         const makeForm = (dateSelection, nameSelection, dateList, id) => {
-            console.log(dateList)
             return (
                 <div className='inner_calender_form'>
                     <div className='inner_form_div'>
@@ -146,11 +147,10 @@ const DivSingleWeek = (props) => {
         setTopRow(thisWeekDivs())
         setMiddleRow(middleRows())
         setBottomRow(bottomDivs())
-    }, [props.selectedDate, selectedCityDrivers])
+    }, [props.selectedDate, selectedCityDrivers, props, reRenderGate])
  
     // mapping the data into correct state
     useEffect( () => {
-        console.log(props)
         let localList = []
         if (props.schedule) {
             props.drivers.forEach( (driverElement, driverId) => {
@@ -168,7 +168,7 @@ const DivSingleWeek = (props) => {
             })
             setSelectedCityDrivers(localList)
         }
-    }, [props.selectedCity, reRenderGate, props.schedule])
+    }, [props.selectedCity, reRenderGate, props.schedule, props])
 
     return (
         <div className='single_week_grid'>

@@ -89,7 +89,7 @@ const DivWeek = (props) => {
             // all the divs for rendering
             setOverAllDivs(nextWeekDivs(thisWeekDivs(lastWeekDivCreation())))
         }
-    }, [props.currentDate, props.scheduleDates])
+    }, [props.currentDate, props.scheduleDates, props.selectedLocation])
     
     return (
         <>

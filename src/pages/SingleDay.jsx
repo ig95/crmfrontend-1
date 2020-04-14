@@ -8,7 +8,7 @@ const SingleDay = () => {
 
     // setting all the data
     useEffect( () => {
-        console.log(window.location.href)
+        console.log(selectedDate)
         let currentDate = /SingleDay(.*)/.exec(window.location.href)[0].replace(/SingleDay\//, '')
         let dateArray = currentDate.split('')
         let finalDate = dateArray[0]+dateArray[1]+dateArray[2]+' '+dateArray[3]+dateArray[4]+dateArray[5]+' '+dateArray[6]+dateArray[7]+' ' +dateArray[8]+dateArray[9]+dateArray[10]+dateArray[11]
@@ -19,7 +19,7 @@ const SingleDay = () => {
         setSelectedLocation(locationString)
         setSelectedDateString(finalDate)
         setSelectedDate(new Date(finalDate))
-    }, [])
+    }, [selectedDate])
 
     return (
         <div className='home_content'>
