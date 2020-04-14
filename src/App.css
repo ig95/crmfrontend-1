@@ -109,7 +109,7 @@ body {
   align-items: flex-start;
   background-color: #232f3e;
   padding: 1%;
-  width: 8vw;
+  width: 10vw;
   z-index: 1;
 }
 .drop_down_hamburger:hover .triangleImage {
