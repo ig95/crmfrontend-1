@@ -12,7 +12,7 @@ import {
 } from 'react-router-dom';
 
 const App = () => {
-  // Setting state with the user details retrieved using googles Oauth
+  // Setting state with the user details retrieved using googles Oauth stuff
   const [ userName, setUserName] = useState('');
   const [ userId, setUserId] = useState('');
   const [ userEmail, setUserEmail] = useState('');
