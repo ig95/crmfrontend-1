@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import NavBar from '../components/NavBar'
 
-var myInterval
 const SingleDay = () => {
     const [selectedDate, setSelectedDate] = useState(new Date())
     const [selectedDateString, setSelectedDateString] = useState('')
-    const [currentDate, setCurrentDate] = useState(new Date())
     const [ selectedLocation, setSelectedLocation ] = useState('')
 
     // setting all the data
@@ -21,20 +19,6 @@ const SingleDay = () => {
         setSelectedLocation(locationString)
         setSelectedDateString(finalDate)
         setSelectedDate(new Date(finalDate))
-    }, [])
-
-    
-    useEffect( () => {
-        // make this not a memory leak
-        const timeFunction = () => {
-            // handling the clock
-            let setTime = () => {
-                setCurrentDate(new Date())
-            }
-            myInterval = setInterval( setTime, 1000)
-        }
-        clearInterval(myInterval)
-        timeFunction()
     }, [])
 
     return (

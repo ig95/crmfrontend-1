@@ -6,10 +6,9 @@ import Dropdown from 'react-dropdown';
 import 'react-calendar/dist/Calendar.css';
 import 'react-dropdown/style.css';
 
-var myInterval
+
 const Home = (props) => {
     const [ selectedDate, setSelectedDate ] = useState(new Date())
-    const [ currentDate, setCurrentDate ] = useState(new Date())
     const [ selectedCity, setSelectedCity ] = useState('')
     const [ schedule, setSchedule ] = useState(null)
 
@@ -34,18 +33,6 @@ const Home = (props) => {
             setSchedule(response.results)
             console.log(response.results)
         })
-    }, [])
-    
-    // handling the clock
-    useEffect( () => {
-        clearInterval(myInterval)
-        const timeFunction = () => {
-            let setTime = () => {
-                setCurrentDate(new Date())
-            }
-            myInterval = setInterval( setTime, 1000)
-        }
-        timeFunction()
     }, [])
 
     // changes the selected date with the calendar selections

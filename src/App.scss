@@ -98,16 +98,23 @@
   }
   
   /****************************************  NAV BAR STYLE ************************************************************/
-  .nav_line {
-    width: 2vw;
-    height: .35rem;
-    margin-bottom: .15rem;
-    margin-left: .5rem;
-    background-color: $offWhite;
-  }
 
   .drop_down_content {
     display: none;
+  }
+
+  .nav_title {
+    margin-left: 2rem;
+  }
+
+  .nav_left_content {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .triangleImage {
+    width: .5em;
+    margin-left: .2rem;
   }
 
   .drop_down_hamburger:hover .drop_down_content{
@@ -121,9 +128,14 @@
     z-index: 1;
   }
 
+  .drop_down_hamburger:hover .triangleImage{
+    transform: rotate(90deg);
+  }
+
   .links {
     @extend %remove_link;
     color: $offWhite;
+    font-size: 1.1em;
   }
 
   .link_style:hover {

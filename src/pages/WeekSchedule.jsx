@@ -6,12 +6,10 @@ import DivSingleWeek from '../components/DivSingleWeek'
 import 'react-dropdown/style.css';
 import 'react-calendar/dist/Calendar.css';
 
-var myInterval
 const WeekSchedule = () => {
     const [ drivers, setDrivers ] = useState(null)
     const [ schedule, setSchedule ] = useState(null)
     const [ selectedDate, setSelectedDate ] = useState(new Date())
-    const [ currentDate, setCurrentDate ] = useState(new Date())
     const [ selectedCity, setSelectedCity ] = useState('')
 
     // dev data ... note to self... the following component only accepts format day dat 11 1212
@@ -37,18 +35,6 @@ const WeekSchedule = () => {
                 setSchedule(response.results)
             })
         })
-    }, [])
-    
-    // handling the clock
-    useEffect( () => {
-        clearInterval(myInterval)
-        const timeFunction = () => {
-            let setTime = () => {
-                setCurrentDate(new Date())
-            }
-            myInterval = setInterval( setTime, 1000)
-        }
-        timeFunction()
     }, [])
 
     // changes the selected date with the calendar selections

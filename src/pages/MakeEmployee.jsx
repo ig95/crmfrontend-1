@@ -1,22 +1,7 @@
-import React, { useState, useEffect} from 'react'
+import React  from 'react'
 import NavBar from '../components/NavBar'
 
-var myInterval;
 const MakeEmployee = (props) => {
-    const [ currentDate, setCurrentDate ] = useState(new Date())
-
-    // handling the clock
-    useEffect( () => {
-        clearInterval(myInterval)
-        const timeFunction = () => {
-            let setTime = () => {
-                setCurrentDate(new Date())
-            }
-            myInterval = setInterval( setTime, 1000)
-        }
-        timeFunction()
-    }, [])
-
     // send form to backend
     const handleSubmit = (e) => {
         e.preventDefault();

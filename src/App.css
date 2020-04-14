@@ -89,15 +89,19 @@ body {
   min-width: 100vw;
   background-color: rgba(0, 0, 0, 0.692);
 }
-.nav_line {
-  width: 2vw;
-  height: 0.35rem;
-  margin-bottom: 0.15rem;
-  margin-left: 0.5rem;
-  background-color: #f7f4f4;
-}
 .drop_down_content {
   display: none;
+}
+.nav_title {
+  margin-left: 2rem;
+}
+.nav_left_content {
+  display: flex;
+  flex-direction: row;
+}
+.triangleImage {
+  width: 0.5em;
+  margin-left: 0.2rem;
 }
 .drop_down_hamburger:hover .drop_down_content {
   position: absolute;
@@ -108,8 +112,12 @@ body {
   width: 8vw;
   z-index: 1;
 }
+.drop_down_hamburger:hover .triangleImage {
+  transform: rotate(90deg);
+}
 .links {
   color: #f7f4f4;
+  font-size: 1.1em;
 }
 .link_style:hover {
   background-color: grey;
