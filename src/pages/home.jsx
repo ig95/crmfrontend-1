@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import Calendar from 'react-calendar'
-import NavBar from '../components/NavBar'
+import NavigationBar from '../components/NavBar'
 import DivWeek from '../components/DivWeek'
 import Dropdown from 'react-dropdown';
 import 'react-calendar/dist/Calendar.css';
@@ -54,7 +54,7 @@ const Home = (props) => {
 
     return (
         <div className='home_content'>
-            <NavBar title='Home'/>
+            <NavigationBar title='Home'/>
             <div className='main_content'>
                 <div className='calandar_container'>
                     <div className='drop_down_bar_container'>

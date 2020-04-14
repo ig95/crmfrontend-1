@@ -1,5 +1,5 @@
 import React  from 'react'
-import NavBar from '../components/NavBar'
+import NavigationBar from '../components/NavBar'
 
 const MakeEmployee = (props) => {
     // send form to backend
@@ -46,7 +46,7 @@ const MakeEmployee = (props) => {
 
     return (
         <div className='home_content'>
-            <NavBar title='Create Driver'/>
+            <NavigationBar title='Create Driver'/>
             <div className='main_content'>
                 <div>
                     <form onSubmit={handleSubmit} className='new_employee_form'>

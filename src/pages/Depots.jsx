@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react'
-import NavBar from '../components/NavBar'
+import NavigationBar from '../components/NavBar'
 import DriversList from '../components/DriversList'
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
@@ -48,7 +48,7 @@ const Depots = () => {
 
     return (
         <div className='home_content'>
-            <NavBar title={`${selectedCity}`}/>
+            <NavigationBar title={`${selectedCity}`}/>
             <div className='main_content'>
                 <div className='calandar_container'>
                     <div className='drop_down_bar_container'>

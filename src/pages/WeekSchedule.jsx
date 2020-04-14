@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import NavBar from '../components/NavBar'
+import NavigationBar from '../components/NavBar'
 import Dropdown from 'react-dropdown';
 import Calendar from 'react-calendar';
 import DivSingleWeek from '../components/DivSingleWeek'
@@ -58,7 +58,7 @@ const WeekSchedule = () => {
     if (drivers) {
         content = (
             <div className='home_content'>
-                <NavBar title='Week Schedule'/>
+                <NavigationBar title='Week Schedule'/>
                 <div className='main_content'>
                     <div className='calandar_container'>
                         <div className='drop_down_bar_container'>
