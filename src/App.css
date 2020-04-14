@@ -1,6 +1,6 @@
 .dark_overlay,
-.drop_down_hamburger:hover .drop_down_content,
 .nav_bar,
+.drop_down_hamburger:hover .drop_down_content,
 .main_content,
 .scheduling_four_week_overlay {
   display: flex;
@@ -30,15 +30,18 @@
 .links {
   text-decoration: none;
 }
-.inputs {
+.inputs,
+.search_bar {
   border-radius: 0.25rem;
   border: 1px solid #232f3e;
   width: 15vw;
-  height: 3vh;
+  height: 2.5vh;
+  padding: 5px;
   font-family: "Ubuntu", sans-serif;
   font-size: 1.2em;
 }
-.inputs:hover {
+.inputs:hover,
+.search_bar:hover {
   border: 1px solid #7171b9;
 }
 .labels {
@@ -89,6 +92,12 @@ body {
   min-width: 100vw;
   background-color: rgba(0, 0, 0, 0.692);
 }
+.nav_bar {
+  grid-area: nav_bar;
+  justify-content: space-between;
+  background-color: #232f3e;
+  color: #f7f4f4;
+}
 .drop_down_content {
   display: none;
 }
@@ -123,6 +132,9 @@ body {
   background-color: grey;
   min-width: 8vw;
 }
+.middle_nav {
+  margin-right: 18vw;
+}
 .home_content {
   display: grid;
   min-height: 100vh;
@@ -130,12 +142,6 @@ body {
   grid-template-columns: 100vw;
   grid-template-rows: 5vh 95vh;
   grid-template-areas: "nav_bar" "main_content";
-}
-.nav_bar {
-  grid-area: nav_bar;
-  justify-content: space-between;
-  background-color: #232f3e;
-  color: #f7f4f4;
 }
 .main_content {
   grid-area: main_content;
@@ -263,4 +269,46 @@ body {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+}
+.drop_down_bar_depots {
+  width: 16vw;
+}
+.depots_form {
+  width: 16vw;
+}
+.search_bar {
+  margin: 10px 0px 10px;
+}
+.single_person_depots {
+  width: 50vw;
+  border: 2px solid #232f3e;
+  height: 70vh;
+  margin: 10vh 0 0 15vw;
+}
+.driver_list {
+  overflow: scroll;
+  width: 15vw;
+  background-color: #232f3e;
+  color: #f7f4f4;
+  padding: 10px;
+  font-size: 1.5em;
+}
+.depot_list:hover {
+  background-color: #f7f4f4;
+  color: #232f3e;
+}
+.selected_driver_profile {
+  margin: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+}
+.selected_driver_profile_column {
+  border-right: 1px solid rgba(0, 0, 0, 0.199);
+  height: 66vh;
+}
+.selected_driver_profile_column_item {
+  margin-right: 2.5rem;
+}
+#dates_column {
+  border-right: 1px solid #f7f4f4;
 }

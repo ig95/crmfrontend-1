@@ -7,26 +7,45 @@ const DriversList = (props) => {
     useEffect( () => {
         let localList = []
         if (props.drivers) {
-            props.drivers.forEach( (ele, id) => {
-                if (ele.route === props.selectedCity) {
+            if (props.selectedCity === 'Drivers') {
+                props.drivers.forEach( (ele) => {
                     localList.push(ele)
-                }
-            })
-            setSelectedCityDrivers(localList)
+                })
+                setSelectedCityDrivers(localList)
+            } else {
+                props.drivers.forEach( (ele) => {
+                    if (ele.route === props.selectedCity) {
+                        localList.push(ele)
+                    }
+                })
+                setSelectedCityDrivers(localList)
+            }
         }
     }, [props])
 
     useEffect( () => {
-        console.log(selectedCityDrivers)
+        var makeList
         let localArray = []
-        function makeList () {
-            selectedCityDrivers.forEach( (ele, id) => {
-                localArray.push(<div key={id}>{ele.name}</div>)
-            })
-        }   
-        makeList()
-        setDivsToRender(localArray)
-    }, [selectedCityDrivers])
+        if (props.searchContentPass) {
+            makeList = function () {
+                selectedCityDrivers.forEach( (ele, id) => {
+                    if (ele.name.includes(props.searchContentPass)) {
+                        localArray.push(<div key={id} className='depot_list' name={ele.name}>{ele.name}</div>)
+                    }
+                })
+            }   
+            makeList()
+            setDivsToRender(localArray)
+        } else {
+            makeList = function () {
+                selectedCityDrivers.forEach( (ele, id) => {
+                    localArray.push(<div key={id} className='depot_list' value={ele.name}>{ele.name}</div>)
+                })
+            }   
+            makeList()
+            setDivsToRender(localArray)
+        }
+    }, [selectedCityDrivers, props.searchContentPass])
 
     return (
         <>

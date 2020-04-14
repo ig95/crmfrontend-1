@@ -33,7 +33,8 @@
     border-radius: .25rem;
     border: 1px solid $amazon_blue;
     width: 15vw;
-    height: 3vh;
+    height: 2.5vh;
+    padding: 5px;
     font-family: $ubuntu_font;
     font-size: 1.2em;
   }
@@ -99,6 +100,14 @@
   
   /****************************************  NAV BAR STYLE ************************************************************/
 
+  .nav_bar {
+    grid-area: nav_bar;
+    @extend %centerThings;
+    justify-content: space-between;
+    background-color: $amazon_blue;
+    color: $offWhite;
+  }
+
   .drop_down_content {
     display: none;
   }
@@ -143,6 +152,10 @@
     min-width: 8vw;
   }
 
+  .middle_nav{
+    margin-right: 18vw;
+  }
+
   /****************************************  HOME PAGE STYLE ************************************************************/
   .home_content {
     display: grid;
@@ -156,13 +169,6 @@
     ;
   }
   
-  .nav_bar {
-    grid-area: nav_bar;
-    @extend %centerThings;
-    justify-content: space-between;
-    background-color: $amazon_blue;
-    color: $offWhite;
-  }
   
   .main_content {
     grid-area: main_content;
@@ -184,7 +190,7 @@
   }
 
   .drop_down_bar_container {
-    margin-bottom: 1VH;
+    margin-bottom: 1vh;
   }
   
   /****************************************  DIVWEEK STYLE ************************************************************/
@@ -335,15 +341,69 @@
     align-items: flex-start;
     justify-content: flex-start;
   }
-
+  
   .inputs {
     @extend %input_bars;
   }
-
+  
   .labels {
     @extend %label_text;
   }
-
+  
   .submit_button {
     @extend %buttons;
+  }
+
+  /****************************************  DEPOTS PAGE STYLE ************************************************************/
+  .drop_down_bar_depots {
+    width: 16vw;
+  }
+
+  .depots_form {
+    width: 16vw;
+  }
+
+  .search_bar {
+    @extend %input_bars;
+    margin: 10px 0px 10px; 
+  }
+
+  .single_person_depots {
+    width: 50vw;
+    border: 2px solid $amazon_blue;
+    height: 70vh;
+    margin: 10vh 0 0 15vw;
+  }
+
+  .driver_list {
+    overflow: scroll;
+    width: 15vw;
+    background-color: $amazon_blue;
+    color: $offWhite;
+    padding: 10px;
+    font-size: 1.5em;
+  }
+
+  .depot_list:hover {
+    background-color: $offWhite;
+    color: $amazon_blue;
+  }
+
+  .selected_driver_profile {
+    margin: 1rem;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .selected_driver_profile_column {
+    border-right: 1px solid rgba(0, 0, 0, 0.199);
+    height: 66vh;
+  }
+
+  .selected_driver_profile_column_item {
+    margin-right: 2.5rem;
+  }
+
+  #dates_column {
+    border-right: 1px solid $offWhite;
   }

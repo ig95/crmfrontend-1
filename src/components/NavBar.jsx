@@ -100,7 +100,7 @@ const NavigationBar = (props) => {
                 |
             </div>
             </div>
-            <div>
+            <div className='middle_nav'>
                 <h1>{props.title}</h1>
             </div>
             <div>
