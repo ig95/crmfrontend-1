@@ -53,7 +53,7 @@ const DivSingleWeek = (props) => {
                     for (let i = 0; i < 7; i++) {
                         if (localAwesomeArray[i] !== -1) {
                             // logic for date booked or not
-                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_booked' onClick={(e) => handleClick(e, myLocalArray[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].employee_id)}>
+                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_booked'>
                                     <h5 className='inner_calander_text'>
                                         BOOKED
                                     </h5>

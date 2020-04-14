@@ -10,7 +10,7 @@ const WeekSchedule = () => {
     const [ drivers, setDrivers ] = useState(null)
     const [ schedule, setSchedule ] = useState(null)
     const [ selectedDate, setSelectedDate ] = useState(new Date())
-    const [ selectedCity, setSelectedCity ] = useState('')
+    const [ selectedCity, setSelectedCity ] = useState('DBS2')
 
     // dev data ... note to self... the following component only accepts format day dat 11 1212
     useEffect(() => {
