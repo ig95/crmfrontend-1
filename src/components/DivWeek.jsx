@@ -5,7 +5,6 @@ const DivWeek = (props) => {
     const [ overAllDivs, setOverAllDivs ] = useState([])
 
     useEffect( () => {
-        console.log(props)
         // last weeks divs
         if (props.scheduleDates) {
             const lastWeekDivCreation = () => {
