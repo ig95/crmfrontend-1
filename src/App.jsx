@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import SingleDay from './pages/SingleDay'
 import Depots from './pages/Depots'
@@ -22,13 +22,13 @@ const App = () => {
   // const [ user, setUser] = useState(null);
 
   // dev mode
-  // useEffect( () => {
-  //   setUserName('Nicholas Shankland')
-  //   setUserEmail('nicholas.m.shankland@gmail.com')
-  //   setUserId('1923874-98y')
+  useEffect( () => {
+    setUserName('Nicholas Shankland')
+    setUserEmail('nicholas.m.shankland@gmail.com')
+    setUserId('1923874-98y')
 
 
-  // },[])
+  },[])
 
   // handles writting data to database and recieving google data
   const responseGoogle = (response) => {
@@ -74,7 +74,7 @@ const App = () => {
         <div className='dark_overlay'>
           <h1 className='welcome_title'>Amazon Delivery Network</h1>
           <GoogleLogin
-            clientId={process.env.REACT_APP_CLIENT_ID}
+            clientId='289466662721-f1sj8vu0c15fioleb134nr0oo0ppfk8t.apps.googleusercontent.com'
             buttonText="Login"
             className='googleButton'
             onSuccess={responseGoogle}
