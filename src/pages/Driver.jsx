@@ -1,73 +1,33 @@
 import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
 import Documents from '../components/Documents'
-import axios from 'axios'
+import Daily from '../components/Daily'
+import Details from '../components/Details'
+import Invoices from '../components/Invoices'
+import Training from '../components/training'
 
 const Driver = (props) => {
     const [ selectedDriver, setSelectedDriver ] = useState(null)
     const [ selectedDate, setSelectedDate ] = useState(new Date())
-    const [ image, setImage ] = useState('')
 
     const [ gate, setGate ] = useState('')
 
     // CONTENT SECTIONS
-
-    // Details
-    var details = () => {
-        return (
-            <div>
-                <h1>Details</h1>
-            </div>
-        )
-    }
-    
-    // Daily Operations
-    var daily = () => {
-        return (
-            <div>
-                <h1>Daily operations</h1>
-            </div>
-        )
-    }
-    
-    // Invoices
-    var invoices = () => {
-        return (
-            <div>
-                <h1>Invoices</h1>
-            </div>
-        )
-    }
-        
-    // Trainings
-    var training = () => {
-        return (
-            <div>
-                <h1>Training</h1>
-            </div>
-        )
-    }
-        
-    // Documents
-    var documents = () => {
-        return <Documents selectedDriver={selectedDriver}/>
-    }
-
     var mainContent
     const handleClick = (e, details) => {
         setGate(details)
     }
     
     if (gate === 'documents') {
-        mainContent = documents()
+        mainContent = <Documents selectedDriver={selectedDriver}/>
     } else if (gate === 'details') {
-        mainContent = details()
+        mainContent = <Details />
     } else if (gate === 'daily') {
-        mainContent = daily()
+        mainContent = <Daily />
     } else if (gate === 'invoices') {
-        mainContent = invoices()
+        mainContent = <Invoices />
     } else if (gate === 'training') {
-        mainContent = training()
+        mainContent = <Training />
     }
 
 
@@ -89,7 +49,7 @@ const Driver = (props) => {
             fuel: "0.0000",
             vans: "0.0000",
             supportDeductions: "0.0000",
-            documents: ['a string', 'another string'],
+            documents: [],
             datesList: [],
         }
         setSelectedDriver(devObject)
