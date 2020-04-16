@@ -47,8 +47,8 @@ const App = () => {
 
     getData('https://pythonicbackend.herokuapp.com/api-token-auth/', {
       // need .env here
-      username: 'admin',
-      password: 'password'
+      username: process.env.REACT_APP_DB_USERNAME,
+      password: process.env.REACT_APP_DB_PASSWORD
     }).then( (response) => {
       localStorage.setItem('token', response.token)
     }).then( (response) => {

@@ -1,9 +1,9 @@
 [build]
-  command = "npm build"
-  publish = "build"
+    command = "npm build"
+    publish = "build"
 
 [context.production.environment]
-  REACT_APP_CLIENT_ID="From netlify.toml (REACT_APP_)"
+    REACT_APP_CLIENT_ID="From netlify.toml (REACT_APP_)"
     REACT_APP_CLOUDINARY_API_KEY="From netlify.toml (REACT_APP_)"
     REACT_APP_CLOUDINARY_API_SECRET="From netlify.toml (REACT_APP_)"
     REACT_APP_CLOUDINARY_API_CLOUDINARY_URL="From netlify.toml (REACT_APP_)"
