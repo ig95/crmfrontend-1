@@ -9,7 +9,7 @@ import 'react-dropdown/style.css';
 
 const Home = (props) => {
     const [ selectedDate, setSelectedDate ] = useState(new Date())
-    const [ selectedCity, setSelectedCity ] = useState('')
+    const [ selectedCity, setSelectedCity ] = useState('DBS2')
     const [ schedule, setSchedule ] = useState(null)
 
     // grab the data

@@ -23,7 +23,7 @@ const NavigationBar = (props) => {
             <div className='nav_left_content'>
                 {/* drivers */}
                 <div className='drop_down_hamburger'>
-                    <div className='nav_title'>Drivers{
+                    <div className='nav_title'>Workforce {
                         <img 
                             src={triangle} 
                             className='triangleImage'
@@ -50,7 +50,7 @@ const NavigationBar = (props) => {
                 </div>
                 {/* vehicles */}
                 <div className='drop_down_hamburger'>
-                        <div className='nav_title'>Vehicles{
+                        <div className='nav_title'>Vehicles {
                         <img 
                             src={triangle} 
                             className='triangleImage'
@@ -67,7 +67,7 @@ const NavigationBar = (props) => {
                 </div>
                 {/* Billing */}
                 <div className='drop_down_hamburger'>
-                        <div className='nav_title'>Billing{
+                        <div className='nav_title'>Billing {
                         <img 
                             src={triangle} 
                             className='triangleImage'
@@ -84,7 +84,7 @@ const NavigationBar = (props) => {
                 </div>
                 {/* History */}
                 <div className='drop_down_hamburger'>
-                        <div className='nav_title'>History{
+                        <div className='nav_title'>History {
                         <img 
                             src={triangle} 
                             className='triangleImage'

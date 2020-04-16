@@ -12,7 +12,7 @@ const WeekSchedule = () => {
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
 
-    // dev data ... note to self... the following component only accepts format day dat 11 1212
+    // dev data ... note to self... the following component only accepts format day:date
     useEffect(() => {
         async function getData(url = '') {
             const response = await fetch(url, {

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import { Link } from 'react-router-dom'
 
 const DivSingleWeek = (props) => {
     const [ topRow, setTopRow ] = useState([])
@@ -53,14 +54,14 @@ const DivSingleWeek = (props) => {
                     for (let i = 0; i < 7; i++) {
                         if (localAwesomeArray[i] !== -1) {
                             // logic for date booked or not
-                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_booked'>
+                            mappedProps.push(<Link to={`/driver/${selectedCityDrivers[ele].employee_id}/${myLocalArray[i].toString().split(' ').join('')}`} className='cal_divs_single_booked'><div key={Math.random()} >
                                     <h5 className='inner_calander_text'>
                                         BOOKED
                                     </h5>
-                            </div>)
+                            </div></Link>)
                         } else {
                             // logic for date booked or not
-                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, myLocalArray[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].employee_id)}>
+                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, myLocalArray[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].employee_id, selectedCityDrivers[ele].location)}>
                                     <h5 className='inner_calander_text'>
                                         ---
                                     </h5>
@@ -78,7 +79,7 @@ const DivSingleWeek = (props) => {
         }
 
         // send data to database from from
-        const handleSubmitButton = (myDate, id) => {
+        const handleSubmitButton = (myDate, id, location) => {
             console.log(props)
             let myDateTime = new Date()
             let hours = myDateTime.getHours()
@@ -104,6 +105,7 @@ const DivSingleWeek = (props) => {
                 date: myDate,
                 logIn_time: timeEntry,
                 logOut_time: timeEntry,
+                location: location,
                 employee_id: `https://pythonicbackend.herokuapp.com/employees/${id}/`
             }).then( response => {
                 console.log(response)
@@ -121,26 +123,28 @@ const DivSingleWeek = (props) => {
         }
 
         // render the form div
-        const makeForm = (dateSelection, nameSelection, dateList, id) => {
+        const makeForm = (dateSelection, nameSelection, dateList, id, location) => {
             return (
                 <div className='inner_calender_form'>
                     <div className='inner_form_div'>
-                        <h3>{nameSelection}</h3>
-                        <h3>{dateSelection}</h3>
-                        <button className='form_button' onClick={() => { handleSubmitButton(dateSelection, id)} }>Add Work</button>
+                        <h3>Name: {nameSelection}</h3>
+                        <h3>Date: {dateSelection}</h3>
+                        {/* make This Changeable */}
+                        <h3>Depot: {location}</h3>
+                        <button className='form_button' onClick={() => { handleSubmitButton(dateSelection, id, location)} }>Add Work</button>
                     </div>
                 </div>
             )
         }
 
         // when click on a date to book
-        const handleClick = (e, weekDaySelected, theName, datesList, id) => {
+        const handleClick = (e, weekDaySelected, theName, datesList, id, location) => {
             e.preventDefault()
             console.log(
                 'weekDaySelected: ', weekDaySelected,
                 'theid: ', id
             )
-            setMiddleRow(makeForm(weekDaySelected, theName, datesList, id))
+            setMiddleRow(makeForm(weekDaySelected, theName, datesList, id, location))
         }
 
 
