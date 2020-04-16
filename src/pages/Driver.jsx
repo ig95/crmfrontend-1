@@ -14,9 +14,9 @@ const Driver = (props) => {
         const files = e.target.files
         const data = new FormData()
         data.append('file', files[0])
-        data.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET)
-        data.append("api_key", process.env.REACT_APP_CLOUDINARY_API_KEY)
-        axios.post(process.env.REACT_APP_UPLOAD_IMAGE, data).then(response => {
+        data.append('upload_preset', 'crmFiles')
+        data.append("api_key", '396889155975552')
+        axios.post('https://api.cloudinary.com/v1_1/shanklandium/image/upload', data).then(response => {
             let myOtherResponse = ''
             if (response.data.secure_url.includes('.pdf')) {
                 let myNewName = response.data.secure_url.replace(/.pdf/, '.png')
