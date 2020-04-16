@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import SingleDay from './pages/SingleDay'
 import Depots from './pages/Depots'
@@ -22,11 +22,19 @@ const App = () => {
   // const [ user, setUser] = useState(null);
 
   // dev mode
-  useEffect( () => {
-    setUserName('Nicholas Shankland')
-    setUserEmail('nicholas.m.shankland@gmail.com')
-    setUserId('1923874-98y')
+  // useEffect( () => {
+  //   setUserName('Nicholas Shankland')
+  //   setUserEmail('nicholas.m.shankland@gmail.com')
+  //   setUserId('1923874-98y')
 
+
+  // },[])
+
+  // handles writting data to database and recieving google data
+  const responseGoogle = (response) => {
+    setUserName(response.profileObj.givenName)
+    setUserId(response.profileObj.googleId)
+    setUserEmail(response.profileObj.email)
     async function getData(url = '') {
       const response = await fetch(url, {
           method: 'GET', 
@@ -46,13 +54,6 @@ const App = () => {
             setSchedule(response.results)
         })
     })
-  },[])
-
-  // handles writting data to database and recieving google data
-  const responseGoogle = (response) => {
-    // setUserName(response.profileObj.givenName)
-    // setUserId(response.profileObj.googleId)
-    // setUserEmail(response.profileObj.email)
       // axios.post('/user/signup', {
       //   name: response.profileObj.name, 
       //   email: response.profileObj.email, 
