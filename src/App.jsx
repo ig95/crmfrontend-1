@@ -19,7 +19,6 @@ const App = () => {
   const [ userEmail, setUserEmail] = useState('')
   const [ drivers, setDrivers] = useState(null)
   const [ schedule, setSchedule] = useState(null)
-  const [ token, setToken ] = useState('')
   // const [ user, setUser] = useState(null);
 
   // dev mode
@@ -47,6 +46,7 @@ const App = () => {
     };
 
     getData('https://pythonicbackend.herokuapp.com/api-token-auth/', {
+      // need .env here
       username: 'admin',
       password: 'password'
     }).then( (response) => {
@@ -102,7 +102,7 @@ const App = () => {
         <div className='dark_overlay'>
           <h1 className='welcome_title'>Amazon Delivery Network</h1>
           <GoogleLogin
-            clientId='289466662721-f1sj8vu0c15fioleb134nr0oo0ppfk8t.apps.googleusercontent.com'
+            clientId={process.env.REACT_APP_CLIENT_ID}
             buttonText="Login"
             className='googleButton'
             onSuccess={responseGoogle}

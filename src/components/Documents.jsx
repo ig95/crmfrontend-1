@@ -63,7 +63,7 @@ const Documents = (props) => {
         } else {
             setImageArray([])
         }
-    }, [reRenderTrigger])
+    }, [reRenderTrigger, props.selectedDriver.documents])
 
     return (
         <div className='overall_documents'>

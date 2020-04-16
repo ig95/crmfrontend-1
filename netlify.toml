@@ -1,0 +1,13 @@
+[build]
+  command = "npm build"
+  publish = "build"
+
+[context.production.environment]
+  REACT_APP_CLIENT_ID="From netlify.toml (REACT_APP_)"
+    REACT_APP_CLOUDINARY_API_KEY="From netlify.toml (REACT_APP_)"
+    REACT_APP_CLOUDINARY_API_SECRET="From netlify.toml (REACT_APP_)"
+    REACT_APP_CLOUDINARY_API_CLOUDINARY_URL="From netlify.toml (REACT_APP_)"
+    REACT_APP_UPLOAD_IMAGE="From netlify.toml (REACT_APP_)"
+    REACT_APP_UPLOAD_PRESET="From netlify.toml (REACT_APP_)"
+    REACT_APP_DB_USERNAME="From netlify.toml (REACT_APP_)"
+    REACT_APP_DB_PASSWORD="From netlify.toml (REACT_APP_)"
