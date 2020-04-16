@@ -31,7 +31,9 @@
   text-decoration: none;
 }
 .inputs,
-.search_bar {
+.search_bar,
+.document_input,
+input {
   border-radius: 0.25rem;
   border: 1px solid #232f3e;
   width: 15vw;
@@ -41,16 +43,18 @@
   font-size: 1.2em;
 }
 .inputs:hover,
-.search_bar:hover {
+.search_bar:hover,
+.document_input:hover,
+input:hover {
   border: 1px solid #7171b9;
 }
-.labels {
+.labels,
+label {
   font-size: 1.3em;
   margin: 2vh 0 0.5vh 0;
 }
 .form_button,
 .submit_button,
-.choose_file,
 .submit_image {
   background-color: #232f3e;
   margin-top: 1vh;
@@ -62,7 +66,6 @@
 }
 .form_button:hover,
 .submit_button:hover,
-.choose_file:hover,
 .submit_image:hover {
   background-color: #2b3a4d;
   transform: translateY(-0.15vh);
@@ -324,16 +327,19 @@ body {
   grid-template-rows: 10% 90%;
   grid-template-areas: "main_title_driver_page main_title_driver_page" "nav_bar_driver main_content_driver_inner";
   min-height: 80vh;
+  overflow: hidden;
 }
 .submit_files {
-  border: 2px solid black;
+  border: 2px solid #232f3e;
   padding: 2rem;
-  width: 40vw;
+  width: 39vw;
+  margin-right: 0.5vw;
 }
 .submit_files_two {
-  border: 2px solid black;
+  border: 2px solid #232f3e;
   padding: 2rem;
-  width: 40vw;
+  margin-left: 0.5vw;
+  width: 39vw;
   display: flex;
   flex-wrap: wrap;
   overflow: scroll;
@@ -343,7 +349,6 @@ body {
   background-color: #232f3e;
   padding: 15px;
   color: white;
-  border-right: 1px solid rgba(0, 0, 0, 0.116);
 }
 .main_title_driver_page_inc {
   grid-area: main_title_driver_page;
@@ -369,14 +374,36 @@ body {
 }
 .overall_documents {
   display: flex;
-  width: 80vw;
-  margin: 2rem;
+  width: 85vw;
+  margin: 0 2rem 2rem 2rem;
+}
+.submit_image {
+  height: 4vh;
 }
 .uploaded_image {
   max-width: 30vw;
-  max-height: 50vh;
+  max-height: 40vh;
 }
 .uploaded_image_two {
   max-width: 15vw;
   margin: 1rem;
+}
+.document_input {
+  width: 30vw;
+  padding: 1rem;
+}
+.details_component_overall {
+  display: flex;
+  padding: 1rem;
+  flex-direction: column;
+  width: 93%;
+  margin: 0 2rem 2rem 2rem;
+  border: 2px solid #232f3e;
+}
+.details_form {
+  display: flex;
+  flex-direction: column;
+}
+label {
+  font-family: "Ubuntu", sans-serif;
 }

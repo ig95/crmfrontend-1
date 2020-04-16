@@ -419,80 +419,110 @@
     "nav_bar_driver main_content_driver_inner"
     ;
     min-height: 80vh;
+    overflow: hidden;
   }
-
+  
   .submit_files {
-    border: 2px solid black;
+    border: 2px solid #232F3E;
     padding: 2rem;
-    width: 40vw;
+    width: 39vw;
+    margin-right: .5vw;
   }
   .submit_files_two {
-    border: 2px solid black;
+    border: 2px solid #232F3E;
     padding: 2rem;
-    width: 40vw;
+    margin-left: .5vw;
+    width: 39vw;
     display: flex;
     flex-wrap: wrap;
     overflow: scroll;
   }
-
+  
   .left_nav_driver_page {
     grid-area: nav_bar_driver;
     background-color: $amazon_blue;
     padding: 15px;
     color: white;
-    border-right: 1px solid rgba(0, 0, 0, 0.116);
   }
-
+  
   .main_title_driver_page_inc {
     grid-area: main_title_driver_page
   }
-
+  
   .left_nav_driver_page_inner_div {
     min-height: 5vh;
   }
-
+  
   .left_nav_driver_page_inner_div:hover {
     background-color: grey;
     min-width: 8vw;
     height: 3vh;
   }
-
+  
   .driver_page_main_div {
     grid-area: main_content_driver_inner;
     width: 100%;
   }
-
+  
   .driver_page_title {
     text-align: left;
     margin: 5px 0 0 10px;
   }
-
+  
   .driver_page_title_under {
     margin: 0 0 5px 10px;
   }
-
+  
+  /****************************************  DOCUMENTS COMPONENT STYLE ************************************************************/
   .overall_documents{
     display: flex;
-    width: 80vw;
-    margin: 2rem;
+    width: 85vw;
+    margin: 0 2rem 2rem 2rem;
   }
-
-  .choose_file {
-    @extend %buttons;
-  }
-
+  
   .submit_image {
     @extend %buttons;
+    height: 4vh;
   }
-
+  
   .uploaded_image {
     max-width: 30vw;
-    max-height: 50vh;
+    max-height: 40vh;
   }
-
+  
   .uploaded_image_two {
     max-width: 15vw;
     margin: 1rem;
   }
+
+  .document_input {
+    @extend %input_bars;
+    width: 30vw;
+    padding: 1rem;
+  }
   
+  /****************************************  DETAILS COMPONENT STYLE ************************************************************/
+
+  .details_component_overall {
+    display: flex;
+    padding: 1rem;
+    flex-direction: column;
+    width: 93%;
+    margin: 0 2rem 2rem 2rem;
+    border: 2px solid $amazon_blue;
+  }
+
+  .details_form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input {
+    @extend %input_bars;
+  }
+
+  label {
+    @extend %label_text;
+    font-family: $ubuntu_font;
+  }
   

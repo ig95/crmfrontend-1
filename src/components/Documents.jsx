@@ -69,7 +69,7 @@ const Documents = (props) => {
             <div className='submit_files'>
                 <form onSubmit={handleSubmit}>
                     <h3>Upload Image</h3>
-                    <input type="file" name="file" placeholder="Upload an image" onChange={uploadImage} /><br /><br />
+                    <input type="file" name="file" placeholder="Upload an image" onChange={uploadImage} className='document_input'/><br /><br />
                     <input type='submit' value='Submit' className='submit_image'/>
                 </form><br /><hr /><br />
                 <img src={valueForSubmit ? valueForSubmit : ''} alt="" className='uploaded_image'/>

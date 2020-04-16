@@ -4,7 +4,7 @@ import Documents from '../components/Documents'
 import Daily from '../components/Daily'
 import Details from '../components/Details'
 import Invoices from '../components/Invoices'
-import Training from '../components/training'
+import Training from '../components/Training'
 
 const Driver = (props) => {
     const [ selectedDriver, setSelectedDriver ] = useState(null)
@@ -21,13 +21,13 @@ const Driver = (props) => {
     if (gate === 'documents') {
         mainContent = <Documents selectedDriver={selectedDriver}/>
     } else if (gate === 'details') {
-        mainContent = <Details />
+        mainContent = <Details selectedDriver={selectedDriver}/>
     } else if (gate === 'daily') {
-        mainContent = <Daily />
+        mainContent = <Daily selectedDriver={selectedDriver}/>
     } else if (gate === 'invoices') {
-        mainContent = <Invoices />
+        mainContent = <Invoices selectedDriver={selectedDriver}/>
     } else if (gate === 'training') {
-        mainContent = <Training />
+        mainContent = <Training selectedDriver={selectedDriver}/>
     }
 
 
@@ -55,17 +55,17 @@ const Driver = (props) => {
         setSelectedDriver(devObject)
 
 
-        // let currentDate = /driver(.*)/.exec(window.location.href)[0].replace(/driver\//, '')
+        let currentDate = /driver(.*)/.exec(window.location.href)[0].replace(/driver\//, '')
         // let driverID = parseInt(currentDate[0])
-        // let selectedDate = currentDate.slice(2)
-        // let finalDate = new Date(selectedDate.slice(0,3).concat(' ').concat(selectedDate.slice(3, 6)).concat(' ').concat(selectedDate.slice(6,8)).concat(' ').concat(selectedDate.slice(8,12)))
+        let selectedDate = currentDate.slice(2)
+        let finalDate = new Date(selectedDate.slice(0,3).concat(' ').concat(selectedDate.slice(3, 6)).concat(' ').concat(selectedDate.slice(6,8)).concat(' ').concat(selectedDate.slice(8,12)))
         // setSelectedDate(finalDate)
         // props.driver_data.forEach( (ele, id) => {
         //     console.log(ele.employee_id, ' ', driverID)
         //     if (ele.employee_id === driverID) {
         //         console.log(ele)
         //         setSelectedDriver(ele)
-        //         setSelectedDate(finalDate)
+                setSelectedDate(finalDate)
         //     }
         // })
     }, [props.driver_data, props])
@@ -74,7 +74,7 @@ const Driver = (props) => {
     const mainTitleDriverPage = (
         <div className='main_title_driver_page_inc'>
             <h1 className='driver_page_title'>{selectedDriver ? selectedDriver.name : 'loading'}</h1>
-            <h3 className='driver_page_title_under'>{selectedDriver ? selectedDriver.location : 'loading'}</h3>
+            <h3 className='driver_page_title_under'>{selectedDriver ? selectedDriver.location : 'loading'} | {selectedDate ? selectedDate.toDateString() : 'loading'}</h3>
         </div>
     )
 
