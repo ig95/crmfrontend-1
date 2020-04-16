@@ -1,58 +1,14 @@
 import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
+import Documents from '../components/Documents'
 import axios from 'axios'
 
 const Driver = (props) => {
     const [ selectedDriver, setSelectedDriver ] = useState(null)
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ image, setImage ] = useState('')
-    const [  valueForSubmit, setValueForSubmit ] = useState('')
+
     const [ gate, setGate ] = useState('')
-
-    // save image to cloudinary
-    var uploadImage = (e) => {
-        const files = e.target.files
-        const data = new FormData()
-        data.append('file', files[0])
-        data.append('upload_preset', 'crmFiles')
-        data.append("api_key", '396889155975552')
-        axios.post('https://api.cloudinary.com/v1_1/shanklandium/image/upload', data).then(response => {
-            let myOtherResponse = ''
-            if (response.data.secure_url.includes('.pdf')) {
-                let myNewName = response.data.secure_url.replace(/.pdf/, '.png')
-                response.data.secure_url = myNewName
-            }
-            setValueForSubmit(myOtherResponse ? myOtherResponse : response.data.secure_url)
-        })
-    }
-
-    var handleSubmit = (e) => {
-        e.preventDefault()
-        let localArray = selectedDriver.documents ? selectedDriver.documents : []
-        localArray.push(valueForSubmit)
-
-        async function postData(url = '', data = {}) {
-            const response = await fetch(url, {
-                method: 'PUT', 
-                mode: 'cors',
-                cache: 'no-cache',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-                });
-
-            return response ? response.json() : console.log('no reponse')
-        };
-        
-        postData(`https://pythonicbackend.herokuapp.com/employees/${selectedDriver.employee_id}/`, {
-            documents: localArray
-        }).then( response => {
-            console.log(response)
-            mainContent = documents()
-        })
-    }
 
     // CONTENT SECTIONS
 
@@ -94,32 +50,7 @@ const Driver = (props) => {
         
     // Documents
     var documents = () => {
-        var imageArray
-        if (selectedDriver.documents) {
-            imageArray = selectedDriver.documents.map( (ele, id) => 
-                <div>
-                    <img src={ele} alt='cannot view' key={id} className='uploaded_image_two'/>
-                </div>
-            )
-        } else {
-            imageArray = ''
-        }
-
-        return (
-            <div className='overall_documents'>
-                <div className='submit_files'>
-                    <form onSubmit={handleSubmit}>
-                        <h3>Upload Image</h3>
-                        <input type="file" name="file" placeholder="Upload an image" onChange={uploadImage} /><br /><br />
-                        <input type='submit' value='Submit' className='submit_image'/>
-                    </form><br /><hr /><br />
-                    <img src={valueForSubmit ? valueForSubmit : ''} alt="" className='uploaded_image'/>
-                </div>
-                <div className='submit_files_two'>
-                    {imageArray}
-                </div>
-            </div>
-        )
+        return <Documents selectedDriver={selectedDriver}/>
     }
 
     var mainContent
@@ -142,41 +73,41 @@ const Driver = (props) => {
 
     useEffect( () => {
         // development data
-        // let devObject = {
-        //     employee_id: 1,
-        //     name: "Nicholas Shankland",
-        //     inOff: 1,
-        //     location: "DBS2",
-        //     route: "DBS2",
-        //     mileage: 0,
-        //     parcel: 0,
-        //     LWP: 0,
-        //     LVP: 0,
-        //     CRT: 0,
-        //     RL: 0,
-        //     SUP: "0.0000",
-        //     fuel: "0.0000",
-        //     vans: "0.0000",
-        //     supportDeductions: "0.0000",
-        //     documents: ['a string', 'another string'],
-        //     datesList: [],
-        // }
-        // setSelectedDriver(devObject)
+        let devObject = {
+            employee_id: 1,
+            name: "Nicholas Shankland",
+            inOff: 1,
+            location: "DBS2",
+            route: "DBS2",
+            mileage: 0,
+            parcel: 0,
+            LWP: 0,
+            LVP: 0,
+            CRT: 0,
+            RL: 0,
+            SUP: "0.0000",
+            fuel: "0.0000",
+            vans: "0.0000",
+            supportDeductions: "0.0000",
+            documents: ['a string', 'another string'],
+            datesList: [],
+        }
+        setSelectedDriver(devObject)
 
 
-        let currentDate = /driver(.*)/.exec(window.location.href)[0].replace(/driver\//, '')
-        let driverID = parseInt(currentDate[0])
-        let selectedDate = currentDate.slice(2)
-        let finalDate = new Date(selectedDate.slice(0,3).concat(' ').concat(selectedDate.slice(3, 6)).concat(' ').concat(selectedDate.slice(6,8)).concat(' ').concat(selectedDate.slice(8,12)))
-        setSelectedDate(finalDate)
-        props.driver_data.forEach( (ele, id) => {
-            console.log(ele.employee_id, ' ', driverID)
-            if (ele.employee_id === driverID) {
-                console.log(ele)
-                setSelectedDriver(ele)
-                setSelectedDate(finalDate)
-            }
-        })
+        // let currentDate = /driver(.*)/.exec(window.location.href)[0].replace(/driver\//, '')
+        // let driverID = parseInt(currentDate[0])
+        // let selectedDate = currentDate.slice(2)
+        // let finalDate = new Date(selectedDate.slice(0,3).concat(' ').concat(selectedDate.slice(3, 6)).concat(' ').concat(selectedDate.slice(6,8)).concat(' ').concat(selectedDate.slice(8,12)))
+        // setSelectedDate(finalDate)
+        // props.driver_data.forEach( (ele, id) => {
+        //     console.log(ele.employee_id, ' ', driverID)
+        //     if (ele.employee_id === driverID) {
+        //         console.log(ele)
+        //         setSelectedDriver(ele)
+        //         setSelectedDate(finalDate)
+        //     }
+        // })
     }, [props.driver_data, props])
 
     // title at top

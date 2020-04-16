@@ -29,7 +29,6 @@ const App = () => {
 
 
   // },[])
-  // another one
 
   useEffect( () => {
     async function getData(url = '') {
@@ -58,7 +57,6 @@ const App = () => {
     setUserName(response.profileObj.givenName)
     setUserId(response.profileObj.googleId)
     setUserEmail(response.profileObj.email)
-
   }
 
   var content
