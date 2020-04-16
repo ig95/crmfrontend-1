@@ -19,36 +19,61 @@ const App = () => {
   const [ userEmail, setUserEmail] = useState('')
   const [ drivers, setDrivers] = useState(null)
   const [ schedule, setSchedule] = useState(null)
+  const [ token, setToken ] = useState('')
   // const [ user, setUser] = useState(null);
 
   // dev mode
+  // useEffect( () => {
+  //   setUserName('Nicholas Shankland')
+  //   setUserEmail('nicholas.m.shankland@gmail.com')
+  //   setUserId('1923874-98y')
+
+
+  // },[])
+
   useEffect( () => {
-    setUserName('Nicholas Shankland')
-    setUserEmail('nicholas.m.shankland@gmail.com')
-    setUserId('1923874-98y')
-
-
-  },[])
-
-  useEffect( () => {
-    async function getData(url = '') {
+    async function getData(url = '', data={}) {
       const response = await fetch(url, {
-          method: 'GET', 
+          method: 'POST', 
           mode: 'cors',
           cache: 'no-cache',
           credentials: 'same-origin',
           headers: {
               'Content-Type': 'application/json'
-          }
+          },
+          body: JSON.stringify(data)
       });
       return response ? response.json() : console.log('no reponse')
     };
 
-    getData('https://pythonicbackend.herokuapp.com/employees/').then( (response) => {
-        setDrivers(response.results)
-        getData('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
-            setSchedule(response.results)
-        })
+    getData('https://pythonicbackend.herokuapp.com/api-token-auth/', {
+      username: 'admin',
+      password: 'password'
+    }).then( (response) => {
+      localStorage.setItem('token', response.token)
+    }).then( (response) => {
+      async function getDataNext(url = '') {
+        const response = await fetch(url, {
+            method: 'GET', 
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            }
+        });
+        return response ? response.json() : console.log('no reponse')
+      };
+  
+      getDataNext('https://pythonicbackend.herokuapp.com/employees/').then( (response) => {
+        console.log(response)
+          setDrivers(response.results)
+          getDataNext('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
+            console.log(response)
+              setSchedule(response.results)
+          })
+      })
     })
   }, [])
 

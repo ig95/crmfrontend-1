@@ -35,7 +35,8 @@ const Documents = (props) => {
                     cache: 'no-cache',
                     credentials: 'same-origin',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${localStorage.getItem('token')}`
                     },
                     body: JSON.stringify(data)
                     });
