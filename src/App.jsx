@@ -22,13 +22,13 @@ const App = () => {
   // const [ user, setUser] = useState(null);
 
   // dev mode
-  // useEffect( () => {
-  //   setUserName('Nicholas Shankland')
-  //   setUserEmail('nicholas.m.shankland@gmail.com')
-  //   setUserId('1923874-98y')
+  useEffect( () => {
+    setUserName('Nicholas Shankland')
+    setUserEmail('nicholas.m.shankland@gmail.com')
+    setUserId('1923874-98y')
 
 
-  // },[])
+  },[])
 
   useEffect( () => {
     async function getData(url = '', data={}) {
@@ -67,10 +67,8 @@ const App = () => {
       };
   
       getDataNext('https://pythonicbackend.herokuapp.com/employees/').then( (response) => {
-        console.log(response)
           setDrivers(response.results)
           getDataNext('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
-            console.log(response)
               setSchedule(response.results)
           })
       })

@@ -33,41 +33,41 @@ const Driver = (props) => {
 
     useEffect( () => {
         // development data
-        let devObject = {
-            employee_id: 1,
-            name: "Nicholas Shankland",
-            inOff: 1,
-            location: "DBS2",
-            route: "DBS2",
-            mileage: 0,
-            parcel: 0,
-            LWP: 0,
-            LVP: 0,
-            CRT: 0,
-            RL: 0,
-            SUP: "0.0000",
-            fuel: "0.0000",
-            vans: "0.0000",
-            supportDeductions: "0.0000",
-            documents: [],
-            datesList: [],
-        }
-        setSelectedDriver(devObject)
+        // let devObject = {
+        //     employee_id: 1,
+        //     name: "Nicholas Shankland",
+        //     inOff: 1,
+        //     location: "DBS2",
+        //     route: "DBS2",
+        //     mileage: 0,
+        //     parcel: 0,
+        //     LWP: 0,
+        //     LVP: 0,
+        //     CRT: 0,
+        //     RL: 0,
+        //     SUP: "0.0000",
+        //     fuel: "0.0000",
+        //     vans: "0.0000",
+        //     supportDeductions: "0.0000",
+        //     documents: [],
+        //     datesList: [],
+        // }
+        // setSelectedDriver(devObject)
 
 
         let currentDate = /driver(.*)/.exec(window.location.href)[0].replace(/driver\//, '')
-        // let driverID = parseInt(currentDate[0])
+        let driverID = parseInt(currentDate[0])
         let selectedDate = currentDate.slice(2)
         let finalDate = new Date(selectedDate.slice(0,3).concat(' ').concat(selectedDate.slice(3, 6)).concat(' ').concat(selectedDate.slice(6,8)).concat(' ').concat(selectedDate.slice(8,12)))
-        // setSelectedDate(finalDate)
-        // props.driver_data.forEach( (ele, id) => {
-        //     console.log(ele.employee_id, ' ', driverID)
-        //     if (ele.employee_id === driverID) {
-        //         console.log(ele)
-        //         setSelectedDriver(ele)
+        setSelectedDate(finalDate)
+        props.driver_data.forEach( (ele, id) => {
+            console.log(ele.employee_id, ' ', driverID)
+            if (ele.employee_id === driverID) {
+                console.log(ele)
+                setSelectedDriver(ele)
                 setSelectedDate(finalDate)
-        //     }
-        // })
+            }
+        })
     }, [props.driver_data, props])
 
     // title at top
