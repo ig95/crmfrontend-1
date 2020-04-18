@@ -15,8 +15,8 @@ const DivSingleWeek = (props) => {
             var thisWeekDivsArray = []
             let localDateArray = []
             let selectedDate = props.selectedDate
-            thisWeekDivsArray.push(<div className='cal_divs_single_first'><h4>Search Bar</h4></div>)
-            for (let i = 0; i < 7; i++) {
+            thisWeekDivsArray.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>Search Bar</h4></div>)
+            for (let i = 0; i < 14; i++) {
                 let dateVar = new Date(selectedDate.setDate(selectedDate.getDate() + i)).toDateString()
                 thisWeekDivsArray.push(<div key={i+8} className='cal_divs_single'><h5 className='inner_calander_text'>{dateVar}</h5></div>)
                 localDateArray.push(dateVar)
@@ -29,8 +29,8 @@ const DivSingleWeek = (props) => {
         // bottom row mapped divs
         function bottomDivs () {
             var lastWeekDivsArray = []
-            lastWeekDivsArray.push(<div className='cal_divs_single_first'><h4>Total for week:</h4></div>)
-            for (let i = 0; i < 7; i++) {
+            lastWeekDivsArray.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>Total for week:</h4></div>)
+            for (let i = 0; i < 14; i++) {
                 lastWeekDivsArray.push(<div key={i+50} className='cal_divs_single'><h5 className='inner_calander_text'>{Math.floor(Math.random() * 100)}</h5></div>)
             }  
             return lastWeekDivsArray
@@ -42,15 +42,15 @@ const DivSingleWeek = (props) => {
             middleRows = () => {
                 let myLocalArray = checkForDate
                 var mappedProps = []
-                let localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1]
+                let localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,]
                 for (let ele in selectedCityDrivers) {
-                    mappedProps.push(<div className='cal_divs_single_first'>{selectedCityDrivers[ele].name}</div>)
+                    mappedProps.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>{selectedCityDrivers[ele].name}</h4></div>)
                     for (let i = 0; i < selectedCityDrivers[ele].datesList.length; i++) {
                         if (checkForDate.includes(new Date(selectedCityDrivers[ele].datesList[i]).toDateString())) {
                             localAwesomeArray[checkForDate.indexOf(new Date(selectedCityDrivers[ele].datesList[i]).toDateString())] = i
                         }
                     }
-                    for (let i = 0; i < 7; i++) {
+                    for (let i = 0; i < 14; i++) {
                         if (localAwesomeArray[i] !== -1) {
                             // logic for date booked or not
                             mappedProps.push( <div  className='cal_divs_single_booked' key={Math.random()} >
@@ -67,7 +67,7 @@ const DivSingleWeek = (props) => {
                             </div>)
                         }
                     }  
-                    localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1]
+                    localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,]
                 }
                 return mappedProps
             }
