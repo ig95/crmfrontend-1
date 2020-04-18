@@ -386,6 +386,9 @@ label {
 @media only screen and (max-width: 1500px) {
   html,
   body {
-    font-size: 80%;
+    font-size: 90%;
+  }
+  .middle_row {
+    width: 59vw;
   }
 }
