@@ -24,7 +24,7 @@ const DivWeek = (props) => {
                                 {dateVar}
                             </h4>
                             <h4 className='inner_calander_text'>
-                                {count}
+                            Booked Drivers: {count}
                             </h4>
                         </div></Link>)
                     selectedDate.setDate(selectedDate.getDate() + i )
@@ -50,7 +50,7 @@ const DivWeek = (props) => {
                                 {dateVar}
                             </h4>
                             <h4 className='inner_calander_text'>
-                                {count}
+                            Booked Drivers: {count}
                             </h4>
                         </div></Link>)
                     selectedDate.setDate(selectedDate.getDate() - i )
@@ -77,7 +77,7 @@ const DivWeek = (props) => {
                                 {dateVar}
                             </h4>
                             <h4 className='inner_calander_text'>
-                                {count}
+                                Booked Drivers: {count}
                             </h4>
                         </div></Link>)
                     selectedDate.setDate(selectedDate.getDate() - i )

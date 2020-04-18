@@ -1,5 +1,6 @@
 import React from 'react'
 
+// show route type and summary
 const Daily = () => {
     return (
         <div className='details_component_overall'> 

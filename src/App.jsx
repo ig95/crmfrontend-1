@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import SingleDay from './pages/SingleDay'
-import Depots from './pages/Depots'
+import Dashboard from './pages/Dashboard'
 import MakeEmployee from './pages/MakeEmployee'
 import WeekSchedule from './pages/WeekSchedule'
+import InvoiceWork from './pages/InvoiceWork'
+import DriverDocumentation from './pages/DriverDocumentation'
+import VehicleChecklist from './pages/VehicleChecklist'
 import Driver from './pages/Driver'
 import './App.scss';
 import Home from './pages/home'
@@ -22,13 +25,11 @@ const App = () => {
   // const [ user, setUser] = useState(null);
 
   // dev mode
-  useEffect( () => {
-    setUserName('Nicholas Shankland')
-    setUserEmail('nicholas.m.shankland@gmail.com')
-    setUserId('1923874-98y')
-
-
-  },[])
+  // useEffect( () => {
+  //   setUserName('Nicholas Shankland')
+  //   setUserEmail('nicholas.m.shankland@gmail.com')
+  //   setUserId('1923874-98y')
+  // },[])
 
   useEffect( () => {
     async function getData(url = '', data={}) {
@@ -90,7 +91,10 @@ const App = () => {
         <Route exact path = '/makemployee' render={ () => <MakeEmployee user_name={userName} user_email={userEmail} user_id={userId} /> } />
         <Route exact path = '/weekschedule' render={ () => <WeekSchedule user_name={userName} user_email={userEmail}/> } />
         <Route exact path = '/driver/:id/:date' render={ () => <Driver user_name={userName} user_email={userEmail} driver_data={drivers} schedule_data={schedule}/> } />
-        <Route exact path = '/depots' render={ () => <Depots user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/dashboard' render={ () => <Dashboard user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/vehiclechecklist' render={ () => <VehicleChecklist user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/documentation' render={ () => <DriverDocumentation user_name={userName} user_email={userEmail}/> } />
         <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail}/> } />
       </Router>
     )

@@ -13,6 +13,7 @@ const WeekSchedule = () => {
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
 
     // dev data ... note to self... the following component only accepts format day:date
+    // call this location rota, make it color coded by deopt, and trianing different color - 14 days
     useEffect(() => {
         async function getData(url = '') {
             const response = await fetch(url, {
@@ -59,7 +60,7 @@ const WeekSchedule = () => {
     if (drivers) {
         content = (
             <div className='home_content'>
-                <NavigationBar title='Week Schedule'/>
+                <NavigationBar title='Location Rota'/>
                 <div className='main_content'>
                     <div className='calandar_container'>
                         <div className='drop_down_bar_container'>
