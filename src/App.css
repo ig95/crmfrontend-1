@@ -176,9 +176,9 @@ body {
   align-items: flex-start;
 }
 .calandar_container {
-  width: 20vw;
-  margin-top: 5vh;
-  margin-left: 1%;
+  width: 15vw;
+  margin: 1rem;
+  padding: 0;
 }
 .drop_down_bar_container {
   margin-bottom: 1vh;
@@ -213,42 +213,37 @@ body {
   }
 }
 .single_week_grid {
-  margin-top: 3vh;
-  margin-left: 5vw;
+  margin: 1rem;
   display: grid;
   height: 80vh;
-  width: 60vw;
   grid-template-columns: 100%;
   grid-template-rows: 7.5% 85% 7.5%;
   grid-template-areas: "top_row" "middle_row" "bottom_row";
 }
 .cal_divs_single {
-  width: 6vw;
-  flex: 1 0 11%;
+  flex: 1 0 5%;
   height: 5vh;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   background-color: #f3f6f6;
   color: #368694;
 }
 .cal_divs_single_table {
-  width: 6vw;
-  flex: 1 0 11%;
+  flex: 1 0 5%;
   height: 5vh;
   margin-bottom: 5px;
   background-color: white;
   color: black;
 }
-.cal_divs_single_table:hover {
-  transform: translateY(-0.25rem);
-  box-shadow: 2px 2px 2px black;
-}
 .cal_divs_single_booked {
-  width: 6vw;
   flex: 1 0 5%;
   height: 5vh;
   margin-bottom: 5px;
   background-color: #232f3e;
   color: #f7f4f4;
+}
+.cal_divs_single_table:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: 2px 2px 2px black;
 }
 .cal_divs_single_booked:hover {
   transform: translateY(-0.25rem);
@@ -256,8 +251,7 @@ body {
 }
 .cal_divs_single_first {
   min-width: 10vw;
-  width: 6vw;
-  flex: 1 0 6%;
+  flex: 1 0 5%;
   height: 5vh;
   margin-bottom: 5px;
   background-color: #f3f6f6;
@@ -268,7 +262,7 @@ body {
 .top_row {
   grid-area: top_row;
   display: flex;
-  width: 59vw;
+  width: 70vw;
 }
 .middle_row {
   grid-area: middle_row;
@@ -276,24 +270,34 @@ body {
   flex-wrap: wrap;
   overflow: scroll;
   max-height: 68vh;
+  width: 70.9vw;
 }
 .bottom_row {
   grid-area: bottom_row;
   display: flex;
-  width: 59vw;
+  width: 70vw;
 }
 .inner_form_div {
   margin: 2rem 0 0 5rem;
   font-size: 1.2rem;
 }
+.scheduling_single_week_overlay {
+  width: 80vw;
+  margin: 0;
+  padding: 0;
+}
+.main_content_new_driver {
+  grid-area: main_content;
+  margin-left: 2rem;
+}
 .new_employee_form {
-  height: 90vh;
-  width: 90vw;
-  padding-top: 5vh;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+}
+.new_driver_form_container {
+  align-self: flex-start;
 }
 .main_content_dashboard {
   grid-area: main_content;
@@ -391,6 +395,6 @@ label {
     font-size: 90%;
   }
   .middle_row {
-    width: 59vw;
+    width: 70vw;
   }
 }

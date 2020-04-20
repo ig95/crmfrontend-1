@@ -44,7 +44,7 @@ const Documents = (props) => {
                 return response ? response.json() : console.log('no reponse')
             };
             
-            postData(`https://pythonicbackend.herokuapp.com/employees/${props.selectedDriver.employee_id}/`, {
+            postData(`https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`, {
                 documents: localArray
             }).then( response => {
                 setReRenderTrigger(reRenderTrigger+1)

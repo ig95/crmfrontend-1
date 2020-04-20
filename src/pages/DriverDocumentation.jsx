@@ -28,7 +28,7 @@ const DriverDocumentation = (props) => {
 
         };
 
-        getData('https://pythonicbackend.herokuapp.com/employees/').then( (response) => {
+        getData('https://pythonicbackend.herokuapp.com/drivers/').then( (response) => {
             setDrivers(response.results)
         })
     }, [])

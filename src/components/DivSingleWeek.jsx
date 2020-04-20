@@ -42,7 +42,7 @@ const DivSingleWeek = (props) => {
             middleRows = () => {
                 let myLocalArray = checkForDate
                 var mappedProps = []
-                let localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,]
+                let localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
                 for (let ele in selectedCityDrivers) {
                     mappedProps.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>{selectedCityDrivers[ele].name}</h4></div>)
                     for (let i = 0; i < selectedCityDrivers[ele].datesList.length; i++) {
@@ -60,14 +60,14 @@ const DivSingleWeek = (props) => {
                             </div>)
                         } else {
                             // logic for date booked or not
-                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, myLocalArray[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].employee_id, selectedCityDrivers[ele].location)}>
+                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, myLocalArray[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].driver_id, selectedCityDrivers[ele].location)}>
                                     <h5 className='inner_calander_text'>
                                         ---
                                     </h5>
                             </div>)
                         }
                     }  
-                    localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,]
+                    localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
                 }
                 return mappedProps
             }
@@ -106,12 +106,12 @@ const DivSingleWeek = (props) => {
                 logIn_time: timeEntry,
                 logOut_time: timeEntry,
                 location: location,
-                employee_id: `https://pythonicbackend.herokuapp.com/employees/${id}/`
+                driver_id: `https://pythonicbackend.herokuapp.com/drivers/${id}/`
             }).then( response => {
                 console.log(response)
                 if (response.date) {
                     props.drivers.forEach( (ele, setterId) => {
-                        if (ele.employee_id === id) {
+                        if (ele.driver_id === id) {
                             props.drivers[setterId].datesList.push(response.date)
                         }
                     })
@@ -124,14 +124,20 @@ const DivSingleWeek = (props) => {
 
         // render the form div
         const makeForm = (dateSelection, nameSelection, dateList, id, location) => {
+            const handleSubmit = (e) => { 
+                e.preventDefault()
+                let station = e.target.location.value ? e.target.location.value : location
+                handleSubmitButton(dateSelection, id, station)
+            } 
             return (
                 <div className='inner_calender_form'>
                     <div className='inner_form_div'>
-                        <h3>Name: {nameSelection}</h3>
-                        <h3>Date: {dateSelection}</h3>
-                        {/* make This Changeable */}
-                        <h3>Depot: {location}</h3>
-                        <button className='form_button' onClick={() => { handleSubmitButton(dateSelection, id, location)} }>Add Work</button>
+                        <form onSubmit={handleSubmit} autoComplete='on'>
+                            <h3>Name: {nameSelection}</h3>
+                            <h3>Date: {dateSelection}</h3>
+                            <h3>Depot: <input type="text" name='location' placeholder={location}/></h3>
+                            <input type='submit' className='form_button' value='Add Work' />
+                        </form>
                     </div>
                 </div>
             )
@@ -140,10 +146,6 @@ const DivSingleWeek = (props) => {
         // when click on a date to book
         const handleClick = (e, weekDaySelected, theName, datesList, id, location) => {
             e.preventDefault()
-            console.log(
-                'weekDaySelected: ', weekDaySelected,
-                'theid: ', id
-            )
             setMiddleRow(makeForm(weekDaySelected, theName, datesList, id, location))
         }
 
@@ -159,14 +161,14 @@ const DivSingleWeek = (props) => {
         if (props.schedule) {
             props.drivers.forEach( (driverElement, driverId) => {
                 props.schedule.forEach( (scheduleElement, scheduleId) => {
-                    let matchingId = /\d/.exec(scheduleElement.employee_id)
-                    if (parseInt(matchingId[0]) === driverElement.employee_id) {
+                    let matchingId = /\d/.exec(scheduleElement.driver_id)
+                    if (parseInt(matchingId[0]) === driverElement.driver_id) {
                         driverElement['datesList'].push(scheduleElement.date)
                     }
                 })
             })
             props.drivers.forEach( (ele, id) => {
-                if (ele.route === props.selectedCity) {
+                if (ele.location === props.selectedCity) {
                     localList.push(ele)
                 }
             })

@@ -31,7 +31,7 @@ const WeekSchedule = () => {
 
         };
 
-        getData('https://pythonicbackend.herokuapp.com/employees/').then( (response) => {
+        getData('https://pythonicbackend.herokuapp.com/drivers/').then( (response) => {
             setDrivers(response.results)
             getData('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
                 setSchedule(response.results)

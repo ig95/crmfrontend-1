@@ -25,11 +25,11 @@ const App = () => {
   // const [ user, setUser] = useState(null);
 
   // dev mode
-  // useEffect( () => {
-  //   setUserName('Nicholas Shankland')
-  //   setUserEmail('nicholas.m.shankland@gmail.com')
-  //   setUserId('1923874-98y')
-  // },[])
+  useEffect( () => {
+    setUserName('Nicholas Shankland')
+    setUserEmail('nicholas.m.shankland@gmail.com')
+    setUserId('1923874-98y')
+  },[])
 
   useEffect( () => {
     async function getData(url = '', data={}) {
@@ -67,7 +67,7 @@ const App = () => {
         return response ? response.json() : console.log('no reponse')
       };
   
-      getDataNext('https://pythonicbackend.herokuapp.com/employees/').then( (response) => {
+      getDataNext('https://pythonicbackend.herokuapp.com/drivers/').then( (response) => {
           setDrivers(response.results)
           getDataNext('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
               setSchedule(response.results)
@@ -78,9 +78,9 @@ const App = () => {
 
   // handles writting data to database and recieving google data
   const responseGoogle = (response) => {
-    setUserName(response.profileObj.givenName)
-    setUserId(response.profileObj.googleId)
-    setUserEmail(response.profileObj.email)
+    // setUserName(response.profileObj.givenName)
+    // setUserId(response.profileObj.googleId)
+    // setUserEmail(response.profileObj.email)
   }
 
   var content
