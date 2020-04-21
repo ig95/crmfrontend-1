@@ -71,16 +71,18 @@ const Dashboard = () => {
     const handleSubmit = (e) => {
         let localDriverId = 0
         let localID = 0
+        let driverID = ''
         let mileage = e.target.FinishMileage.value - e.target.StartMileage.value
         drivers.forEach( (ele, id) => {
-            if (ele.name === e.target.name.value) {
+            if (ele.name === e.target.Name.value) {
                 localDriverId = ele.driver_id
             }
         })
         if (localDriverId > 0) {
             schedule.forEach( (ele, id) => {
-                if (ele.driver_id === `https://pythonicbackend.herokuapp.com/schedule/${localDriverId}/` && ele.date === "") {
-
+                if (ele.driver_id === `https://pythonicbackend.herokuapp.com/drivers/${localDriverId}/` && ele.date === dateSelected) {
+                    driverID = ele.driver_id
+                    localID = ele.date_id
                 }
             })
         }
@@ -100,16 +102,24 @@ const Dashboard = () => {
 
             return response ? response.json() : console.log('no reponse')
         };
+        let myObjectToPut = () => {
+            let myObj = {}
+                e.target.Name.value ? myObj['name'] = e.target.Name.value : console.log(null)
+                e.target.Route.value ? myObj['route'] = e.target.Route.value : console.log(null)
+                e.target.LogInTime.value ? myObj['logIn_time'] = e.target.LogInTime.value : console.log(null)
+                e.target.LogOutTime.value ? myObj['logOut_time'] = e.target.LogOutTime.value : console.log(null) 
+                selectedCity ? myObj['location'] = myObj['location'] = selectedCity : console.log(null) 
+                mileage ? myObj['mileage'] = mileage : console.log(null) 
+                e.target.NoParcelsDelivered.value ? myObj['parcels'] = e.target.NoParcelsDelivered.value : console.log(null)
+                myObj['driver_id'] = driverID
+            return (
+                myObj
+            )
+        }
         if (localID > 0) {
-            postData(`https://pythonicbackend.herokuapp.com/schedule/`, {
-                name: e.target.name.value,
-                route: e.target.Route.value,
-                logIn_time: e.target.LogInTime.value,
-                logOut_time: e.target.LogOutTime.value,
-                location: selectedCity,
-                mileage: mileage,
-                parcels: e.target.NoParcelsDelivered.value,
-            }).then( response => {
+            postData(`https://pythonicbackend.herokuapp.com/schedule/${localID}/`, myObjectToPut())
+            .then( response => {
+                console.log('submitted')
                 console.log(response)
             })
         }
@@ -130,7 +140,6 @@ const Dashboard = () => {
     const handleCalendarChange = (e) => {
         setSelectedDate(e)
         setDateSelected(e.toDateString())
-        console.log(e.toDateString())
         setCalendarWidget('')
     }
 
@@ -154,7 +163,7 @@ const Dashboard = () => {
                 <form onSubmit={handleSubmit} className='dashboard_form' autoComplete='on'>
                     <div className='dashboard_form_divs'>
                         <label >Name </label><br />
-                            <input className='search_bar' type="text" name='name' onChange={handleChange} />
+                            <input className='search_bar' type="text" name='Name' onChange={handleChange} />
                             <div>
                                 {driverSearchArray}
                             </div>

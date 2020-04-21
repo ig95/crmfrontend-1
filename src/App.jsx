@@ -7,6 +7,7 @@ import WeekSchedule from './pages/WeekSchedule'
 import InvoiceWork from './pages/InvoiceWork'
 import DriverDocumentation from './pages/DriverDocumentation'
 import VehicleChecklist from './pages/VehicleChecklist'
+// import axios from 'axios'
 import Driver from './pages/Driver'
 import './App.scss';
 import Home from './pages/home'
@@ -24,12 +25,27 @@ const App = () => {
   const [ schedule, setSchedule] = useState(null)
   // const [ user, setUser] = useState(null);
 
-  // dev mode
+  // email
   useEffect( () => {
-    setUserName('Nicholas Shankland')
-    setUserEmail('nicholas.m.shankland@gmail.com')
-    setUserId('1923874-98y')
+    // function email () {
+    //   axios.post('https://intense-headland-70415.herokuapp.com/mail', {
+    //     password: process.env.REACT_APP_INTERCHANGE,
+    //     email: 'nicholas.m.shankland@gmail.com',
+    //     subject: 'Reminder Email',
+    //     message: "Hello there, this is your friendly reminder that your papers arent up to date!"
+    //   }).then( response => {
+    //     console.log(response)
+    //   })
+    // }
+    // email()
   },[])
+
+  // dev mode
+  // useEffect( () => {
+  //   setUserName('Nicholas Shankland')
+  //   setUserEmail('nicholas.m.shankland@gmail.com')
+  //   setUserId('1923874-98y')
+  // },[])
 
   useEffect( () => {
     async function getData(url = '', data={}) {
@@ -68,19 +84,19 @@ const App = () => {
       };
   
       getDataNext('https://pythonicbackend.herokuapp.com/drivers/').then( (response) => {
-          setDrivers(response.results)
-          getDataNext('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
-              setSchedule(response.results)
-          })
+        setDrivers(response.results)
+        getDataNext('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
+            setSchedule(response.results)
+        })
       })
     })
   }, [])
 
   // handles writting data to database and recieving google data
   const responseGoogle = (response) => {
-    // setUserName(response.profileObj.givenName)
-    // setUserId(response.profileObj.googleId)
-    // setUserEmail(response.profileObj.email)
+    setUserName(response.profileObj.givenName)
+    setUserId(response.profileObj.googleId)
+    setUserEmail(response.profileObj.email)
   }
 
   var content
