@@ -42,21 +42,21 @@ const DriverDocumentation = (props) => {
         )
     }
 
-        // search bar function
-        const handleChange = (e) => {
-            let localArray = []
-            drivers.forEach( (ele, id) => {
-                if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 3) {
-                    localArray.push(
-                        <h4>{ele.name}</h4>
-                    )
-                }
-                if (e.target.value === ele.name) {
-                    setSelectedDriver(ele)
-                }    
-            })
-            setDriverSearchArray(localArray)
-        }
+    // search bar function
+    const handleChange = (e) => {
+        let localArray = []
+        drivers.forEach( (ele, id) => {
+            if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 3) {
+                localArray.push(
+                    <h4 key={id}>{ele.name}</h4>
+                )
+            }
+            if (e.target.value === ele.name) {
+                setSelectedDriver(ele)
+            }    
+        })
+        setDriverSearchArray(localArray)
+    }
 
     return (
         <div className='home_content'>

@@ -54,7 +54,7 @@
     border: none;
     color: $offWhite;
     width: 8vw;
-    height: 3vh;
+    height: 4vh;
     border-radius: .25rem;
   }
 
@@ -103,7 +103,7 @@
   .nav_bar_top {
     grid-area: nav_bar_top;
     background-color: $offWhite;
-    color: black;
+    color: $amazon_blue;
     display: flex;
   }
 
@@ -127,6 +127,7 @@
 
   .middle_nav {
     margin: auto auto;
+    width: 75vw;
   }
 
   .drop_down_content {
@@ -272,7 +273,7 @@
     height: 5vh;
     margin-bottom: 10px;
     background-color: $calendar_top_background;
-    color: $calendar_text_color;
+    color: $amazon_blue;
   }
   
   .cal_divs_single_table {
@@ -311,7 +312,7 @@
     height: 5vh;
     margin-bottom: 5px;
     background-color: $calendar_top_background;
-    color: $calendar_text_color;
+    color: $amazon_blue;
     display: flex;
     align-items: center;
   }
@@ -478,7 +479,7 @@
   }
   
   /****************************************  DETAILS COMPONENT STYLE ************************************************************/
-
+  
   .details_component_overall {
     display: flex;
     padding: 1rem;
@@ -487,26 +488,49 @@
     margin: 0 2rem 2rem 2rem;
     border: 2px solid $amazon_blue;
   }
-
+  
   .details_form {
     display: flex;
     flex-direction: column;
   }
-
+  
   input {
     @extend %input_bars;
   }
-
+  
   label {
     @extend %label_text;
     font-family: $ubuntu_font;
   }
+  
+  /****************************************  INVOICING COMPONENT STYLE ************************************************************/
+
+  .main_content_invoicing{
+    grid-area: main_content;
+    background-color: $offWhite;
+  }
+
+  .documents_search_bar_invoicing {
+    border-bottom: 1px solid rgba(35, 47, 62, 0.26);
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1rem;
+    margin: 0 1rem .5rem 1rem;
+    width: 86vw;
+  }
+  
+  .invoice_content {
+    margin: 2rem;
+    color: $amazon_blue;
+    font-family: $ubuntu_font;
+  }
+
 
   @media only screen and (max-width: 1500px) {
     html, body {
       font-size: 90%;
     }
-
+    
     .middle_row {
       width: 70vw;
     }
