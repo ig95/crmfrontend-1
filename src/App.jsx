@@ -41,11 +41,11 @@ const App = () => {
   },[])
 
   // dev mode
-  useEffect( () => {
-    setUserName('Nicholas Shankland')
-    setUserEmail('nicholas.m.shankland@gmail.com')
-    setUserId('1923874-98y')
-  },[])
+  // useEffect( () => {
+  //   setUserName('Nicholas Shankland')
+  //   setUserEmail('nicholas.m.shankland@gmail.com')
+  //   setUserId('1923874-98y')
+  // },[])
 
   useEffect( () => {
     async function getData(url = '', data={}) {
@@ -94,9 +94,9 @@ const App = () => {
 
   // handles writting data to database and recieving google data
   const responseGoogle = (response) => {
-    // setUserName(response.profileObj.givenName)
-    // setUserId(response.profileObj.googleId)
-    // setUserEmail(response.profileObj.email)
+    setUserName(response.profileObj.givenName)
+    setUserId(response.profileObj.googleId)
+    setUserEmail(response.profileObj.email)
   }
 
   var content
