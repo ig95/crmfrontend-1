@@ -63,7 +63,6 @@ const App = () => {
     };
 
     getData('https://pythonicbackend.herokuapp.com/api-token-auth/', {
-      // need .env here
       username: process.env.REACT_APP_DB_USERNAME,
       password: process.env.REACT_APP_DB_PASSWORD
     }).then( (response) => {
@@ -85,8 +84,9 @@ const App = () => {
   
       getDataNext('https://pythonicbackend.herokuapp.com/drivers/').then( (response) => {
         setDrivers(response.results)
+        console.log('drivers: ', response.results)
         getDataNext('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
-            setSchedule(response.results)
+          setSchedule(response.results)
         })
       })
     })

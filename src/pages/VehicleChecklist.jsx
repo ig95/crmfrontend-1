@@ -1,36 +1,51 @@
 import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
+import VehicleDocuments from '../components/VehicleDocuments'
 
 const VehicleChecklist = (props) => {
-    const [ dataset, setDataset ] = useState(null)
-    const [ driverSearchArray, setDriverSearchArray ] = useState([])
     const [ selectedDriver, setSelectedDriver ] = useState(null)
+    const [ drivers, setDrivers ] = useState(null)
+    const [ driverSearchArray, setDriverSearchArray ] = useState([])
 
-    useEffect( () => {
-        async function getDataNext(url = '') {
-        const response = await fetch(url, {
-            method: 'GET', 
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${localStorage.getItem('token')}`
-            }
-        });
-        return response ? response.json() : console.log('no reponse')
+    // make this like the daily operations page. show vehicle recommendation in entry column
+    // location rota system shows not exceeding 7 days for same person
+
+    // fetch call to the db for all data related to drivers and schedule
+    useEffect(() => {
+        async function getData(url = '') {
+            const response = await fetch(url, {
+                method: 'GET', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            });
+
+            return response ? response.json() : console.log('no reponse')
+
         };
-    
-        getDataNext('https://pythonicbackend.herokuapp.com/data/').then( (response) => {
-            console.log(response.data.drivers)
-            setDataset(response.data.drivers)
+
+        getData('https://pythonicbackend.herokuapp.com/drivers/').then( (response) => {
+            setDrivers(response.results)
         })
     }, [])
+    
+    var content
+    if (selectedDriver) {
+        content = (
+            <>
+                <VehicleDocuments selectedDriver={selectedDriver} />
+            </>
+        )
+    }
 
     // search bar function
     const handleChange = (e) => {
         let localArray = []
-        dataset.forEach( (ele, id) => {
+        drivers.forEach( (ele, id) => {
             if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 3) {
                 localArray.push(
                     <h4 key={id}>{ele.name}</h4>
@@ -41,19 +56,20 @@ const VehicleChecklist = (props) => {
             }    
         })
         setDriverSearchArray(localArray)
-    }  
-    
+    }
+
     return (
         <div className='home_content'>
             <NavigationBar title='Vehicle Checklist'/>
-            <div className='main_content_invoicing'>
-                <div className='documents_search_bar_invoicing'>
+            <div className='main_content_driver_documents'>
+                <div className='documents_search_bar'>
                     <label >Find Driver </label><br />
                         <input className='search_bar' type="text" name='searchBar' onChange={handleChange} />
                         <div>
                             {driverSearchArray}
                         </div>
                 </div>
+                {content}
             </div>
         </div>
     )

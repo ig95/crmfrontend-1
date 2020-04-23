@@ -396,9 +396,10 @@ label {
 }
 .documents_search_bar_invoicing {
   border-bottom: 1px solid rgba(35, 47, 62, 0.26);
+  border-top: 1px solid rgba(35, 47, 62, 0.26);
+  padding-top: 5px;
   display: flex;
   justify-content: space-evenly;
-  padding: 1rem;
   margin: 0 1rem 0.5rem 1rem;
   width: 86vw;
 }
@@ -406,6 +407,41 @@ label {
   margin: 2rem;
   color: #232f3e;
   font-family: "Ubuntu", sans-serif;
+}
+.documents_search_bar_invoicing_dates {
+  display: flex;
+  justify-content: space-evenly;
+  width: 35vw;
+}
+.invoices_overall {
+  margin: 0 1rem 0.5rem 1rem;
+  width: 86vw;
+  height: 80vh;
+}
+.top_divs {
+  border-right: solid rgba(35, 47, 62, 0.26) 1px;
+  padding: 2px;
+}
+.top_divs:hover {
+  background-color: #232f3e;
+  color: #f7f4f4;
+}
+.invoice_date_list {
+  width: 86vw;
+  display: flex;
+}
+.single_Invoice {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 70vh;
+  margin-top: 5px;
+  border-top: 1px solid rgba(35, 47, 62, 0.26);
+}
+.invoice_item {
+  margin: 1rem;
+  border-right: 1px solid rgba(35, 47, 62, 0.26);
+  border-bottom: 1px solid rgba(35, 47, 62, 0.26);
 }
 @media only screen and (max-width: 1500px) {
   html,
