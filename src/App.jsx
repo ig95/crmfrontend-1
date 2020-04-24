@@ -7,7 +7,7 @@ import WeekSchedule from './pages/WeekSchedule'
 import InvoiceWork from './pages/InvoiceWork'
 import DriverDocumentation from './pages/DriverDocumentation'
 import VehicleChecklist from './pages/VehicleChecklist'
-import axios from 'axios'
+// import axios from 'axios'
 import Driver from './pages/Driver'
 import './App.scss';
 import Home from './pages/home'
@@ -82,17 +82,38 @@ const App = () => {
     setUserId(response.profileObj.googleId)
     setUserEmail(response.profileObj.email)
 
-    function email () {
-      axios.post('https://intense-headland-70415.herokuapp.com/mail', {
-        password: process.env.REACT_APP_INTERCHANGE,
-        email: response.profileObj.email,
-        subject: 'Welcome to CRM Amazon',
-        message: "This is a friendly welcome to the Application! Let me show you around a little. "
-      }).then( response => {
-        console.log(response)
-      })
-    }
-    email()
+    async function getData(url = '', data={}) {
+      const response = await fetch(url, {
+          method: 'POST', 
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+      });
+      return response ? response.json() : console.log('no reponse')
+    };
+    getData('https://intense-headland-70415.herokuapp.com/mail', {
+      password: process.env.REACT_APP_INTERCHANGE,
+      email: response.profileObj.email,
+      subject: 'Welcome to CRM Amazon',
+      message: "This is a friendly welcome to the Application! Let me show you around a little. "
+    }).then ( response => {
+      console.log(response)
+    })
+    // function email () {
+    //   axios.post('https://intense-headland-70415.herokuapp.com/mail', {
+    //     password: process.env.REACT_APP_INTERCHANGE,
+    //     email: response.profileObj.email,
+    //     subject: 'Welcome to CRM Amazon',
+    //     message: "This is a friendly welcome to the Application! Let me show you around a little. "
+    //   }).then( response => {
+    //     console.log(response)
+    //   })
+    // }
+    // email()
   }
 
   var content
