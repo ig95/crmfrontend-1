@@ -11,6 +11,7 @@ const WeekSchedule = () => {
     const [ schedule, setSchedule ] = useState(null)
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
+    const [ dataTwo, setDataTwo ] = useState(null)
 
     // dev data ... note to self... the following component only accepts format day:date
     // call this location rota, make it color coded by deopt, and trianing different color - 14 days
@@ -35,6 +36,10 @@ const WeekSchedule = () => {
             setDrivers(response.results)
             getData('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
                 setSchedule(response.results)
+                getData('https://pythonicbackend.herokuapp.com/data/').then( response => {
+                    setDataTwo(response)
+                    console.log(response)
+                })
             })
         })
     }, [])
@@ -82,6 +87,7 @@ const WeekSchedule = () => {
                         <DivSingleWeek 
                             drivers={drivers} 
                             schedule={schedule}
+                            data={dataTwo}
                             selectedDate={selectedDate}
                             selectedCity={selectedCity ? selectedCity : 'DBS2'}
                         />

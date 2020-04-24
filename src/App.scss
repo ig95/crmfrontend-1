@@ -285,7 +285,7 @@
     color: black;
   }
 
-  .cal_divs_single_booked {
+  .cal_divs_single_booked_DBS2 {
     @extend %calendar_divs_class;
     flex: 1 0 5%;
     height: 5vh;
@@ -294,13 +294,41 @@
     color: $offWhite;
   }
   
-  .cal_divs_single_table:hover {
+  .cal_divs_single_booked_DBS2:hover {
     transform: translateY(-.25rem);
     box-shadow: 2px 2px 2px black;
   }
+
+  .cal_divs_single_booked_DSN1 {
+    @extend %calendar_divs_class;
+    flex: 1 0 5%;
+    height: 5vh;
+    margin-bottom: 5px;
+    background-color: rgb(141, 13, 13);
+    color: $offWhite;
+  }
   
+  .cal_divs_single_booked_DSN1:hover {
+    transform: translateY(-.25rem);
+    box-shadow: 2px 2px 2px black;
+  }
+
+  .cal_divs_single_booked_DEX2 {
+    @extend %calendar_divs_class;
+    flex: 1 0 5%;
+    height: 5vh;
+    margin-bottom: 5px;
+    background-color: rgb(39, 133, 16);
+    color: $offWhite;
+  }
   
-  .cal_divs_single_booked:hover {
+  .cal_divs_single_booked_DSN1:hover {
+    transform: translateY(-.25rem);
+    box-shadow: 2px 2px 2px black;
+  }
+
+
+  .cal_divs_single_table:hover {
     transform: translateY(-.25rem);
     box-shadow: 2px 2px 2px black;
   }

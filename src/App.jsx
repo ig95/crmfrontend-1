@@ -25,21 +25,6 @@ const App = () => {
   const [ schedule, setSchedule] = useState(null)
   // const [ user, setUser] = useState(null);
 
-  // email
-  useEffect( () => {
-    function email () {
-      axios.post('https://intense-headland-70415.herokuapp.com/mail', {
-        password: process.env.REACT_APP_INTERCHANGE,
-        email: 'nicholas.m.shankland@gmail.com',
-        subject: 'Reminder Email',
-        message: "Hello there, this is your friendly reminder that your papers arent up to date!"
-      }).then( response => {
-        console.log(response)
-      })
-    }
-    // email()
-  },[])
-
   // dev mode
   // useEffect( () => {
   //   setUserName('Nicholas Shankland')
@@ -97,6 +82,18 @@ const App = () => {
     setUserName(response.profileObj.givenName)
     setUserId(response.profileObj.googleId)
     setUserEmail(response.profileObj.email)
+
+    function email () {
+      axios.post('https://intense-headland-70415.herokuapp.com/mail', {
+        password: process.env.REACT_APP_INTERCHANGE,
+        email: `${response.profileObj.email}`,
+        subject: 'Welcome to CRM Amazon',
+        message: "This is a friendly welcome to the Application! Let me show you around a little. "
+      }).then( response => {
+        console.log(response)
+      })
+    }
+    email()
   }
 
   var content

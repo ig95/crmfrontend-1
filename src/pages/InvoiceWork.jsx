@@ -34,7 +34,6 @@ const InvoiceWork = (props) => {
     
         getDataNext('https://pythonicbackend.herokuapp.com/data/').then( (response) => {
             setDataset(response.data.drivers)
-            console.log(response.data.drivers)
         })
     }, [])
 

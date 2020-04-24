@@ -120,10 +120,6 @@ const Dashboard = () => {
             postData(`https://pythonicbackend.herokuapp.com/schedule/${localID}/`, myObjectToPut())
             .then( response => {
                 console.log('submitted')
-                e.target.Name.value = ''
-                e.target.Route.value = ''
-                e.target.LogInTime.value = ''
-                e.target.LogOutTime.value = ''
             })
         }
     }

@@ -9,6 +9,7 @@ const DivSingleWeek = (props) => {
 
     // making the rows
     useEffect( () => {
+        console.log('stuff')
         // top row mapped divs
         var checkForDate = []
         function thisWeekDivs () {
@@ -29,9 +30,17 @@ const DivSingleWeek = (props) => {
         // bottom row mapped divs
         function bottomDivs () {
             var lastWeekDivsArray = []
+            let localArray  = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            if (selectedCityDrivers) {
+                selectedCityDrivers.forEach( ele => {
+                    ele.datesList.forEach(ele => {
+                        localArray[checkForDate.indexOf(ele)]++
+                    })
+                })
+            }
             lastWeekDivsArray.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>Total for week:</h4></div>)
             for (let i = 0; i < 14; i++) {
-                lastWeekDivsArray.push(<div key={i+50} className='cal_divs_single'><h5 className='inner_calander_text'>{Math.floor(Math.random() * 100)}</h5></div>)
+                lastWeekDivsArray.push(<div key={i+50} className='cal_divs_single'><h5 className='inner_calander_text'>{localArray[i]}</h5></div>)
             }  
             return lastWeekDivsArray
         }
@@ -50,23 +59,39 @@ const DivSingleWeek = (props) => {
                             localAwesomeArray[checkForDate.indexOf(new Date(selectedCityDrivers[ele].datesList[i]).toDateString())] = i
                         }
                     }
-                    for (let i = 0; i < 14; i++) {
-                        if (localAwesomeArray[i] !== -1) {
-                            // logic for date booked or not
-                            mappedProps.push( <div  className='cal_divs_single_booked' key={Math.random()} >
-                                    <h5 className='inner_calander_text'>
-                                        BOOKED
-                                    </h5>
-                            </div>)
-                        } else {
-                            // logic for date booked or not
-                            mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, myLocalArray[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].driver_id, selectedCityDrivers[ele].location)}>
-                                    <h5 className='inner_calander_text'>
-                                        ---
-                                    </h5>
-                            </div>)
-                        }
-                    }  
+                    if (props.data) {
+                        for (let i = 0; i < 14; i++) {
+                            if (localAwesomeArray[i] !== -1) {
+                                // logic for date booked or not
+                                // eslint-disable-next-line no-loop-func
+                                var classNameProperty
+                                // eslint-disable-next-line no-loop-func
+                                props.data.data.drivers.forEach( (element, _id) => {
+                                    if (element.driver_id === selectedCityDrivers[ele].driver_id) {
+                                        element.datesArray.forEach( (eleThird) => {
+                                            if (eleThird.date === checkForDate[i]) {
+                                               classNameProperty = `cal_divs_single_booked_${eleThird.location}`
+                                            }
+                                        })
+                                    }
+                                })
+
+                                 
+                                mappedProps.push( <div  className={classNameProperty} key={Math.random()} >
+                                        <h5 className='inner_calander_text'>
+                                            BOOKED 
+                                        </h5>
+                                </div>)
+                            } else {
+                                // logic for date booked or not
+                                mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, myLocalArray[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].driver_id, selectedCityDrivers[ele].location)}>
+                                        <h5 className='inner_calander_text'>
+                                            ---
+                                        </h5>
+                                </div>)
+                            }
+                        }  
+                    }
                     localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
                 }
                 return mappedProps
@@ -116,10 +141,13 @@ const DivSingleWeek = (props) => {
                         }
                     })
                     // add here
-                    reRenderGate ? setReRenderGate(false) : setReRenderGate(true)
+                    // reRenderGate ? setReRenderGate(false) : setReRenderGate(true)
                 }
             })
-            setMiddleRow(middleRows())
+            setTimeout( () => {
+                setMiddleRow(middleRows())
+
+            }, 1000)
         }
 
         // render the form div
@@ -153,7 +181,7 @@ const DivSingleWeek = (props) => {
         setTopRow(thisWeekDivs())
         setMiddleRow(middleRows())
         setBottomRow(bottomDivs())
-    }, [props.selectedDate, selectedCityDrivers, props, reRenderGate])
+    }, [props.selectedDate, selectedCityDrivers, props])
  
     // mapping the data into correct state
     useEffect( () => {
