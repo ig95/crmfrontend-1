@@ -69,7 +69,6 @@ const App = () => {
   
       getDataNext('https://pythonicbackend.herokuapp.com/drivers/').then( (response) => {
         setDrivers(response.results)
-        console.log('drivers: ', response.results)
         getDataNext('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
           setSchedule(response.results)
         })
@@ -86,7 +85,7 @@ const App = () => {
     function email () {
       axios.post('https://intense-headland-70415.herokuapp.com/mail', {
         password: process.env.REACT_APP_INTERCHANGE,
-        email: `${response.profileObj.email}`,
+        email: response.profileObj.email,
         subject: 'Welcome to CRM Amazon',
         message: "This is a friendly welcome to the Application! Let me show you around a little. "
       }).then( response => {
