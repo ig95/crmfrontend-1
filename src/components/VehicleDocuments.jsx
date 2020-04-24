@@ -19,6 +19,10 @@ const VehicleDocuments = (props) => {
                     let myNewName = response.data.secure_url.replace(/.pdf/, '.png')
                     response.data.secure_url = myNewName
                 }
+                if (response.data.secure_url.includes('.jpg')) {
+                    let myNewName = response.data.secure_url.replace(/.jpg/, '.png')
+                    response.data.secure_url = myNewName
+                }
                 setValueForSubmit(myOtherResponse ? myOtherResponse : response.data.secure_url)
             })
         }

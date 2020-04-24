@@ -103,17 +103,6 @@ const App = () => {
     }).then ( response => {
       console.log(response)
     })
-    // function email () {
-    //   axios.post('https://intense-headland-70415.herokuapp.com/mail', {
-    //     password: process.env.REACT_APP_INTERCHANGE,
-    //     email: response.profileObj.email,
-    //     subject: 'Welcome to CRM Amazon',
-    //     message: "This is a friendly welcome to the Application! Let me show you around a little. "
-    //   }).then( response => {
-    //     console.log(response)
-    //   })
-    // }
-    // email()
   }
 
   var content
