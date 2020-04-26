@@ -82,27 +82,28 @@ const App = () => {
     setUserId(response.profileObj.googleId)
     setUserEmail(response.profileObj.email)
 
-    async function getData(url = '', data={}) {
-      const response = await fetch(url, {
-          method: 'POST', 
-          mode: 'cors',
-          cache: 'no-cache',
-          credentials: 'same-origin',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-      });
-      return response ? response.json() : console.log('no reponse')
-    };
-    getData('https://intense-headland-70415.herokuapp.com/mail', {
-      password: process.env.REACT_APP_INTERCHANGE,
-      email: response.profileObj.email,
-      subject: 'Welcome to CRM Amazon',
-      message: "This is a friendly welcome to the Application! Let me show you around a little. "
-    }).then ( response => {
-      console.log(response)
-    })
+    // email bit... actually works
+    // async function getData(url = '', data={}) {
+    //   const response = await fetch(url, {
+    //       method: 'POST', 
+    //       mode: 'cors',
+    //       cache: 'no-cache',
+    //       credentials: 'same-origin',
+    //       headers: {
+    //           'Content-Type': 'application/json'
+    //       },
+    //       body: JSON.stringify(data)
+    //   });
+    //   return response ? response.json() : console.log('no reponse')
+    // };
+    // getData('https://intense-headland-70415.herokuapp.com/mail', {
+    //   password: process.env.REACT_APP_INTERCHANGE,
+    //   email: response.profileObj.email,
+    //   subject: 'Welcome to CRM Amazon',
+    //   message: "This is a friendly welcome to the Application! Let me show you around a little. "
+    // }).then ( response => {
+    //   console.log(response)
+    // })
   }
 
   var content

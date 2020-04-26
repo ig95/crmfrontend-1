@@ -1,3 +1,13 @@
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: #232f3e;
+  box-shadow: 0 0 1px rgba(35, 47, 62, 0.329);
+  -webkit-box-shadow: 0 0 1px rgba(35, 47, 62, 0.329);
+}
 .dark_overlay,
 .drop_down_hamburger:hover .drop_down_content,
 .main_content,
@@ -21,7 +31,7 @@
   background-color: white;
   color: black;
   z-index: 0;
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Roboto";
 }
 .cal_divs,
 .cal_divs_single,
@@ -35,6 +45,7 @@
 }
 .inputs,
 .search_bar,
+.input_dashboard_page,
 .document_input,
 input {
   border-radius: 0.25rem;
@@ -42,11 +53,12 @@ input {
   width: 15vw;
   height: 2.5vh;
   padding: 5px;
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Roboto";
   font-size: 1.2em;
 }
 .inputs:hover,
 .search_bar:hover,
+.input_dashboard_page:hover,
 .document_input:hover,
 input:hover {
   border: 1px solid #7171b9;
@@ -62,7 +74,7 @@ label {
   background-color: #232f3e;
   margin-top: 1vh;
   border: none;
-  color: #f7f4f4;
+  color: #fefefe;
   width: 8vw;
   height: 4vh;
   border-radius: 0.25rem;
@@ -80,7 +92,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: #f7f4f4;
+  background-color: #fefefe;
 }
 .app {
   min-width: 100vw;
@@ -93,7 +105,7 @@ body {
   font-size: 2.5em;
   margin-bottom: 10%;
   color: white;
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Roboto";
 }
 .dark_overlay {
   flex-direction: column;
@@ -104,7 +116,7 @@ body {
 }
 .nav_bar_top {
   grid-area: nav_bar_top;
-  background-color: #f7f4f4;
+  background-color: #fefefe;
   color: #232f3e;
   display: flex;
 }
@@ -155,7 +167,7 @@ body {
   transform: rotate(0deg);
 }
 .links {
-  color: #f7f4f4;
+  color: #fefefe;
   font-size: 1.3em;
 }
 .link_style {
@@ -177,7 +189,7 @@ body {
 }
 .main_content {
   grid-area: main_content;
-  background-color: #f7f4f4;
+  background-color: #fefefe;
   align-items: flex-start;
 }
 .calandar_container {
@@ -199,7 +211,7 @@ body {
   box-shadow: 1px 1px 3px black;
   z-index: 0.9;
   background-color: #232f3e;
-  color: #f7f4f4;
+  color: #fefefe;
 }
 .inner_calander_text {
   margin-top: 5px;
@@ -244,7 +256,7 @@ body {
   height: 5vh;
   margin-bottom: 5px;
   background-color: #232f3e;
-  color: #f7f4f4;
+  color: #fefefe;
 }
 .cal_divs_single_booked_DBS2:hover {
   transform: translateY(-0.25rem);
@@ -255,7 +267,7 @@ body {
   height: 5vh;
   margin-bottom: 5px;
   background-color: #8d0d0d;
-  color: #f7f4f4;
+  color: #fefefe;
 }
 .cal_divs_single_booked_DSN1:hover {
   transform: translateY(-0.25rem);
@@ -266,7 +278,7 @@ body {
   height: 5vh;
   margin-bottom: 5px;
   background-color: #278510;
-  color: #f7f4f4;
+  color: #fefefe;
 }
 .cal_divs_single_booked_DSN1:hover {
   transform: translateY(-0.25rem);
@@ -328,18 +340,66 @@ body {
 }
 .main_content_dashboard {
   grid-area: main_content;
-  background-color: #f7f4f4;
+  background-color: #fefefe;
+  overflow-y: scroll;
+  padding-bottom: 5rem;
+}
+.dashboard_labels {
+  margin: 1rem;
 }
 .search_bar {
   margin: 0 0 10px;
 }
+.name_suggestions {
+  margin: 0;
+}
+.name_suggestions:hover {
+  background-color: #2b3a4d;
+  color: #fefefe;
+}
+.input_dashboard_page {
+  border: 1px solid rgba(35, 47, 62, 0.247);
+}
+.title_for_dashboard {
+  margin-left: 2rem;
+}
+.available_in_table {
+  margin-left: 2rem;
+}
+.dashboard_text_field {
+  width: 15.5vw;
+  height: 10vh;
+}
 .dashboard_form {
   display: flex;
   flex-wrap: wrap;
-  padding: 1rem 0 0 20rem;
+  padding: 1rem 0 0 1rem;
 }
 .dashboard_form_divs {
   width: 32vw;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.dashboard_form_divs_name {
+  width: 32vw;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.dashboard_form_divs_name_bar {
+  width: 15vw;
+  padding-top: 1.1vh;
+  overflow-y: scroll;
+  max-height: 5vh;
+  margin-top: 0.5rem;
+  margin-left: 17vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.dashboard_form_divs_name_bar_none {
+  display: none;
 }
 .top_rectangles_container {
   display: flex;
@@ -357,7 +417,7 @@ body {
 }
 .main_content_driver_documents {
   grid-area: main_content;
-  background-color: #f7f4f4;
+  background-color: #fefefe;
 }
 .overall_documents {
   display: flex;
@@ -414,11 +474,11 @@ body {
   flex-direction: column;
 }
 label {
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Roboto";
 }
 .main_content_invoicing {
   grid-area: main_content;
-  background-color: #f7f4f4;
+  background-color: #fefefe;
 }
 .documents_search_bar_invoicing {
   border-bottom: 1px solid rgba(35, 47, 62, 0.26);
@@ -432,7 +492,7 @@ label {
 .invoice_content {
   margin: 2rem;
   color: #232f3e;
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Roboto";
 }
 .documents_search_bar_invoicing_dates {
   display: flex;
@@ -450,7 +510,7 @@ label {
 }
 .top_divs:hover {
   background-color: #232f3e;
-  color: #f7f4f4;
+  color: #fefefe;
 }
 .invoice_date_list {
   width: 86vw;

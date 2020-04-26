@@ -13,7 +13,9 @@ const Dashboard = () => {
     const [ driverSearchArray, setDriverSearchArray ] = useState([])
     const [ topRectangles, setTopRectangles ] = useState([])
     const [ dateSelected, setDateSelected ] = useState('')
-    const [ calanderWidget, setCalendarWidget ] = useState([])
+    const [ makeSearchBarVisible, setMakeSearchBarVisible ] = useState('dashboard_form_divs_name_bar_none')
+    const [ nameValue, setNameValue ] = useState('')
+    const [ submittedArray, setSubmittedArray ] = useState([])
 
     // make this like the daily operations page. show vehicle recommendation in entry column
     // location rota system shows not exceeding 7 days for same person
@@ -55,13 +57,29 @@ const Dashboard = () => {
         setSelectedCity(e.value)
     }
 
+    // select name
+    const handleNameClick = (e, theName) => {
+        makeSearchUnderBar('', 10)
+        setNameValue(theName)
+    }
+
+    const makeSearchUnderBar = (theValue, theLength) => {
+        if (theValue !== '' && theLength <= 3) {
+            setMakeSearchBarVisible('dashboard_form_divs_name_bar')
+        } else {
+            setMakeSearchBarVisible('dashboard_form_divs_name_bar_none')
+        }
+    }
+    
     // search bar function
     const handleChange = (e) => {
+        setNameValue(e.target.value)
+        makeSearchUnderBar(e.target.value, nameValue.length)
         let localArray = []
         drivers.forEach( (ele, id) => {
-            if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 3) {
+            if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 4) {
                 localArray.push(
-                    <h4>{ele.name}</h4>
+                    <h4 className='name_suggestions' onClick={(e, theName) => handleNameClick(e, `${ele.name}`)}>{ele.name}</h4>
                 )
             }
         })
@@ -69,6 +87,8 @@ const Dashboard = () => {
     }
 
     const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log('submit clicked')
         let localDriverId = 0
         let localID = 0
         let driverID = ''
@@ -79,15 +99,17 @@ const Dashboard = () => {
             }
         })
         if (localDriverId > 0) {
+            console.log(schedule, localDriverId)
             schedule.forEach( (ele, id) => {
                 if (ele.driver_id === `https://pythonicbackend.herokuapp.com/drivers/${localDriverId}/` && ele.date === dateSelected) {
+                    console.log('inside tis if')
                     driverID = ele.driver_id
                     localID = ele.date_id
                 }
             })
         }
-        e.preventDefault()
         async function postData(url = '', data = {}) {
+            console.log('posting data')
             const response = await fetch(url, {
                 method: 'PUT', 
                 mode: 'cors',
@@ -103,8 +125,9 @@ const Dashboard = () => {
             return response ? response.json() : console.log('no reponse')
         };
         let myObjectToPut = () => {
+            console.log('object being made')
             let myObj = {}
-                e.target.Name.value ? myObj['name'] = e.target.Name.value : console.log(null)
+                e.target.Name.value ? myObj['name'] = {nameValue} : console.log(null)
                 e.target.Route.value ? myObj['route'] = e.target.Route.value : console.log(null)
                 e.target.LogInTime.value ? myObj['logIn_time'] = e.target.LogInTime.value : console.log(null)
                 e.target.LogOutTime.value ? myObj['logOut_time'] = e.target.LogOutTime.value : console.log(null) 
@@ -119,6 +142,9 @@ const Dashboard = () => {
         if (localID > 0) {
             postData(`https://pythonicbackend.herokuapp.com/schedule/${localID}/`, myObjectToPut())
             .then( response => {
+                let localArray = []
+                submittedArray.length > 0 ? localArray = [...submittedArray] : localArray = []
+                localArray.push(response)
                 console.log('submitted')
             })
         }
@@ -135,23 +161,6 @@ const Dashboard = () => {
         setTopRectangles(localArray)
     }, [])
 
-    // changes the selected date with the calendar selections
-    const handleCalendarChange = (e) => {
-        setSelectedDate(e)
-        setDateSelected(e.toDateString())
-        setCalendarWidget('')
-    }
-
-    const handleDateClick = () => {
-        console.log('clicked')
-        let localArray = [<Calendar 
-        onChange={handleCalendarChange}
-        value={selectedDate}
-        className='calander'
-        />]
-        setCalendarWidget(localArray)
-    }
-
     return (
         <div className='home_content'>
             <NavigationBar title='Dashboard'/>
@@ -159,67 +168,73 @@ const Dashboard = () => {
                 <div className='top_rectangles_container'>
                     {topRectangles}
                 </div>    
-                <form onSubmit={handleSubmit} className='dashboard_form' autoComplete='on'>
-                    <div className='dashboard_form_divs'>
-                        <label >Name </label><br />
-                            <input className='search_bar' type="text" name='Name' onChange={handleChange} />
+                    <h2 className='title_for_dashboard'>
+                        Daily Service
+                    </h2>
+                    <hr />
+                <div className='available_in_table'>
+                    <p>
+                        Available in table: {submittedArray.length}
+                    </p>
+                </div>    
+                <hr />
+                <form onSubmit={handleSubmit} className='dashboard_form' autoComplete='off'>
+                    <div >
+                        <div className='dashboard_form_divs_name'>
                             <div>
-                                {driverSearchArray}
+                                <label className='dashboard_labels'>Name </label>
                             </div>
+                                <input className='input_dashboard_page' type="text" name='Name' value={nameValue} onChange={handleChange} />
+                        </div>
+                        <div className={`${makeSearchBarVisible}`}>
+                            {driverSearchArray}
+                        </div>
                     </div>
                     <div className='dashboard_form_divs'>
-                        <label >Route Type </label><br />
-                            <input className='search_bar' type="text" name='RouteType' />
+                        <div>
+                            <label className='dashboard_labels'>Route Type </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='RouteType' />
                     </div>
                     <div className='dashboard_form_divs'>
-                        <label >Date </label><br />
-                            <input className='search_bar' type="text" name='Date' value={dateSelected} onClick={handleDateClick}/>
-                            <div>
-                                {calanderWidget}
-                            </div>
+                        <div>
+                            <label className='dashboard_labels'>Wave Time </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='LogInTime' />
                     </div>
                     <div className='dashboard_form_divs'>
-                        <label >Log In Time </label><br />
-                            <input className='search_bar' type="text" name='LogInTime' />
+                        <div>
+                            <label className='dashboard_labels'>Log Out Time </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='LogOutTime' />
                     </div>
                     <div className='dashboard_form_divs'>
-                        <label >Log Out Time </label><br />
-                            <input className='search_bar' type="text" name='LogOutTime' />
+                        <div>
+                            <label className='dashboard_labels'>Start Mileage </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='StartMileage' />
                     </div>
                     <div className='dashboard_form_divs'>
-                        <label >First Delivery Time </label><br />
-                            <input className='search_bar' type="text" name='FirstDeliveryTime' />
+                        <div>
+                            <label className='dashboard_labels'>Finish Mileage </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='FinishMileage' />
                     </div>
                     <div className='dashboard_form_divs'>
-                        <label >Start Mileage </label><br />
-                            <input className='search_bar' type="text" name='StartMileage' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <label >Last Drop Time </label><br />
-                            <input className='search_bar' type="text" name='LastDropTime' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <label >Finish Mileage </label><br />
-                            <input className='search_bar' type="text" name='FinishMileage' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <label >Vehicle Type </label><br />
-                            <input className='search_bar' type="text" name='VehicleType' />
+                        <div>
+                            <label className='dashboard_labels'>Vehicle Type </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='VehicleType' />
                     </div>         
-                    <div className='dashboard_form_divs'>   
-                    <label >Automatic BYOD Entry </label><br />
-                        <input className='search_bar' type="text" name='AutomaticBYODEntry' />
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>Route No. </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='Route' />
                     </div>
                     <div className='dashboard_form_divs'>    
-                        <label >Comment </label><br />
-                            <input className='search_bar' type="text" name='Comment' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <label >Route No. </label><br />
-                            <input className='search_bar' type="text" name='Route' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <label >Location </label>
+                        <div>
+                        </div><label className='dashboard_labels'>Location </label>
                         <Dropdown 
                             options={options} 
                             onChange={onSelect} 
@@ -229,27 +244,31 @@ const Dashboard = () => {
                         />
                     </div>
                     <div className='dashboard_form_divs'>    
-                        <label >Depart Time </label><br />
-                            <input className='search_bar' type="text" name='DepartTime' />
+                        <div>
+                            <label className='dashboard_labels'>No. Parcels Delivered </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='NoParcelsDelivered' />
                     </div>
                     <div className='dashboard_form_divs'>    
-                        <label >No. Parcels Delivered </label><br />
-                            <input className='search_bar' type="text" name='NoParcelsDelivered' />
+                        <div>
+                            <label className='dashboard_labels'>No. Parcels Brought Back </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='NoParcelsBroughtBack' />
                     </div>
                     <div className='dashboard_form_divs'>    
-                        <label >Return Back Time </label><br />
-                            <input className='search_bar' type="text" name='ReturnBackTime' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <label >No. Parcels Brought Back </label><br />
-                            <input className='search_bar' type="text" name='NoParcelsBroughtBack' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <label >Owner Vehicle Registration </label><br />
-                            <input className='search_bar' type="text" name='OwnerVehicleRegistration' />
+                        <div>
+                            <label className='dashboard_labels'>Vehicle Registration </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='OwnerVehicleRegistration' />
                     </div>
                     <div className='dashboard_form_divs'>
                         <input type="submit" value="Submit" className='submit_button'/>
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>Comment </label>
+                        </div>
+                            <textarea className='dashboard_text_field' type="text" name='Comment' />
                     </div>
                 </form>
             </div>

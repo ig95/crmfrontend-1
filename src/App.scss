@@ -1,11 +1,22 @@
-  $offWhite: rgb(247, 244, 244);
+  $offWhite: rgb(254, 254, 254);
   $amazon_blue: #232F3E;
   $amazon_blue_hover: rgb(43, 58, 77);
   $calendar_top_background: #F3F6F6;
   $calendar_text_color: rgb(54, 134, 148);
 
-  $ubuntu_font: 'Ubuntu', sans-serif;
+  $ubuntu_font: 'Roboto';
   
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+  ::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: rgb(35, 47, 62);
+      box-shadow: 0 0 1px rgba(35, 47, 62, 0.329);
+      -webkit-box-shadow: 0 0 1px rgba(35, 47, 62, 0.329);
+  }
+
   %centerThings {
     display: flex;
     align-items: center;
@@ -414,6 +425,12 @@
   .main_content_dashboard {
     grid-area: main_content;
     background-color: $offWhite;
+    overflow-y: scroll;
+    padding-bottom: 5rem;
+  }
+
+  .dashboard_labels {
+    margin: 1rem;
   }
 
   .search_bar {
@@ -421,14 +438,67 @@
     margin: 0 0 10px; 
   }
 
+  .name_suggestions {
+    margin: 0;
+  }
+
+  .name_suggestions:hover {
+    background-color: $amazon_blue_hover;
+    color: $offWhite;
+  }
+
+  .input_dashboard_page {
+    @extend %input_bars;
+    border: 1px solid rgba(35, 47, 62, 0.247);
+  }
+
+  .title_for_dashboard {
+    margin-left: 2rem;
+  }
+
+  .available_in_table {
+    margin-left: 2rem;
+  }
+
+  .dashboard_text_field {
+    width: 15.5vw;
+    height: 10vh;
+  }
+
   .dashboard_form {
     display: flex;
     flex-wrap: wrap;
-    padding: 1rem 0 0 20rem;
+    padding: 1rem 0 0 1rem;
   }
 
   .dashboard_form_divs {
     width: 32vw;
+    margin-top: .5rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .dashboard_form_divs_name {
+    width: 32vw;
+    margin-top: .5rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .dashboard_form_divs_name_bar {
+    width: 15vw;
+    padding-top: 1.1vh;
+    overflow-y: scroll;
+    max-height: 5vh;
+    margin-top: .5rem;
+    margin-left: 17vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .dashboard_form_divs_name_bar_none {
+    display: none;
   }
 
   .top_rectangles_container {
