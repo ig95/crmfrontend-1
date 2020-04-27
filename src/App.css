@@ -11,7 +11,8 @@
 .dark_overlay,
 .drop_down_hamburger:hover .drop_down_content,
 .main_content,
-.scheduling_four_week_overlay {
+.scheduling_four_week_overlay,
+.main_content_week_schedule {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,9 +20,7 @@
 .cal_divs,
 .cal_divs_single,
 .cal_divs_single_table,
-.cal_divs_single_booked_DBS2,
-.cal_divs_single_booked_DSN1,
-.cal_divs_single_booked_DEX2,
+.cal_divs_single_booked,
 .cal_divs_single_first {
   border: 1px solid black;
   flex: 1 0 14%;
@@ -36,9 +35,7 @@
 .cal_divs,
 .cal_divs_single,
 .cal_divs_single_table,
-.cal_divs_single_booked_DBS2,
-.cal_divs_single_booked_DSN1,
-.cal_divs_single_booked_DEX2,
+.cal_divs_single_booked,
 .cal_divs_single_first,
 .links {
   text-decoration: none;
@@ -200,6 +197,16 @@ body {
 .drop_down_bar_container {
   margin-bottom: 1vh;
 }
+.drop_down_bar {
+  margin-left: 1rem;
+}
+.drop_down_bar_two {
+  padding: 5px;
+}
+.drop_down_bar_container_single_week {
+  margin: 1rem;
+  display: flex;
+}
 .scheduling_four_week_overlay {
   margin-top: 30vh;
   margin-left: 5%;
@@ -229,13 +236,41 @@ body {
     flex: 1 0 13%;
   }
 }
+.main_content_week_schedule {
+  grid-area: main_content;
+  background-color: #fefefe;
+  align-items: flex-start;
+  flex-direction: column;
+}
 .single_week_grid {
   margin: 1rem;
   display: grid;
   height: 80vh;
+  width: 90%;
   grid-template-columns: 100%;
   grid-template-rows: 7.5% 85% 7.5%;
   grid-template-areas: "top_row" "middle_row" "bottom_row";
+}
+.cal_divs_single {
+  flex: 1 0 7.5%;
+  height: 5vh;
+  margin-bottom: 10px;
+  background-color: #f3f6f6;
+  color: #232f3e;
+}
+.cal_divs_single_table {
+  flex: 1 0 6%;
+  height: 5vh;
+  margin-bottom: 5px;
+  background-color: #742626;
+  color: black;
+}
+.cal_divs_single_booked {
+  flex: 1 0 6%;
+  height: 5vh;
+  margin-bottom: 5px;
+  background-color: #317c31;
+  color: #fefefe;
 }
 .cal_divs_single {
   flex: 1 0 5%;
@@ -245,42 +280,20 @@ body {
   color: #232f3e;
 }
 .cal_divs_single_table {
-  flex: 1 0 5%;
+  flex: 1 0 9%;
   height: 5vh;
   margin-bottom: 5px;
-  background-color: white;
+  background-color: #742626;
   color: black;
 }
-.cal_divs_single_booked_DBS2 {
-  flex: 1 0 5%;
+.cal_divs_single_booked {
+  flex: 1 0 9%;
   height: 5vh;
   margin-bottom: 5px;
-  background-color: #232f3e;
+  background-color: #317c31;
   color: #fefefe;
 }
-.cal_divs_single_booked_DBS2:hover {
-  transform: translateY(-0.25rem);
-  box-shadow: 2px 2px 2px black;
-}
-.cal_divs_single_booked_DSN1 {
-  flex: 1 0 5%;
-  height: 5vh;
-  margin-bottom: 5px;
-  background-color: #8d0d0d;
-  color: #fefefe;
-}
-.cal_divs_single_booked_DSN1:hover {
-  transform: translateY(-0.25rem);
-  box-shadow: 2px 2px 2px black;
-}
-.cal_divs_single_booked_DEX2 {
-  flex: 1 0 5%;
-  height: 5vh;
-  margin-bottom: 5px;
-  background-color: #278510;
-  color: #fefefe;
-}
-.cal_divs_single_booked_DSN1:hover {
+.cal_divs_single_booked:hover {
   transform: translateY(-0.25rem);
   box-shadow: 2px 2px 2px black;
 }
@@ -301,7 +314,6 @@ body {
 .top_row {
   grid-area: top_row;
   display: flex;
-  width: 70vw;
 }
 .middle_row {
   grid-area: middle_row;
@@ -309,12 +321,11 @@ body {
   flex-wrap: wrap;
   overflow: scroll;
   max-height: 68vh;
-  width: 70.9vw;
+  width: 87.6vw;
 }
 .bottom_row {
   grid-area: bottom_row;
   display: flex;
-  width: 70vw;
 }
 .inner_form_div {
   margin: 2rem 0 0 5rem;
@@ -535,6 +546,6 @@ label {
     font-size: 90%;
   }
   .middle_row {
-    width: 70vw;
+    width: 88vw;
   }
 }

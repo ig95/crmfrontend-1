@@ -221,6 +221,19 @@
   .drop_down_bar_container {
     margin-bottom: 1vh;
   }
+
+  .drop_down_bar {
+    margin-left: 1rem;
+  }
+
+  .drop_down_bar_two {
+    padding: 5px;
+  }
+
+  .drop_down_bar_container_single_week {
+    margin: 1rem;
+    display: flex;
+  }
   
   /****************************************  DIVWEEK STYLE ************************************************************/
   
@@ -264,11 +277,19 @@
   }
   
   /****************************************  SINGLEDIVWEEK STYLE ************************************************************/
-  
+  .main_content_week_schedule {
+    grid-area: main_content;
+    background-color: $offWhite;
+    align-items: flex-start;
+    flex-direction: column;
+    @extend %centerThings;
+  }
+
   .single_week_grid {
     margin: 1rem;
     display: grid;
     height: 80vh;
+    width: 90%;
     grid-template-columns: 100%;
     grid-template-rows: 7.5% 85% 7.5%;
     grid-template-areas: 
@@ -278,9 +299,10 @@
     ;
   }
   
+  // 14s
   .cal_divs_single {
     @extend %calendar_divs_class;
-    flex: 1 0 5%;
+    flex: 1 0 7.5%;
     height: 5vh;
     margin-bottom: 10px;
     background-color: $calendar_top_background;
@@ -289,55 +311,63 @@
   
   .cal_divs_single_table {
     @extend %calendar_divs_class;
-    flex: 1 0 5%;
+    flex: 1 0 6%;
     height: 5vh;
     margin-bottom: 5px;
-    background-color: white;
+    background-color: rgb(116, 38, 38);
     color: black;
   }
 
-  .cal_divs_single_booked_DBS2 {
+  .cal_divs_single_booked {
     @extend %calendar_divs_class;
-    flex: 1 0 5%;
+    flex: 1 0 6%;
     height: 5vh;
     margin-bottom: 5px;
-    background-color: $amazon_blue;
+    background-color: rgb(49, 124, 49);
     color: $offWhite;
   }
+
+  // sevens
+  .cal_divs_single_seven {
+    @extend %calendar_divs_class;
+    flex: 1 0 9%;
+    height: 5vh;
+    margin-bottom: 10px;
+    background-color: $calendar_top_background;
+    color: $amazon_blue;
+  }
   
-  .cal_divs_single_booked_DBS2:hover {
+  .cal_divs_single_table_seven {
+    @extend %calendar_divs_class;
+    flex: 1 0 11%;
+    height: 5vh;
+    margin-bottom: 5px;
+    background-color: rgb(116, 38, 38);
+    color: black;
+  }
+
+  .cal_divs_single_booked_seven {
+    @extend %calendar_divs_class;
+    flex: 1 0 11%;
+    height: 5vh;
+    margin-bottom: 5px;
+    background-color: rgb(49, 124, 49);
+    color: $offWhite;
+  }
+
+  .middle_row_seven {
+    grid-area: middle_row;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: scroll;
+    max-height: 68vh;
+    width: 72.5vw;
+  }
+  
+  .cal_divs_single_booked:hover {
     transform: translateY(-.25rem);
     box-shadow: 2px 2px 2px black;
   }
-
-  .cal_divs_single_booked_DSN1 {
-    @extend %calendar_divs_class;
-    flex: 1 0 5%;
-    height: 5vh;
-    margin-bottom: 5px;
-    background-color: rgb(141, 13, 13);
-    color: $offWhite;
-  }
-  
-  .cal_divs_single_booked_DSN1:hover {
-    transform: translateY(-.25rem);
-    box-shadow: 2px 2px 2px black;
-  }
-
-  .cal_divs_single_booked_DEX2 {
-    @extend %calendar_divs_class;
-    flex: 1 0 5%;
-    height: 5vh;
-    margin-bottom: 5px;
-    background-color: rgb(39, 133, 16);
-    color: $offWhite;
-  }
-  
-  .cal_divs_single_booked_DSN1:hover {
-    transform: translateY(-.25rem);
-    box-shadow: 2px 2px 2px black;
-  }
-
 
   .cal_divs_single_table:hover {
     transform: translateY(-.25rem);
@@ -359,7 +389,6 @@
   .top_row {
     grid-area: top_row;
     display: flex;
-    width: 70vw;
   }
   
   .middle_row {
@@ -368,13 +397,12 @@
     flex-wrap: wrap;
     overflow: scroll;
     max-height: 68vh;
-    width: 70.9vw;
+    width: 87.6vw;
   }
   
   .bottom_row {
     grid-area: bottom_row;
     display: flex;
-    width: 70vw;
   }
 
   .form_button {
@@ -672,7 +700,7 @@
     }
     
     .middle_row {
-      width: 70vw;
+      width: 88vw;
     }
   }
   

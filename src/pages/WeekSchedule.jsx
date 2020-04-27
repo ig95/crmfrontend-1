@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import NavigationBar from '../components/NavBar'
 import Dropdown from 'react-dropdown';
-import Calendar from 'react-calendar';
+import DropdownTwo from 'react-dropdown';
 import DivSingleWeek from '../components/DivSingleWeek'
 import 'react-dropdown/style.css';
 import 'react-calendar/dist/Calendar.css';
@@ -9,9 +9,8 @@ import 'react-calendar/dist/Calendar.css';
 const WeekSchedule = () => {
     const [ drivers, setDrivers ] = useState(null)
     const [ schedule, setSchedule ] = useState(null)
-    const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
-    const [ dataTwo, setDataTwo ] = useState(null)
+    const [ selectedAmount, setSelectedAmount ] = useState('14')
 
     // dev data ... note to self... the following component only accepts format day:date
     // call this location rota, make it color coded by deopt, and trianing different color - 14 days
@@ -36,18 +35,9 @@ const WeekSchedule = () => {
             setDrivers(response.results)
             getData('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
                 setSchedule(response.results)
-                getData('https://pythonicbackend.herokuapp.com/data/').then( response => {
-                    setDataTwo(response)
-                    console.log(response)
-                })
             })
         })
     }, [])
-
-    // changes the selected date with the calendar selections
-    const handleCalendarChange = (e) => {
-        setSelectedDate(e)
-    }
 
     // dropdown menu options
     const options = [
@@ -61,34 +51,44 @@ const WeekSchedule = () => {
         setSelectedCity(e.value)
     }
 
+    // dropdown menu options
+    const optionsTwo = [
+        '7',
+        '14'
+    ]
+
+    // dropdown menu selection function
+    const onSelectTwo = (e) => {
+        setSelectedAmount(e.value)
+    }
+
     var content;
     if (drivers) {
         content = (
             <div className='home_content'>
                 <NavigationBar title='Location Rota'/>
-                <div className='main_content'>
-                    <div className='calandar_container'>
-                        <div className='drop_down_bar_container'>
-                            <Dropdown 
-                                options={options}
-                                onChange={onSelect} 
-                                value={selectedCity} 
-                                placeholder="Select an option" 
-                                className='drop_down_bar'
-                            />
-                        </div>
-                        <Calendar 
-                            onChange={handleCalendarChange}
-                            value={selectedDate}
-                            className='calander'
+                <div className='main_content_week_schedule'>
+                    <div className='drop_down_bar_container_single_week'>
+                        <Dropdown 
+                            options={options}
+                            onChange={onSelect} 
+                            value={selectedCity} 
+                            placeholder="Select an option" 
+                            className='drop_down_bar'
+                        />
+                        <DropdownTwo 
+                            options={optionsTwo}
+                            onChange={onSelectTwo} 
+                            value={selectedAmount} 
+                            placeholder="Select an option" 
+                            className='drop_down_bar'
                         />
                     </div>
                     <div className='scheduling_single_week_overlay'>
                         <DivSingleWeek 
                             drivers={drivers} 
                             schedule={schedule}
-                            data={dataTwo}
-                            selectedDate={selectedDate}
+                            divAmount={selectedAmount}
                             selectedCity={selectedCity ? selectedCity : 'DBS2'}
                         />
                     </div>

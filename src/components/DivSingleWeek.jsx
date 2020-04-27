@@ -4,22 +4,60 @@ const DivSingleWeek = (props) => {
     const [ topRow, setTopRow ] = useState([])
     const [ middleRow, setMiddleRow ] = useState([])
     const [ bottomRow, setBottomRow ] = useState([])
-    const [ selectedCityDrivers, setSelectedCityDrivers ] = useState([])
-    const [ reRenderGate, setReRenderGate ] = useState(false)
+    const [ getData, setGetData ] = useState(false)
+    const [ data, setData ] = useState(null)
+    const [ calenderDivs, setCalendarDivs ] = useState('cal_divs_single')
+    const [ calenderDivsInner, setCalendarDivsInner ] = useState('cal_divs_single_table')
+    const [ calenderDivsInnerBooked, setCalendarDivsInnerBooked ] = useState('cal_divs_single_booked')
+    const [ middleRowClass, setMiddleRowClass] = useState('middle_row')
+
+    useEffect( () => {
+        async function getData(url = '') {
+            const response = await fetch(url, {
+                method: 'GET', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            });
+            return response ? response.json() : console.log('no reponse')
+        };
+
+        getData('https://pythonicbackend.herokuapp.com/data/').then( response => {
+            setData(response)
+            console.log(response)
+        })
+
+    }, [getData])
 
     // making the rows
     useEffect( () => {
-        console.log('stuff')
+        let amount = parseInt(props.divAmount)
+        if (amount === 14) {
+            setCalendarDivs('cal_divs_single')
+            setCalendarDivsInner('cal_divs_single_table')
+            setCalendarDivsInnerBooked('cal_divs_single_booked')
+            setMiddleRowClass('middle_row')
+            
+        } else {
+            setCalendarDivs('cal_divs_single_seven')
+            setCalendarDivsInner('cal_divs_single_table_seven')
+            setCalendarDivsInnerBooked('cal_divs_single_booked_seven')
+            setMiddleRowClass('middle_row_seven')
+        }
         // top row mapped divs
         var checkForDate = []
         function thisWeekDivs () {
             var thisWeekDivsArray = []
             let localDateArray = []
-            let selectedDate = props.selectedDate
+            let selectedDate = new Date()
             thisWeekDivsArray.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>Search Bar</h4></div>)
-            for (let i = 0; i < 14; i++) {
+            for (let i = 0; i < amount; i++) {
                 let dateVar = new Date(selectedDate.setDate(selectedDate.getDate() + i)).toDateString()
-                thisWeekDivsArray.push(<div key={i+8} className='cal_divs_single'><h5 className='inner_calander_text'>{dateVar}</h5></div>)
+                thisWeekDivsArray.push(<div key={i+8} className={`${calenderDivs}`}><h4 className='inner_calander_text'>{dateVar}</h4></div>)
                 localDateArray.push(dateVar)
                 selectedDate.setDate(selectedDate.getDate() - i )
             }  
@@ -31,69 +69,54 @@ const DivSingleWeek = (props) => {
         function bottomDivs () {
             var lastWeekDivsArray = []
             let localArray  = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            if (selectedCityDrivers) {
-                selectedCityDrivers.forEach( ele => {
-                    ele.datesList.forEach(ele => {
-                        localArray[checkForDate.indexOf(ele)]++
-                    })
-                })
-            }
             lastWeekDivsArray.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>Total for week:</h4></div>)
-            for (let i = 0; i < 14; i++) {
-                lastWeekDivsArray.push(<div key={i+50} className='cal_divs_single'><h5 className='inner_calander_text'>{localArray[i]}</h5></div>)
+            for (let i = 0; i < amount; i++) {
+                lastWeekDivsArray.push(<div key={i+50} className={`${calenderDivs}`}><h4 className='inner_calander_text'>{localArray[i]}</h4></div>)
             }  
             return lastWeekDivsArray
         }
 
         var middleRows
         // middle row mapped divs
-        if (selectedCityDrivers.length > 0) {
+        if (data && props) {
             middleRows = () => {
-                let myLocalArray = checkForDate
-                var mappedProps = []
-                let localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-                for (let ele in selectedCityDrivers) {
-                    mappedProps.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>{selectedCityDrivers[ele].name}</h4></div>)
-                    for (let i = 0; i < selectedCityDrivers[ele].datesList.length; i++) {
-                        if (checkForDate.includes(new Date(selectedCityDrivers[ele].datesList[i]).toDateString())) {
-                            localAwesomeArray[checkForDate.indexOf(new Date(selectedCityDrivers[ele].datesList[i]).toDateString())] = i
+                let mappedProps = []
+                data.data.drivers.forEach( (ele, id) => {
+                    if (ele.location === props.selectedCity) {
+                        let localArray = []
+                        localArray.push(
+                            <div key={Math.random()} className='cal_divs_single_first'>
+                                <h3 className='inner_calander_text'>
+                                    {ele.name}
+                                </h3>
+                            </div>  
+                        )  
+                        for (let i = 0; i < amount; i++) {
+                            localArray.push(
+                                // eslint-disable-next-line no-loop-func
+                                <div key={Math.random()} className={`${calenderDivsInner}`} onClick={(e) => handleClick(e, checkForDate[i], ele.name, ele.datesArray, ele.driver_id, ele.location)}>
+                                    <h4 className='inner_calander_text'>
+                                        ---
+                                    </h4>
+                                </div>  
+                            )  
                         }
-                    }
-                    if (props.data) {
-                        for (let i = 0; i < 14; i++) {
-                            if (localAwesomeArray[i] !== -1) {
-                                // logic for date booked or not
-                                // eslint-disable-next-line no-loop-func
-                                var classNameProperty
-                                // eslint-disable-next-line no-loop-func
-                                props.data.data.drivers.forEach( (element, _id) => {
-                                    if (element.driver_id === selectedCityDrivers[ele].driver_id) {
-                                        element.datesArray.forEach( (eleThird) => {
-                                            if (eleThird.date === checkForDate[i]) {
-                                               classNameProperty = `cal_divs_single_booked_${eleThird.location}`
-                                            }
-                                        })
-                                    }
-                                })
-
-                                 
-                                mappedProps.push( <div  className={classNameProperty} key={Math.random()} >
-                                        <h5 className='inner_calander_text'>
-                                            BOOKED 
-                                        </h5>
-                                </div>)
-                            } else {
-                                // logic for date booked or not
-                                mappedProps.push(<div key={Math.random()} className='cal_divs_single_table' onClick={(e) => handleClick(e, myLocalArray[i], selectedCityDrivers[ele].name, selectedCityDrivers[ele].datesList, selectedCityDrivers[ele].driver_id, selectedCityDrivers[ele].location)}>
-                                        <h5 className='inner_calander_text'>
-                                            ---
-                                        </h5>
-                                </div>)
+                        // eslint-disable-next-line no-loop-func
+                        ele.datesArray.forEach( (dateEle) => {
+                            if (checkForDate.includes(dateEle.date)) {
+                                localArray[checkForDate.indexOf(dateEle.date)+1] = ( 
+                                    <div  className={`${calenderDivsInnerBooked}`} key={Math.random()} >
+                                        <h3 className='inner_calander_text'>
+                                            {dateEle.location} 
+                                        </h3>
+                                    </div>
+                                )
                             }
-                        }  
+                        })
+                        mappedProps.push(localArray)
+                
                     }
-                    localAwesomeArray = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-                }
+                })
                 return mappedProps
             }
         } else {
@@ -133,21 +156,17 @@ const DivSingleWeek = (props) => {
                 location: location,
                 driver_id: `https://pythonicbackend.herokuapp.com/drivers/${id}/`
             }).then( response => {
-                console.log(response)
-                if (response.date) {
-                    props.drivers.forEach( (ele, setterId) => {
-                        if (ele.driver_id === id) {
-                            props.drivers[setterId].datesList.push(response.date)
+                if (data) {
+                    let matchingId = /\d/.exec(response.driver_id)
+                    data.data.drivers.forEach( (ele, id) => {
+                        if (ele.driver_id === matchingId) {
+                            ele.datesArray.push(response)
                         }
                     })
-                    // add here
-                    // reRenderGate ? setReRenderGate(false) : setReRenderGate(true)
+                    getData ? setGetData(false) : setGetData(true)
+                    setMiddleRow(middleRows())
                 }
             })
-            setTimeout( () => {
-                setMiddleRow(middleRows())
-
-            }, 1000)
         }
 
         // render the form div
@@ -177,39 +196,17 @@ const DivSingleWeek = (props) => {
             setMiddleRow(makeForm(weekDaySelected, theName, datesList, id, location))
         }
 
-
         setTopRow(thisWeekDivs())
         setMiddleRow(middleRows())
         setBottomRow(bottomDivs())
-    }, [props.selectedDate, selectedCityDrivers, props])
- 
-    // mapping the data into correct state
-    useEffect( () => {
-        let localList = []
-        if (props.schedule) {
-            props.drivers.forEach( (driverElement, driverId) => {
-                props.schedule.forEach( (scheduleElement, scheduleId) => {
-                    let matchingId = /\d/.exec(scheduleElement.driver_id)
-                    if (parseInt(matchingId[0]) === driverElement.driver_id) {
-                        driverElement['datesList'].push(scheduleElement.date)
-                    }
-                })
-            })
-            props.drivers.forEach( (ele, id) => {
-                if (ele.location === props.selectedCity) {
-                    localList.push(ele)
-                }
-            })
-            setSelectedCityDrivers(localList)
-        }
-    }, [props.selectedCity, reRenderGate, props.schedule, props])
+    }, [props.selectedDate, data, props, getData, calenderDivs, calenderDivsInner, calenderDivsInnerBooked])
 
     return (
         <div className='single_week_grid'>
             <div className='top_row'>
                 {topRow}
             </div>
-            <div className='middle_row'>
+            <div className={`${middleRowClass}`}>
                 {middleRow}
             </div>
             <div className='bottom_row'>
@@ -220,3 +217,6 @@ const DivSingleWeek = (props) => {
 }
 
 export default DivSingleWeek
+
+
+
