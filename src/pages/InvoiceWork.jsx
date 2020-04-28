@@ -16,6 +16,8 @@ const InvoiceWork = (props) => {
     const [ myCounter, setMyCounter ] = useState(0)
     const [ invoivesMappedArray, setInvoicesMappedArray ] = useState([])
     const [ selectedInvoice, setSelectedInvoice ] = useState(null)
+    const [ makeSearchBarVisible, setMakeSearchBarVisible ] = useState('dashboard_form_divs_name_bar_none')
+    const [ nameValue, setNameValue ] = useState('')
 
     useEffect( () => {
         async function getDataNext(url = '') {
@@ -37,24 +39,37 @@ const InvoiceWork = (props) => {
         })
     }, [])
 
+    // select name
+    const handleNameClick = (e, theName) => {
+        makeSearchUnderBar('', 10)
+        setNameValue(theName)
+    }
+
+    const makeSearchUnderBar = (theValue, theLength) => {
+        if (theValue !== '' && theLength <= 3) {
+            setMakeSearchBarVisible('dashboard_form_divs_name_bar_invoicing')
+        } else {
+            setMakeSearchBarVisible('dashboard_form_divs_name_bar_none')
+        }
+    }
+
     // search bar function
     const handleChange = (e) => {
-        let localArray = []
-        dataset.forEach( (ele, id) => {
-            if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 3) {
-                localArray.push(
-                    <h4 key={id}>{ele.name}</h4>
-                )
-            }
-            if (e.target.value === ele.name) {
-                setSelectedDriver(ele)
-                if (dateSelected && dateSelectedEnd ) {
-                    mapDatesDesired(selectedDate, selectedDateEnd, ele)
+        if (dataset) {
+            console.log(dataset)
+            setNameValue(e.target.value)
+            makeSearchUnderBar(e.target.value, nameValue.length)
+            let localArray = []
+            dataset.forEach( (ele, id) => {
+                if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 4) {
+                    localArray.push(
+                        <h4 className='name_suggestions' onClick={(e, theName) => handleNameClick(e, `${ele.name}`)}>{ele.name}</h4>
+                    )
                 }
-            }    
-        })
-        setDriverSearchArray(localArray)
-    }  
+            })
+            setDriverSearchArray(localArray)
+        }
+    }
 
     // changes the selected date with the calendar selections
     const handleCalendarChange = (e, value) => {
@@ -235,10 +250,14 @@ const InvoiceWork = (props) => {
             <NavigationBar title='Invoicing'/>
             <div className='main_content_invoicing'>
                 <div className='documents_search_bar_invoicing'>
-                    <div>
-                        <label >Find Driver </label><br />
-                            <input className='search_bar' type="text" name='searchBar' onChange={handleChange} />
+                    <div className='invoice_form_divs_name'>
+                            <div>
+                                <label className='dashboard_labels'>Name </label>
+                            </div>
+                                <input className='search_bar' type="text" name='Name' value={nameValue} onChange={handleChange} autoComplete='off'/>
+                        <div className={`${makeSearchBarVisible}`}>
                             {driverSearchArray}
+                        </div>
                     </div>
                     <div className='documents_search_bar_invoicing_dates'>
                         <div>

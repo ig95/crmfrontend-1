@@ -653,10 +653,28 @@
     width: 86vw;
   }
   
+  .dashboard_form_divs_name_bar_invoicing {
+    position: absolute;
+    margin-top: 2.2rem;
+    margin-left: 5.1rem;
+    padding: 5px;
+    width: 15vw;
+    border-right: 1px solid $amazon_blue;
+    border-bottom: 1px solid $amazon_blue;
+    border-left: 1px solid $amazon_blue;
+    background-color: white;
+  }
+
   .invoice_content {
     margin: 2rem;
     color: $amazon_blue;
     font-family: $ubuntu_font;
+  }
+
+  .invoice_form_divs_name {
+    width: 32vw;
+    margin-top: 1rem;
+    display: flex;
   }
 
   .documents_search_bar_invoicing_dates {
