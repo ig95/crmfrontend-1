@@ -53,7 +53,7 @@ const DivSingleWeek = (props) => {
         function thisWeekDivs () {
             var thisWeekDivsArray = []
             let localDateArray = []
-            let selectedDate = new Date()
+            let selectedDate = new Date(props.selectedDate)
             thisWeekDivsArray.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>Search Bar</h4></div>)
             for (let i = 0; i < amount; i++) {
                 let dateVar = new Date(selectedDate.setDate(selectedDate.getDate() + i)).toDateString()

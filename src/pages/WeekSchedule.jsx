@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import NavigationBar from '../components/NavBar'
 import Dropdown from 'react-dropdown';
 import DropdownTwo from 'react-dropdown';
+import DropdownThree from 'react-dropdown';
 import DivSingleWeek from '../components/DivSingleWeek'
 import 'react-dropdown/style.css';
 import 'react-calendar/dist/Calendar.css';
@@ -11,6 +12,8 @@ const WeekSchedule = () => {
     const [ schedule, setSchedule ] = useState(null)
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
     const [ selectedAmount, setSelectedAmount ] = useState('14')
+    const [ selectedSunday, setSelectedSunday ] = useState('14')
+    const [ mathSunday, setMathSunday ] = useState('14')
 
     // dev data ... note to self... the following component only accepts format day:date
     // call this location rota, make it color coded by deopt, and trianing different color - 14 days
@@ -37,6 +40,13 @@ const WeekSchedule = () => {
                 setSchedule(response.results)
             })
         })
+
+        let myDate = new Date()
+        while (myDate.getDay() > 0) {
+            myDate.setDate(myDate.getDate() - 1)
+        }
+        setSelectedSunday(myDate.toDateString())
+        setMathSunday(myDate.toDateString())
     }, [])
 
     // dropdown menu options
@@ -62,6 +72,27 @@ const WeekSchedule = () => {
         setSelectedAmount(e.value)
     }
 
+    // get sundays
+    const getSundays = () => {
+        let sundays = []
+        let currentDate = new Date(mathSunday)
+        for (let i = 0; i < 50; i++) {
+            let dateInner = new Date(currentDate.getFullYear(), currentDate.getMonth(), i)
+            if (dateInner.getDay() === 0) {
+                sundays.push(dateInner.toDateString())
+            }
+        }
+        return sundays
+    }
+
+    // dropdown menu options
+    const optionsThree = getSundays()
+
+    // dropdown menu selection function
+    const onSelectThree = (e) => {
+        setSelectedSunday(e.value)
+    }
+
     var content;
     if (drivers) {
         content = (
@@ -73,14 +104,18 @@ const WeekSchedule = () => {
                             options={options}
                             onChange={onSelect} 
                             value={selectedCity} 
-                            placeholder="Select an option" 
                             className='drop_down_bar'
                         />
                         <DropdownTwo 
                             options={optionsTwo}
                             onChange={onSelectTwo} 
                             value={selectedAmount} 
-                            placeholder="Select an option" 
+                            className='drop_down_bar'
+                        />
+                        <DropdownThree
+                            options={optionsThree}
+                            onChange={onSelectThree} 
+                            value={selectedSunday} 
                             className='drop_down_bar'
                         />
                     </div>
@@ -88,6 +123,7 @@ const WeekSchedule = () => {
                         <DivSingleWeek 
                             drivers={drivers} 
                             schedule={schedule}
+                            selectedDate={selectedSunday}
                             divAmount={selectedAmount}
                             selectedCity={selectedCity ? selectedCity : 'DBS2'}
                         />
