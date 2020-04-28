@@ -9,7 +9,7 @@ const DivWeek = (props) => {
         if (props.scheduleDates) {
             const lastWeekDivCreation = () => {
                 let lastWeekDivs = []
-                let selectedDate = props.currentDate
+                let selectedDate = new Date(props.currentDate)
                 for (let i = 7; i > 0; i--) {
                     let dateVar = new Date(selectedDate.setDate(selectedDate.getDate() - i)).toDateString()
                     let count = 0
@@ -35,7 +35,7 @@ const DivWeek = (props) => {
             // this weeks divs
             function thisWeekDivs (lastWeekDivs) {
                 let thisWeekDivs = []
-                let selectedDate = props.currentDate
+                let selectedDate = new Date(props.currentDate)
                 for (let i = 0; i < 7; i++) {
                     let dateVar = new Date(selectedDate.setDate(selectedDate.getDate() + i)).toDateString()
                     let count = 0
@@ -62,7 +62,7 @@ const DivWeek = (props) => {
             // next weeks divs
             function nextWeekDivs (thisWeekDivs) {
                 let nextWeekDivs = []
-                let selectedDate = props.currentDate
+                let selectedDate = new Date(props.currentDate)
                 for (let i = 7; i < 14; i++) {
                     let dateVar = new Date(selectedDate.setDate(selectedDate.getDate() + i)).toDateString()
                     let count = 0

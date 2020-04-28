@@ -204,6 +204,13 @@
     "nav_bar main_content"
     ;
   }
+
+  .home_selectors {
+    display: block;
+    display: flex;
+    width: 25vw;
+    height: 10vh;
+  }
   
   .main_content {
     grid-area: main_content;
