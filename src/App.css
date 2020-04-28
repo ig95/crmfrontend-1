@@ -12,7 +12,8 @@
 .drop_down_hamburger:hover .drop_down_content,
 .main_content,
 .scheduling_four_week_overlay,
-.main_content_week_schedule {
+.main_content_week_schedule,
+.loading_link {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,6 +22,9 @@
 .cal_divs_single,
 .cal_divs_single_table,
 .cal_divs_single_booked,
+.cal_divs_single_seven,
+.cal_divs_single_table_seven,
+.cal_divs_single_booked_seven,
 .cal_divs_single_first {
   border: 1px solid black;
   flex: 1 0 14%;
@@ -36,6 +40,9 @@
 .cal_divs_single,
 .cal_divs_single_table,
 .cal_divs_single_booked,
+.cal_divs_single_seven,
+.cal_divs_single_table_seven,
+.cal_divs_single_booked_seven,
 .cal_divs_single_first,
 .links {
   text-decoration: none;
@@ -184,6 +191,12 @@ body {
   grid-template-rows: 7vh 93vh;
   grid-template-areas: "nothing nav_bar_top" "nav_bar main_content";
 }
+.home_selectors {
+  display: block;
+  display: flex;
+  width: 25vw;
+  height: 10vh;
+}
 .main_content {
   grid-area: main_content;
   background-color: #fefefe;
@@ -272,26 +285,34 @@ body {
   background-color: #317c31;
   color: #fefefe;
 }
-.cal_divs_single {
-  flex: 1 0 5%;
+.cal_divs_single_seven {
+  flex: 1 0 9%;
   height: 5vh;
   margin-bottom: 10px;
   background-color: #f3f6f6;
   color: #232f3e;
 }
-.cal_divs_single_table {
-  flex: 1 0 9%;
+.cal_divs_single_table_seven {
+  flex: 1 0 11%;
   height: 5vh;
   margin-bottom: 5px;
   background-color: #742626;
   color: black;
 }
-.cal_divs_single_booked {
-  flex: 1 0 9%;
+.cal_divs_single_booked_seven {
+  flex: 1 0 11%;
   height: 5vh;
   margin-bottom: 5px;
   background-color: #317c31;
   color: #fefefe;
+}
+.middle_row_seven {
+  grid-area: middle_row;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: scroll;
+  max-height: 68vh;
+  width: 72.5vw;
 }
 .cal_divs_single_booked:hover {
   transform: translateY(-0.25rem);
@@ -491,6 +512,22 @@ label {
   grid-area: main_content;
   background-color: #fefefe;
 }
+.loading_link {
+  width: 10vw;
+  border-radius: 0.5rem;
+  height: 5vh;
+  background-color: #232f3e;
+}
+.loading_link:hover {
+  background-color: #2b3a4d;
+  transform: translateY(-0.15rem);
+}
+.pdf_text {
+  text-decoration: none;
+}
+.loading_text {
+  color: #fefefe;
+}
 .documents_search_bar_invoicing {
   border-bottom: 1px solid rgba(35, 47, 62, 0.26);
   border-top: 1px solid rgba(35, 47, 62, 0.26);
@@ -500,15 +537,33 @@ label {
   margin: 0 1rem 0.5rem 1rem;
   width: 86vw;
 }
+.dashboard_form_divs_name_bar_invoicing {
+  position: absolute;
+  margin-top: 2.2rem;
+  margin-left: 5.1rem;
+  padding: 5px;
+  width: 15vw;
+  border-right: 1px solid #232f3e;
+  border-bottom: 1px solid #232f3e;
+  border-left: 1px solid #232f3e;
+  background-color: white;
+}
 .invoice_content {
   margin: 2rem;
   color: #232f3e;
   font-family: "Roboto";
 }
+.invoice_form_divs_name {
+  width: 32vw;
+  margin-top: 1rem;
+  display: flex;
+}
 .documents_search_bar_invoicing_dates {
   display: flex;
-  justify-content: space-evenly;
-  width: 35vw;
+  margin: auto 0;
+  font-size: 2em;
+  width: 40vw;
+  color: #232f3e;
 }
 .invoices_overall {
   margin: 0 1rem 0.5rem 1rem;

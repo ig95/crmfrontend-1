@@ -1,25 +1,23 @@
 import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
-import Calendar from 'react-calendar'
-import 'react-calendar/dist/Calendar.css'
+import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 
 const InvoiceWork = (props) => {
     const [ dataset, setDataset ] = useState(null)
     const [ driverSearchArray, setDriverSearchArray ] = useState([])
-    const [ selectedDriver, setSelectedDriver ] = useState(null)
-    const [ dateSelected, setDateSelected ] = useState('')
-    const [ dateSelectedEnd, setDateSelectedEnd ] = useState('')
-    const [ calanderWidget, setCalendarWidget ] = useState([])
-    const [ calanderWidgetEnd, setCalendarWidgetEnd ] = useState([])
-    const [ selectedDate, setSelectedDate ] = useState(new Date())
-    const [ selectedDateEnd, setSelectedDateEnd ] = useState(new Date())
-    const [ myCounter, setMyCounter ] = useState(0)
-    const [ invoivesMappedArray, setInvoicesMappedArray ] = useState([])
     const [ selectedInvoice, setSelectedInvoice ] = useState(null)
     const [ makeSearchBarVisible, setMakeSearchBarVisible ] = useState('dashboard_form_divs_name_bar_none')
     const [ nameValue, setNameValue ] = useState('')
+    const [ sundayDate, setSundayDate ] = useState('')
+    const [ sundayTwoWeeks, setSundayTwoWeeks ] = useState('')
 
     useEffect( () => {
+        let myDate = new Date()
+        while (myDate.getDay() > 0) {
+            myDate.setDate(myDate.getDate() - 1)
+        }
+        setSundayDate(myDate.toDateString())
+        setSundayTwoWeeks(new Date(myDate.getTime() + 12096e5).toDateString())
         async function getDataNext(url = '') {
         const response = await fetch(url, {
             method: 'GET', 
@@ -45,6 +43,7 @@ const InvoiceWork = (props) => {
         setNameValue(theName)
     }
 
+    // search bar 
     const makeSearchUnderBar = (theValue, theLength) => {
         if (theValue !== '' && theLength <= 3) {
             setMakeSearchBarVisible('dashboard_form_divs_name_bar_invoicing')
@@ -56,7 +55,6 @@ const InvoiceWork = (props) => {
     // search bar function
     const handleChange = (e) => {
         if (dataset) {
-            console.log(dataset)
             setNameValue(e.target.value)
             makeSearchUnderBar(e.target.value, nameValue.length)
             let localArray = []
@@ -71,58 +69,19 @@ const InvoiceWork = (props) => {
         }
     }
 
-    // changes the selected date with the calendar selections
-    const handleCalendarChange = (e, value) => {
-        setSelectedDate(e)
-        setDateSelected(e.toDateString())
-        setCalendarWidget('')
-        if (dateSelectedEnd && selectedDriver) {
-            mapDatesDesired(e, value)
-        }
-    }
-    
-    
-    // changes the selected date with the calendar selections end dates
-    const handleCalendarChangeEnd = (e, value) => {
-        setSelectedDateEnd(e)
-        setDateSelectedEnd(e.toDateString())
-        setCalendarWidgetEnd('')
-        if (dateSelected && selectedDriver) {
-            mapDatesDesired(value, e)
-        }
-    }
-
-    // handle selecting invoice from bar
-    const handleInvoiceSelection = (e, date) => {
-        console.log(date)
-        if (date !== 'overall') {
-            invoivesMappedArray.forEach( (ele, id) => {
-                if (ele.date === date) {
-                    setSelectedInvoice(ele)
-                    console.log(ele)
-                }
-            })
-        } else {
-            invoivesMappedArray.forEach( (ele, id) => {
-                if (ele.date === date) {
-                    setSelectedInvoice(ele)
-                    console.log(ele)
-                }
-            })
-        }
-    }
 
     // what is being displayed
     var invoiceContent
-    if (invoivesMappedArray.length > 0) {
+    const mapTheContent = (theInvoiceArray) => {
+        console.log('inside the if here')
         let topBar = []
-        invoivesMappedArray.forEach( (ele, id) => {
+        theInvoiceArray.forEach( (ele, id) => {
             topBar.push(
                 <div className='top_divs' onClick={(e, date) => handleInvoiceSelection(e, ele.date)}>
-                    <p>{ele.date}</p>
-                </div>
-            )
-        })
+                        <p>{ele.date}</p>
+                    </div>
+                )
+            })
         topBar.push(
             <div className='top_divs' onClick={(e, date) => handleInvoiceSelection(e, 'overall')}>
                 <p>Overall</p>
@@ -134,43 +93,44 @@ const InvoiceWork = (props) => {
             </div>
         )
     }
-
-    // map the invoices for the selected period to the array
-    const mapDatesDesired = (date1, date2, driver=selectedDriver) => {
+    
+    // map the dates to the invoice section
+    const myMapFunc = () => {
+        console.log('map func firing')
         let localArray = []
         dataset.forEach( (ele, id) => {
-            if (ele.name === driver.name) {
-                ele.datesArray.forEach(( ele, id) => {
-                    if (date1.getTime() < new Date(ele.date).getTime() && new Date(ele.date).getTime() < date2.getTime()) {
-                        localArray.push(ele)
+            if (ele.name === nameValue) {
+                ele.datesArray.forEach( (dateEle, dateId) => {
+                    if (new Date(dateEle.date) > new Date(sundayDate) && new Date(dateEle.date) <  new Date(new Date(sundayDate).getTime() + 12096e5)) {
+                        localArray.push(dateEle)
                     }
                 })
             }
         })
-        setInvoicesMappedArray(localArray)
+        return localArray
     }
 
-    // handle click for first calendar
-    const handleDateClick = () => {
-        setMyCounter(myCounter+1)
-        let localArray = [<Calendar 
-        onChange={(e, value) => handleCalendarChange(e, selectedDateEnd)}
-        value={selectedDate}
-        className='calander'
-        />]
-        setCalendarWidget(localArray)
+    if (nameValue) {
+        dataset.forEach( (ele, id) => {
+            if (nameValue === ele.name) {
+                mapTheContent(myMapFunc()) 
+            }
+        })
     }
-
-    // handle click for second calendar
-    const handleDateClickEnd = () => {
-        setMyCounter(myCounter+1)
-        let localArray = [<Calendar 
-        onChange={(e, value) => handleCalendarChangeEnd(e, selectedDate)}
-        value={selectedDateEnd}
-        className='calander'
-        />]
-        setCalendarWidgetEnd(localArray)
+    
+    // handle selecting invoice from bar
+    const handleInvoiceSelection = (e, date) => {
+        let invoices = myMapFunc()
+        if (date !== 'overall') {
+            invoices.forEach( (ele, id) => {
+                if (ele.date === date) {
+                    setSelectedInvoice(ele)
+                    console.log(ele)
+                }
+            })
+        }
     }
+    
 
     var invoiceSelection
     if (selectedInvoice) {
@@ -245,6 +205,59 @@ const InvoiceWork = (props) => {
         )
     }
 
+    var MyDocument
+    if (selectedInvoice) {
+        // pdf stuff
+        const styles = StyleSheet.create({
+            page: {
+              flexDirection: "column"
+            },
+            section: {
+              flexGrow: 1
+            }
+          });
+
+        MyDocument = (
+            <Document>
+              <Page size="A4" style={styles.page}>
+                <View style={styles.section}>
+                    <Text>Date: {selectedInvoice.date}</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text>Location: {selectedInvoice.location}</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text>Deductions: {selectedInvoice.deductions}</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text>Time Difference: {selectedInvoice.timeDifference[0]}</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text>CRT: {selectedInvoice.CRT}</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text>LVP: {selectedInvoice.LVP}</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text>LWP: {selectedInvoice.LWP}</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text>RL: {selectedInvoice.RL}</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text>SUP: {selectedInvoice.SUP}</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text>Fuel: {selectedInvoice.fuel}</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text>Parcel: {selectedInvoice.parcel}</Text>
+                </View>
+              </Page>
+            </Document>
+          );
+      }
+
     return (
         <div className='home_content'>
             <NavigationBar title='Invoicing'/>
@@ -260,25 +273,15 @@ const InvoiceWork = (props) => {
                         </div>
                     </div>
                     <div className='documents_search_bar_invoicing_dates'>
-                        <div>
-                            <label >Invoice from Date</label><br />
-                                <input className='search_bar' type="text" name='Date' value={dateSelected} onClick={handleDateClick}/>
-                                <div>
-                                    {calanderWidget}
-                                </div>
-                        </div>
-                        <div>        
-                            <label >Invoice to Date</label><br />
-                                <input className='search_bar' type="text" name='Date' value={dateSelectedEnd} onClick={handleDateClickEnd}/>
-                                <div>
-                                    {calanderWidgetEnd}
-                                </div>
-                        </div>
+                        Invoice from: {sundayDate} to {sundayTwoWeeks} 
                     </div>
                 </div>
                 <div className='invoices_overall'>
                     {invoiceContent}
                     {invoiceSelection}
+                    <PDFDownloadLink document={MyDocument} filename='Invoice.pdf'  className='pdf_text'>
+                        {({ blob, url, loading, error }) => (loading ? <div className='loading_link'><h3 className='loading_text'>Loading document...</h3></div>: <div className='loading_link'><h3 className='loading_text'>Download now</h3></div>)}
+                    </PDFDownloadLink>
                 </div>
             </div>
         </div>

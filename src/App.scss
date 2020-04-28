@@ -643,6 +643,27 @@
     background-color: $offWhite;
   }
 
+  .loading_link {
+    width: 10vw;
+    border-radius: .5rem;
+    @extend %centerThings;
+    height: 5vh;
+    background-color: $amazon_blue;
+  }
+
+  .loading_link:hover {
+    background-color: $amazon_blue_hover;
+    transform: translateY(-.15rem);
+  }
+
+  .pdf_text {
+    text-decoration: none;
+  }
+
+  .loading_text {
+    color: $offWhite;
+  }
+
   .documents_search_bar_invoicing {
     border-bottom: 1px solid rgba(35, 47, 62, 0.26);
     border-top: 1px solid rgba(35, 47, 62, 0.26);
@@ -679,8 +700,10 @@
 
   .documents_search_bar_invoicing_dates {
     display: flex;
-    justify-content: space-evenly;
-    width: 35vw;
+    margin: auto 0;
+    font-size: 2em;
+    width: 40vw;
+    color: $amazon_blue;
   }
 
   .invoices_overall {
