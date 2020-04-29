@@ -44,7 +44,7 @@ const NavigationBar = (props) => {
                 <Link to="/makemployee" className='links'>
                     <div className='link_style'>
                     Make Employee 
-                </div>
+                    </div>
                 </Link>
                 <Link to="/weekschedule" className='links'>
                     <div className='link_style'>

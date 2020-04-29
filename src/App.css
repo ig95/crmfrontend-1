@@ -13,7 +13,8 @@
 .main_content,
 .scheduling_four_week_overlay,
 .main_content_week_schedule,
-.loading_link {
+.loading_link,
+.invoice_overall_title {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -594,6 +595,57 @@ label {
   margin: 1rem;
   border-right: 1px solid rgba(35, 47, 62, 0.26);
   border-bottom: 1px solid rgba(35, 47, 62, 0.26);
+}
+.single_Invoice_overall {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  margin-top: 5px;
+  border-top: 1px solid rgba(35, 47, 62, 0.26);
+  overflow-y: scroll;
+  padding: 1rem;
+}
+.invoice_overall_title {
+  flex-direction: column;
+  background-color: #232f3e;
+  color: #fefefe;
+  min-height: 25vh;
+}
+.h20_title {
+  font-size: 4em;
+  padding: 0;
+  margin: 0;
+}
+.billing_details_portion {
+  border: 2px solid #232f3e;
+  margin-top: 0.5rem;
+  min-height: 60vh;
+  display: flex;
+}
+.water_drop_picture {
+  height: 10vh;
+}
+.left_section_invoice {
+  width: 50%;
+}
+.right_section_invoice {
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
+}
+.driver_details_section {
+  display: flex;
+  width: 20vw;
+  font-size: 1.5em;
+  padding: 2rem;
+  border-bottom: 1px solid #232f3e;
+}
+.driver_details_section_right {
+  display: flex;
+  width: 25vw;
+  font-size: 1.5em;
+  padding: 2rem;
+  border-bottom: 1px solid #232f3e;
 }
 @media only screen and (max-width: 1500px) {
   html,

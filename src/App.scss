@@ -171,10 +171,6 @@
     z-index: 1;
   }
 
-  .link_style:hover .triangleImage {
-    transform: rotate(0deg);
-  }
-
   .links {
     @extend %remove_link;
     color: $offWhite;
@@ -190,6 +186,9 @@
   .link_style:hover {
     background-color: grey;
     min-width: 8vw;
+    padding-left: 5px;
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
   }
 
   /****************************************  HOME PAGE STYLE ************************************************************/
@@ -227,6 +226,7 @@
 
   .drop_down_bar_container {
     margin-bottom: 1vh;
+    width: 15vw;
   }
 
   .drop_down_bar {
@@ -610,6 +610,20 @@
     padding: 1rem;
     margin: 0 1rem .5rem 1rem;
   }
+
+  .dashboard_form_divs_name_bar_docs {
+    position: absolute;
+    margin-top: 2.2rem;
+    margin-left: 8.1rem;
+    padding: 5px;
+    width: 15vw;
+    border-right: 1px solid $amazon_blue;
+    border-bottom: 1px solid $amazon_blue;
+    border-left: 1px solid $amazon_blue;
+    background-color: white;
+    z-index: 1;
+  }
+
   
   /****************************************  DETAILS COMPONENT STYLE ************************************************************/
   
@@ -641,6 +655,7 @@
   .main_content_invoicing{
     grid-area: main_content;
     background-color: $offWhite;
+    overflow-y: scroll;
   }
 
   .loading_link {
@@ -658,6 +673,12 @@
 
   .pdf_text {
     text-decoration: none;
+    margin-bottom: 2rem;
+  }
+
+  .viewer_class {
+    height: 80vh;
+    width: 40vw;
   }
 
   .loading_text {
@@ -667,9 +688,9 @@
   .documents_search_bar_invoicing {
     border-bottom: 1px solid rgba(35, 47, 62, 0.26);
     border-top: 1px solid rgba(35, 47, 62, 0.26);
-    padding-top: 5px;
     display: flex;
-    justify-content: space-evenly;
+    padding: 0;
+    justify-content: space-between;
     margin: 0 1rem .5rem 1rem;
     width: 86vw;
   }
@@ -684,6 +705,7 @@
     border-bottom: 1px solid $amazon_blue;
     border-left: 1px solid $amazon_blue;
     background-color: white;
+    z-index: 1;
   }
 
   .invoice_content {
@@ -701,8 +723,8 @@
   .documents_search_bar_invoicing_dates {
     display: flex;
     margin: auto 0;
-    font-size: 2em;
-    width: 40vw;
+    padding: 0;
+    font-size: 1.3em;
     color: $amazon_blue;
   }
 
@@ -713,13 +735,16 @@
   }
 
   .top_divs {
-    border-right: solid rgba(35, 47, 62, 0.26) 1px;
-    padding: 2px;
+    border-left: solid rgba(35, 47, 62, 0.199) 5px;
+    border-bottom: 2px solid rgba(35, 47, 62, 0.199);
+    border-radius: .5rem;
+    padding: 5px;
+    margin-right: 4px;
   }
 
   .top_divs:hover {
-    background-color: $amazon_blue;
-    color: $offWhite;
+    box-shadow: 2px 2px 2px black;
+    transform: translateY(-.1rem);
   }
 
   .invoice_date_list {
@@ -735,16 +760,132 @@
     margin-top: 5px;
     border-top: 1px solid rgba(35, 47, 62, 0.26);
   }
-
+  
   .invoice_item {
     margin: 1rem;
-    border-right: 1px solid rgba(35, 47, 62, 0.26);
-    border-bottom: 1px solid rgba(35, 47, 62, 0.26);
+    padding: .5rem;
+    border-radius: .55rem;
+    border-left: 10px solid rgba(35, 47, 62, 0.267);
+    border-bottom: 2px solid rgba(35, 47, 62, 0.26);
+    width: 25vw;
+    animation-name: slidein;
+    animation-duration: .2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+  }
+
+  .inside_text_invoice {
+    margin-left: 1rem;
+    animation-name: text_fun;
+    animation-duration: .5s;
+  }
+
+  .invoice_item:hover {
+    background-color: $amazon_blue;
+    color: $offWhite;
+  }
+  
+  .single_Invoice_overall {
+    display: flex;
+    flex-direction: column;
+    height: 65vh;
+    margin-top: 5px;
+    border-top: 1px solid rgba(35, 47, 62, 0.26);
+    overflow-y: scroll;
+    padding: 1rem;
+  }
+
+  .invoice_overall_title {
+    @extend %centerThings;
+    flex-direction: column;
+    background-color: $amazon_blue;
+    color: $offWhite;
+    min-height: 25vh;
+  }
+
+  .h20_title {
+    font-size: 4em;
+    padding: 0;
+    margin: 0;
+  }
+
+  .billing_details_portion {
+    border: 2px solid $amazon_blue;
+    margin-top: .5rem;
+    min-height: 60vh;
+    display: flex;
+  }
+
+  .water_drop_picture {
+    height: 10vh;
+  }
+
+  .left_section_invoice {
+    width: 50%;
+  }
+
+  .right_section_invoice {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 50%;
+  }
+
+  .driver_details_section {
+    display: flex;
+    width: 20vw;
+    height: 10vh;
+    font-size: 1.5em;
+    padding: 2rem;
+    margin: 2rem;
+    border-bottom: 1px solid $amazon_blue;
+  }
+
+  .driver_details_section_right {
+    display: flex;
+    width: 25vw;
+    height: 10vh;
+    font-size: 1.5em;
+    padding: 2rem;
+    margin: 2rem;
+    border-bottom: 1px solid $amazon_blue;
+  }
+
+  @keyframes slidein {
+    0% {
+      color: white;
+      transform: translatey(5vh);
+    }
+    100% {
+      transform: translatey(0vh);
+    }
+  }
+
+  @keyframes text_fun {
+    0% {
+      color: white;
+      transform: translatey(5vh);
+    }
+    100% {
+      transform: translatey(0vh);
+    }
   }
 
   @media only screen and (max-width: 1500px) {
     html, body {
       font-size: 90%;
+    }
+
+    .dashboard_form_divs_name_bar_invoicing {
+      margin-top: 2.3rem;
+      margin-left: 4.8rem;
+      z-index: 1;
+    }
+
+    .dashboard_form_divs_name_bar_docs {
+      margin-top: 2.3rem;
+      margin-left: 7.5rem;
+      z-index: 1;
     }
     
     .middle_row {
