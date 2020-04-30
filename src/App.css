@@ -106,13 +106,6 @@ body {
   background: linear-gradient(60deg, #543ab7 0%, #00acc1 100%);
   color: white;
 }
-.logo {
-  width: 50px;
-  fill: white;
-  padding-right: 15px;
-  display: inline-block;
-  vertical-align: middle;
-}
 .inner-header {
   height: 65vh;
   width: 100%;
