@@ -11,6 +11,7 @@ const Home = (props) => {
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
     const [ schedule, setSchedule ] = useState(null)
+    const [ loadingGate, setLoadingGate ] = useState(0)
 
     // grab the data
     useEffect(() => {
@@ -37,7 +38,10 @@ const Home = (props) => {
 
         getData('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
             setSchedule(response.results)
-            console.log(response.results)
+            setLoadingGate(1)
+            setTimeout( () => {
+                setLoadingGate(2)
+            }, 1000)
         })
     }, [])
 
@@ -58,35 +62,92 @@ const Home = (props) => {
         setSelectedCity(e.value)
     }
 
-    return (
-        <div className='home_content'>
-            <NavigationBar title='Home'/>
-            <div className='main_content'>
-                <div className='calandar_container'>
-                    <div className='drop_down_bar_container'>
-                        <Dropdown 
-                            options={options} 
-                            onChange={onSelect} 
-                            value={selectedCity} 
-                            placeholder="Select an option" 
-                            className='drop_down_bar'
-                        />
+    var content
+    if (loadingGate === 2) {
+        content = (
+            <>
+                <div className='home_content_home'>
+                <NavigationBar title='Home'/>
+                    <div className='main_content'>
+                        <div className='calandar_container'>
+                            <div className='drop_down_bar_container'>
+                                <Dropdown 
+                                    options={options} 
+                                    onChange={onSelect} 
+                                    value={selectedCity} 
+                                    placeholder="Select an option" 
+                                    className='drop_down_bar'
+                                />
+                            </div>
+                            <Calendar 
+                                onChange={handleCalendarChange}
+                                value={selectedDate}
+                                className='calander'
+                            />
+                        </div>
+                        <div className='scheduling_four_week_overlay'>
+                            <DivWeek 
+                                currentDate={selectedDate}
+                                scheduleDates={schedule}
+                                selectedLocation={selectedCity ? selectedCity : 'DBS2'}
+                            />
+                        </div>
                     </div>
-                    <Calendar 
-                        onChange={handleCalendarChange}
-                        value={selectedDate}
-                        className='calander'
-                    />
                 </div>
-                <div className='scheduling_four_week_overlay'>
-                    <DivWeek 
-                        currentDate={selectedDate}
-                        scheduleDates={schedule}
-                        selectedLocation={selectedCity ? selectedCity : 'DBS2'}
-                    />
+            </>
+        )
+    } else if (loadingGate === 0) {
+        content = (
+            <div className="header">
+                <div className="inner-header flex">
+                    <h1>Welcome {props.user_name}... we are loading you content</h1>
                 </div>
+                <div>
+                    <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                    <defs>
+                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                    </defs>
+                    <g className="parallax">
+                    <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                    <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                    <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                    <use xlinkHref="#gentle-wave" x="48" y="7" fill="#fff" />
+                    </g>
+                    </svg>
+                </div>
+            </div >
+        )
+    } else {
+        content = (
+            <div className='fade_class'>
+                <div className="header">
+                    <div className="inner-header flex">
+                        <h1>Welcome {props.user_name}... we are loading you content</h1>
+                    </div>
+                    <div>
+                        <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
+                        viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                        <defs>
+                        <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                        </defs>
+                        <g className="parallax">
+                        <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                        <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                        <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                        <use xlinkHref="#gentle-wave" x="48" y="7" fill="#fff" />
+                        </g>
+                        </svg>
+                    </div>
+                </div >
             </div>
-        </div>
+        )
+    }
+
+    return (
+        <>
+            {content}
+        </>    
     )
 }
 

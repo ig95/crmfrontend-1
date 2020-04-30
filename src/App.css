@@ -1,3 +1,4 @@
+@import url(//fonts.googleapis.com/css?family=Lato:300:400);
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 7px;
@@ -99,6 +100,97 @@ body {
   padding: 0;
   background-color: #fefefe;
 }
+.header {
+  position: relative;
+  text-align: center;
+  background: linear-gradient(60deg, #543ab7 0%, #00acc1 100%);
+  color: white;
+}
+.logo {
+  width: 50px;
+  fill: white;
+  padding-right: 15px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.inner-header {
+  height: 65vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.googleButton {
+  min-width: 10vw;
+  min-height: 5vh;
+  display: flex;
+  justify-content: center;
+  color: #232f3e;
+}
+.main_title_h20 {
+  font-family: "Roboto";
+  font-size: 4em;
+}
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.waves {
+  position: relative;
+  width: 100%;
+  height: 15vh;
+  margin-bottom: -7px;
+  min-height: 100px;
+  max-height: 150px;
+}
+.content {
+  position: relative;
+  height: 20vh;
+  text-align: center;
+  background-color: white;
+}
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+@media (max-width: 768px) {
+  .waves {
+    height: 40px;
+    min-height: 40px;
+  }
+  .content {
+    height: 30vh;
+  }
+  h1 {
+    font-size: 24px;
+  }
+}
 .app {
   min-width: 100vw;
   min-height: 100vh;
@@ -124,6 +216,7 @@ body {
   background-color: #fefefe;
   color: #232f3e;
   display: flex;
+  -ms-display: flex;
 }
 .nav_bar {
   grid-area: nav_bar;
@@ -132,6 +225,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  -ms-justify-content: space-evenly;
+  -webkit-justify-content: space-evenly;
   align-items: flex-start;
 }
 .nothing {
@@ -168,9 +263,6 @@ body {
   width: 10vw;
   z-index: 1;
 }
-.link_style:hover .triangleImage {
-  transform: rotate(0deg);
-}
 .links {
   color: #fefefe;
   font-size: 1.3em;
@@ -183,6 +275,9 @@ body {
 .link_style:hover {
   background-color: grey;
   min-width: 8vw;
+  padding-left: 5px;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 .home_content {
   display: grid;
@@ -191,6 +286,36 @@ body {
   grid-template-columns: 10vw 90vw;
   grid-template-rows: 7vh 93vh;
   grid-template-areas: "nothing nav_bar_top" "nav_bar main_content";
+}
+.home_content_home {
+  display: grid;
+  min-height: 100vh;
+  min-width: 100vw;
+  grid-template-columns: 10vw 90vw;
+  grid-template-rows: 7vh 93vh;
+  grid-template-areas: "nothing nav_bar_top" "nav_bar main_content";
+  animation-name: loadingStyle;
+  animation-duration: 1s;
+}
+.fade_class {
+  animation-name: fadeLoading;
+  animation-duration: 1s;
+}
+@keyframes loadingStyle {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeLoading {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 .home_selectors {
   display: block;
@@ -210,6 +335,7 @@ body {
 }
 .drop_down_bar_container {
   margin-bottom: 1vh;
+  width: 15vw;
 }
 .drop_down_bar {
   margin-left: 1rem;
@@ -494,6 +620,18 @@ body {
   padding: 1rem;
   margin: 0 1rem 0.5rem 1rem;
 }
+.dashboard_form_divs_name_bar_docs {
+  position: absolute;
+  margin-top: 2.2rem;
+  margin-left: 8.1rem;
+  padding: 5px;
+  width: 15vw;
+  border-right: 1px solid #232f3e;
+  border-bottom: 1px solid #232f3e;
+  border-left: 1px solid #232f3e;
+  background-color: white;
+  z-index: 1;
+}
 .details_component_overall {
   display: flex;
   padding: 1rem;
@@ -512,6 +650,7 @@ label {
 .main_content_invoicing {
   grid-area: main_content;
   background-color: #fefefe;
+  overflow-y: scroll;
 }
 .loading_link {
   width: 10vw;
@@ -525,6 +664,11 @@ label {
 }
 .pdf_text {
   text-decoration: none;
+  margin-bottom: 2rem;
+}
+.viewer_class {
+  height: 80vh;
+  width: 40vw;
 }
 .loading_text {
   color: #fefefe;
@@ -532,9 +676,9 @@ label {
 .documents_search_bar_invoicing {
   border-bottom: 1px solid rgba(35, 47, 62, 0.26);
   border-top: 1px solid rgba(35, 47, 62, 0.26);
-  padding-top: 5px;
   display: flex;
-  justify-content: space-evenly;
+  padding: 0;
+  justify-content: space-between;
   margin: 0 1rem 0.5rem 1rem;
   width: 86vw;
 }
@@ -548,6 +692,7 @@ label {
   border-bottom: 1px solid #232f3e;
   border-left: 1px solid #232f3e;
   background-color: white;
+  z-index: 1;
 }
 .invoice_content {
   margin: 2rem;
@@ -562,8 +707,8 @@ label {
 .documents_search_bar_invoicing_dates {
   display: flex;
   margin: auto 0;
-  font-size: 2em;
-  width: 40vw;
+  padding: 0;
+  font-size: 1.3em;
   color: #232f3e;
 }
 .invoices_overall {
@@ -572,12 +717,16 @@ label {
   height: 80vh;
 }
 .top_divs {
-  border-right: solid rgba(35, 47, 62, 0.26) 1px;
-  padding: 2px;
+  border-left: solid rgba(35, 47, 62, 0.199) 5px;
+  border-bottom: 2px solid rgba(35, 47, 62, 0.199);
+  border-radius: 0.5rem;
+  padding: 5px;
+  margin-right: 4px;
 }
 .top_divs:hover {
-  background-color: #232f3e;
-  color: #fefefe;
+  border-bottom: 2px solid rgba(35, 47, 62, 0);
+  border-left: solid 5px rgba(35, 47, 62, 0.733);
+  transform: translateY(-0.1rem);
 }
 .invoice_date_list {
   width: 86vw;
@@ -593,13 +742,25 @@ label {
 }
 .invoice_item {
   margin: 1rem;
-  border-right: 1px solid rgba(35, 47, 62, 0.26);
-  border-bottom: 1px solid rgba(35, 47, 62, 0.26);
+  padding: 0.5rem;
+  border-radius: 0.55rem;
+  border-left: 10px solid rgba(35, 47, 62, 0.267);
+  border-bottom: 2px solid rgba(35, 47, 62, 0.26);
+  width: 25vw;
+  animation-name: slidein;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+.inside_text_invoice {
+  margin-left: 1rem;
+  animation-name: text_fun;
+  animation-duration: 0.5s;
 }
 .single_Invoice_overall {
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  height: 65vh;
   margin-top: 5px;
   border-top: 1px solid rgba(35, 47, 62, 0.26);
   overflow-y: scroll;
@@ -630,27 +791,60 @@ label {
 }
 .right_section_invoice {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
   width: 50%;
 }
 .driver_details_section {
   display: flex;
   width: 20vw;
+  height: 10vh;
   font-size: 1.5em;
   padding: 2rem;
+  margin: 2rem;
   border-bottom: 1px solid #232f3e;
 }
 .driver_details_section_right {
   display: flex;
   width: 25vw;
+  height: 10vh;
   font-size: 1.5em;
   padding: 2rem;
+  margin: 2rem;
   border-bottom: 1px solid #232f3e;
+}
+@keyframes slidein {
+  0% {
+    color: white;
+    transform: translatey(5vh);
+  }
+  100% {
+    transform: translatey(0vh);
+  }
+}
+@keyframes text_fun {
+  0% {
+    color: white;
+    transform: translatey(5vh);
+  }
+  100% {
+    transform: translatey(0vh);
+  }
 }
 @media only screen and (max-width: 1500px) {
   html,
   body {
     font-size: 90%;
+  }
+  .dashboard_form_divs_name_bar_invoicing {
+    margin-top: 2.3rem;
+    margin-left: 4.8rem;
+    z-index: 1;
+  }
+  .dashboard_form_divs_name_bar_docs {
+    margin-top: 2.3rem;
+    margin-left: 7.5rem;
+    z-index: 1;
   }
   .middle_row {
     width: 88vw;
