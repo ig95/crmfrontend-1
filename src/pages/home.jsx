@@ -10,6 +10,7 @@ const Home = (props) => {
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
     const [ schedule, setSchedule ] = useState(null)
     const [ loadingGate, setLoadingGate ] = useState(0)
+    const [ theDateRandom, setTheDateRandom ] = useState(new Date())
 
     // grab the data
     useEffect(() => {
@@ -43,6 +44,12 @@ const Home = (props) => {
         })
     }, [])
 
+    // handle selecting different day
+    const handleClick = (e) => {
+        let myString = e.target.innerText.slice(0, 15)
+        setTheDateRandom(new Date(myString))
+    }
+
     // dropdown menu options
     const options = [
         'DBS2',
@@ -55,80 +62,85 @@ const Home = (props) => {
         setSelectedCity(e.value)
     }
 
-         // map todays booked drivers
-    var chart
-    var todaysDrivers
-    if (schedule) {
-        let localNum = 0
-        let dbs2Drivers = 0
-        let dex2Drivers = 0
-        let dsn1Drivers = 0
-        schedule.forEach( (ele, id) => {
-            if (ele.date === new Date().toDateString()) {
-                localNum++
-                if (ele.location === 'DBS2') {
-                    dbs2Drivers++
-                } else if (ele.loaction === 'DEX2') {
-                    dex2Drivers++
-                } else {
-                    dsn1Drivers++
+        // map todays booked drivers
+        var chart
+        var todaysDrivers
+        if (schedule) {
+            var randomDate 
+            randomDate = theDateRandom.toDateString()
+            let localNum = 0
+            let dbs2Drivers = 0
+            let dex2Drivers = 0
+            let dsn1Drivers = 0
+            schedule.forEach( (ele, id) => {
+                if (ele.date === randomDate.toString()) {
+                    localNum++
+                    if (ele.location === 'DBS2') {
+                        dbs2Drivers++
+                    } else if (ele.loaction === 'DEX2') {
+                        dex2Drivers++
+                    } else {
+                        dsn1Drivers++
+                    }
                 }
-            }
-        })
-        todaysDrivers = (
-            <h3>Drivers Today: {localNum}</h3>
-        )
-        var segment1 
-        var segment2 
-        if (dbs2Drivers || dex2Drivers || dsn1Drivers) {
-            console.log('inside the if')
-            let theSum = dbs2Drivers + dex2Drivers + dsn1Drivers
-
-            if (dbs2Drivers === 0 && dsn1Drivers === 0 && dex2Drivers !== 0 ) {
-                segment1 = 0
-                segment2 = 0
-            }
-            // dbs2
-            if (dbs2Drivers !== 0) {
-                if (dbs2Drivers/theSum === 1) {
-                    segment1 = 360
+            })
+            todaysDrivers = (
+                <h3>Drivers Today: {localNum}</h3>
+            )
+            var segment1 
+            var segment2 
+            if (dbs2Drivers || dex2Drivers || dsn1Drivers) {
+                console.log('dbs2: ', dbs2Drivers, 'dex2: ', dex2Drivers, 'dsn1: ', dsn1Drivers)
+                let theSum = dbs2Drivers + dex2Drivers + dsn1Drivers
+    
+                if (dbs2Drivers === 0 && dsn1Drivers === 0 && dex2Drivers !== 0 ) {
+                    segment1 = 0
                     segment2 = 0
                 }
-                segment1 = (dbs2Drivers/theSum) * 10
-            } else {
-                segment1 = 100
-            }
-
-            // dsn1
-            if (dsn1Drivers !== 0) {
-                if (dsn1Drivers/theSum === 1) {
-                    segment2 = 360
+                // dbs2
+                if (dbs2Drivers !== 0) {
+                    if (dbs2Drivers/theSum === 1) {
+                        segment1 = 360
+                        segment2 = 0
+                    }
+                    segment1 = (dbs2Drivers/theSum) * 100
+                } else {
                     segment1 = 0
                 }
-                segment2 = (dsn1Drivers/theSum) * 10
-            } else {
-                segment1 = 100
+    
+                // dsn1
+                if (dsn1Drivers !== 0) {
+                    if (dex2Drivers === 0) {
+                        segment2 = 100
+                    } else if (dsn1Drivers/theSum === 1) {
+                        segment2 = 360
+                        segment1 = 0
+                    } else {
+                        segment2 = (dsn1Drivers/theSum) * 100
+                    }
+                } else {
+                    segment2 = 0
+                }
+            }
+            if (segment1 || segment2) {
+                chart = (
+                    <div className='chart_overall'>
+                        <div className='names_label'>
+                            <h3>DBS2 <div className='colordivsblue'></div></h3>
+                            <h3>DSN1 <div className='colordivsgreen'></div></h3>
+                            <h3>DEX2 <div className='colordivsyellow'></div></h3>
+                        </div>
+                        <div 
+                            className="pie" 
+                            style={{
+                                backgroundImage:
+                                    `conic-Gradient(blue ${3.6 * segment1}deg, green 0 ${3.6 * segment2}deg, yellow 0)`
+                            }}>
+                        </div>
+                    </div>
+                )
             }
         }
-        if (segment1 || segment2) {
-            chart = (
-                <div className='chart_overall'>
-                    <div className='names_label'>
-                        <h3>DBS2 <div className='colordivsblue'></div></h3>
-                        <h3>DSN1 <div className='colordivsgreen'></div></h3>
-                        <h3>DEX2 <div className='colordivsyellow'></div></h3>
-                    </div>
-                    <div 
-                        className="pie" 
-                        style={{
-                            backgroundImage:
-                                `conic-Gradient(blue ${3.6 * segment1}deg, green 0 ${3.6 * segment2}deg, yellow 0)`
-                        }}>
-                    </div>
-                </div>
-            )
-        }
-    }
 
     var content
     if (loadingGate === 2) {
@@ -157,7 +169,7 @@ const Home = (props) => {
                                 {chart}
                             </div>
                         </div>
-                    <div className='scheduling_four_week_overlay'>
+                    <div className='scheduling_four_week_overlay' onClick={handleClick}>
                         <DivWeek 
                             currentDate={selectedDate}
                             scheduleDates={schedule}
