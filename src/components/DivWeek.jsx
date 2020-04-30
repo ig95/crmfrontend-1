@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react'
 
 const DivWeek = (props) => {
     const [ overAllDivs, setOverAllDivs ] = useState([])
+    const [ theDate, setTheDate ] = useState(new Date())
 
     useEffect( () => {
         // last weeks divs
@@ -18,8 +19,7 @@ const DivWeek = (props) => {
                         }
                     })
                     lastWeekDivs.push(
-                        // <Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}/${props.selectedLocation}`} >
-                            <div key={i} className='cal_divs'>
+                            <div key={i} className={dateVar === theDate.toDateString() ? 'cal_divs_current' : 'cal_divs'}>
                                 <h4 className='inner_calander_text'>
                                     {dateVar}<br /><br />
                                     Booked Drivers: {count}
@@ -43,14 +43,12 @@ const DivWeek = (props) => {
                         }
                     })
                     thisWeekDivs.push(
-                    // <Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}/${props.selectedLocation}`} >
-                            <div key={i+8} className='cal_divs'>
+                            <div key={i+8} className={dateVar === theDate.toDateString() ? 'cal_divs_current' : 'cal_divs'}>
                                 <h4 className='inner_calander_text'>
                                     {dateVar}<br /><br />
                                     Booked Drivers: {count}
                                 </h4>
                             </div>)
-                        // </Link>)
                     selectedDate.setDate(selectedDate.getDate() - i )
                 }  
                 let almostFinalDivs = [...lastWeekDivs, ...thisWeekDivs]
@@ -70,8 +68,7 @@ const DivWeek = (props) => {
                         }
                     })
                     nextWeekDivs.push(
-                    // <Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}/${props.selectedLocation}`} >
-                        <div key={i+8} className='cal_divs'>
+                        <div key={i+8} className={dateVar === theDate.toDateString() ? 'cal_divs_current' : 'cal_divs'}>
                             <h4 className='inner_calander_text'>
                                 {dateVar}<br /><br />
                                 Booked Drivers: {count}
@@ -86,12 +83,12 @@ const DivWeek = (props) => {
             // all the divs for rendering
             setOverAllDivs(nextWeekDivs(thisWeekDivs(lastWeekDivCreation())))
         }
-    }, [props.currentDate, props.scheduleDates, props.selectedLocation])
+    }, [props.currentDate, props.scheduleDates, props.selectedLocation, theDate])
     
     return (
-        <>
+        <div className='three_week_calendar'>
             {overAllDivs}
-        </>
+        </div>
     )
 }
 

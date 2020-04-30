@@ -72,7 +72,6 @@ const HomeTwo = (props) => {
         let dsn1Drivers = 0
         schedule.forEach( (ele, id) => {
             if (ele.date === randomDate.toString()) {
-                localNum++
                 if (ele.location === 'DBS2') {
                     dbs2Drivers++
                 } else if (ele.loaction === 'DEX2') {
@@ -81,9 +80,12 @@ const HomeTwo = (props) => {
                     dsn1Drivers++
                 }
             }
+            if (ele.date === randomDate.toString() && ele.location === selectedCity) {
+                localNum++
+            }
         })
         todaysDrivers = (
-            <h3>Drivers Today: {localNum}</h3>
+            <h3>Drivers Today at {selectedCity}: {localNum}</h3>
         )
         var segment1 
         var segment2 
@@ -132,7 +134,7 @@ const HomeTwo = (props) => {
                         className="pie" 
                         style={{
                             backgroundImage:
-                                `conic-Gradient(blue ${3.6 * segment1}deg, green 0 ${3.6 * segment2}deg, yellow 0)`
+                                `conic-Gradient(#232F3E ${3.6 * segment1}deg, rgb(16, 109, 16) 0 ${3.6 * segment2}deg, rgb(134, 134, 45) 0)`
                         }}>
                     </div>
                 </div>
