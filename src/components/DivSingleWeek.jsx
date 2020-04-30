@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import spinner from '../images/spinner.svg'
 
 const DivSingleWeek = (props) => {
     const [ topRow, setTopRow ] = useState([])
@@ -28,7 +29,6 @@ const DivSingleWeek = (props) => {
 
         getData('https://pythonicbackend.herokuapp.com/data/').then( response => {
             setData(response)
-            console.log(response)
         })
 
     }, [getData])
@@ -121,7 +121,7 @@ const DivSingleWeek = (props) => {
             }
         } else {
             middleRows = () => {
-                return ''
+                return <div className='location_rota_loading'><img src={spinner} alt="Loading"/></div>
             }
         }
 

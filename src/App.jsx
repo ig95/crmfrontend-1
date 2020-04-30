@@ -7,6 +7,7 @@ import WeekSchedule from './pages/WeekSchedule'
 import InvoiceWork from './pages/InvoiceWork'
 import DriverDocumentation from './pages/DriverDocumentation'
 import VehicleChecklist from './pages/VehicleChecklist'
+import HomeTwo from './pages/HomeTwo'
 // import axios from 'axios'
 import Driver from './pages/Driver'
 import './App.scss';
@@ -111,6 +112,7 @@ const App = () => {
     content = (
       <Router>
         <Route exact path = '/' render={ () => <Home user_name={userName} user_email={userEmail} user_id={userId} /> } />
+        <Route exact path = '/home' render={ () => <HomeTwo user_name={userName} user_email={userEmail} user_id={userId} /> } />
         <Route exact path = '/makemployee' render={ () => <MakeEmployee user_name={userName} user_email={userEmail} user_id={userId} /> } />
         <Route exact path = '/weekschedule' render={ () => <WeekSchedule user_name={userName} user_email={userEmail}/> } />
         <Route exact path = '/driver/:id/:date' render={ () => <Driver user_name={userName} user_email={userEmail} driver_data={drivers} schedule_data={schedule}/> } />

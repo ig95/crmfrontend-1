@@ -1,5 +1,4 @@
 import React, { useState, useEffect} from 'react'
-import { Link } from 'react-router-dom';
 
 const DivWeek = (props) => {
     const [ overAllDivs, setOverAllDivs ] = useState([])
@@ -18,15 +17,14 @@ const DivWeek = (props) => {
                             count += 1
                         }
                     })
-                    lastWeekDivs.push(<Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}/${props.selectedLocation}`} className='cal_divs'>
-                        <div key={i}>
-                            <h4 className='inner_calander_text'>
-                                {dateVar}
-                            </h4>
-                            <h4 className='inner_calander_text'>
-                            Booked Drivers: {count}
-                            </h4>
-                        </div></Link>)
+                    lastWeekDivs.push(
+                        // <Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}/${props.selectedLocation}`} >
+                            <div key={i} className='cal_divs'>
+                                <h4 className='inner_calander_text'>
+                                    {dateVar}<br /><br />
+                                    Booked Drivers: {count}
+                                </h4>
+                            </div>)
                     selectedDate.setDate(selectedDate.getDate() + i )
                 }
                 return lastWeekDivs
@@ -44,15 +42,15 @@ const DivWeek = (props) => {
                             count += 1
                         }
                     })
-                    thisWeekDivs.push(<Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}/${props.selectedLocation}`} className='cal_divs'>
-                        <div key={i+8}>
-                            <h4 className='inner_calander_text'>
-                                {dateVar}
-                            </h4>
-                            <h4 className='inner_calander_text'>
-                            Booked Drivers: {count}
-                            </h4>
-                        </div></Link>)
+                    thisWeekDivs.push(
+                    // <Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}/${props.selectedLocation}`} >
+                            <div key={i+8} className='cal_divs'>
+                                <h4 className='inner_calander_text'>
+                                    {dateVar}<br /><br />
+                                    Booked Drivers: {count}
+                                </h4>
+                            </div>)
+                        // </Link>)
                     selectedDate.setDate(selectedDate.getDate() - i )
                 }  
                 let almostFinalDivs = [...lastWeekDivs, ...thisWeekDivs]
@@ -71,15 +69,14 @@ const DivWeek = (props) => {
                             count += 1
                         }
                     })
-                    nextWeekDivs.push(<Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}/${props.selectedLocation}`} className='cal_divs'>
-                        <div key={i+8}>
+                    nextWeekDivs.push(
+                    // <Link to={`/SingleDay/${dateVar.toString().split(' ').join('')}/${props.selectedLocation}`} >
+                        <div key={i+8} className='cal_divs'>
                             <h4 className='inner_calander_text'>
-                                {dateVar}
-                            </h4>
-                            <h4 className='inner_calander_text'>
+                                {dateVar}<br /><br />
                                 Booked Drivers: {count}
                             </h4>
-                        </div></Link>)
+                        </div>)
                     selectedDate.setDate(selectedDate.getDate() - i )
                 }  
                 let finalDivs = [...thisWeekDivs, ...nextWeekDivs]

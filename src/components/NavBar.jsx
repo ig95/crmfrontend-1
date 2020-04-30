@@ -31,7 +31,7 @@ const NavigationBar = (props) => {
 
             </div>
             <div className='nav_bar'>
-                <Link to="/" className='links'> 
+                <Link to="/home" className='links'> 
                     <div className='link_style'>
                         Summary 
                     </div>

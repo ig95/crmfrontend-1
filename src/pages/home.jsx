@@ -1,9 +1,7 @@
 import React, { useState, useEffect} from 'react'
-import Calendar from 'react-calendar'
 import NavigationBar from '../components/NavBar'
 import DivWeek from '../components/DivWeek'
 import Dropdown from 'react-dropdown';
-import 'react-calendar/dist/Calendar.css';
 import 'react-dropdown/style.css';
 
 
@@ -45,11 +43,6 @@ const Home = (props) => {
         })
     }, [])
 
-    // changes the selected date with the calendar selections
-    const handleCalendarChange = (e) => {
-        setSelectedDate(e)
-    }
-
     // dropdown menu options
     const options = [
         'DBS2',
@@ -62,6 +55,81 @@ const Home = (props) => {
         setSelectedCity(e.value)
     }
 
+         // map todays booked drivers
+    var chart
+    var todaysDrivers
+    if (schedule) {
+        let localNum = 0
+        let dbs2Drivers = 0
+        let dex2Drivers = 0
+        let dsn1Drivers = 0
+        schedule.forEach( (ele, id) => {
+            if (ele.date === new Date().toDateString()) {
+                localNum++
+                if (ele.location === 'DBS2') {
+                    dbs2Drivers++
+                } else if (ele.loaction === 'DEX2') {
+                    dex2Drivers++
+                } else {
+                    dsn1Drivers++
+                }
+            }
+        })
+        todaysDrivers = (
+            <h3>Drivers Today: {localNum}</h3>
+        )
+        var segment1 
+        var segment2 
+        if (dbs2Drivers || dex2Drivers || dsn1Drivers) {
+            console.log('inside the if')
+            let theSum = dbs2Drivers + dex2Drivers + dsn1Drivers
+
+            if (dbs2Drivers === 0 && dsn1Drivers === 0 && dex2Drivers !== 0 ) {
+                segment1 = 0
+                segment2 = 0
+            }
+            // dbs2
+            if (dbs2Drivers !== 0) {
+                if (dbs2Drivers/theSum === 1) {
+                    segment1 = 360
+                    segment2 = 0
+                }
+                segment1 = (dbs2Drivers/theSum) * 10
+            } else {
+                segment1 = 100
+            }
+
+            // dsn1
+            if (dsn1Drivers !== 0) {
+                if (dsn1Drivers/theSum === 1) {
+                    segment2 = 360
+                    segment1 = 0
+                }
+                segment2 = (dsn1Drivers/theSum) * 10
+            } else {
+                segment1 = 100
+            }
+        }
+        if (segment1 || segment2) {
+            chart = (
+                <div className='chart_overall'>
+                    <div className='names_label'>
+                        <h3>DBS2 <div className='colordivsblue'></div></h3>
+                        <h3>DSN1 <div className='colordivsgreen'></div></h3>
+                        <h3>DEX2 <div className='colordivsyellow'></div></h3>
+                    </div>
+                    <div 
+                        className="pie" 
+                        style={{
+                            backgroundImage:
+                                `conic-Gradient(blue ${3.6 * segment1}deg, green 0 ${3.6 * segment2}deg, yellow 0)`
+                        }}>
+                    </div>
+                </div>
+            )
+        }
+    }
+
     var content
     if (loadingGate === 2) {
         content = (
@@ -70,28 +138,32 @@ const Home = (props) => {
                 <NavigationBar title='Home'/>
                     <div className='main_content'>
                         <div className='calandar_container'>
-                            <div className='drop_down_bar_container'>
-                                <Dropdown 
-                                    options={options} 
-                                    onChange={onSelect} 
-                                    value={selectedCity} 
-                                    placeholder="Select an option" 
-                                    className='drop_down_bar'
-                                />
+                            <div>
+                                <div className='home_details'>
+                                    <h2>Welcome {props.user_name}</h2>
+                                    {todaysDrivers}
+                                </div>
+                                <div className='drop_down_bar_container'>
+                                    <Dropdown 
+                                        options={options} 
+                                        onChange={onSelect} 
+                                        value={selectedCity} 
+                                        placeholder="Select an option" 
+                                        className='drop_down_bar'
+                                    />
+                                </div>
                             </div>
-                            <Calendar 
-                                onChange={handleCalendarChange}
-                                value={selectedDate}
-                                className='calander'
-                            />
+                            <div className='canvas_chart'>
+                                {chart}
+                            </div>
                         </div>
-                        <div className='scheduling_four_week_overlay'>
-                            <DivWeek 
-                                currentDate={selectedDate}
-                                scheduleDates={schedule}
-                                selectedLocation={selectedCity ? selectedCity : 'DBS2'}
-                            />
-                        </div>
+                    <div className='scheduling_four_week_overlay'>
+                        <DivWeek 
+                            currentDate={selectedDate}
+                            scheduleDates={schedule}
+                            selectedLocation={selectedCity ? selectedCity : 'DBS2'}
+                        />
+                    </div>
                     </div>
                 </div>
             </>

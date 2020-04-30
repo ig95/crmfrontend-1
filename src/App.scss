@@ -330,6 +330,14 @@
     animation-name: fadeLoading;
     animation-duration: 1s;
   }
+
+  .loading_home_div {
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   
   @keyframes loadingStyle {
     0% {
@@ -349,30 +357,94 @@
     }
   }
 
+  .home_details {
+    margin-left: 1rem;
+    width: 20vw;
+  }
+
+  .drop_down_bar_container {
+    margin-bottom: 1vh;
+    width: 20vw;
+  }
+
   .home_selectors {
     display: block;
     display: flex;
     width: 25vw;
     height: 10vh;
   }
+
+  .colordivsblue {
+    display: inline-block;
+    width: 15px;
+    height: 5px;
+    background-color: blue;
+  }
+
+  .colordivsgreen {
+    display: inline-block;
+    width: 15px;
+    height: 5px;
+    background-color: green;
+  }
+
+  .colordivsyellow {
+    display: inline-block;
+    width: 15px;
+    height: 5px;
+    background-color: yellow;
+  }
   
   .main_content {
     grid-area: main_content;
     background-color: $offWhite;
     align-items: flex-start;
-    @extend %centerThings;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
   }
 
-  
+  .main_content_home_two {
+    grid-area: main_content;
+    background-color: $offWhite;
+    align-items: flex-start;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
+  }
+
   .calandar_container {
-    width: 15vw;
+    width: 80vw;
     margin: 1rem;
     padding: 0;
+    height: 15vh;
+    display: flex;
+    justify-content: space-between;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
   }
 
-  .drop_down_bar_container {
-    margin-bottom: 1vh;
-    width: 15vw;
+  .pie {
+    /* Basic layout */
+    display: inline-block;
+    width: 10em;
+    height: 10em;
+    border-radius: 50%;
+  
+    /* A little styling */
+    border: .15em solid #fff;
+    box-shadow: 0 .075em .2em .05em rgba(0,0,0,.25);
+  
+    /* fixes a minor clipping issue in Chrome */
+    background-origin: border-box; 
+  }
+
+  .chart_overall {
+    display: flex;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
+  }
+
+  .names_label {
+    margin-right: 1rem;
   }
 
   .drop_down_bar {
@@ -436,6 +508,8 @@
     align-items: flex-start;
     flex-direction: column;
     @extend %centerThings;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
   }
 
   .single_week_grid {
@@ -450,6 +524,12 @@
     "middle_row"
     "bottom_row"
     ;
+  }
+
+  .location_rota_loading {
+    width: 100%;
+    height: 100%;
+    @extend %centerThings;
   }
   
   // 14s
@@ -577,6 +657,8 @@
   .main_content_new_driver {
     grid-area: main_content;
     margin-left: 2rem;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
   }
 
   .new_employee_form {
@@ -608,6 +690,8 @@
     background-color: $offWhite;
     overflow-y: scroll;
     padding-bottom: 5rem;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
   }
 
   .dashboard_labels {
@@ -703,6 +787,8 @@
   .main_content_driver_documents{
     grid-area: main_content;
     background-color: $offWhite;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
   }
 
   .overall_documents{
@@ -802,6 +888,8 @@
     grid-area: main_content;
     background-color: $offWhite;
     overflow-y: scroll;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
   }
 
   .loading_link {
