@@ -11,7 +11,7 @@
 }
 .dark_overlay,
 .drop_down_hamburger:hover .drop_down_content,
-.scheduling_four_week_overlay,
+.three_week_calendar,
 .main_content_week_schedule,
 .location_rota_loading,
 .loading_link,
@@ -45,7 +45,8 @@
 .cal_divs_single_booked_seven,
 .cal_divs_single_first,
 .links,
-.cal_divs {
+.cal_divs,
+.cal_divs_current {
   text-decoration: none;
 }
 .inputs,
@@ -229,7 +230,7 @@ body {
 }
 .middle_nav {
   margin: auto auto;
-  width: 75vw;
+  width: 70vw;
 }
 .drop_down_content {
   display: none;
@@ -334,19 +335,19 @@ body {
   display: inline-block;
   width: 15px;
   height: 5px;
-  background-color: blue;
+  background-color: #232f3e;
 }
 .colordivsgreen {
   display: inline-block;
   width: 15px;
   height: 5px;
-  background-color: green;
+  background-color: #106d10;
 }
 .colordivsyellow {
   display: inline-block;
   width: 15px;
   height: 5px;
-  background-color: yellow;
+  background-color: #86862d;
 }
 .main_content {
   grid-area: main_content;
@@ -399,11 +400,14 @@ body {
   margin: 1rem;
   display: flex;
 }
-.scheduling_four_week_overlay {
-  margin-top: 30vh;
+.three_week_calendar {
+  margin-top: 25vh;
   margin-left: 5%;
   flex-wrap: wrap;
   margin-right: 5%;
+  border: 5px solid #232f3e;
+  border-radius: 1rem;
+  padding: 1rem;
 }
 .cal_divs {
   flex: 1 0 13%;
@@ -414,12 +418,28 @@ body {
   color: black;
   z-index: 0;
   font-family: "Roboto";
-  margin-right: 3px;
+  margin-right: 5px;
   border-radius: 0.5rem;
   border-top: 0;
   border-right: 0;
-  border-left: 5px solid rgba(35, 47, 62, 0.199);
-  border-bottom: 2px solid rgba(35, 47, 62, 0.199);
+  border-left: 5px solid #232f3e;
+  border-bottom: 2px solid #232f3e;
+}
+.cal_divs_current {
+  flex: 1 0 13%;
+  height: 10vh;
+  width: 4vw;
+  margin-bottom: 5px;
+  background-color: #a3a1a1;
+  color: black;
+  z-index: 0;
+  font-family: "Roboto";
+  margin-right: 5px;
+  border-radius: 0.5rem;
+  border-top: 0;
+  border-right: 0;
+  border-left: 5px solid #232f3e;
+  border-bottom: 2px solid #232f3e;
 }
 .cal_divs:hover {
   transform: translateY(-2px);

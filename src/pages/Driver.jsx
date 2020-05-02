@@ -32,29 +32,6 @@ const Driver = (props) => {
 
 
     useEffect( () => {
-        // development data
-        // let devObject = {
-        //     employee_id: 1,
-        //     name: "Nicholas Shankland",
-        //     inOff: 1,
-        //     location: "DBS2",
-        //     route: "DBS2",
-        //     mileage: 0,
-        //     parcel: 0,
-        //     LWP: 0,
-        //     LVP: 0,
-        //     CRT: 0,
-        //     RL: 0,
-        //     SUP: "0.0000",
-        //     fuel: "0.0000",
-        //     vans: "0.0000",
-        //     supportDeductions: "0.0000",
-        //     documents: [],
-        //     datesList: [],
-        // }
-        // setSelectedDriver(devObject)
-
-
         let currentDate = /driver(.*)/.exec(window.location.href)[0].replace(/driver\//, '')
         let driverID = parseInt(currentDate[0])
         let selectedDate = currentDate.slice(2)

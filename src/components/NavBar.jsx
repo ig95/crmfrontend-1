@@ -20,12 +20,25 @@ const NavigationBar = (props) => {
         }
         timeFunction()
     }, [])
-    
+
+    var dayArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
+    var monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"]
+
+    Date.prototype.getWeek = function () {
+        var firstDate = new Date(this.getFullYear(), 0, 1)
+        return Math.ceil((((new Date(this.getFullYear(), this.getMonth(), this.getDate()) - firstDate) / 86400000) + firstDate.getDay() + 1) / 7)
+    }
+
     return (
         <>
             <div className='nav_bar_top'>
                 <h1 className='middle_nav'>{props.title}</h1>
-                <h3 className='nav_current_date'>{currentDate.toDateString()}{' | '}{currentDate.toLocaleTimeString()}</h3>
+                <h3 className='nav_current_date'>{dayArray[currentDate.getDay()]} {currentDate.getDate()} {monthArray[currentDate.getMonth()]} {currentDate.getFullYear()}
+                {' | '}
+                Week: {currentDate.getWeek()}
+                {' | '}
+                {currentDate.toLocaleTimeString()}
+                </h3>
             </div>
             <div className='nothing'>
 
@@ -43,7 +56,7 @@ const NavigationBar = (props) => {
                 </Link>
                 <Link to="/makemployee" className='links'>
                     <div className='link_style'>
-                    Make Employee 
+                        New Driver
                     </div>
                 </Link>
                 <Link to="/weekschedule" className='links'>
@@ -56,14 +69,9 @@ const NavigationBar = (props) => {
                         Invoice Work 
                     </div>
                 </Link>
-                <Link to="/vehiclechecklist" className='links'>
-                    <div className='link_style'>
-                        Vehical Checklist 
-                    </div>
-                </Link>
                 <Link to="/documentation" className='links'>
                     <div className='link_style'>
-                        Driver Documents 
+                        Documents 
                     </div>
                 </Link>
             </div>

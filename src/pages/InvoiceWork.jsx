@@ -540,7 +540,7 @@ const InvoiceWork = (props) => {
                                         style={{
                                             borderBottomColor: 'black',
                                             borderBottomWidth: 1,
-                                                                                        marginBottom: 10,
+                                            marginBottom: 10,
                                             marginTop: 10
                                         }}
                                     />
