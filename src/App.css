@@ -683,6 +683,11 @@ body {
   height: 60vh;
   margin: 0 1rem 0 1rem;
 }
+.driver_documents_label_seperation {
+  display: flex;
+  flex-direction: row;
+  margin-left: 5vw;
+}
 .submit_image {
   height: 4vh;
 }

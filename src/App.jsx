@@ -6,7 +6,7 @@ import MakeEmployee from './pages/MakeEmployee'
 import WeekSchedule from './pages/WeekSchedule'
 import InvoiceWork from './pages/InvoiceWork'
 import DriverDocumentation from './pages/DriverDocumentation'
-import VehicleChecklist from './pages/VehicleChecklist'
+import Statistics from './pages/Statistics'
 import HomeTwo from './pages/HomeTwo'
 // import axios from 'axios'
 import Driver from './pages/Driver'
@@ -117,7 +117,7 @@ const App = () => {
         <Route exact path = '/weekschedule' render={ () => <WeekSchedule user_name={userName} user_email={userEmail}/> } />
         <Route exact path = '/driver/:id/:date' render={ () => <Driver user_name={userName} user_email={userEmail} driver_data={drivers} schedule_data={schedule}/> } />
         <Route exact path = '/dashboard' render={ () => <Dashboard user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/vehiclechecklist' render={ () => <VehicleChecklist user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/statistics' render={ () => <Statistics user_name={userName} user_email={userEmail}/> } />
         <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail}/> } />
         <Route exact path = '/documentation' render={ () => <DriverDocumentation user_name={userName} user_email={userEmail}/> } />
         <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail}/> } />

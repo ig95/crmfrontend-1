@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import Documents from '../components/Documents'
 import NavigationBar from '../components/NavBar'
+import Dropdown from 'react-dropdown'
+import 'react-dropdown/style.css'
 
 const DriverDocumentation = (props) => {
     const [ selectedDriver, setSelectedDriver ] = useState(null)
@@ -9,9 +11,7 @@ const DriverDocumentation = (props) => {
     const [ dataset, setDataset ] = useState(null)
     const [ makeSearchBarVisible, setMakeSearchBarVisible ] = useState('dashboard_form_divs_name_bar_none')
     const [ nameValue, setNameValue ] = useState('')
-
-    // make this like the daily operations page. show vehicle recommendation in entry column
-    // location rota system shows not exceeding 7 days for same person
+    const [ selectedCity, setSelectedCity ] = useState('DBS2')
 
     // fetch call to the db for all data related to drivers and schedule
     useEffect(() => {
@@ -46,6 +46,19 @@ const DriverDocumentation = (props) => {
                 <Documents selectedDriver={selectedDriver} />
             </>
         )
+    }
+
+
+    // dropdown menu options
+    const options = [
+        'DBS2',
+        'DSN1',
+        'DEX2'
+    ]
+
+    // dropdown menu selection function
+    const onSelect = (e) => {
+        setSelectedCity(e.value)
     }
     
     // select name
@@ -91,12 +104,25 @@ const DriverDocumentation = (props) => {
             <div className='main_content_driver_documents'>
                 <div className='documents_search_bar'>
                     <div className='invoice_form_divs_name'>
-                        <div>
-                            <label className='dashboard_labels'>Find Driver </label>
+                        <div className='drop_down_bar_container'>
+                            <Dropdown 
+                                options={options} 
+                                onChange={onSelect} 
+                                value={selectedCity} 
+                                placeholder="Select an option" 
+                                className='drop_down_bar'
+                            />
                         </div>
-                            <input className='search_bar' type="text" name='Name' value={nameValue} onChange={handleChange} autoComplete='off'/>
-                        <div className={`${makeSearchBarVisible}`}>
-                            {driverSearchArray}
+                        <div className='driver_documents_label_seperation'>
+                            <div >
+                                <label className='dashboard_labels'>Find Driver </label>
+                            </div>
+                            <div>
+                                <input className='search_bar' type="text" name='Name' value={nameValue} onChange={handleChange} autoComplete='off'/>
+                                <div className={`${makeSearchBarVisible}`}>
+                                    {driverSearchArray}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

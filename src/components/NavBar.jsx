@@ -69,6 +69,11 @@ const NavigationBar = (props) => {
                         Invoice Work 
                     </div>
                 </Link>
+                <Link to="/statistics" className='links'>
+                    <div className='link_style'>
+                        Statistics 
+                    </div>
+                </Link>
                 <Link to="/documentation" className='links'>
                     <div className='link_style'>
                         Documents 
