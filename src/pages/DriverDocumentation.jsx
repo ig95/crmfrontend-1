@@ -3,6 +3,7 @@ import Documents from '../components/Documents'
 import NavigationBar from '../components/NavBar'
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
+import folderPic from '../images/folder.png'
 
 const DriverDocumentation = (props) => {
     const [ selectedDriver, setSelectedDriver ] = useState(null)
@@ -60,70 +61,48 @@ const DriverDocumentation = (props) => {
     const onSelect = (e) => {
         setSelectedCity(e.value)
     }
+
+    // select driver
+    const handleClick = (e, element) => {
+        setSelectedDriver(element)
+    }
     
-    // select name
-    const handleNameClick = (e, theName) => {
-        makeSearchUnderBar('', 10)
-        setNameValue(theName)
-        dataset.forEach( (ele, id) => {
-            if (ele.name === theName) {
-                setSelectedDriver(ele)
-            }
-        })
-    }
-
-    // search bar 
-    const makeSearchUnderBar = (theValue, theLength) => {
-        if (theValue !== '' && theLength <= 3) {
-            setMakeSearchBarVisible('dashboard_form_divs_name_bar_docs')
-        } else {
-            setMakeSearchBarVisible('dashboard_form_divs_name_bar_none')
-        }
-    }
-
-    // search bar function
-    const handleChange = (e) => {
-        if (dataset) {
-            setNameValue(e.target.value)
-            makeSearchUnderBar(e.target.value, nameValue.length)
-            let localArray = []
-            dataset.forEach( (ele, id) => {
-                if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 4) {
+    // make list of files
+    const listTheDrivers = () => {
+        let localArray = []
+        if (drivers) {
+            drivers.forEach( (ele, id) => {
+                if (ele.location === selectedCity) {
                     localArray.push(
-                        <h4 className='name_suggestions' onClick={(e, theName) => handleNameClick(e, `${ele.name}`)}>{ele.name}</h4>
+                        <h3 className='name_list_documents' onClick={(e, name )=> handleClick(e, ele)}>
+                            {ele.name} 
+                            <img src={folderPic} alt="Folder" className='image_in_documents_folder'/>
+                        </h3>
                     )
                 }
             })
-            setDriverSearchArray(localArray)
         }
+        return localArray
     }
 
+    var driverList = listTheDrivers()
+    console.log(driverList)
     return (
         <div className='home_content'>
             <NavigationBar title='Driver Documents'/>
             <div className='main_content_driver_documents'>
                 <div className='documents_search_bar'>
-                    <div className='invoice_form_divs_name'>
-                        <div className='drop_down_bar_container'>
-                            <Dropdown 
-                                options={options} 
-                                onChange={onSelect} 
-                                value={selectedCity} 
-                                placeholder="Select an option" 
-                                className='drop_down_bar'
-                            />
-                        </div>
-                        <div className='driver_documents_label_seperation'>
-                            <div >
-                                <label className='dashboard_labels'>Find Driver </label>
-                            </div>
-                            <div>
-                                <input className='search_bar' type="text" name='Name' value={nameValue} onChange={handleChange} autoComplete='off'/>
-                                <div className={`${makeSearchBarVisible}`}>
-                                    {driverSearchArray}
-                                </div>
-                            </div>
-                        </div>
+                    <div className='drop_down_bar_container'>
+                        <Dropdown 
+                            options={options} 
+                            onChange={onSelect} 
+                            value={selectedCity} 
+                            placeholder="Select an option" 
+                            className='drop_down_bar'
+                        />
+                    </div>
+                    <div className='drivers_names_documents'>
+                        {driverList}
                     </div>
                 </div>
                 {content}

@@ -724,6 +724,34 @@ body {
   border: 2px solid #232f3e;
   padding: 1rem;
   margin: 0 1rem 0.5rem 1rem;
+  display: flex;
+  justify-content: space-evenly;
+}
+.drivers_names_documents {
+  border: 1px solid black;
+  width: 50vw;
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 1rem;
+}
+.image_in_documents_folder {
+  height: 1.2vh;
+}
+.name_list_documents {
+  font-size: 1.3em;
+  font-weight: 400;
+  padding: 0;
+  margin: 5px;
+}
+@keyframes hoverEffect {
+  0% {
+    border-bottom: 0;
+  }
+  100% {
+    border-bottom: 3px solid #232f3e;
+  }
 }
 .dashboard_form_divs_name_bar_docs {
   position: absolute;
