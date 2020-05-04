@@ -114,7 +114,7 @@ const Documents = (props) => {
                             </defs>
                             <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
                         </svg>
-                        <span className='span_in_Button'>Submit</span>  
+                        <span className='span_in_Button_add'>Submit</span>  
                     </div>            
                 </form><br /><br /><br /><br /><hr />
                 <img src={valueForSubmit ? valueForSubmit : ''} alt="" className='uploaded_image'/>
@@ -122,6 +122,10 @@ const Documents = (props) => {
         )
     }
     const getDivsBack = () => {
+        setHighlightedPicture(null)
+    }
+    
+    const getDivsBackAndVerify = () => {
         setHighlightedPicture(null)
     }
 
@@ -132,18 +136,32 @@ const Documents = (props) => {
                 <div>
                     {highlightedPicture}
                 </div>
-                <div class="btn" onClick={getDivsBack}>
-                    <svg width="125" height="45">
-                    <defs>
-                        <linearGradient id="grad1">
-                            <stop offset="0%" stop-color="#232F3E"/>
-                            <stop offset="100%" stop-color="#232F3E" />
-                        </linearGradient>
-                    </defs>
-                    <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
-                    </svg>
-                    <span className='span_in_Button'>Return</span>  
-                </div>   
+                <div className='button_div_box'>
+                    <div class="btn_picture" onClick={getDivsBack}>
+                        <svg width="125" height="45">
+                        <defs>
+                            <linearGradient id="grad1">
+                                <stop offset="0%" stop-color="#F3F6F6"/>
+                                <stop offset="100%" stop-color="#F3F6F6" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
+                        </svg>
+                        <span className='span_in_Button'>Return</span>  
+                    </div>   
+                    <div class="btn_picture" onClick={getDivsBackAndVerify}>
+                        <svg width="125" height="45">
+                        <defs>
+                            <linearGradient id="grad1">
+                                <stop offset="0%" stop-color="#F3F6F6"/>
+                                <stop offset="100%" stop-color="#F3F6F6" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
+                        </svg>
+                        <span className='span_in_Button'>Verify</span>  
+                    </div>   
+                </div>
             </div>
         )
     } else {

@@ -34,6 +34,11 @@
   .span_in_Button:hover {
     padding-top: 15px;
   }
+
+  .span_in_Button_add {
+    padding-top: 12px;
+  }
+
   
   .btn svg rect {
     //stroke: #EC0033;
@@ -56,6 +61,63 @@
   }
   
   .btn:hover svg rect {
+    stroke-width: 4;
+    stroke-dasharray: 59;
+    stroke-dashoffset: 20;
+  }
+
+  // Button Picture
+  .btn_picture {
+    position: relative;
+    font-size: 1.1em;
+    font-weight: 600;
+    display: flex;
+    width: 125px;
+    height: 45px;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .btn_picture svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .span_in_Button {
+    padding-top: 5px;
+  }
+
+  .span_in_Button:hover {
+    padding-top: 5px;
+  }
+
+  
+  .btn_picture svg rect {
+    //stroke: #EC0033;
+    stroke-width: 4;
+    stroke-dasharray: 353, 0;
+    stroke-dashoffset: 0;
+    -webkit-transition: all 600ms ease;
+    transition: all 600ms ease;
+  }
+  
+  .btn_picture span{
+    background: $offWhite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .btn_picture:hover span{
+    background: rgb(255, 255, 255);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: rgb(255, 255, 255);
+  }
+  
+  .btn_picture:hover svg rect {
     stroke-width: 4;
     stroke-dasharray: 59;
     stroke-dashoffset: 20;
@@ -413,6 +475,7 @@
     "nothing nav_bar_top"
     "nav_bar main_content"
     ;
+    z-index: .9;
   }
 
   .home_content_home {
@@ -979,6 +1042,11 @@
   .uploaded_image_two {
     max-width: 15vw;
     margin: 1rem;
+    box-shadow: 2px 2px 2px red;
+  }
+
+  .button_div_box {
+    display: flex;
   }
 
   .uploaded_image_two:hover {
@@ -1043,17 +1111,23 @@
     }
     100% {
       opacity: 1;
-      max-height: 65vh;
+      max-height: 90vh;
       margin: 0 auto;
     }
   }
 
   .big_picture_div{
-    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: rgba(35, 47, 62, 0.95);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: 1;
   }
 
   .submit_files_two {

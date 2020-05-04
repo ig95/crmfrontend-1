@@ -27,11 +27,11 @@ const App = () => {
   // const [ user, setUser] = useState(null);
 
   // dev mode
-  // useEffect( () => {
-  //   setUserName('Nicholas Shankland')
-  //   setUserEmail('nicholas.m.shankland@gmail.com')
-  //   setUserId('1923874-98y')
-  // },[])
+  useEffect( () => {
+    setUserName('Nicholas Shankland')
+    setUserEmail('nicholas.m.shankland@gmail.com')
+    setUserId('1923874-98y')
+  },[])
 
   useEffect( () => {
     async function getData(url = '', data={}) {
@@ -79,9 +79,9 @@ const App = () => {
 
   // handles writting data to database and recieving google data
   const responseGoogle = (response) => {
-    setUserName(response.profileObj.givenName)
-    setUserId(response.profileObj.googleId)
-    setUserEmail(response.profileObj.email)
+    // setUserName(response.profileObj.givenName)
+    // setUserId(response.profileObj.googleId)
+    // setUserEmail(response.profileObj.email)
 
     // email bit... actually works
     // async function getData(url = '', data={}) {
