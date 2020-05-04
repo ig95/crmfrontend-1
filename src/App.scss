@@ -1047,7 +1047,6 @@
   .uploaded_image_two_false {
     max-width: 15vw;
     margin: 1rem;
-    box-shadow: 3px 3px 3px rgb(226, 56, 56);
   }
 
   .uploaded_image_two_true {
@@ -1065,6 +1064,25 @@
     animation-name: giveShadow;
     animation-duration: .5s;
     animation-fill-mode: forwards;
+  }
+
+  .image_list_divs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid $amazon_blue;
+    border-radius: .5rem;
+    margin: 1rem;
+  }
+  
+  .image_list_divs_false {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid $amazon_blue;
+    border-radius: .5rem;
+    margin: 1rem;
+    background-color: rgba(211, 128, 128, 0.575);
   }
 
   .button_div_box {
@@ -1149,7 +1167,6 @@
   .submit_files_two {
     border: 2px solid #232F3E;
     padding: 2rem;
-    margin-left: .25vw;
     display: flex;
     flex-wrap: wrap;
     overflow: scroll;
@@ -1213,9 +1230,6 @@
     justify-content: space-evenly;
   }
 
-  .enter_information_documents {
-
-  }
 
   .drivers_names_documents {
     width: 50vw;

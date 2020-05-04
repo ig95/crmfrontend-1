@@ -64,7 +64,7 @@ const Documents = (props) => {
             driver_id: `https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`
         }).then( response => {
             let valueForImage = (
-                <div>
+                <div className='image_list_divs_false'>
                     <h3>{imageName}</h3>
                     <img src={valueForSubmit} alt='cannot view' className='uploaded_image_two_false' onClick={(e, source) => handleMakingMainImage(e, valueForSubmit)}/>
                 </div>
@@ -98,16 +98,16 @@ const Documents = (props) => {
             props.selectedDriver.imgArray.forEach( (ele, id) => {
                 if (ele.Verified === false) {
                     imageArray.push (
-                        <div>
+                        <div className='image_list_divs_false'>
                             <h3>{ele.ImageName}</h3>
-                            <img src={ele.ImagesLink} alt='cannot view' key={id} className='uploaded_image_two_false' onClick={(e, source, source2, source3) => handleMakingMainImage(e, ele.ImagesLink, ele, id)}/>
+                            <img src={ele.ImagesLink} alt='cannot view' key={id} className='uploaded_image_two_false' onClick={(e, source) => handleMakingMainImage(e, ele.ImagesLink, ele, id)}/>
                         </div>
                     )
                 } else {
                     imageArray.push (
-                        <div>
+                        <div className='image_list_divs'>
                             <h3>{ele.ImageName}</h3>
-                            <img src={ele.ImagesLink} alt='cannot view' key={id} className='uploaded_image_two_true' onClick={(e, source, source2, source3) => handleMakingMainImage(e, ele.ImagesLink, ele, id)}/>
+                            <img src={ele.ImagesLink} alt='cannot view' key={id} className='uploaded_image_two_true' onClick={(e, source) => handleMakingMainImage(e, ele.ImagesLink, ele, id)}/>
                         </div>
                     )
                 }
@@ -194,13 +194,14 @@ const Documents = (props) => {
         };
         
         postData(`https://pythonicbackend.herokuapp.com/images/${highlightedImageDetails.image_id}/`, {
-            Verified: true
+            Verified: true,
+            driver_id: `https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`
         }).then( response => {
             let localArray = [...imageArray]
             localArray[currentId] = (
-                <div>
+                <div className='image_list_divs'>
                     <h3>{highlightedImageDetails.ImageName}</h3>
-                    <img src={highlightedImageDetails.ImagesLink} alt='cannot view' className='uploaded_image_two_false' onClick={(e, source, source2, source3) => handleMakingMainImage(e, highlightedImageDetails.ImagesLink, highlightedImageDetails, currentId)}/>
+                    <img src={highlightedImageDetails.ImagesLink} alt='cannot view' className='uploaded_image_two_true' onClick={(e, source) => handleMakingMainImage(e, highlightedImageDetails.ImagesLink, highlightedImageDetails, currentId)}/>
                 </div>
             )
             setImageArray(localArray)
@@ -212,6 +213,8 @@ const Documents = (props) => {
 
     var content
     if (highlightedPicture) {
+        console.log(currentId)
+        console.log(highlightedImageDetails)
         content = (
             <div className='big_picture_div'>
                 <div>
