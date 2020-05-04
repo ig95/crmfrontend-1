@@ -70,8 +70,8 @@ const DriverDocumentation = (props) => {
     // make list of files
     const listTheDrivers = () => {
         let localArray = []
-        if (drivers) {
-            drivers.forEach( (ele, id) => {
+        if (dataset) {
+            dataset.forEach( (ele, id) => {
                 if (ele.location === selectedCity) {
                     localArray.push(
                         <h3 className='name_list_documents' onClick={(e, name )=> handleClick(e, ele)}>
@@ -86,7 +86,6 @@ const DriverDocumentation = (props) => {
     }
 
     var driverList = listTheDrivers()
-    console.log(driverList)
     return (
         <div className='home_content'>
             <NavigationBar title='Driver Documents'/>

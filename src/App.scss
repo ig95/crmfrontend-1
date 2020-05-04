@@ -1036,23 +1036,39 @@
   
   .uploaded_image {
     max-width: 30vw;
-    max-height: 30vh;
+    max-height: 35vh;
+  }
+
+  .documents_h3 {
+    margin-top: 5px;
+    margin-bottom: 0;
   }
   
-  .uploaded_image_two {
+  .uploaded_image_two_false {
     max-width: 15vw;
     margin: 1rem;
-    box-shadow: 2px 2px 2px red;
+    box-shadow: 3px 3px 3px rgb(226, 56, 56);
+  }
+
+  .uploaded_image_two_true {
+    max-width: 15vw;
+    margin: 1rem;
+  }
+
+  .uploaded_image_two_false:hover {
+    animation-name: giveShadow;
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+  }
+
+  .uploaded_image_two_true:hover {
+    animation-name: giveShadow;
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
   }
 
   .button_div_box {
     display: flex;
-  }
-
-  .uploaded_image_two:hover {
-    animation-name: giveShadow;
-    animation-duration: .5s;
-    animation-fill-mode: forwards;
   }
 
   @keyframes giveShadow {
@@ -1195,6 +1211,10 @@
     margin: 0 1rem .5rem 1rem;
     display: flex;
     justify-content: space-evenly;
+  }
+
+  .enter_information_documents {
+
   }
 
   .drivers_names_documents {

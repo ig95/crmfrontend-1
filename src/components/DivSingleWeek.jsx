@@ -86,9 +86,9 @@ const DivSingleWeek = (props) => {
                         let localArray = []
                         localArray.push(
                             <div key={Math.random()} className='cal_divs_single_first'>
-                                <h3 className='inner_calander_text'>
+                                <h5 className='inner_calander_text'>
                                     {ele.name}
-                                </h3>
+                                </h5>
                             </div>  
                         )  
                         for (let i = 0; i < amount; i++) {
