@@ -10,6 +10,8 @@ const Documents = (props) => {
     const [ classForDiv, setClassForDiv ] = useState('submit_files')
     const [ highlightedPicture, setHighlightedPicture ] = useState(null)
     const [ nameValue, setNameValue ] = useState('')
+    const [ highlightedImageDetails, setHighlitedImageDetails ] = useState(null)
+    const [ currentId, setCurrentId ] = useState(0)
     const [ addedImages, setAddedImages ] = useState([])
 
         // save image to cloudinary
@@ -78,18 +80,19 @@ const Documents = (props) => {
         })
     }
 
-    const handleMakingMainImage = (e, source) => {
+    const handleMakingMainImage = (e, source, fullSource, id) => {
         setClassForDiv('submit_files_dissapear')
         setButtonText('Add Document')
         setTimeout( () => {
             setSubmitFilesDivSelection(false)
             setClassForDiv('submit_files')
         }, 1000)
+        setCurrentId(id)
+        setHighlitedImageDetails(fullSource)
         setHighlightedPicture(<img src={source} alt='cannot view' className='big_picture'/>)
     }
 
     useEffect( () => {
-        console.log(props.selectedDriver)
         let imageArray = []
         if (props.selectedDriver.imgArray) {
             props.selectedDriver.imgArray.forEach( (ele, id) => {
@@ -97,14 +100,14 @@ const Documents = (props) => {
                     imageArray.push (
                         <div>
                             <h3>{ele.ImageName}</h3>
-                            <img src={ele.ImagesLink} alt='cannot view' key={id} className='uploaded_image_two_false' onClick={(e, source) => handleMakingMainImage(e, ele.ImagesLink)}/>
+                            <img src={ele.ImagesLink} alt='cannot view' key={id} className='uploaded_image_two_false' onClick={(e, source, source2, source3) => handleMakingMainImage(e, ele.ImagesLink, ele, id)}/>
                         </div>
                     )
                 } else {
                     imageArray.push (
                         <div>
                             <h3>{ele.ImageName}</h3>
-                            <img src={ele.ImagesLink} alt='cannot view' key={id} className='uploaded_image_two_true' onClick={(e, source) => handleMakingMainImage(e, ele.ImagesLink)}/>
+                            <img src={ele.ImagesLink} alt='cannot view' key={id} className='uploaded_image_two_true' onClick={(e, source, source2, source3) => handleMakingMainImage(e, ele.ImagesLink, ele, id)}/>
                         </div>
                     )
                 }
@@ -165,12 +168,14 @@ const Documents = (props) => {
         )
     }
     const getDivsBack = () => {
+        setHighlitedImageDetails(null)
+        setCurrentId(0)
         setHighlightedPicture(null)
     }
     
-    const getDivsBackAndVerify = () => {
-        let imageName
-        nameValue ? imageName = nameValue : imageName = 'None'
+    const getDivsBackAndVerify = (e) => {
+        console.log(currentId)
+        console.log(highlightedImageDetails)
 
         async function postData(url = '', data = {}) {
             const response = await fetch(url, {
@@ -188,26 +193,20 @@ const Documents = (props) => {
             return response ? response.json() : console.log('no reponse')
         };
         
-        postData(`https://pythonicbackend.herokuapp.com/images/`, {
-            ImagesLink: valueForSubmit,
-            ImageName: imageName,
-            driver_id: `https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`
+        postData(`https://pythonicbackend.herokuapp.com/images/${highlightedImageDetails.image_id}/`, {
+            Verified: true
         }).then( response => {
-            let valueForImage = (
+            let localArray = [...imageArray]
+            localArray[currentId] = (
                 <div>
-                    <h3>{imageName}</h3>
-                    <img src={valueForSubmit} alt='cannot view' className='uploaded_image_two_false' onClick={(e, source) => handleMakingMainImage(e, valueForSubmit)}/>
+                    <h3>{highlightedImageDetails.ImageName}</h3>
+                    <img src={highlightedImageDetails.ImagesLink} alt='cannot view' className='uploaded_image_two_false' onClick={(e, source, source2, source3) => handleMakingMainImage(e, highlightedImageDetails.ImagesLink, highlightedImageDetails, currentId)}/>
                 </div>
             )
-            let localArray = []
-            if (imageArray.length > 0) {
-                localArray = [...imageArray]
-                localArray.push(valueForImage)
-            } else {
-                localArray.push(valueForImage)
-            }
             setImageArray(localArray)
         })
+        setHighlitedImageDetails(null)
+        setCurrentId(0)
         setHighlightedPicture(null)
     }
 

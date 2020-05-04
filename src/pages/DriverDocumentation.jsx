@@ -8,14 +8,12 @@ import folderPic from '../images/folder.png'
 const DriverDocumentation = (props) => {
     const [ selectedDriver, setSelectedDriver ] = useState(null)
     const [ drivers, setDrivers ] = useState(null)
-    const [ driverSearchArray, setDriverSearchArray ] = useState([])
     const [ dataset, setDataset ] = useState(null)
-    const [ makeSearchBarVisible, setMakeSearchBarVisible ] = useState('dashboard_form_divs_name_bar_none')
-    const [ nameValue, setNameValue ] = useState('')
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
 
     // fetch call to the db for all data related to drivers and schedule
     useEffect(() => {
+        console.log('firing')
         async function getData(url = '') {
             const response = await fetch(url, {
                 method: 'GET', 
@@ -38,7 +36,7 @@ const DriverDocumentation = (props) => {
                 setDataset(response.data.drivers)
             })
         })
-    }, [])
+    }, [selectedDriver])
     
     var content
     if (selectedDriver) {
