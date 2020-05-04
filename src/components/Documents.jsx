@@ -63,10 +63,14 @@ const Documents = (props) => {
             ImageName: imageName,
             driver_id: `https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`
         }).then( response => {
+            let myNum = 0
+            if (imageArray.length > 0) {
+                myNum = imageArray.length-1
+            }
             let valueForImage = (
                 <div className='image_list_divs_false'>
                     <h3>{imageName}</h3>
-                    <img src={valueForSubmit} alt='cannot view' className='uploaded_image_two_false' onClick={(e, source) => handleMakingMainImage(e, valueForSubmit)}/>
+                    <img src={valueForSubmit} alt='cannot view' className='uploaded_image_two_false' onClick={(e, source) => handleMakingMainImage(e, valueForSubmit, response, myNum)}/>
                 </div>
             )
             let localArray = []
@@ -168,15 +172,11 @@ const Documents = (props) => {
         )
     }
     const getDivsBack = () => {
-        setHighlitedImageDetails(null)
-        setCurrentId(0)
         setHighlightedPicture(null)
+        setHighlitedImageDetails(null)
     }
     
     const getDivsBackAndVerify = (e) => {
-        console.log(currentId)
-        console.log(highlightedImageDetails)
-
         async function postData(url = '', data = {}) {
             const response = await fetch(url, {
                 method: 'PUT', 
@@ -207,14 +207,11 @@ const Documents = (props) => {
             setImageArray(localArray)
         })
         setHighlitedImageDetails(null)
-        setCurrentId(0)
         setHighlightedPicture(null)
     }
 
     var content
     if (highlightedPicture) {
-        console.log(currentId)
-        console.log(highlightedImageDetails)
         content = (
             <div className='big_picture_div'>
                 <div>
@@ -225,8 +222,8 @@ const Documents = (props) => {
                         <svg width="125" height="45">
                         <defs>
                             <linearGradient id="grad1">
-                                <stop offset="0%" stop-color="#F3F6F6"/>
-                                <stop offset="100%" stop-color="#F3F6F6" />
+                                <stop offset="0%" stopColor="#F3F6F6"/>
+                                <stop offset="100%" stopColor="#F3F6F6" />
                             </linearGradient>
                         </defs>
                         <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
