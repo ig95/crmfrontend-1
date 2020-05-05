@@ -899,6 +899,10 @@
     margin: 1rem;
   }
 
+  .span_in_Button_add {
+    padding: 2rem;
+  }
+
   .search_bar {
     @extend %input_bars;
     margin: 0 0 10px; 

@@ -262,11 +262,22 @@ const Dashboard = () => {
                             <input className='input_dashboard_page' type="text" name='OwnerVehicleRegistration' />
                     </div>
                     <div className='dashboard_form_divs'>
-                        <input type="submit" value="Submit" className='submit_button'/>
+                        <div className="btn" onClick={handleSubmit}>
+                            <svg width="125" height="45">
+                                <defs>
+                                    <linearGradient id="grad1">
+                                        <stop offset="0%" stopColor="#232F3E"/>
+                                        <stop offset="100%" stopColor="#232F3E" />
+                                    </linearGradient>
+                                </defs>
+                                <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
+                            </svg>
+                            <span className='span_in_Button_add'>Submit</span>  
+                        </div>  
                     </div>
                     <div className='dashboard_form_divs'>    
                         <div>
-                            <label className='dashboard_labels'>Comment </label>
+                            <label className='dashboard_labels_dashboard'>Comment </label>
                         </div>
                             <textarea className='dashboard_text_field' type="text" name='Comment' />
                     </div>

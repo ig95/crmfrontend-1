@@ -45,7 +45,25 @@ const MakeEmployee = (props) => {
                             <input className='inputs' type="text" name='name'/>
                         <label className='labels'>Station</label>
                             <input className='inputs' type="text" name='location'/>
-                        <input type="submit" value="Submit" name='submit' className='submit_button'/>    
+                        <label className='labels'>Address</label>
+                            <input className='inputs' type="text" name='address'/>
+                        <label className='labels'>Mobile</label>
+                            <input className='inputs' type="text" name='mobile'/>
+                        <label className='labels'>Email</label>
+                            <input className='inputs' type="text" name='email'/>
+                            <br /><br />
+                        <div className="btn_big" onClick={handleSubmit}>
+                            <svg width="200" height="60">
+                                <defs>
+                                    <linearGradient id="grad1">
+                                        <stop offset="0%" stopColor="#232F3E"/>
+                                        <stop offset="100%" stopColor="#232F3E" />
+                                    </linearGradient>
+                                </defs>
+                                <rect x="5" y="5" rx="20" fill="none" stroke="url(#grad1)" width="180" height="50"></rect>
+                            </svg>
+                            <span className='span_in_Button_big'>Create Driver</span>  
+                        </div>     
                     </form>
                 </div>
             </div>
