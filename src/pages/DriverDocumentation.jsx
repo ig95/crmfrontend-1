@@ -42,7 +42,7 @@ const DriverDocumentation = (props) => {
     if (selectedDriver) {
         content = (
             <>
-                <Documents selectedDriver={selectedDriver} />
+                <Documents selectedDriver={selectedDriver} loginName={props.user_name} email={props.user_email}/>
             </>
         )
     }

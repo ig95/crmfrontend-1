@@ -1,10 +1,10 @@
 import React, { useEffect, useState} from 'react'
 import axios from 'axios'
+import ReCAPTCHA from "react-google-recaptcha"
 
 const Documents = (props) => {
     const [  valueForSubmit, setValueForSubmit ] = useState('')
     const [ imageArray, setImageArray ] = useState([])
-    const [ reRenderTrigger, setReRenderTrigger ] = useState(0)
     const [ submitFilesDivSelection, setSubmitFilesDivSelection ] = useState(false)
     const [ buttonText, setButtonText ] = useState('Add Document')
     const [ classForDiv, setClassForDiv ] = useState('submit_files')
@@ -12,7 +12,9 @@ const Documents = (props) => {
     const [ nameValue, setNameValue ] = useState('')
     const [ highlightedImageDetails, setHighlitedImageDetails ] = useState(null)
     const [ currentId, setCurrentId ] = useState(0)
-    const [ addedImages, setAddedImages ] = useState([])
+    const [ signiture, setSigniture ] = useState(null)
+    const [ captchkaValue, setCaptchkaValue ] = useState('')
+    const [ signitureStatus, setSignitureStatus ] = useState('Not Signed')
 
         // save image to cloudinary
         var uploadImage = (e) => {
@@ -171,11 +173,51 @@ const Documents = (props) => {
             </div>
         )
     }
+
+    // after the highlighted image screen get the normal divs back 
     const getDivsBack = () => {
         setHighlightedPicture(null)
         setHighlitedImageDetails(null)
     }
+
+    // recaptcha code
+    function onChange(value) {
+        setSignitureStatus('Verifying... this might take a moment')
+        setCaptchkaValue(value)
+        let myTime = new Date()
+            // email bit... actually works
+            async function getData(url = '', data={}) {
+              const response = await fetch(url, {
+                  method: 'POST', 
+                  mode: 'cors',
+                  cache: 'no-cache',
+                  credentials: 'same-origin',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(data)
+              });
+              return response ? response.json() : console.log('no reponse')
+            };
+            getData('https://intense-headland-70415.herokuapp.com/mail', {
+              password: process.env.REACT_APP_INTERCHANGE,
+              email: props.email,
+              subject: 'Document Signiture',
+              message: `The following document has been signed pending signiture by: ${props.loginName}
+
+                Details:
+
+                Document Name: ${highlightedImageDetails.ImageName}
+                Driver Name: ${props.selectedDriver.name}
+                Authorization Token: ${value}
+                Time Stamp: ${myTime.toDateString()} at ${myTime.toTimeString()} for book keeping (milliseconds) ${myTime.getTime()}`
+            }).then ( response => {
+            })
+            setSignitureStatus('Signed... check your email for verification, document sent to driver for signiture.')
+        
+    }
     
+    // verification process
     const getDivsBackAndVerify = (e) => {
         async function postData(url = '', data = {}) {
             const response = await fetch(url, {
@@ -210,7 +252,20 @@ const Documents = (props) => {
         setHighlightedPicture(null)
     }
 
+    // post captchka function
+    const getDivsBackCaptchka = () => {
+        setSignitureStatus('Not Signed')
+        setHighlightedPicture(null)
+        setSigniture(null)
+    }
+
     var content
+    // signiture process
+    const getDivsSigniture = (e, image) => {
+        setSigniture(image)
+        setHighlightedPicture(null)
+    }
+
     if (highlightedPicture) {
         content = (
             <div className='big_picture_div'>
@@ -242,6 +297,45 @@ const Documents = (props) => {
                         </svg>
                         <span className='span_in_Button'>Verify</span>  
                     </div>   
+                    <div className="btn_picture" onClick={(e, targetImage) => getDivsSigniture(e, highlightedPicture)}>
+                        <svg width="125" height="45">
+                        <defs>
+                            <linearGradient id="grad1">
+                                <stop offset="0%" stopColor="#F3F6F6"/>
+                                <stop offset="100%" stopColor="#F3F6F6" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
+                        </svg>
+                        <span className='span_in_Button'>Signiture</span>  
+                    </div>   
+                </div>
+            </div>
+        )
+    } else if (signiture) {
+        content = (
+            <div className='signiture_page_documents'>
+                <div className='legally_text_div'>
+                    <h3>I {props.loginName} verify that I have read this document and agree to the terms pending verification from the other party.</h3>
+                    <h3>By clicking the following button I agree to make this document legally binding.</h3>
+                    <br />
+                    <ReCAPTCHA
+                        sitekey={process.env.REACT_APP_GOOGLE_SITE_KEY}
+                        onChange={onChange}
+                    /><br />
+                    <h3>Signiture Status: {signitureStatus}</h3>
+                    <div class="btn_picture" onClick={getDivsBackCaptchka}>
+                        <svg width="125" height="45">
+                        <defs>
+                            <linearGradient id="grad1">
+                                <stop offset="0%" stopColor="#F3F6F6"/>
+                                <stop offset="100%" stopColor="#F3F6F6" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
+                        </svg>
+                        <span className='span_in_Button'>Return</span>  
+                    </div> 
                 </div>
             </div>
         )

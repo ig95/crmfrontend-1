@@ -1356,6 +1356,24 @@
     color: $offWhite;
   }
 
+  .signiture_page_documents {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: rgba(35, 47, 62, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .legally_text_div {
+    color: $offWhite;
+  }
+
   .documents_search_bar_invoicing {
     border-bottom: 1px solid rgba(35, 47, 62, 0.26);
     border-top: 1px solid rgba(35, 47, 62, 0.26);

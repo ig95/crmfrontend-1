@@ -27,11 +27,11 @@ const App = () => {
   // const [ user, setUser] = useState(null);
 
   // dev mode
-  // useEffect( () => {
-  //   setUserName('Nicholas Shankland')
-  //   setUserEmail('nicholas.m.shankland@gmail.com')
-  //   setUserId('1923874-98y')
-  // },[])
+  useEffect( () => {
+    setUserName('Nicholas Shankland')
+    setUserEmail('nicholas.m.shankland@gmail.com')
+    setUserId('1923874-98y')
+  },[])
 
   useEffect( () => {
     async function getData(url = '', data={}) {
@@ -79,32 +79,9 @@ const App = () => {
 
   // handles writting data to database and recieving google data
   const responseGoogle = (response) => {
-    setUserName(response.profileObj.givenName)
-    setUserId(response.profileObj.googleId)
-    setUserEmail(response.profileObj.email)
-
-    // email bit... actually works
-    // async function getData(url = '', data={}) {
-    //   const response = await fetch(url, {
-    //       method: 'POST', 
-    //       mode: 'cors',
-    //       cache: 'no-cache',
-    //       credentials: 'same-origin',
-    //       headers: {
-    //           'Content-Type': 'application/json'
-    //       },
-    //       body: JSON.stringify(data)
-    //   });
-    //   return response ? response.json() : console.log('no reponse')
-    // };
-    // getData('https://intense-headland-70415.herokuapp.com/mail', {
-    //   password: process.env.REACT_APP_INTERCHANGE,
-    //   email: response.profileObj.email,
-    //   subject: 'Welcome to CRM Amazon',
-    //   message: "This is a friendly welcome to the Application! Let me show you around a little. "
-    // }).then ( response => {
-    //   console.log(response)
-    // })
+    // setUserName(response.profileObj.givenName)
+    // setUserId(response.profileObj.googleId)
+    // setUserEmail(response.profileObj.email)
   }
 
   var content
