@@ -266,6 +266,28 @@ const Documents = (props) => {
         setHighlightedPicture(null)
     }
 
+    // verify button
+    var verifyButton 
+    if (highlightedPicture) {
+        console.log()
+        if (!highlightedImageDetails.Verified) {
+            verifyButton = (
+                <div className="btn_picture" onClick={(e, targetImage) => getDivsBackAndVerify(e, highlightedPicture)}>
+                <svg width="125" height="45">
+                <defs>
+                    <linearGradient id="grad1">
+                        <stop offset="0%" stopColor="#F3F6F6"/>
+                        <stop offset="100%" stopColor="#F3F6F6" />
+                    </linearGradient>
+                </defs>
+                <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
+                </svg>
+                <span className='span_in_Button'>Verify</span>  
+            </div>  
+            )
+        }
+    }
+
     if (highlightedPicture) {
         content = (
             <div className='big_picture_div'>
@@ -285,18 +307,7 @@ const Documents = (props) => {
                         </svg>
                         <span className='span_in_Button'>Return</span>  
                     </div>   
-                    <div className="btn_picture" onClick={(e, targetImage) => getDivsBackAndVerify(e, highlightedPicture)}>
-                        <svg width="125" height="45">
-                        <defs>
-                            <linearGradient id="grad1">
-                                <stop offset="0%" stopColor="#F3F6F6"/>
-                                <stop offset="100%" stopColor="#F3F6F6" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
-                        </svg>
-                        <span className='span_in_Button'>Verify</span>  
-                    </div>   
+                    {verifyButton}
                     <div className="btn_picture" onClick={(e, targetImage) => getDivsSigniture(e, highlightedPicture)}>
                         <svg width="125" height="45">
                         <defs>
