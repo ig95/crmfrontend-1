@@ -57,7 +57,7 @@ const NavigationBar = (props) => {
                 </Link>
                 <Link to="/makemployee" className='links'>
                     <div className='link_style'>
-                        New Driver
+                        Drivers
                     </div>
                 </Link>
                 <Link to="/weekschedule" className='links'>

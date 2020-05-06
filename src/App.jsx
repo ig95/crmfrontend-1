@@ -109,8 +109,8 @@ const App = () => {
                 <GoogleLogin
                   clientId={process.env.REACT_APP_CLIENT_ID}
                   render={renderProps => (
-                    <div class="button-container-1" >
-                      <span class="mas">Login</span>
+                    <div className="button-container-1" >
+                      <span className="mas">Login</span>
                       <button onClick={renderProps.onClick} disabled={renderProps.disabled} className='buttonFront' id='work' type="button" name="Hover">
                         Login
                       </button>

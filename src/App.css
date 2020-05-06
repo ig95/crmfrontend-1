@@ -278,8 +278,52 @@
   -webkit-animation: ani 0.7s steps(22) forwards;
   animation: ani 0.7s steps(22) forwards;
 }
-#work:hover {
-  color: #2687c7;
+.button-container-2 {
+  position: relative;
+  width: 10vw;
+  height: 4vh;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  font-weight: 300;
+  font-size: 1.1em;
+  transition: 0.5s;
+  letter-spacing: 1px;
+  color: #232f3e;
+}
+.button-container-2 .mas2 {
+  position: absolute;
+  color: #232f3e;
+  text-align: center;
+  width: 101%;
+  font-weight: 400;
+  position: absolute;
+  font-size: 1.3em;
+  margin-top: 7px;
+  overflow: hidden;
+}
+.button-container-2 .buttonFront2 {
+  width: 101%;
+  height: 100%;
+  font-weight: 300;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+  background: #232f3e;
+  -webkit-mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
+  mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
+  -webkit-mask-size: 2300% 100%;
+  mask-size: 2300% 100%;
+  border: none;
+  color: #fefefe;
+  cursor: pointer;
+  -webkit-animation: ani2 0.7s steps(22) forwards;
+  animation: ani2 0.7s steps(22) forwards;
+}
+.button-container-2 .buttonFront2:hover {
+  -webkit-animation: ani 0.7s steps(22) forwards;
+  animation: ani 0.7s steps(22) forwards;
+}
+#work2:hover {
+  color: #232f3e;
 }
 @-webkit-keyframes ani {
   from {
@@ -931,9 +975,22 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
 }
+.search_bar_top_new_driver {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
 .new_driver_form_container {
   align-self: flex-start;
   padding: 1rem;
+}
+.form_new_driver_page {
+  display: flex;
+}
+.inputs_new_driver {
+  display: flex;
+  flex-direction: column;
+  margin-right: 1rem;
 }
 .main_content_dashboard {
   grid-area: main_content;
