@@ -959,10 +959,12 @@ body {
 }
 .uploaded_image_two_false {
   max-width: 15vw;
+  max-height: 45vh;
   margin: 1rem;
 }
 .uploaded_image_two_true {
   max-width: 15vw;
+  max-height: 45vh;
   margin: 1rem;
 }
 .input_information_documents_tab {
