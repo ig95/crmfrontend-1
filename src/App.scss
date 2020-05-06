@@ -3,12 +3,15 @@
   $amazon_blue_hover: rgb(43, 58, 77);
   $calendar_top_background: #F3F6F6;
   $calendar_text_color: rgb(54, 134, 148);
-
-  /*********************** DROPDOWN BAR EFFECTS *****************************************/
+  $logoColor: rgb(38, 135, 199);
+  $logoLightColor: rgb(120, 209, 212);
+  $ubuntu_font: 'Roboto';
   $yellow: rgb(43, 58, 77);
   $blue: rgb(43, 58, 77);
   $transparent-gray: rgba(0, 0, 0, 0.3);
   $transparent-white: rgba(255, 255, 255, 0.15);
+
+  /*********************** DROPDOWN BAR EFFECTS *****************************************/
 
 .menu {
   height: 5vh;
@@ -290,10 +293,134 @@
   }
   
   /*********************** BUTTON EFFECT *****************************************/
+
+
+  /*********************** BUTTON ENTRANCE EFFECT *****************************************/
+
+  @mixin button($bcolor,
+  $url,
+  $x1,
+  $y1,
+  $bor,
+  $col) {
+    background: $bcolor;
+    -webkit-mask: url($url);
+    mask: url($url);
+    -webkit-mask-size: $x1 $y1;
+    mask-size: $x1 $y1;
+    border: $bor;
+    color: $col;
+  }
+  
+  
+  .button-container-1 {
+      position: relative;
+      width: 10vw;
+      height: 7vh;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 6vh;
+      overflow: hidden;
+      border: 3px solid;
+      border-radius: .5rem;
+      font-weight: 300;
+      font-size: 1.1em;
+      transition: 0.5s;
+      letter-spacing: 1px;
+      color: $logoColor;
+  
+    .mas {
+      position: absolute;
+      color: $logoLightColor;
+      text-align: center;
+      width: 101%;
+      font-weight: 400;
+      position: absolute;
+      font-size: 1.15em;
+      margin-top: 15px;
+      overflow: hidden;
+    }
+
+    .buttonFront {
+      width: 101%;
+      height: 100%;
+      font-weight: 300;
+      font-size: 1.1em;
+      letter-spacing: 1px;
+      @include button($logoColor,
+      "https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png",
+      2300%,
+      100%,
+      none,
+      $logoLightColor);
+      cursor: pointer;
+      -webkit-animation: ani2 0.7s steps(22) forwards;
+      animation: ani2 0.7s steps(22) forwards;
+    
+      &:hover {
+        -webkit-animation: ani 0.7s steps(22) forwards;
+        animation: ani 0.7s steps(22) forwards;
+      }
+      }
+  }
   
 
+  #work:hover {
+    color: $logoColor;
+  }
+  
+  @-webkit-keyframes ani {
+    from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+    }
+  
+    to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+    }
+  }
+  
+  @keyframes ani {
+    from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+    }
+  
+    to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+    }
+  }
+  
+  @-webkit-keyframes ani2 {
+    from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+    }
+  
+    to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+    }
+  }
+  
+  @keyframes ani2 {
+    from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+    }
+  
+    to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+    }
+  }
 
-  $ubuntu_font: 'Roboto';
+
+
+  /*********************** BUTTON ENTRANCE EFFECT *****************************************/
+
   
   ::-webkit-scrollbar {
     -webkit-appearance: none;
@@ -370,17 +497,16 @@
   html, body {
     margin: 0;
     padding: 0;
-    background-color:   $offWhite;
+    background-color: $offWhite;
   }
 
   /****************************************  SVG WAVES ************************************************************/
-  @import url(//fonts.googleapis.com/css?family=Lato:300:400);
 
   .header {
     position:relative;
     text-align:center;
-    background: linear-gradient(60deg, rgba(84,58,183,1) 0%, rgba(0,172,193,1) 100%);
-    color:white;
+    background: linear-gradient(60deg, rgb(252, 251, 253) 0%, rgb(228, 226, 226) 100%);
+    color:$logoColor;
   }
 
   .inner-header {
@@ -392,12 +518,20 @@
     flex-direction: column;
   }
 
+  .waves-background {
+    background-color: $logoColor;
+    height: 21vh;
+  }
+
   .googleButton {
     min-width: 10vw;
     min-height: 5vh;
     display: flex;
+    color: $offWhite;
+    font-size: 1em;
+
     justify-content: center;
-    color: $amazon_blue;
+    background-color: rgb(38, 135, 199);
   }
 
   .main_title_h20 {
@@ -498,15 +632,21 @@
     min-width: 100vw;
     background-color: rgba(0, 0, 0, 0.692);
   }
+
+  .welcome_screen_logo {
+    height: 40vh;
+    margin-bottom: 5vh;
+  }
   
   /****************************************  NAV BAR STYLE ************************************************************/
 
   .nav_bar_top {
     grid-area: nav_bar_top;
-    background-color: $offWhite;
-    color: $amazon_blue;
+    background-color: $amazon_blue;
+    color: $offWhite;
     display: flex;
     -ms-display: flex;
+    margin-bottom: 1rem;
   }
 
   .nav_bar {
@@ -521,16 +661,25 @@
     align-items: flex-start;
   }
 
+  .nav_bar_logo {
+    height: 10vh;
+    z-index: 1;
+  }
+
   .nothing {
     grid-area: nothing;
+    background-color: $amazon_blue;
+    padding: 1rem;
+    z-index: 1;
   }
 
   .nav_current_date {
-    margin: auto 10px;
+    margin: auto 0 auto 1rem;
   }
 
   .middle_nav {
-    margin: auto auto;
+    text-align: left;
+    margin: auto 0 auto 1rem;
     width: 70vw;
   }
 
@@ -992,6 +1141,7 @@
 
   .new_driver_form_container {
     align-self: flex-start;
+    padding: 1rem;
   }
   
   .inputs {

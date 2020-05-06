@@ -9,6 +9,7 @@ import DriverDocumentation from './pages/DriverDocumentation'
 import Statistics from './pages/Statistics'
 import HomeTwo from './pages/HomeTwo'
 import Driver from './pages/Driver'
+import logo from './images/logoMinified.png'
 import './App.scss';
 import Home from './pages/home'
 import {
@@ -103,12 +104,18 @@ const App = () => {
     content = (
       <div className="header">
           <div className="inner-header flex">
-              <h1 className='main_title_h20'>H20 Logistics</h1>
+              <img src={logo} alt="Logo" className='welcome_screen_logo'/>
               <div className='google_log_in_container'>
                 <GoogleLogin
                   clientId={process.env.REACT_APP_CLIENT_ID}
-                  buttonText="Login"
-                  className='googleButton'
+                  render={renderProps => (
+                    <div class="button-container-1" >
+                      <span class="mas">Login</span>
+                      <button onClick={renderProps.onClick} disabled={renderProps.disabled} className='buttonFront' id='work' type="button" name="Hover">
+                        Login
+                      </button>
+                    </div>
+                  )}
                   onSuccess={responseGoogle}
                   onFailure={responseGoogle}
                   cookiePolicy={'single_host_origin'}
@@ -122,13 +129,14 @@ const App = () => {
               <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
               </defs>
               <g className="parallax">
-              <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
-              <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
-              <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
-              <use xlinkHref="#gentle-wave" x="48" y="7" fill="#fff" />
+              <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(120, 209, 212, .8)" />
+              <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(38, 135, 199, .6)" />
+              <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(120, 209, 212, .4)" />
+              <use xlinkHref="#gentle-wave" x="48" y="7" fill="rgb(38, 135, 199)" />
               </g>
               </svg>
           </div>
+          <div className='waves-background'></div>
       </div >
     )
   }

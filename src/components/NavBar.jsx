@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom';
-import triangle from '../images/triangle.png'
+import logo from '../images/logoMinified.png'
 
 // send automated emails dependant on expirey dates
 // mark driver as compliant or not
@@ -24,6 +24,7 @@ const NavigationBar = (props) => {
     var dayArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
     var monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"]
 
+    // eslint-disable-next-line no-extend-native
     Date.prototype.getWeek = function () {
         var firstDate = new Date(this.getFullYear(), 0, 1)
         return Math.ceil((((new Date(this.getFullYear(), this.getMonth(), this.getDate()) - firstDate) / 86400000) + firstDate.getDay() + 1) / 7)
@@ -41,7 +42,7 @@ const NavigationBar = (props) => {
                 </h3>
             </div>
             <div className='nothing'>
-
+                <Link to="/home"><img src={logo} alt="" className='nav_bar_logo'/></Link> 
             </div>
             <div className='nav_bar'>
                 <Link to="/home" className='links'> 
