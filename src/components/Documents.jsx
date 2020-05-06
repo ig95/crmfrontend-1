@@ -385,11 +385,34 @@ const Documents = (props) => {
 
     // make the big picture appear ------ defining content
     if (highlightedPicture) {
+        console.log(highlightedImageDetails)
         content = (
             <div className='big_picture_div'>
-                <div>
-                    {highlightedPicture}
+                <div className='button_div_box_top'>
+                    <div>
+                        <h3>
+                            Driver: {highlightedImageDetails.driver_id}
+                        </h3>
+                        <h3>
+                            Document: {highlightedImageDetails.ImageName}
+                        </h3>
+                        <h3>
+                            Driver Signed: {highlightedImageDetails.DriverSigned ? 'True' : 'False'}
+                        </h3>
+                        <h3>
+                            Manager Signed: {highlightedImageDetails.ManagerSigned ? 'True' : 'False'}
+                        </h3>
+                        <h3>
+                            Verified: {highlightedImageDetails.Verified ? 'True' : 'False'}
+                        </h3>
+                        <h3>
+                            Expiry Date: {new Date(highlightedImageDetails.ExpiryDate).toDateString()}
+                        </h3>
+                    </div>
                 </div>
+                    <div>
+                        {highlightedPicture}
+                    </div>
                 <div className='button_div_box'>
                     <div className="btn_picture" onClick={getDivsBack}>
                         <svg width="125" height="45">

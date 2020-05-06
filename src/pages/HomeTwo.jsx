@@ -142,6 +142,11 @@ const HomeTwo = (props) => {
         }
     }
 
+    // set city
+    const handleSelectCity = (e, city) => {
+        setSelectedCity(city)
+    }
+
     var content
     if (loadGate > 0) {
         content = (
@@ -155,13 +160,17 @@ const HomeTwo = (props) => {
                                 {todaysDrivers}
                             </div>
                             <div className='drop_down_bar_container'>
-                                <Dropdown 
-                                    options={options} 
-                                    onChange={onSelect} 
-                                    value={selectedCity} 
-                                    placeholder="Select an option" 
-                                    className='drop_down_bar'
-                                />
+                                <nav class="menu">
+                                    <ol>
+                                        <li class="menu-item"><a href="#0">{selectedCity}</a>
+                                            <ol class="sub-menu">
+                                                <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2')}><a href="#0">DBS2</a></li>
+                                                <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1')}><a href="#0">DSN1</a></li>
+                                                <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2')}><a href="#0">DEX2</a></li>
+                                            </ol>
+                                        </li>
+                                    </ol>
+                                </nav>
                             </div>
                         </div>
                         <div className='canvas_chart'>

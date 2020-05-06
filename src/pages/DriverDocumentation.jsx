@@ -47,19 +47,6 @@ const DriverDocumentation = (props) => {
         )
     }
 
-
-    // dropdown menu options
-    const options = [
-        'DBS2',
-        'DSN1',
-        'DEX2'
-    ]
-
-    // dropdown menu selection function
-    const onSelect = (e) => {
-        setSelectedCity(e.value)
-    }
-
     // select driver
     const handleClick = (e, element) => {
         setSelectedDriver(element)
@@ -83,21 +70,28 @@ const DriverDocumentation = (props) => {
         return localArray
     }
 
+    // set city
+    const handleSelectCity = (e, city) => {
+        setSelectedCity(city)
+    }
+
     var driverList = listTheDrivers()
     return (
         <div className='home_content'>
             <NavigationBar title='Driver Documents'/>
             <div className='main_content_driver_documents'>
                 <div className='documents_search_bar'>
-                    <div className='drop_down_bar_container'>
-                        <Dropdown 
-                            options={options} 
-                            onChange={onSelect} 
-                            value={selectedCity} 
-                            placeholder="Select an option" 
-                            className='drop_down_bar'
-                        />
-                    </div>
+                    <nav class="menu">
+                        <ol>
+                            <li class="menu-item"><a href="#0">{selectedCity}</a>
+                                <ol class="sub-menu">
+                                    <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2')}><a href="#0">DBS2</a></li>
+                                    <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1')}><a href="#0">DSN1</a></li>
+                                    <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2')}><a href="#0">DEX2</a></li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </nav>
                     <div className='drivers_names_documents'>
                         {driverList}
                     </div>

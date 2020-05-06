@@ -8,7 +8,6 @@ import InvoiceWork from './pages/InvoiceWork'
 import DriverDocumentation from './pages/DriverDocumentation'
 import Statistics from './pages/Statistics'
 import HomeTwo from './pages/HomeTwo'
-// import axios from 'axios'
 import Driver from './pages/Driver'
 import './App.scss';
 import Home from './pages/home'

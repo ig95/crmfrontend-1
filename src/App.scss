@@ -4,6 +4,121 @@
   $calendar_top_background: #F3F6F6;
   $calendar_text_color: rgb(54, 134, 148);
 
+  /*********************** DROPDOWN BAR EFFECTS *****************************************/
+  $yellow: rgb(43, 58, 77);
+  $blue: rgb(43, 58, 77);
+  $transparent-gray: rgba(0, 0, 0, 0.3);
+  $transparent-white: rgba(255, 255, 255, 0.15);
+
+.menu {
+  height: 5vh;
+  margin: auto 0;
+  z-index: 1;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+
+		&:first-child {
+      width: 15vw;
+
+			align-items: center;
+      box-shadow: 0px 3px 8px $transparent-gray;
+      background-color: $amazon_blue;
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+				font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+			top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+					content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      margin: 0 auto;
+      width: 15vw; 
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+
   /*********************** BUTTON EFFECT *****************************************/
 
   .btn {
@@ -51,11 +166,13 @@
   
   .btn span{
     background: $amazon_blue;
+    background-clip: text;;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   .btn:hover span{
     background: $amazon_blue_hover;
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: $amazon_blue_hover;
   }
@@ -354,6 +471,9 @@
     }
   }
 
+  /****************************************  MENU EFFECT ************************************************************/
+  
+
   /****************************************  WELCOME PAGE STYLE ************************************************************/
   .app {
     min-width: 100vw;
@@ -530,6 +650,7 @@
 
   .drop_down_bar_container {
     margin-bottom: 1vh;
+    margin-left: 1rem;
     width: 20vw;
   }
 
@@ -1082,6 +1203,7 @@
     border: 2px solid $amazon_blue;
     border-radius: .5rem;
     margin: 1rem;
+    height: 55vh;
   }
   
   .image_list_divs_false {
@@ -1091,6 +1213,7 @@
     border: 2px solid $amazon_blue;
     border-radius: .5rem;
     margin: 1rem;
+    height: 55vh;
     background-color: rgba(211, 128, 128, 0.575);
   }
 
@@ -1118,7 +1241,7 @@
     border: 2px solid #232F3E;
     padding: 1rem;
     margin-right: .25vw;
-    height: 60vh;
+    height: 70vh;
     opacity: 0;
     animation-name: slideInEffect;
     animation-duration: 1s;
@@ -1179,7 +1302,7 @@
     display: flex;
     flex-wrap: wrap;
     overflow: scroll;
-    height: 60vh;
+    height: 70vh;
     animation-name: fadeInRight;
     animation-duration: 1s;
     animation-fill-mode: forwards;
@@ -1190,18 +1313,13 @@
     margin-bottom: 10px;
   }
 
-  // .calendar_container {
-  //   width: 10vw;
-
-  // }
-
   .inner_input_information_documents_tab {
     margin-right: .6rem;
   }
 
   .submit_files_dissapear {
     border: 2px solid #232F3E;
-    height: 60vh;
+    height: 70vh;
     animation-name: fadeOutRight;
     animation-duration: 1s;
     animation-fill-mode: forwards;
@@ -1230,7 +1348,7 @@
     }
     50% {
       width: 50%;
-      opacity: 0;
+      opacity: .2;
     }
     100% {
       width: 100%;
@@ -1244,22 +1362,124 @@
     flex-direction: column;
     justify-content: flex-start;
   }
+
   .documents_search_bar {
     border: 2px solid #232F3E;
     padding: 1rem;
     margin: 0 1rem .5rem 1rem;
     display: flex;
     justify-content: space-evenly;
+    height: 10vh;
   }
 
-
   .drivers_names_documents {
-    width: 50vw;
-    height: 10vh;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     overflow: scroll;
+    animation-name: fadeSmall; 
+    animation-duration: .75s;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes fadeSmall {
+    0% {
+      width: 50vw;
+      height: 30vh;
+      background-color: $offWhite;
+      z-index: 1;
+      border-radius: .5rem;
+    }
+
+    100% {
+      width: 50vw;
+      height: 10vh;
+      opacity: 1;
+    }
+  }
+
+  .button_div_box_top {
+    animation-name: createDiv;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes createDiv {
+    0% {
+      position: absolute;
+      font-size: 0;
+      top: 0;
+      left: 0;
+      width: 1;
+      height: 3px;
+      background-color: rgba(254, 254, 254, 0.945);
+    }
+
+    45% {
+      position: absolute;
+      font-size: 0;
+      top: 0;
+      left: 0;
+      width: 15vw;
+      height: 3px;
+      background-color: rgba(254, 254, 254, 0.945);
+    }
+
+    90% {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: $amazon_blue;
+      margin: 2rem;
+      background-color: rgba(254, 254, 254, 0.945);
+      padding: 2rem;
+      border: 0;
+      border-radius: 1rem;
+      width: 15vw;
+      height: 30vh;
+      font-size: 0;
+    }
+
+    100% {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: $amazon_blue;
+      margin: 2rem;
+      background-color: rgba(254, 254, 254, 0.945);
+      padding: 2rem;
+      border: 0;
+      border-radius: 1rem;
+      width: 15vw;
+      height: 30vh;
+      font-size: 1em;
+    }
+  }
+
+  .drivers_names_documents:hover {
+    animation-name: fadeBig;
+    animation-duration: .75s;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes fadeBig {
+    0% {
+      width: 50vw;
+      height: 10vh;
+      background-color: $offWhite;
+    }
+    
+    100% {
+      width: 50vw;
+      height: 30vh;
+      background-color: $offWhite;
+      z-index: 1;
+      border-bottom: solid 3px $amazon_blue;
+      border-left: solid 3px $amazon_blue;
+      border-right: solid 3px $amazon_blue;
+      border-radius: .5rem;
+      background-color: rgb(250, 249, 249);
+    }
   }
 
   .image_in_documents_folder {
@@ -1272,6 +1492,7 @@
     font-size: 1.3em;
     font-weight: 400;
     margin: 10px;
+    padding: 0;
   }
 
   .name_list_documents:hover {
@@ -1282,11 +1503,13 @@
     content: "";
     visibility: hidden;
     position: absolute;
+    margin: 0;
+    padding: 0;
     width: 100%;
-    height: 2.5vh;
+    height: 3px;
     bottom: 0;
     left: 0;
-    background-color: rgba(35, 47, 62, 0.199);
+    background-color: $amazon_blue;
     transform: scaleX(0);
     transition: all 0.3s ease-in-out 0s;
   }
