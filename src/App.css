@@ -870,6 +870,10 @@ body {
   max-width: 15vw;
   margin: 1rem;
 }
+.input_information_documents_tab {
+  margin-top: 0.5rem;
+  display: flex;
+}
 .uploaded_image_two_false:hover {
   animation-name: giveShadow;
   animation-duration: 0.5s;
@@ -914,7 +918,7 @@ body {
 }
 .submit_files {
   border: 2px solid #232f3e;
-  padding: 2rem;
+  padding: 1rem;
   margin-right: 0.25vw;
   height: 60vh;
   opacity: 0;
@@ -968,7 +972,7 @@ body {
 }
 .submit_files_two {
   border: 2px solid #232f3e;
-  padding: 2rem;
+  padding: 1rem;
   display: flex;
   flex-wrap: wrap;
   overflow: scroll;
@@ -977,6 +981,12 @@ body {
   animation-duration: 1s;
   animation-fill-mode: forwards;
   animation-timing-function: linear;
+}
+.enter_information_documents {
+  margin-bottom: 10px;
+}
+.inner_input_information_documents_tab {
+  margin-right: 0.6rem;
 }
 .submit_files_dissapear {
   border: 2px solid #232f3e;

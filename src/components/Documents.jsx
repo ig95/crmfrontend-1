@@ -1,6 +1,8 @@
 import React, { useEffect, useState} from 'react'
 import axios from 'axios'
 import ReCAPTCHA from "react-google-recaptcha"
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css'
 
 const Documents = (props) => {
     const [  valueForSubmit, setValueForSubmit ] = useState('')
@@ -15,6 +17,8 @@ const Documents = (props) => {
     const [ signiture, setSigniture ] = useState(null)
     const [ captchkaValue, setCaptchkaValue ] = useState('')
     const [ signitureStatus, setSignitureStatus ] = useState('Not Signed')
+    const [ dateSelected, setDateSelected ] = useState(new Date())
+    const [ calendarGate, setCalendarGate] = useState(false)
 
         // save image to cloudinary
         var uploadImage = (e) => {
@@ -63,6 +67,7 @@ const Documents = (props) => {
         postData(`https://pythonicbackend.herokuapp.com/images/`, {
             ImagesLink: valueForSubmit,
             ImageName: imageName,
+            ExpiryDate: dateSelected,
             driver_id: `https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`
         }).then( response => {
             let myNum = 0
@@ -144,6 +149,39 @@ const Documents = (props) => {
         setNameValue(e.target.value)
     }
 
+    // make react happy
+    const handleChangeCalendar = () => {
+
+    }
+
+    // date selection function
+    var theCalendar
+    const handleDateSelection = (date) => {
+        setDateSelected(date)
+        setCalendarGate(false)
+    }
+
+    // calendar function
+    const handleMakingCalendar = () => {
+        console.log('clicked')
+        setCalendarGate(true)
+    }
+
+    // make the calendar
+    if (calendarGate) {
+        theCalendar = (
+            theCalendar = (
+                <div>
+                    <Calendar
+                        onChange={handleDateSelection}
+                        value={dateSelected}
+                    />
+                </div>
+            )
+        )
+    }
+
+    // function for submitting files
     var submitFilesDiv
     if (submitFilesDivSelection) {
         submitFilesDiv = (
@@ -152,10 +190,18 @@ const Documents = (props) => {
                     <div className='enter_information_documents'>
                         <h3 className='documents_h3'>Upload Image for {props.selectedDriver.name}</h3>
                             <input type="file" name="file" placeholder="Upload an image" onChange={uploadImage} className='document_input'/>
-                        <h3 className='documents_h3'>Name of Document:</h3>
-                            <input type="text" name="theName" value={nameValue} onChange={handleChange} autoComplete='off'/>
+                            <div className='input_information_documents_tab'>
+                                <div className='inner_input_information_documents_tab'>
+                                    <h3 className='documents_h3'>Name of Document:</h3>
+                                        <input type="text" name="theName" value={nameValue} onChange={handleChange} autoComplete='off'/>
+                                </div>
+                                <div className='inner_input_information_documents_tab'>
+                                    <h3 className='documents_h3'>Expiry Date:</h3>
+                                        <input type="text" name="theName" value={dateSelected.toDateString()}  onChange={handleChangeCalendar} autoComplete='off' onClick={handleMakingCalendar}/>
+                                        {theCalendar}
+                                </div>
+                            </div>
                     </div>
-                    <br />
                     <div className="btn" onClick={handleSubmit}>
                         <svg width="125" height="45">
                             <defs>
@@ -185,7 +231,8 @@ const Documents = (props) => {
         setSignitureStatus('Verifying... this might take a moment')
         setCaptchkaValue(value)
         let myTime = new Date()
-            // email bit... actually works
+
+            // email bit
             async function getData(url = '', data={}) {
               const response = await fetch(url, {
                   method: 'POST', 
@@ -213,6 +260,34 @@ const Documents = (props) => {
                 Time Stamp: ${myTime.toDateString()} at ${myTime.toTimeString()} for book keeping (milliseconds) ${myTime.getTime()}`
             }).then ( response => {
             })
+
+            // change the fields in the backend
+            async function postData(url = '', data = {}) {
+                const response = await fetch(url, {
+                    method: 'PUT', 
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify(data)
+                    });
+    
+                return response ? response.json() : console.log('no reponse')
+            };
+            
+            postData(`https://pythonicbackend.herokuapp.com/images/${highlightedImageDetails.image_id}/`, {
+                driver_id: `https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`,
+                ManagerSigned: true,
+                SignitureToken: value,
+                SignitureManagerEmail: props.email
+            }).then( response => {
+                console.log(response)
+            })
+
+            // let them go back to normal screen
             setSignitureStatus('Signed... check your email for verification, document sent to driver for signiture.')
         
     }
@@ -269,7 +344,6 @@ const Documents = (props) => {
     // verify button
     var verifyButton 
     if (highlightedPicture) {
-        console.log()
         if (!highlightedImageDetails.Verified) {
             verifyButton = (
                 <div className="btn_picture" onClick={(e, targetImage) => getDivsBackAndVerify(e, highlightedPicture)}>
@@ -288,6 +362,28 @@ const Documents = (props) => {
         }
     }
 
+    // Signiture button
+    var sigButton
+    if (highlightedPicture) {
+        if (!highlightedImageDetails.ManagerSigned) {
+            sigButton = (
+                <div className="btn_picture" onClick={(e, targetImage) => getDivsSigniture(e, highlightedPicture)}>
+                    <svg width="125" height="45">
+                    <defs>
+                        <linearGradient id="grad1">
+                            <stop offset="0%" stopColor="#F3F6F6"/>
+                            <stop offset="100%" stopColor="#F3F6F6" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
+                    </svg>
+                    <span className='span_in_Button'>Sign</span>  
+                </div>   
+            )
+        }
+    }
+
+    // make the big picture appear ------ defining content
     if (highlightedPicture) {
         content = (
             <div className='big_picture_div'>
@@ -295,7 +391,7 @@ const Documents = (props) => {
                     {highlightedPicture}
                 </div>
                 <div className='button_div_box'>
-                    <div class="btn_picture" onClick={getDivsBack}>
+                    <div className="btn_picture" onClick={getDivsBack}>
                         <svg width="125" height="45">
                         <defs>
                             <linearGradient id="grad1">
@@ -308,18 +404,7 @@ const Documents = (props) => {
                         <span className='span_in_Button'>Return</span>  
                     </div>   
                     {verifyButton}
-                    <div className="btn_picture" onClick={(e, targetImage) => getDivsSigniture(e, highlightedPicture)}>
-                        <svg width="125" height="45">
-                        <defs>
-                            <linearGradient id="grad1">
-                                <stop offset="0%" stopColor="#F3F6F6"/>
-                                <stop offset="100%" stopColor="#F3F6F6" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
-                        </svg>
-                        <span className='span_in_Button'>Signiture</span>  
-                    </div>   
+                    {sigButton}
                 </div>
             </div>
         )
