@@ -70,12 +70,33 @@ const DivSingleWeek = (props) => {
 
         // bottom row mapped divs
         function bottomDivs () {
+            // make array for display and push forst column
             var lastWeekDivsArray = []
-            let localArray  = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            lastWeekDivsArray.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>Total for week:</h4></div>)
-            for (let i = 0; i < amount; i++) {
-                lastWeekDivsArray.push(<div key={i+50} className={`${calenderDivs}`}><h4 className='inner_calander_text'>{localArray[i]}</h4></div>)
-            }  
+            lastWeekDivsArray.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>Total for Day:</h4></div>)
+
+            
+            // make sure all data needed is available
+            if (data && props && checkForDate) {
+                // create array to increment
+                let localArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                console.log(data)
+
+                // loop through each index in the amount of divs refrenced
+                for (let i = 0; i < amount; i++) {
+
+                    // check each date for each driver sum them
+                    data.data.drivers.forEach( (ele, id) => {
+                        ele.datesArray.forEach( (date, id) => {
+                            if (date.date === checkForDate[i]) {
+                                console.log('hello there')
+                                localArray[i] = localArray[i] + 1
+                            }
+
+                        })
+                    })
+                    lastWeekDivsArray.push(<div key={i+50} className={`${calenderDivs}`}><h4 className='inner_calander_text'>{localArray[i]}</h4></div>)
+                }
+            }
             return lastWeekDivsArray
         }
 
