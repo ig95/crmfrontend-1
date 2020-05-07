@@ -81,13 +81,13 @@ const DriverDocumentation = (props) => {
             <NavigationBar title='Driver Documents'/>
             <div className='main_content_driver_documents'>
                 <div className='documents_search_bar'>
-                    <nav class="menu">
+                    <nav className="menu">
                         <ol>
-                            <li class="menu-item"><a href="#0">{selectedCity}</a>
-                                <ol class="sub-menu">
-                                    <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2')}><a href="#0">DBS2</a></li>
-                                    <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1')}><a href="#0">DSN1</a></li>
-                                    <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2')}><a href="#0">DEX2</a></li>
+                            <li className="menu-item"><a href="#0">{selectedCity}</a>
+                                <ol className="sub-menu">
+                                    <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2')}><a href="#0">DBS2</a></li>
+                                    <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1')}><a href="#0">DSN1</a></li>
+                                    <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2')}><a href="#0">DEX2</a></li>
                                 </ol>
                             </li>
                         </ol>

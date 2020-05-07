@@ -1,11 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import NavigationBar from '../components/NavBar'
-import Dropdown from 'react-dropdown';
-import DropdownTwo from 'react-dropdown';
-import DropdownThree from 'react-dropdown';
 import DivSingleWeek from '../components/DivSingleWeek'
-import 'react-dropdown/style.css';
-import 'react-calendar/dist/Calendar.css';
 
 const WeekSchedule = () => {
     const [ drivers, setDrivers ] = useState(null)
@@ -49,27 +44,9 @@ const WeekSchedule = () => {
         setMathSunday(myDate.toDateString())
     }, [])
 
-    // dropdown menu options
-    const options = [
-        'DBS2',
-        'DSN1',
-        'DEX2'
-    ]
-
-    // dropdown menu selection function
-    const onSelect = (e) => {
-        setSelectedCity(e.value)
-    }
-
-    // dropdown menu options
-    const optionsTwo = [
-        '7',
-        '14'
-    ]
-
-    // dropdown menu selection function
-    const onSelectTwo = (e) => {
-        setSelectedAmount(e.value)
+    // set city
+    const handleSelectSunday = (e, city) => {
+        setSelectedSunday(city)
     }
 
     // get sundays
@@ -79,7 +56,9 @@ const WeekSchedule = () => {
         for (let i = 0; i < 50; i++) {
             let dateInner = new Date(currentDate.getFullYear(), currentDate.getMonth(), i)
             if (dateInner.getDay() === 0) {
-                sundays.push(dateInner.toDateString())
+                sundays.push(
+                    <li className="menu-item" onClick={(e, city) => handleSelectSunday(e, `${dateInner.toDateString()}`)}><a href="#0">{dateInner.toDateString()}</a></li>
+                    )
             }
         }
         return sundays
@@ -87,10 +66,15 @@ const WeekSchedule = () => {
 
     // dropdown menu options
     const optionsThree = getSundays()
+    
+    // set city
+    const handleSelectCity = (e, city) => {
+        setSelectedCity(city)
+    }
 
-    // dropdown menu selection function
-    const onSelectThree = (e) => {
-        setSelectedSunday(e.value)
+    // set Amount
+    const handleSelectAmount = (e, city) => {
+        setSelectedAmount(city)
     }
 
     var content;
@@ -100,24 +84,36 @@ const WeekSchedule = () => {
                 <NavigationBar title='Location Rota'/>
                 <div className='main_content_week_schedule'>
                     <div className='drop_down_bar_container_single_week'>
-                        <Dropdown 
-                            options={options}
-                            onChange={onSelect} 
-                            value={selectedCity} 
-                            className='drop_down_bar'
-                        />
-                        <DropdownTwo 
-                            options={optionsTwo}
-                            onChange={onSelectTwo} 
-                            value={selectedAmount} 
-                            className='drop_down_bar'
-                        />
-                        <DropdownThree
-                            options={optionsThree}
-                            onChange={onSelectThree} 
-                            value={selectedSunday} 
-                            className='drop_down_bar'
-                        />
+                        <nav className="menu_smaller">
+                            <ol>
+                                <li className="menu-item"><a href="#0">{selectedCity}</a>
+                                    <ol className="sub-menu">
+                                        <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2')}><a href="#0">DBS2</a></li>
+                                        <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1')}><a href="#0">DSN1</a></li>
+                                        <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2')}><a href="#0">DEX2</a></li>
+                                    </ol>
+                                </li>
+                            </ol>
+                        </nav>
+                        <nav className="menu_smaller">
+                            <ol>
+                                <li className="menu-item"><a href="#0">{selectedAmount}</a>
+                                    <ol className="sub-menu">
+                                        <li className="menu-item" onClick={(e, city) => handleSelectAmount(e, '7')}><a href="#0">7</a></li>
+                                        <li className="menu-item" onClick={(e, city) => handleSelectAmount(e, '14')}><a href="#0">14</a></li>
+                                    </ol>
+                                </li>
+                            </ol>
+                        </nav>
+                        <nav className="menu">
+                            <ol>
+                                <li className="menu-item"><a href="#0">{selectedSunday}</a>
+                                    <ol className="sub-menu">
+                                        {optionsThree}
+                                    </ol>
+                                </li>
+                            </ol>
+                        </nav>
                     </div>
                     <div className='scheduling_single_week_overlay'>
                         <DivSingleWeek 

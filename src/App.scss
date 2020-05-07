@@ -121,6 +121,114 @@
 	}
 }
 
+.menu_smaller {
+  height: 5vh;
+  margin: auto 1rem 0 0;
+  z-index: 1;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+
+		&:first-child {
+      width: 7vw;
+
+			align-items: center;
+      box-shadow: 0px 3px 8px $transparent-gray;
+      background-color: $amazon_blue;
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+				font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+			top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+					content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      margin: 0 auto;
+      width: 15vw; 
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
 
   /*********************** BUTTON EFFECT *****************************************/
 
@@ -1004,8 +1112,8 @@
   }
   
   .inner_calander_text {
-    margin-top: 5px;
-    margin-left: 5px;
+    margin: 0;
+    padding: 5px;
   }
 
   .inner_calender_form {
@@ -1067,18 +1175,40 @@
     @extend %calendar_divs_class;
     flex: 1 0 6%;
     height: 5vh;
-    margin-bottom: 5px;
-    background-color: rgb(116, 38, 38);
-    color: black;
+    background-color: #E06666;
+    color: $amazon_blue;
   }
 
   .cal_divs_single_booked {
     @extend %calendar_divs_class;
     flex: 1 0 6%;
     height: 5vh;
+    background-color: $offWhite;
+    color: $amazon_blue;
+  }
+
+  .color_change {
     margin-bottom: 5px;
-    background-color: rgb(49, 124, 49);
-    color: $offWhite;
+    height: 100%;
+    background-color: #A5FFBE;
+  }
+
+  .color_change_purple {
+    margin-bottom: 5px;
+    background-color: #BE9ADB;
+    height: 100%;
+  }
+
+  .color_change_blue {
+    margin-bottom: 5px;
+    background-color: #5E97F8;
+    height: 100%;
+  }
+
+  .color_change_yellow {
+    margin-bottom: 5px;
+    background-color: #F6DF62;
+    height: 100%;
   }
 
   // sevens
@@ -1096,8 +1226,8 @@
     flex: 1 0 11%;
     height: 5vh;
     margin-bottom: 5px;
-    background-color: rgb(116, 38, 38);
-    color: black;
+    background-color: #E06666;
+    color: $amazon_blue;
   }
 
   .cal_divs_single_booked_seven {
@@ -1105,8 +1235,7 @@
     flex: 1 0 11%;
     height: 5vh;
     margin-bottom: 5px;
-    background-color: rgb(49, 124, 49);
-    color: $offWhite;
+    color: $amazon_blue;
   }
 
   .middle_row_seven {
@@ -1116,6 +1245,16 @@
     overflow: scroll;
     max-height: 68vh;
     width: 72.5vw;
+  }
+
+  .cal_divs_single_table_seven:hover {
+    transform: translateY(-.25rem);
+    box-shadow: 2px 2px 2px black;
+  }
+
+  .cal_divs_single_booked_seven:hover {
+    transform: translateY(-.25rem);
+    box-shadow: 2px 2px 2px black;
   }
   
   .cal_divs_single_booked:hover {

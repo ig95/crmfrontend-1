@@ -11,6 +11,8 @@ const DivSingleWeek = (props) => {
     const [ calenderDivsInner, setCalendarDivsInner ] = useState('cal_divs_single_table')
     const [ calenderDivsInnerBooked, setCalendarDivsInnerBooked ] = useState('cal_divs_single_booked')
     const [ middleRowClass, setMiddleRowClass] = useState('middle_row')
+    const [ selectedResponse, setSelectedResponse ] = useState('')
+    const [ optionsGate, setOptionsGate ] = useState(true)
 
     useEffect( () => {
         async function getData(url = '') {
@@ -30,6 +32,7 @@ const DivSingleWeek = (props) => {
         getData('https://pythonicbackend.herokuapp.com/data/').then( response => {
             setData(response)
         })
+        setSelectedResponse(props.selectedCity)
 
     }, [getData])
 
@@ -96,7 +99,7 @@ const DivSingleWeek = (props) => {
                                 // eslint-disable-next-line no-loop-func
                                 <div key={Math.random()} className={`${calenderDivsInner}`} onClick={(e) => handleClick(e, checkForDate[i], ele.name, ele.datesArray, ele.driver_id, ele.location)}>
                                     <h4 className='inner_calander_text'>
-                                        ---
+                                        OFF
                                     </h4>
                                 </div>  
                             )  
@@ -104,11 +107,34 @@ const DivSingleWeek = (props) => {
                         // eslint-disable-next-line no-loop-func
                         ele.datesArray.forEach( (dateEle) => {
                             if (checkForDate.includes(dateEle.date)) {
+                                let colorChange
+                                switch (dateEle.location) {
+                                    case 'DEX2':
+                                        colorChange = 'color_change_blue' 
+                                        break;
+                                    case 'DSN1':
+                                        colorChange = 'color_change_yellow' 
+                                        break;
+                                    case `DBS2`:
+                                        colorChange = 'color_change'
+                                        break;
+                                    case 'MFN':
+                                        colorChange = 'color_change_purple'  
+                                        break; 
+                                    case 'CT':
+                                        colorChange = 'color_change_purple'  
+                                        break; 
+                                    case 'RT':
+                                        colorChange = 'color_change_purple'  
+                                        break; 
+                                }
                                 localArray[checkForDate.indexOf(dateEle.date)+1] = ( 
                                     <div  className={`${calenderDivsInnerBooked}`} key={Math.random()} >
-                                        <h3 className='inner_calander_text'>
-                                            {dateEle.location} 
-                                        </h3>
+                                        <div className={`${colorChange}`}>
+                                            <h3 className='inner_calander_text'>
+                                                {dateEle.location === props.selectedCity ? 'IN' : dateEle.location}
+                                            </h3>
+                                        </div>
                                     </div>
                                 )
                             }
@@ -168,12 +194,20 @@ const DivSingleWeek = (props) => {
                 }
             })
         }
+        
+        function handleSelectCity(e, city, dateSelection, nameSelection, dateList, id, location) {
+            e.preventDefault()
+            setSelectedResponse(city)
+            setMiddleRow(makeForm(city, dateSelection, nameSelection, dateList, id, location))
+        }
 
         // render the form div
-        const makeForm = (dateSelection, nameSelection, dateList, id, location) => {
+        const makeForm = (city, dateSelection, nameSelection, dateList, id, location) => {
+            let theCity
+            city ? theCity = city : theCity = selectedResponse
             const handleSubmit = (e) => { 
                 e.preventDefault()
-                let station = e.target.location.value ? e.target.location.value : location
+                let station = theCity
                 handleSubmitButton(dateSelection, id, station)
             } 
             return (
@@ -182,7 +216,19 @@ const DivSingleWeek = (props) => {
                         <form onSubmit={handleSubmit} autoComplete='on'>
                             <h3>Name: {nameSelection}</h3>
                             <h3>Date: {dateSelection}</h3>
-                            <h3>Depot: <input type="text" name='location' placeholder={location}/></h3>
+                            <nav className="menu">
+                                <ol>
+                                    <li className="menu-item"><a href="#0">{theCity}</a>
+                                        <ol className="sub-menu">
+                                            <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2', dateSelection, nameSelection, dateList, id, location)}><a href="#0">DBS2</a></li>
+                                            <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1', dateSelection, nameSelection, dateList, id, location)}><a href="#0">DSN1</a></li>
+                                            <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2', dateSelection, nameSelection, dateList, id, location)}><a href="#0">DEX2</a></li>
+                                            <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'CT', dateSelection, nameSelection, dateList, id, location)}><a href="#0">CT</a></li>
+                                            <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'MFN', dateSelection, nameSelection, dateList, id, location)}><a href="#0">MFN</a></li>
+                                        </ol>
+                                    </li>
+                                </ol>
+                            </nav>
                             <input type='submit' className='form_button' value='Add Work' />
                         </form>
                     </div>
@@ -193,7 +239,7 @@ const DivSingleWeek = (props) => {
         // when click on a date to book
         const handleClick = (e, weekDaySelected, theName, datesList, id, location) => {
             e.preventDefault()
-            setMiddleRow(makeForm(weekDaySelected, theName, datesList, id, location))
+            setMiddleRow(makeForm(null, weekDaySelected, theName, datesList, id, location))
         }
 
         setTopRow(thisWeekDivs())
