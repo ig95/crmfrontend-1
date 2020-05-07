@@ -65,36 +65,90 @@ const MakeEmployee = (props) => {
         setLogicalGate(false)
     }
 
+    // driver_id = models.AutoField(primary_key=True)
+    // name = models.CharField(max_length = 100, null = True)
+    // location = models.CharField(max_length = 15, default = 'DBS2', null = True)
+    // datesList = ArrayField(models.CharField(max_length=20), default=list, blank=True)
+    // status = models.CharField(max_length = 30, null = True)
+    // onboarding = models.IntegerField("Onboarding", default=0, null=True)
+    // phone = models.CharField(max_length = 20, null=True)
+    // email = models.CharField(max_length = 50, null=True)
+    // DandATest = models.BooleanField(default=False)
+    // DriverUniqueId = models.CharField(max_length = 30, null=True)
+    // Badge = models.BooleanField(default=False)
+    // BadgeNumber = models.CharField(max_length=15, null=True)
+    // Active = models.BooleanField(default=False)
+    // VanEConfirmed = models.BooleanField(default=False)
+    // NINNumber = models.CharField(max_length=15, null=True)
+    // UTRNumber = models.CharField(max_length=20, null=True)
+    // VatNumber = models.CharField(max_length=15, null=True)
+
+
     var makeTheDriver
     if (logicalGate) {
         makeTheDriver = (
             <div className='new_driver_form_container'>
+                <h1>Add Driver</h1>
                 <form onSubmit={handleSubmit} className='new_employee_form'>
-                    <label className='labels'>Name</label>
-                        <input className='inputs' type="text" name='name'/>
-                    <label className='labels'>Station</label>
-                        <input className='inputs' type="text" name='location'/>
-                    <label className='labels'>Address</label>
-                        <input className='inputs' type="text" name='address'/>
-                    <label className='labels'>Mobile</label>
-                        <input className='inputs' type="text" name='mobile'/>
-                    <label className='labels'>Email</label>
-                        <input className='inputs' type="text" name='email'/>
-                        <br /><br />
+                    <div className='dashboard_form_divs_name'>
+                        <label className='labels'>Name</label>
+                            <input className='inputs' type="text" name='name'/>
+                    </div>
+                    <div className='dashboard_form_divs_name'>
+                        <label className='labels'>Station</label>
+                            <input className='inputs' type="text" name='location'/>
+                    </div>
+                    <div className='dashboard_form_divs_name'>
+                        <label className='labels'>Address</label>
+                            <input className='inputs' type="text" name='address'/>
+                    </div>
+                    <div className='dashboard_form_divs_name'>
+                        <label className='labels'>Mobile</label>
+                            <input className='inputs' type="text" name='mobile'/>
+                    </div>
+                    <div className='dashboard_form_divs_name'>
+                        <label className='labels'>Email</label>
+                            <input className='inputs' type="text" name='email'/>
+                    </div>
+                    <div className='dashboard_form_divs_name'>
+                        <label className='labels'>Badge Number</label>
+                            <input className='inputs' type="text" name='BadgeNumber'/>
+                    </div>
+                    <div className='dashboard_form_divs_name'>
+                        <label className='labels'>Driver ID</label>
+                            <input className='inputs' type="text" name='DriverID'/>
+                    </div>
+                    <div className='dashboard_form_divs_name'>
+                        <label className='labels'>NIN Number</label>
+                            <input className='inputs' type="text" name='NINNumber'/>
+                    </div>
+                    <div className='dashboard_form_divs_name'>
+                        <label className='labels'>UTR Number</label>
+                            <input className='inputs' type="text" name='UTR Number'/>
+                    </div>
+                    <div className='dashboard_form_divs_name'>
+                        <label className='labels'>VAT Number</label>
+                            <input className='inputs' type="text" name='VAT Number'/>
+                    </div>
+                    <div className='dashboard_form_divs_name'>
+                        <label className='labels'>Onboarding Tasks Completed</label>
+                            <input className='inputs' type="text" name='email'/>
+                    </div>
+                </form>
+                <div className='buttons_new_driverPage'>
                     <div className="button-container-2" onClick={handleSubmit}>
-                        <span className="mas2">Make Driver</span>
-                        <button className='buttonFront2' id='work2' type="button" name="Hover">
-                        Make Driver
-                        </button>
-                    </div>  
-                    <br />   
+                            <span className="mas2">Make Driver</span>
+                            <button className='buttonFront2' id='work2' type="button" name="Hover">
+                            Make Driver
+                            </button>
+                    </div>    
                     <div className="button-container-2" onClick={backToNormal}>
                         <span className="mas2">Return</span>
                         <button className='buttonFront2' id='work2' type="button" name="Hover">
                         Return
                         </button>
-                    </div>     
-                </form>
+                    </div>  
+                </div>
             </div>
         )
     }
@@ -165,7 +219,7 @@ const MakeEmployee = (props) => {
 
     return (
         <div className='home_content'>
-            <NavigationBar title='Create Driver'/>
+            <NavigationBar title='Drivers'/>
             {makeTheDriver}
             <div className='main_content_new_driver'>
                 <div className='search_bar_top_new_driver'>
@@ -186,7 +240,7 @@ const MakeEmployee = (props) => {
                                     <input type="text" name="Email" className='inputs_new_driver_page'/>
                             </div>
                             <div className='inputs_new_driver'>
-                                <label htmlFor="Service Areas">Service Areas</label>
+                                <label htmlFor="Service Areas">Station</label>
                                     <input type="text" name="Service Areas" className='inputs_new_driver_page'/>
                                 
                             </div>

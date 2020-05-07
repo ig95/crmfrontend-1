@@ -280,10 +280,10 @@
 }
 .button-container-2 {
   position: relative;
+  margin-right: 1rem;
   width: 10vw;
   height: 4vh;
   overflow: hidden;
-  border-radius: 0.5rem;
   font-weight: 300;
   font-size: 1.1em;
   transition: 0.5s;
@@ -415,6 +415,7 @@
 .cal_divs_current {
   text-decoration: none;
 }
+.inputs_new_driver_page,
 .inputs,
 .search_bar,
 .input_dashboard_page,
@@ -428,6 +429,7 @@ input {
   font-family: "Roboto";
   font-size: 1.2em;
 }
+.inputs_new_driver_page:hover,
 .inputs:hover,
 .search_bar:hover,
 .input_dashboard_page:hover,
@@ -965,24 +967,85 @@ body {
 }
 .main_content_new_driver {
   grid-area: main_content;
-  margin-left: 2rem;
   animation-name: loadingStyle;
   animation-duration: 1s;
 }
+.labels {
+  margin: 0;
+  margin-top: 0.5rem;
+  margin-right: 2rem;
+  padding: 0;
+  text-align: left;
+}
+.inner_new_document_divs {
+  width: 20vw;
+}
+.inner_new_document_divs_name {
+  width: 15vw;
+}
+.inner_new_document_divs_phone {
+  width: 5vw;
+}
+.inner_new_document_divs_top {
+  width: 20vw;
+}
+.inner_new_document_divs_name_top {
+  width: 15vw;
+}
+.inner_new_document_divs_phone_top {
+  width: 5vw;
+}
+.inner_new_document_divs_phone_status {
+  width: 5vw;
+}
+.content_bottom_new_driver {
+  margin-left: 2rem;
+  margin-top: 1rem;
+  height: 75vh;
+  overflow-y: scroll;
+}
+.bottom_name_divs_new_driver {
+  display: flex;
+  width: 85vw;
+  padding-right: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #232f3e;
+}
 .new_employee_form {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 70vw;
+  padding: 1rem 0 3rem 1rem;
 }
 .search_bar_top_new_driver {
   display: flex;
-  justify-content: center;
   align-items: flex-end;
+  margin-left: 2rem;
+  padding: 0;
 }
 .new_driver_form_container {
-  align-self: flex-start;
-  padding: 1rem;
+  animation-name: fadeToExist;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+@keyframes fadeToExist {
+  0% {
+    opacity: 0;
+    height: 0vh;
+    width: 0vw;
+  }
+  100% {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    padding: 2rem;
+    left: 0;
+    top: 0;
+    background-color: #fefefe;
+    z-index: 1;
+    overflow: clip;
+  }
 }
 .form_new_driver_page {
   display: flex;
@@ -991,6 +1054,9 @@ body {
   display: flex;
   flex-direction: column;
   margin-right: 1rem;
+}
+.inputs_new_driver_page {
+  border-radius: 0;
 }
 .main_content_dashboard {
   grid-area: main_content;
