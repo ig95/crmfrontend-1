@@ -13,6 +13,11 @@
 
   /*********************** DROPDOWN BAR EFFECTS *****************************************/
 
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
 .menu {
   height: 5vh;
   margin: auto 0;
@@ -1713,6 +1718,9 @@
   }
 
   .span_in_Button_add {
+    -webkit-padding-start: initial;
+    padding: 0;
+    margin: 0;
     padding-top: 15px;
   }
 
