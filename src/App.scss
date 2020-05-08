@@ -229,6 +229,223 @@
 	}
 }
 
+.menu_drivers {
+  height: 5vh;
+  margin: auto 1rem 0 0;
+  z-index: .9;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+
+		&:first-child {
+      width: 7vw;
+
+			align-items: center;
+      box-shadow: 0px 3px 8px $transparent-gray;
+      background-color: $amazon_blue;
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+				font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+			top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+					content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      margin: 0 auto;
+      width: 15vw; 
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+// search bar one
+.menu_names {
+  height: 5vh;
+  margin: auto 1rem 0 0;
+  z-index: .9;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+
+		&:first-child {
+      width: 20vw;
+
+			align-items: center;
+      box-shadow: 0px 3px 8px $transparent-gray;
+      background-color: $amazon_blue;
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+				font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+			top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+					content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      margin: 0 auto;
+      width: 15vw; 
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
 
   /*********************** BUTTON EFFECT *****************************************/
 
@@ -478,7 +695,7 @@
       position: relative;
       margin-right: 1rem;
       width: 10vw;
-      height: 4vh;
+      height: 5vh;
       overflow: hidden;
       font-weight: 300;
       font-size: 1.1em;
@@ -1320,6 +1537,12 @@
     animation-duration: 1s;
   }
 
+  .search_bar_driver_page {
+    background-color: $amazon_blue;
+    color: $offWhite;
+    width: 18vw;
+  }
+
   .labels {
     margin: 0;
     margin-top: .5rem;
@@ -1356,6 +1579,21 @@
     width: 5vw;
   }
 
+  .make_submit_invisible {
+    border: 0;
+    background-color: $amazon_blue;
+    color: $offWhite;
+    height: 6vh;
+    width: 10vw;
+    text-align: center;
+    padding-bottom: 10px;
+    border: 0;
+  }
+
+  .make_submit_invisible:hover {
+    border: 0;
+  }
+
   .content_bottom_new_driver {
     margin-left: 2rem;
     margin-top: 1rem;
@@ -1374,6 +1612,7 @@
   }
 
   .buttons_new_driverPage {
+    margin-top: 2rem;
     margin-left: 21.5%;
     display: flex;
   }

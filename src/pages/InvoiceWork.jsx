@@ -6,8 +6,8 @@ import waterDrop from '../images/waterDrop.png'
 const InvoiceWork = (props) => {
     const [ dataset, setDataset ] = useState(null)
     const [ driverSearchArray, setDriverSearchArray ] = useState([])
-    const [ selectedInvoice, setSelectedInvoice ] = useState(null)
     const [ makeSearchBarVisible, setMakeSearchBarVisible ] = useState('dashboard_form_divs_name_bar_none')
+    const [ selectedInvoice, setSelectedInvoice ] = useState(null)
     const [ nameValue, setNameValue ] = useState('')
     const [ sundayDate, setSundayDate ] = useState('')
     const [ sundayTwoWeeks, setSundayTwoWeeks ] = useState('')

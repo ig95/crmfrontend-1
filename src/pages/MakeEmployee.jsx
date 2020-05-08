@@ -4,6 +4,15 @@ import NavigationBar from '../components/NavBar'
 const MakeEmployee = (props) => {
     const [ logicalGate, setLogicalGate ] = useState(false)
     const [ dataSet, setDataSet ] = useState(null)
+    const [ status, setStatus ] = useState('Offboarded')
+    const [ driverSearchArray, setDriverSearchArray ] = useState([])
+    const [ driverSearchEmailArray, setDriverSearchEmailArray ] = useState([])
+    const [ makeSearchBarVisible, setMakeSearchBarVisible ] = useState('dashboard_form_divs_name_bar_none')
+    const [ nameValue, setNameValue ] = useState('')
+    const [ emailValue, setEmailValue ] = useState('')
+    const [ station, setStation ] = useState('DBS2')
+    const [ reloadGate, setReloadGate ] = useState(false)
+    const [ submitPressed, setSubmitPressed ] = useState('Submit')
 
     useEffect(() => {
         async function getData(url = '') {
@@ -23,15 +32,16 @@ const MakeEmployee = (props) => {
         };
 
         getData('https://pythonicbackend.herokuapp.com/data/').then( (response) => {
-            console.log(response.data.drivers)
             setDataSet(response.data.drivers)
+            console.log(response.data.drivers)
         })  
-    }, [])
+    }, [reloadGate])
 
     // send form to backend
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        setSubmitPressed('Created')
+        console.log('submitting')
         async function postData(url = '', data = {}) {
             const response = await fetch(url, {
                 method: 'POST', 
@@ -50,39 +60,25 @@ const MakeEmployee = (props) => {
         };
 
         postData('https://pythonicbackend.herokuapp.com/drivers/', {
-            name: e.target.name.value, 
-            location: e.target.location.value
+            name: e.target.name.value ? e.target.name.value : 'null',
+            status: e.target.status.value ? e.target.status.value : 'null',
+            onboarding: e.target.Onboarding.value ? e.target.Onboarding.value : 0,
+            phone: e.target.mobile.value ? e.target.mobile.value : 'null',
+            email: e.target.email.value ? e.target.email.value : 'null',
+            BadgeNumber: e.target.BadgeNumber.value ? e.target.BadgeNumber.value : 'null',
+            DriverUniqueId: e.target.DriverID.value ? e.target.DriverID.value : 'null',
+            NINNumber: e.target.NINNumber.value ? e.target.NINNumber.value : 'null',
+            UTRNumber: e.target.UTRNumber.value ? e.target.UTRNumber.valuee : 'null',
+            VatNumber: e.target.VATNumber.value ? e.target.VATNumber.value : 'null',
         }).then( (response) => {
-                console.log(response)
+            console.log(response)
+            reloadGate ? setReloadGate(false) : setReloadGate(true)
         })
-
-        e.target.submit.value = 'Thanks'
-        e.target.name.value = ''
-        e.target.location.value = ''
     }
 
     const backToNormal = () => {
         setLogicalGate(false)
     }
-
-    // driver_id = models.AutoField(primary_key=True)
-    // name = models.CharField(max_length = 100, null = True)
-    // location = models.CharField(max_length = 15, default = 'DBS2', null = True)
-    // datesList = ArrayField(models.CharField(max_length=20), default=list, blank=True)
-    // status = models.CharField(max_length = 30, null = True)
-    // onboarding = models.IntegerField("Onboarding", default=0, null=True)
-    // phone = models.CharField(max_length = 20, null=True)
-    // email = models.CharField(max_length = 50, null=True)
-    // DandATest = models.BooleanField(default=False)
-    // DriverUniqueId = models.CharField(max_length = 30, null=True)
-    // Badge = models.BooleanField(default=False)
-    // BadgeNumber = models.CharField(max_length=15, null=True)
-    // Active = models.BooleanField(default=False)
-    // VanEConfirmed = models.BooleanField(default=False)
-    // NINNumber = models.CharField(max_length=15, null=True)
-    // UTRNumber = models.CharField(max_length=20, null=True)
-    // VatNumber = models.CharField(max_length=15, null=True)
-
 
     var makeTheDriver
     if (logicalGate) {
@@ -96,7 +92,11 @@ const MakeEmployee = (props) => {
                     </div>
                     <div className='dashboard_form_divs_name'>
                         <label className='labels'>Station</label>
-                            <input className='inputs' type="text" name='location'/>
+                            <input className='inputs' type="text" name='location' defaultValue={station}/>
+                    </div>
+                    <div className='dashboard_form_divs_name'>
+                        <label className='labels'>Status</label>
+                            <input className='inputs' type="text" name='status' defaultValue='OnBoarding'/>
                     </div>
                     <div className='dashboard_form_divs_name'>
                         <label className='labels'>Address</label>
@@ -124,31 +124,31 @@ const MakeEmployee = (props) => {
                     </div>
                     <div className='dashboard_form_divs_name'>
                         <label className='labels'>UTR Number</label>
-                            <input className='inputs' type="text" name='UTR Number'/>
+                            <input className='inputs' type="text" name='UTRNumber'/>
                     </div>
                     <div className='dashboard_form_divs_name'>
                         <label className='labels'>VAT Number</label>
-                            <input className='inputs' type="text" name='VAT Number'/>
+                            <input className='inputs' type="text" name='VATNumber'/>
                     </div>
                     <div className='dashboard_form_divs_name'>
-                        <label className='labels'>Onboarding Tasks Completed</label>
-                            <input className='inputs' type="text" name='email'/>
+                        <label className='labels'>Onboarding</label>
+                            <input className='inputs' type="text" name='Onboarding' defaultValue='0'/>
+                    </div>
+                    <div className='buttons_new_driverPage'>
+                        <div className="button-container-2" >
+                        <span className="mas2">{submitPressed}</span>
+                            <button className='buttonFront2' id='work2' type="button" name="Hover">
+                                <input type="submit" value={`${submitPressed}`} className='make_submit_invisible'/>
+                            </button>
+                        </div>
+                        <div className="button-container-2" onClick={backToNormal}>
+                            <span className="mas2">Return</span>
+                            <button className='buttonFront2' id='work2' type="button" name="Hover">
+                            Return
+                            </button>
+                        </div>  
                     </div>
                 </form>
-                <div className='buttons_new_driverPage'>
-                    <div className="button-container-2" onClick={handleSubmit}>
-                            <span className="mas2">Make Driver</span>
-                            <button className='buttonFront2' id='work2' type="button" name="Hover">
-                            Make Driver
-                            </button>
-                    </div>    
-                    <div className="button-container-2" onClick={backToNormal}>
-                        <span className="mas2">Return</span>
-                        <button className='buttonFront2' id='work2' type="button" name="Hover">
-                        Return
-                        </button>
-                    </div>  
-                </div>
             </div>
         )
     }
@@ -182,25 +182,71 @@ const MakeEmployee = (props) => {
                 </div>
             )
             dataSet.forEach( (ele, id) => {
-                localArray.push(
-                    <div key={id} className='bottom_name_divs_new_driver'>
-                        <div className='inner_new_document_divs_name'>
-                            <h3>{ele.name}</h3>
+                if (nameValue) {
+                    if (ele.name === nameValue) {
+                        localArray.push(
+                            <div key={id} className='bottom_name_divs_new_driver'>
+                                <div className='inner_new_document_divs_name'>
+                                    <h3>{ele.name}</h3>
+                                </div>
+                                <div className='inner_new_document_divs'>
+                                    <h3>{ele.email ? ele.email : `${ele.name}@gmail.com` }</h3>
+                                </div>
+                                <div className='inner_new_document_divs_phone'>
+                                    <h3>{ele.phone ? ele.phone : `${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}-${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}`}</h3>
+                                </div>
+                                <div className='inner_new_document_divs_phone'>
+                                    <h3>{ele.onboarding ? `${ele.onboarding}/13 Completed` : `${getRandomInt(10)}/13 Completed` }</h3>
+                                </div>
+                                <div className='inner_new_document_divs_phone_status'>
+                                    <h3>{ele.status ? ele.status : 'Offboarded' }</h3>
+                                </div>
+                            </div>
+                        )
+                    }
+                } else if (emailValue) {
+                    if (ele.email === emailValue) {
+                        localArray.push(
+                            <div key={id} className='bottom_name_divs_new_driver'>
+                                <div className='inner_new_document_divs_name'>
+                                    <h3>{ele.name}</h3>
+                                </div>
+                                <div className='inner_new_document_divs'>
+                                    <h3>{ele.email ? ele.email : `${ele.name}@gmail.com` }</h3>
+                                </div>
+                                <div className='inner_new_document_divs_phone'>
+                                    <h3>{ele.phone ? ele.phone : `${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}-${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}`}</h3>
+                                </div>
+                                <div className='inner_new_document_divs_phone'>
+                                    <h3>{ele.onboarding ? `${ele.onboarding}/13 Completed` : `${getRandomInt(10)}/13 Completed` }</h3>
+                                </div>
+                                <div className='inner_new_document_divs_phone_status'>
+                                    <h3>{ele.status ? ele.status : 'Offboarded' }</h3>
+                                </div>
+                            </div>
+                        )
+                    }   
+                } else {
+                    localArray.push(
+                        <div key={id} className='bottom_name_divs_new_driver'>
+                            <div className='inner_new_document_divs_name'>
+                                <h3>{ele.name}</h3>
+                            </div>
+                            <div className='inner_new_document_divs'>
+                                <h3>{ele.email ? ele.email : `${ele.name}@gmail.com` }</h3>
+                            </div>
+                            <div className='inner_new_document_divs_phone'>
+                                <h3>{ele.phone ? ele.phone : `${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}-${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}`}</h3>
+                            </div>
+                            <div className='inner_new_document_divs_phone'>
+                                <h3>{ele.onboarding ? `${ele.onboarding}/13 Completed` : `${getRandomInt(10)}/13 Completed` }</h3>
+                            </div>
+                            <div className='inner_new_document_divs_phone_status'>
+                                <h3>{ele.status ? ele.status : 'Offboarded' }</h3>
+                            </div>
                         </div>
-                        <div className='inner_new_document_divs'>
-                            <h3>{ele.email ? ele.email : `${ele.name}@gmail.com` }</h3>
-                        </div>
-                        <div className='inner_new_document_divs_phone'>
-                            <h3>{ele.phone ? ele.phone : `${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}-${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}`}</h3>
-                        </div>
-                        <div className='inner_new_document_divs_phone'>
-                            <h3>{ele.onboarding ? `${ele.onboarding}/13 Completed` : `${getRandomInt(10)}/13 Completed` }</h3>
-                        </div>
-                        <div className='inner_new_document_divs_phone_status'>
-                            <h3>{ele.status ? ele.status : 'Offboarded' }</h3>
-                        </div>
-                    </div>
-                )
+                    )
+                }
             })
         }
         return localArray
@@ -217,6 +263,73 @@ const MakeEmployee = (props) => {
         setLogicalGate(true)
     }
 
+    // change status
+    const handleSelectStatus = (e, value) => {
+        setStatus(value)
+    }
+
+    // select name
+    const handleNameClick = (e, theName) => {
+        setNameValue(theName)
+    }
+
+    // handle the name selection bar
+    const handleSelectName = (e, value) => {
+        setNameValue(value)
+    }
+
+    // handle the station selection bar
+    const handleSelectStation = (e, value) => {
+        setStation(value)
+    }
+
+    // search bar function for names
+    const handleChange = (e) => {
+        if (dataSet) {
+            setNameValue(e.target.value)
+            let localArray = []
+            dataSet.forEach( (ele, id) => {
+                if (ele.name) {
+                    if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 4) {
+                        localArray.push(
+                            <li className="menu-item" onClick={(e, city) => handleSelectName(e, ele.name)}><a href="#0"><h4 className='name_suggestions' onClick={(e, theName) => handleNameClick(e, `${ele.name}`)}>{ele.name}</h4></a></li>
+                        )
+                    }
+                }
+            })
+            setDriverSearchArray(localArray)
+        }
+    }
+
+    // select email
+    const handleEmailClick = (e, theemail) => {
+        setEmailValue(theemail)
+    }
+
+    // handle the email selection bar
+    const handleSelectEmail = (e, value) => {
+        setEmailValue(value)
+    }
+
+    // search bar function for email
+    const handleChangeEmail = (e) => {
+        if (dataSet) {
+            setEmailValue(e.target.value)
+            let localArray = []
+            console.log(dataSet)
+            dataSet.forEach( (ele, id) => {
+                if (ele.email !== null) {
+                    if (ele.email.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 4) {
+                        localArray.push(
+                            <li className="menu-item" onClick={(e, city) => handleSelectEmail(e, ele.email)}><a href="#0"><h4 className='name_suggestions' onClick={(e, theName) => handleEmailClick(e, `${ele.email}`)}>{ele.email}</h4></a></li>
+                        )
+                    }
+                }
+            })
+            setDriverSearchEmailArray(localArray)
+        }
+    }
+
     return (
         <div className='home_content'>
             <NavigationBar title='Drivers'/>
@@ -224,25 +337,55 @@ const MakeEmployee = (props) => {
             <div className='main_content_new_driver'>
                 <div className='search_bar_top_new_driver'>
                     <div>
-                        <form onSubmit={handleSubmitSearch} className='form_new_driver_page'>
+                        <form onSubmit={handleSubmitSearch} className='form_new_driver_page' autoComplete='off'>
                             <div className='inputs_new_driver'>
-                                <label htmlFor="Status">Status</label>
-                                    <input type="text" name="Status" className='inputs_new_driver_page'/>
-                                
+                                <nav className="menu_drivers">
+                                    <ol>
+                                        <li className="menu-item"><a href="#0">{status}</a>
+                                            <ol className="sub-menu">
+                                                <li className="menu-item" onClick={(e, city) => handleSelectStatus(e, 'Offboarded')}><a href="#0">Offboarded</a></li>
+                                                <li className="menu-item" onClick={(e, city) => handleSelectStatus(e, 'OnBoarding')}><a href="#0">OnBoarding</a></li>
+                                                <li className="menu-item" onClick={(e, city) => handleSelectStatus(e, 'Active')}><a href="#0">Active</a></li>
+                                                <li className="menu-item" onClick={(e, city) => handleSelectStatus(e, 'Inactive')}><a href="#0">Inactive</a></li>
+                                            </ol>
+                                        </li>
+                                    </ol>
+                                </nav>
                             </div>
                             <div className='inputs_new_driver'>
-                                <label htmlFor="Name">Name</label>
-                                    <input type="text" name="Name" className='inputs_new_driver_page'/>
-                                
+                                <nav className="menu_names">
+                                    <ol>
+                                        <li className="menu-item"><input className='search_bar_driver_page' type="text" id='$0' name='fuckYouChromeName' value={nameValue} onChange={handleChange}  autoComplete='off' placeholder='Search Names'/>
+                                            <ol className="sub-menu">
+                                            {driverSearchArray}
+                                            </ol>
+                                        </li>
+                                    </ol>
+                                </nav>
                             </div>
                             <div className='inputs_new_driver'>
-                                <label htmlFor="Email">Email</label>
-                                    <input type="text" name="Email" className='inputs_new_driver_page'/>
+                                <nav className="menu_names">
+                                    <ol>
+                                        <li className="menu-item"><input className='search_bar_driver_page' type="text" id='$0' name='fuckYouChromeEmail' value={emailValue} onChange={handleChangeEmail}  autoComplete='off' placeholder='Email'/>
+                                            <ol className="sub-menu">
+                                                {driverSearchEmailArray}
+                                            </ol>
+                                        </li>
+                                    </ol>
+                                </nav>
                             </div>
                             <div className='inputs_new_driver'>
-                                <label htmlFor="Service Areas">Station</label>
-                                    <input type="text" name="Service Areas" className='inputs_new_driver_page'/>
-                                
+                                <nav className="menu_drivers">
+                                    <ol>
+                                        <li className="menu-item"><a href="#0">{station}</a>
+                                            <ol className="sub-menu">
+                                                <li className="menu-item" onClick={(e, city) => handleSelectStation(e, 'DBS2')}><a href="#0">DBS2</a></li>
+                                                <li className="menu-item" onClick={(e, city) => handleSelectStation(e, 'DSN1')}><a href="#0">DSN1</a></li>
+                                                <li className="menu-item" onClick={(e, city) => handleSelectStation(e, 'DEX2')}><a href="#0">DEX2</a></li>
+                                            </ol>
+                                        </li>
+                                    </ol>
+                                </nav>
                             </div>
                         </form>
                     </div>
