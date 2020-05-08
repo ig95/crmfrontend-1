@@ -277,7 +277,7 @@
 .menu_names {
   height: 5vh;
   margin: auto 1rem 0 0;
-  z-index: 1;
+  z-index: 0.9;
 }
 .menu_names ol {
   list-style: none;
@@ -285,7 +285,7 @@
   margin: 0;
 }
 .menu_names ol:first-child {
-  width: 15vw;
+  width: 20vw;
   align-items: center;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3);
   background-color: #232f3e;
@@ -1275,7 +1275,7 @@ body {
 .search_bar_driver_page {
   background-color: #232f3e;
   color: #fefefe;
-  width: 12vw;
+  width: 18vw;
 }
 .labels {
   margin: 0;
@@ -1305,6 +1305,19 @@ body {
 .inner_new_document_divs_phone_status {
   width: 5vw;
 }
+.make_submit_invisible {
+  border: 0;
+  background-color: #232f3e;
+  color: #fefefe;
+  height: 6vh;
+  width: 10vw;
+  text-align: center;
+  padding-bottom: 10px;
+  border: 0;
+}
+.make_submit_invisible:hover {
+  border: 0;
+}
 .content_bottom_new_driver {
   margin-left: 2rem;
   margin-top: 1rem;
@@ -1320,6 +1333,7 @@ body {
   border-bottom: 2px solid #232f3e;
 }
 .buttons_new_driverPage {
+  margin-top: 2rem;
   margin-left: 21.5%;
   display: flex;
 }
@@ -1707,6 +1721,9 @@ body {
 }
 .button_div_box_top {
   animation-name: createDiv;
+  -webkit-animation-name: createDiv;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: forwards;
   animation-duration: 1s;
   animation-fill-mode: forwards;
 }

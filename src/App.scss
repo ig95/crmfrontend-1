@@ -2080,6 +2080,9 @@
 
   .button_div_box_top {
     animation-name: createDiv;
+    -webkit-animation-name: createDiv;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-fill-mode: forwards;
     animation-duration: 1s;
     animation-fill-mode: forwards;
   }
