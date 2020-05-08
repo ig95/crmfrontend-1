@@ -61,6 +61,7 @@ const MakeEmployee = (props) => {
 
         postData('https://pythonicbackend.herokuapp.com/drivers/', {
             name: e.target.name.value ? e.target.name.value : 'null',
+            location: e.target.location.value ? e.target.location.value : 'null',
             status: e.target.status.value ? e.target.status.value : 'null',
             onboarding: e.target.Onboarding.value ? e.target.Onboarding.value : 0,
             phone: e.target.mobile.value ? e.target.mobile.value : 'null',
