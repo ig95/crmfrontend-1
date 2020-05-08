@@ -7,7 +7,6 @@ const MakeEmployee = (props) => {
     const [ status, setStatus ] = useState('Offboarded')
     const [ driverSearchArray, setDriverSearchArray ] = useState([])
     const [ driverSearchEmailArray, setDriverSearchEmailArray ] = useState([])
-    const [ makeSearchBarVisible, setMakeSearchBarVisible ] = useState('dashboard_form_divs_name_bar_none')
     const [ nameValue, setNameValue ] = useState('')
     const [ emailValue, setEmailValue ] = useState('')
     const [ station, setStation ] = useState('DBS2')

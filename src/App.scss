@@ -1633,8 +1633,22 @@
 
   .new_driver_form_container {
     animation-name: fadeToExist;
+    -webkit-animation-name: fadeToExist;
     animation-duration: 1s;
+    -webkit-animation-duration: 1s;
     animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    padding: 2rem;
+    left: 0;
+    top: 0;
+    background-color: $offWhite;
+    z-index: 1;
+    overflow: clip;
+    opacity: 0;
+
   }
 
   @keyframes fadeToExist {
@@ -1650,6 +1664,7 @@
       padding: 2rem;
       left: 0;
       top: 0;
+      opacity: 1;
       background-color: $offWhite;
       z-index: 1;
       overflow: clip;
@@ -1697,9 +1712,9 @@
     margin: 1rem;
   }
 
-  .span_in_Button_add {
-    padding: 2rem;
-  }
+  // .span_in_Button_add {
+  //   // padding: 2rem;
+  // }
 
   .search_bar {
     @extend %input_bars;
