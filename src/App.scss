@@ -1712,9 +1712,9 @@
     margin: 1rem;
   }
 
-  // .span_in_Button_add {
-  //   // padding: 2rem;
-  // }
+  .span_in_Button_add {
+    padding-top: 4rem;
+  }
 
   .search_bar {
     @extend %input_bars;

@@ -1408,6 +1408,9 @@ body {
 .dashboard_labels {
   margin: 1rem;
 }
+.span_in_Button_add {
+  padding-top: 4rem;
+}
 .search_bar {
   margin: 0 0 10px;
 }
