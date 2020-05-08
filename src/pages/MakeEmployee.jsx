@@ -209,19 +209,19 @@ const MakeEmployee = (props) => {
                         localArray.push(
                             <div key={id} className='bottom_name_divs_new_driver'>
                                 <div className='inner_new_document_divs_name'>
-                                    <h3>{ele.name}</h3>
+                                    <h3 className='get_rid_of_padding'>{ele.name}</h3>
                                 </div>
                                 <div className='inner_new_document_divs'>
-                                    <h3>{ele.email ? ele.email : `${ele.name}@gmail.com` }</h3>
+                                    <h3 className='get_rid_of_padding'>{ele.email ? ele.email : `${ele.name}@gmail.com` }</h3>
                                 </div>
                                 <div className='inner_new_document_divs_phone'>
-                                    <h3>{ele.phone ? ele.phone : `${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}-${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}`}</h3>
+                                    <h3 className='get_rid_of_padding'>{ele.phone ? ele.phone : `${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}-${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}`}</h3>
                                 </div>
                                 <div className='inner_new_document_divs_phone'>
-                                    <h3>{ele.onboarding ? `${ele.onboarding}/13 Completed` : `${getRandomInt(10)}/13 Completed` }</h3>
+                                    <h3 className='get_rid_of_padding'>{ele.onboarding ? `${ele.onboarding}/13 Completed` : `${getRandomInt(10)}/13 Completed` }</h3>
                                 </div>
                                 <div className='inner_new_document_divs_phone_status'>
-                                    <h3>{ele.status ? ele.status : 'Offboarded' }</h3>
+                                    <h3 className='get_rid_of_padding'>{ele.status ? ele.status : 'Offboarded' }</h3>
                                 </div>
                             </div>
                         )
@@ -230,19 +230,19 @@ const MakeEmployee = (props) => {
                     localArray.push(
                         <div key={id} className='bottom_name_divs_new_driver'>
                             <div className='inner_new_document_divs_name'>
-                                <h3>{ele.name}</h3>
+                                <h3 className='get_rid_of_padding'>{ele.name}</h3>
                             </div>
                             <div className='inner_new_document_divs'>
-                                <h3>{ele.email ? ele.email : `${ele.name}@gmail.com` }</h3>
+                                <h3 className='get_rid_of_padding'>{ele.email ? ele.email : `${ele.name}@gmail.com` }</h3>
                             </div>
                             <div className='inner_new_document_divs_phone'>
-                                <h3>{ele.phone ? ele.phone : `${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}-${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}`}</h3>
+                                <h3 className='get_rid_of_padding'>{ele.phone ? ele.phone : `${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}-${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}`}</h3>
                             </div>
                             <div className='inner_new_document_divs_phone'>
-                                <h3>{ele.onboarding ? `${ele.onboarding}/13 Completed` : `${getRandomInt(10)}/13 Completed` }</h3>
+                                <h3 className='get_rid_of_padding'>{ele.onboarding ? `${ele.onboarding}/13 Completed` : `${getRandomInt(10)}/13 Completed` }</h3>
                             </div>
                             <div className='inner_new_document_divs_phone_status'>
-                                <h3>{ele.status ? ele.status : 'Offboarded' }</h3>
+                                <h3 className='get_rid_of_padding'>{ele.status ? ele.status : 'Offboarded' }</h3>
                             </div>
                         </div>
                     )
