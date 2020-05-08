@@ -2079,6 +2079,9 @@
   }
 
   .button_div_box_top {
+    position: absolute;
+    top: 0;
+    left: 0;
     animation-name: createDiv;
     -webkit-animation-name: createDiv;
     -webkit-animation-duration: 1s;
