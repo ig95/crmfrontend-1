@@ -1,7 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-}
 .menu {
   height: 5vh;
   margin: auto 0;
@@ -394,9 +390,6 @@
 }
 .span_in_Button:hover {
   padding-top: 15px;
-}
-.span_in_Button_add {
-  padding-top: 12px;
 }
 .btn svg rect {
   stroke-width: 4;
@@ -1332,6 +1325,8 @@ body {
   display: flex;
   width: 85vw;
   padding-right: 2rem;
+  margin: 0;
+  padding: 0;
   align-items: center;
   justify-content: space-between;
   border-bottom: 2px solid #232f3e;
@@ -1413,6 +1408,12 @@ body {
   margin: 1rem;
 }
 .span_in_Button_add {
+  -webkit-padding-start: initial;
+  padding: 0;
+  margin: 0;
+  padding-top: 15px;
+}
+.span_in_Button_add_two {
   -webkit-padding-start: initial;
   padding: 0;
   margin: 0;

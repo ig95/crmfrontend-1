@@ -212,7 +212,7 @@ const Documents = (props) => {
                             </defs>
                             <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
                         </svg>
-                        <span className='span_in_Button_add'>Submit</span>  
+                        <span className='span_in_Button_add_two'>Submit</span>  
                     </div>            
                 </form><br /><br /><br /><br /><hr />
                 <img src={valueForSubmit ? valueForSubmit : ''} alt="" className='uploaded_image'/>

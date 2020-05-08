@@ -13,10 +13,10 @@
 
   /*********************** DROPDOWN BAR EFFECTS *****************************************/
 
-  * {
-    margin: 0;
-    padding: 0;
-  }
+  // * {
+  //   margin: 0;
+  //   padding: 0;
+  // }
 
 .menu {
   height: 5vh;
@@ -482,11 +482,6 @@
   .span_in_Button:hover {
     padding-top: 15px;
   }
-
-  .span_in_Button_add {
-    padding-top: 12px;
-  }
-
   
   .btn svg rect {
     //stroke: #EC0033;
@@ -1611,6 +1606,8 @@
     display: flex;
     width: 85vw;
     padding-right: 2rem;
+    margin: 0;
+    padding: 0;
     align-items: center;
     justify-content: space-between;
     border-bottom: 2px solid $amazon_blue;
@@ -1718,6 +1715,13 @@
   }
 
   .span_in_Button_add {
+    -webkit-padding-start: initial;
+    padding: 0;
+    margin: 0;
+    padding-top: 15px;
+  }
+
+  .span_in_Button_add_two {
     -webkit-padding-start: initial;
     padding: 0;
     margin: 0;
