@@ -1,3 +1,7 @@
+.get_rid_of_padding {
+  padding: 0;
+  margin: 0;
+}
 .menu {
   height: 5vh;
   margin: auto 0;
@@ -1250,6 +1254,7 @@ body {
   overflow: scroll;
   max-height: 68vh;
   width: 87.6vw;
+  overflow-x: hidden;
 }
 .bottom_row {
   grid-area: bottom_row;
@@ -1331,6 +1336,10 @@ body {
   justify-content: space-between;
   border-bottom: 2px solid #232f3e;
 }
+.bottom_name_divs_new_driver:hover {
+  background-color: #232f3e;
+  color: #fefefe;
+}
 .buttons_new_driverPage {
   margin-top: 2rem;
   margin-left: 21.5%;
@@ -1411,13 +1420,13 @@ body {
   -webkit-padding-start: initial;
   padding: 0;
   margin: 0;
-  padding-top: 15px;
+  padding-top: 10px;
 }
 .span_in_Button_add_two {
   -webkit-padding-start: initial;
   padding: 0;
   margin: 0;
-  padding-top: 15px;
+  padding-top: 25px;
 }
 .search_bar {
   margin: 0 0 10px;

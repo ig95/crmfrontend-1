@@ -12,6 +12,7 @@ const MakeEmployee = (props) => {
     const [ station, setStation ] = useState('DBS2')
     const [ reloadGate, setReloadGate ] = useState(false)
     const [ submitPressed, setSubmitPressed ] = useState('Submit')
+    const [ selectedDriver, setSelectedDriver ] = useState(null)
 
     useEffect(() => {
         async function getData(url = '') {
@@ -153,8 +154,99 @@ const MakeEmployee = (props) => {
         )
     }
 
-    var content
+    // const send document to new driver
+    const handleSendDocument = (e, randoNumber) => {
+        console.log(randoNumber)
+        console.log(selectedDriver)
 
+        // email bit
+        async function getData(url = '', data={}) {
+            const response = await fetch(url, {
+                method: 'POST', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            return response ? response.json() : console.log('no reponse')
+        };
+
+        // change the fields in the backend
+        async function postData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'PUT', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(data)
+                });
+
+            return response ? response.json() : console.log('no reponse')
+        };
+        
+        postData(`https://pythonicbackend.herokuapp.com/drivers/${selectedDriver.driver_id}/`, {
+            driver_id: `https://pythonicbackend.herokuapp.com/drivers/${selectedDriver.driver_id}/`,
+            SigningUrlNumber: randoNumber
+        }).then( response => {
+            console.log(response)
+            getData('https://intense-headland-70415.herokuapp.com/mail', {
+                password: process.env.REACT_APP_INTERCHANGE,
+                email: 'nicholas.m.shankland@gmail.com',
+                // email: selectedDriver.email,
+                subject: 'Document Signiture',
+                message: `Link for the document ${randoNumber}`
+                }).then ( response => {
+                    console.log(response)
+            })
+        })
+
+
+
+    }
+    
+    // single driver component screen
+    var singleDriverScreen
+    if (selectedDriver) {
+        const generateRandom = (amount) => {
+            let localString = []
+            let myArray = [
+                'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2','3','4','5','6','7','8','9','0','!','@','#','$','%','^','&','*','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+            ]
+            for (let i = 0; i < amount; i++) {
+                localString.push(myArray[Math.floor(Math.random() * myArray.length)])
+            }
+            return localString.join('')
+        }
+
+        let randomNumber = generateRandom(60)
+
+        singleDriverScreen = (
+            <div className='new_driver_form_container'>
+                <div className="button-container-2" onClick={(e, number) => handleSendDocument(e, randomNumber)}>
+                    <span className="mas2">Send Document</span>
+                    <button className='buttonFront2' id='work2' type="button" name="Hover">
+                    Send Document
+                    </button>
+                </div> 
+            </div>
+        )
+    }
+
+    // make the single driver page
+    const handleSingleDriver = (e, driver) => {
+        console.log('clicked')
+        console.log(driver)
+        setSelectedDriver(driver)
+    }
+
+    var content
     // make the list of driver
     const makeListDrivers = () => {
         const getRandomInt = (max) => {
@@ -185,7 +277,7 @@ const MakeEmployee = (props) => {
                 if (nameValue) {
                     if (ele.name === nameValue) {
                         localArray.push(
-                            <div key={id} className='bottom_name_divs_new_driver'>
+                            <div key={id} className='bottom_name_divs_new_driver' onClick={(e, targetDriver) => handleSingleDriver(e, ele)}>
                                 <div className='inner_new_document_divs_name'>
                                     <h3>{ele.name}</h3>
                                 </div>
@@ -207,7 +299,7 @@ const MakeEmployee = (props) => {
                 } else if (emailValue) {
                     if (ele.email === emailValue) {
                         localArray.push(
-                            <div key={id} className='bottom_name_divs_new_driver'>
+                            <div key={id} className='bottom_name_divs_new_driver' onClick={(e, targetDriver) => handleSingleDriver(e, ele)}>
                                 <div className='inner_new_document_divs_name'>
                                     <h3 className='get_rid_of_padding'>{ele.name}</h3>
                                 </div>
@@ -228,8 +320,8 @@ const MakeEmployee = (props) => {
                     }   
                 } else {
                     localArray.push(
-                        <div key={id} className='bottom_name_divs_new_driver'>
-                            <div className='inner_new_document_divs_name'>
+                        <div key={id} className='bottom_name_divs_new_driver' onClick={(e, targetDriver) => handleSingleDriver(e, ele)}>
+                            <div className='inner_new_document_divs_name' >
                                 <h3 className='get_rid_of_padding'>{ele.name}</h3>
                             </div>
                             <div className='inner_new_document_divs'>
@@ -389,6 +481,7 @@ const MakeEmployee = (props) => {
                             </div>
                         </form>
                     </div>
+                    {singleDriverScreen}
                     <div className="button-container-2" >
                       <span className="mas2">Search</span>
                       <button className='buttonFront2' id='work2' type="button" name="Hover">
