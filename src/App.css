@@ -860,10 +860,11 @@ body {
 }
 .nav_bar_top {
   grid-area: nav_bar_top;
-  background-color: #232f3e;
-  color: #fefefe;
+  background-color: #fefefe;
+  color: #232f3e;
   display: flex;
   -ms-display: flex;
+  -webkit-display: -webkit-flex;
   margin-bottom: 1rem;
 }
 .nav_bar {
@@ -891,9 +892,8 @@ body {
   margin: auto 0 auto 1rem;
 }
 .middle_nav {
-  text-align: left;
-  margin: auto 0 auto 1rem;
-  width: 70vw;
+  text-align: center;
+  width: 100%;
 }
 .drop_down_content {
   display: none;

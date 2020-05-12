@@ -1022,10 +1022,11 @@
 
   .nav_bar_top {
     grid-area: nav_bar_top;
-    background-color: $amazon_blue;
-    color: $offWhite;
+    background-color: $offWhite;
+    color: $amazon_blue;
     display: flex;
     -ms-display: flex;
+    -webkit-display: -webkit-flex;
     margin-bottom: 1rem;
   }
 
@@ -1058,9 +1059,9 @@
   }
 
   .middle_nav {
-    text-align: left;
-    margin: auto 0 auto 1rem;
-    width: 70vw;
+    text-align: center;
+    // margin: auto 0 auto 1rem;
+    width: 100%;
   }
 
   .drop_down_content {

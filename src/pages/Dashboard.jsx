@@ -9,7 +9,8 @@ const Dashboard = () => {
     const [ drivers, setDrivers ] = useState(null)
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ schedule, setSchedule ] = useState(null)
-    const [ selectedCity, setSelectedCity ] = useState('DBS2')
+    const [ selectedCity, setSelectedCity ] = useState('Bristol - DBS2')
+    const [ selectedCityAbbrev, setSelectedCityAbbrev ] = useState('DBS2')
     const [ driverSearchArray, setDriverSearchArray ] = useState([])
     const [ topRectangles, setTopRectangles ] = useState([])
     const [ dateSelected, setDateSelected ] = useState('')
@@ -161,10 +162,26 @@ const Dashboard = () => {
         setTopRectangles(localArray)
     }, [])
 
+    // set city
+    const handleSelectCity = (e, city) => {
+        setSelectedCity(city)
+    }
+
     return (
         <div className='home_content'>
-            <NavigationBar title='Dashboard'/>
+            <NavigationBar title='Daily Service'/>
             <div className='main_content_dashboard'>
+                <nav class="menu">
+                    <ol>
+                        <li class="menu-item"><a href="#0">{selectedCity}</a>
+                            <ol class="sub-menu">
+                                <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'Bristol - DBS2')}><a href="#0">Bristol - DBS2</a></li>
+                                <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'Southampton - DSN1')}><a href="#0">Southampton - DSN1</a></li>
+                                <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'Exeter - DEX2')}><a href="#0">Exeter - DEX2</a></li>
+                            </ol>
+                        </li>
+                    </ol>
+                </nav>
                 <div className='top_rectangles_container'>
                     {topRectangles}
                 </div>    
@@ -238,7 +255,7 @@ const Dashboard = () => {
                         <Dropdown 
                             options={options} 
                             onChange={onSelect} 
-                            value={selectedCity} 
+                            value={selectedCityAbbrev} 
                             placeholder="Select an option" 
                             className='drop_down_bar_dashboard'
                         />

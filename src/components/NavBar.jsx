@@ -34,12 +34,12 @@ const NavigationBar = (props) => {
         <>
             <div className='nav_bar_top'>
                 <h1 className='middle_nav'>{props.title}</h1>
-                <h3 className='nav_current_date'>{dayArray[currentDate.getDay()]} {currentDate.getDate()} {monthArray[currentDate.getMonth()]} {currentDate.getFullYear()}
+                {/* <h3 className='nav_current_date'>{dayArray[currentDate.getDay()]} {currentDate.getDate()} {monthArray[currentDate.getMonth()]} {currentDate.getFullYear()}
                 {' | '}
                 Week: {currentDate.getWeek()}
                 {' | '}
                 {currentDate.toLocaleTimeString()}
-                </h3>
+                </h3> */}
             </div>
             <div className='nothing'>
                 <Link to="/home"><img src={logo} alt="" className='nav_bar_logo'/></Link> 
@@ -52,7 +52,7 @@ const NavigationBar = (props) => {
                 </Link>
                 <Link to="/dashboard" className='links'>
                     <div className='link_style'>
-                        Dashboard 
+                        Daily Service 
                     </div>
                 </Link>
                 <Link to="/makemployee" className='links'>
