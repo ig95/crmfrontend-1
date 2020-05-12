@@ -156,8 +156,6 @@ const MakeEmployee = (props) => {
 
     // const send document to new driver
     const handleSendDocument = (e, randoNumber) => {
-        console.log(randoNumber)
-        console.log(selectedDriver)
 
         // email bit
         async function getData(url = '', data={}) {
@@ -198,17 +196,16 @@ const MakeEmployee = (props) => {
             console.log(response)
             getData('https://intense-headland-70415.herokuapp.com/mail', {
                 password: process.env.REACT_APP_INTERCHANGE,
-                email: 'nicholas.m.shankland@gmail.com',
+                email: props.user_email,
                 // email: selectedDriver.email,
                 subject: 'Document Signiture',
-                message: `Link for the document ${randoNumber}`
+                // message: `Link for the document https://crmsignitures.netlify.app/${randoNumber}`
+                message: `Link for the document http://localhost:3000/${randoNumber}`
                 }).then ( response => {
                     console.log(response)
             })
         })
-
-
-
+        setSelectedDriver(null)
     }
     
     // single driver component screen
@@ -217,7 +214,7 @@ const MakeEmployee = (props) => {
         const generateRandom = (amount) => {
             let localString = []
             let myArray = [
-                'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2','3','4','5','6','7','8','9','0','!','@','#','$','%','^','&','*','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+                'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2','3','4','5','6','7','8','9','0','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','-','_'
             ]
             for (let i = 0; i < amount; i++) {
                 localString.push(myArray[Math.floor(Math.random() * myArray.length)])
