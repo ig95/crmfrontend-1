@@ -94,6 +94,97 @@
   color: #fefefe;
   text-decoration: none;
 }
+#menu_text_white {
+  color: #232f3e;
+  font-weight: 600;
+}
+#item_white_one {
+  background-color: #fefefe;
+  border-right: 3px solid #232f3e;
+  border-left: 3px solid #232f3e;
+  border-bottom: 3px solid #232f3e;
+}
+#item_white_two {
+  background-color: #fefefe;
+  border-right: 3px solid #232f3e;
+  border-left: 3px solid #232f3e;
+  border-bottom: 3px solid #232f3e;
+}
+#item_white_three {
+  background-color: #fefefe;
+  border-right: 3px solid #232f3e;
+  border-bottom: 3px solid #232f3e;
+  border-left: 3px solid #232f3e;
+}
+#item_white_one:hover {
+  background-color: #c7c2c2;
+}
+#item_white_two:hover {
+  background-color: #c7c2c2;
+}
+#item_white_three:hover {
+  background-color: #c7c2c2;
+}
+#white_top {
+  border: none;
+}
+.menu_white {
+  margin: 0 42%;
+  height: 5vh;
+  color: #232f3e;
+  z-index: 1;
+  background-color: #fefefe;
+}
+.menu_white ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #fefefe;
+}
+.menu_white ol:first-child {
+  width: 15vw;
+  align-items: center;
+  background-color: #fefefe;
+}
+.menu_white-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 5vh;
+  background-color: #fefefe;
+  transition: background 0.3s ease-in-out;
+}
+.menu_white-item .sub-menu > a {
+  color: red;
+}
+.menu_white-item:not(:last-child) {
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+.menu_white-item:hover,
+.menu_white-item.active {
+  border-top: 2px solid #2b3a4d;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.menu_white-item:hover a::before,
+.menu_white-item.active a::before {
+  color: #232f3e;
+}
+.menu_white-item:hover .sub-menu {
+  transform: rotateX(0deg);
+}
+.menu_white-item a {
+  margin: 0 auto;
+  width: 15vw;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  background-color: #fefefe;
+  color: #232f3e;
+  text-decoration: none;
+}
 .menu_smaller {
   height: 5vh;
   margin: auto 1rem 0 0;
@@ -1413,6 +1504,15 @@ body {
   animation-name: loadingStyle;
   animation-duration: 1s;
 }
+.dashboard_route_type_list {
+  width: 11vw;
+  height: 7vh;
+  padding: 10px;
+  margin: 0 auto 1rem;
+  background-color: #78d1d4;
+  border: 3px solid #2b3a4d;
+  border-radius: 0.5rem;
+}
 .dashboard_labels {
   margin: 1rem;
 }
@@ -1444,8 +1544,33 @@ body {
 .title_for_dashboard {
   margin-left: 2rem;
 }
-.available_in_table {
+h4 {
+  margin: 0;
+  padding: 0;
+}
+.list_spacer_content {
+  width: 4.5vw;
+  margin-left: 1.5vw;
+  margin-right: 1.5vw;
+  padding: 0;
+}
+.list_spacer_content_end {
+  width: 4.5vw;
+  margin-right: 3.5vw;
+  padding: 0;
+}
+.remove_h3_padding {
+  margin: 0;
+  padding: 0;
+}
+.elements_in_list_dashboard_names {
+  display: flex;
   margin-left: 2rem;
+  padding: 2px;
+  background-color: #78d1d4;
+  margin-bottom: 10px;
+  border-radius: 0.5rem;
+  width: 90%;
 }
 .dashboard_text_field {
   width: 15.5vw;
@@ -1485,13 +1610,47 @@ body {
 .top_rectangles_container {
   display: flex;
   padding: 2px;
-  margin: 0 6rem 0 6rem;
+  margin-left: 2rem;
+  margin-bottom: 1vh;
+  width: 90%;
+}
+.list_overall_flex_dashboard {
+  display: flex;
+}
+.modify_button {
+  margin-left: 0.5vw;
+  width: 4vw;
+  border: 2px solid #232f3e;
+  border-radius: 0.5rem;
+  margin-bottom: 10px;
+}
+.modify_button:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-0.1rem);
+}
+.modify_button_delete {
+  margin: 0.5vh 1vw 1.5vh 0.5vw;
+  width: 1.5vw;
+  height: 1.5vw;
+  border: 2px solid #232f3e;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  background-color: #f4666b;
+}
+.modify_button_delete:hover {
+  background-color: #db5e5e;
 }
 .dashboard_top_rectangles {
   width: 4.5vw;
-  height: 8vh;
-  margin: 1.5px;
-  border: 2px solid black;
+  border-radius: 0.5rem;
+  padding: 2px;
+  margin-left: 1.5vw;
+  margin-right: 2vw;
+  border: 2px solid #232f3e;
+}
+.dashboard_top_rectangles:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-0.1rem);
 }
 .drop_down_bar_dashboard {
   width: 15.7vw;

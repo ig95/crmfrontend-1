@@ -4,7 +4,9 @@ import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
+import ListForDashboard from '../components/ListForDashboard'
 
+var y = 0 
 const Dashboard = () => {
     const [ drivers, setDrivers ] = useState(null)
     const [ selectedDate, setSelectedDate ] = useState(new Date())
@@ -17,6 +19,9 @@ const Dashboard = () => {
     const [ makeSearchBarVisible, setMakeSearchBarVisible ] = useState('dashboard_form_divs_name_bar_none')
     const [ nameValue, setNameValue ] = useState('')
     const [ submittedArray, setSubmittedArray ] = useState([])
+    const [ data, setData ] = useState(null)
+    const [ todaysRoutes, setTodaysRoutes ] = useState([])
+    const [ logicalGate, setLogicalGate ] = useState(0)
 
     // make this like the daily operations page. show vehicle recommendation in entry column
     // location rota system shows not exceeding 7 days for same person
@@ -45,6 +50,42 @@ const Dashboard = () => {
             })
         })
     }, [])
+
+    useEffect( () => {
+        async function getData(url = '') {
+            const response = await fetch(url, {
+                method: 'GET', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            });
+
+            return response ? response.json() : console.log('no reponse')
+
+        };
+
+        getData('https://pythonicbackend.herokuapp.com/data/').then( (response) => {
+            console.log(response.data)
+            setData(response.data)
+            let today = new Date()
+            let localArray = []
+            response.data.drivers.forEach( element => {
+                if (element.location === selectedCityAbbrev) {
+                    element.datesArray.forEach( ele => {
+                        if (new Date(ele.date).toDateString() === today.toDateString()) {
+                            localArray.push(element)
+                        }
+                    })
+                }
+            })
+            console.log(localArray)
+            setTodaysRoutes(localArray)
+        })
+    }, [selectedCityAbbrev])
 
     // dropdown menu options
     const options = [
@@ -153,9 +194,11 @@ const Dashboard = () => {
 
     useEffect( () => {
         let localArray = []
-        for (let i = 0; i < 16; i++) {
+        let labelArray =[`${selectedCity}`, 'Da Name', 'Route No', 'Route', 'Log In', 'Log Out', 'TORH', 'Start Mileage', 'Finish Mileage', 'Late Wave Payment', 'Support', 'Deduction', 'Fuel Card Change']
+        for (let i = 0; i < 11; i++) {
             localArray.push(
                 <div className='dashboard_top_rectangles'>
+                    <h4 className='remove_h3_padding'>{labelArray[i]}</h4>   
                 </div>
             )
         }
@@ -165,35 +208,61 @@ const Dashboard = () => {
     // set city
     const handleSelectCity = (e, city) => {
         setSelectedCity(city)
+        if (city === 'Bristol - DBS2') {
+            setSelectedCityAbbrev('DBS2')
+        } else if (city === 'Southampton - DSN1') {
+            setSelectedCityAbbrev('DSN1')
+        } else {
+            setSelectedCityAbbrev('DEX2')
+        }
+        let x = logicalGate
+        x = x+1
+        setLogicalGate(x)
+    }
+
+    // map data into the top box
+    var routesBox
+    if (todaysRoutes.length > 0) {
+        console.log(todaysRoutes)
+        let routesTotal = todaysRoutes.length
+        let DBS2Num = 0
+        let DEX2Num = 0
+        let DSN1Num = 0
+        let CTNum = 0
+        let MFNNum = 0
+        let localArray = []
+        routesBox = (
+            <div className='dashboard_route_type_list'>
+                <h4>{routesTotal} Full Routes</h4>
+                <h4>{DBS2Num} DBS2</h4>
+                <h4>{CTNum} CT</h4>
+                <h4>{MFNNum} MFN</h4>
+            </div>
+        )
+    } else {
+        routesBox = (<div className='dashboard_route_type_list'></div>)
     }
 
     return (
         <div className='home_content'>
             <NavigationBar title='Daily Service'/>
             <div className='main_content_dashboard'>
-                <nav class="menu">
+                <nav className="menu_white">
                     <ol>
-                        <li class="menu-item"><a href="#0">{selectedCity}</a>
-                            <ol class="sub-menu">
-                                <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'Bristol - DBS2')}><a href="#0">Bristol - DBS2</a></li>
-                                <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'Southampton - DSN1')}><a href="#0">Southampton - DSN1</a></li>
-                                <li class="menu-item" onClick={(e, city) => handleSelectCity(e, 'Exeter - DEX2')}><a href="#0">Exeter - DEX2</a></li>
+                        <li className="menu-item" id='white_top'><a href="#0" id='menu_text_white'>{selectedCity}</a>
+                            <ol className="sub-menu">
+                                <li className="menu-item" id='item_white_one' onClick={(e, city) => handleSelectCity(e, 'Bristol - DBS2')}><a href="#0" id='menu_text_white'>Bristol - DBS2</a></li>
+                                <li className="menu-item" id='item_white_two' onClick={(e, city) => handleSelectCity(e, 'Southampton - DSN1')}><a href="#0" id='menu_text_white'>Southampton - DSN1</a></li>
+                                <li className="menu-item" id='item_white_three' onClick={(e, city) => handleSelectCity(e, 'Exeter - DEX2')}><a href="#0" id='menu_text_white'>Exeter - DEX2</a></li>
                             </ol>
                         </li>
                     </ol>
                 </nav>
+                {routesBox}
                 <div className='top_rectangles_container'>
                     {topRectangles}
                 </div>    
-                    <h2 className='title_for_dashboard'>
-                        Daily Service
-                    </h2>
-                    <hr />
-                <div className='available_in_table'>
-                    <p>
-                        Available in table: {submittedArray.length}
-                    </p>
-                </div>    
+                <ListForDashboard todaysRoutes={todaysRoutes}/>
                 <hr />
                 <form onSubmit={handleSubmit} className='dashboard_form' autoComplete='off'>
                     <div >
