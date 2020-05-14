@@ -200,7 +200,35 @@ const MakeEmployee = (props) => {
                 // email: selectedDriver.email,
                 subject: 'Document Signiture',
                 // message: `Link for the document https://crmsignitures.netlify.app/${randoNumber}`
-                message: `Link for the document https://crmsignitures.netlify.app/${randoNumber}`
+                message: 
+                    `
+                    <style>
+
+                        #buttonHover:hover {
+                            transform: translateY(-.1rem)
+                            background-color: rgb(43, 58, 77);
+                        }
+                    </style>
+                    <h1 style="color: #232F3E;">H2O Logistics Docusigniture</h1><br />
+                    <h2 style="color: #232F3E;">Click for the document </h2><br />
+                        <a href=https://crmsignitures.netlify.app/${randoNumber} id='buttonHover'>
+                            <button 
+                                style="
+                                background-color: #232F3E;
+                                color: white;
+                                width: 150px;
+                                height: 75px;
+                                border-radius: .5rem;
+                                border: none;
+                                "
+                            >
+                                <h2>
+                                    HERE
+                                </h2>
+                            </button>
+                        </a>
+                    
+                    `
                 }).then ( response => {
                     console.log(response)
             })
