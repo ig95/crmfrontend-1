@@ -427,7 +427,6 @@ const Documents = (props) => {
                         <span className='span_in_Button'>Return</span>  
                     </div>   
                     {verifyButton}
-                    {sigButton}
                 </div>
             </div>
         )
