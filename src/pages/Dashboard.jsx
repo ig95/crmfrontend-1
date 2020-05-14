@@ -383,154 +383,59 @@ const listComponents = (theRoutes) => {
 }
 
 var myForm
-var formMaker
-    if (selectedModification) {
-        console.log(selectedModification)
-        const returnForm = () => {
-            return (
-                <form onSubmit={handleSubmit}  autoComplete='off'>
-                    <div className='dashboard_form'>
-                        <div className='dashboard_form_divs_name'>
-                            <div>
-                                <label className='dashboard_labels'>Name</label>
-                            </div>
-                                <input className='input_dashboard_page' type="text" name='Name' defaultValue={`${selectedModification.driver_id}`} />
-                        </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Route Type</label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='RouteType' defaultValue={`${selectedModification.location}`}/>
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Wave Time </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='LogInTime' defaultValue={`${selectedModification.logIn_time}`}/>
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Log Out Time </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='LogOutTime' defaultValue={`${selectedModification.logOut_time}`}/>
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Start Mileage </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='StartMileage' defaultValue='0'/>
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Finish Mileage </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='FinishMileage' defaultValue={`0`}/>
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Vehicle Type </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='VehicleType' defaultValue={`${selectedModification.vans}`}/>
-                    </div>         
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Route No. </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='Route' defaultValue={`${selectedModification.route}`}/>
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                        </div><label className='dashboard_labels'>Location </label>
-                        <Dropdown 
-                            options={options} 
-                            onChange={onSelect} 
-                            value={selectedCityAbbrev} 
-                            placeholder="Select an option" 
-                            className='drop_down_bar_dashboard'
-                        />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>No. Parcels Delivered </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='NoParcelsDelivered' defaultValue={`${selectedModification.parcel}`}/>
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Parcels not Delivered </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='NoParcelsBroughtBack' defaultValue={`${selectedModification.parcel}`}/>
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Vehicle Registration </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='OwnerVehicleRegistration' defaultValue={`${selectedModification.fuel}`}/>
-                    </div>
-                </div>
-                <div className="button_daily_service" onClick={handleSubmit}>
-                    <h3 className='remove_h3_padding'>Submit</h3>  
-                </div>  
-            </form>
-            )
-        }
-        myForm = returnForm()
-    } else {
-        formMaker = (
+var returnForm = (otherSelection) => {
+    console.log(otherSelection)
+    myForm = 
+        (
             <form onSubmit={handleSubmit}  autoComplete='off'>
-            <div className='dashboard_form'>
-                <div>
+                <div className='dashboard_form'>
                     <div className='dashboard_form_divs_name'>
                         <div>
                             <label className='dashboard_labels'>Name</label>
                         </div>
-                            <input className='input_dashboard_page' type="text" name='Name' value={nameValue} onChange={handleChange} />
+                            <input className='input_dashboard_page' type="text" name='Name' defaultValue={`${otherSelection.driver_id}`} />
                     </div>
-                    <div className={`${makeSearchBarVisible}`}>
-                        {driverSearchArray}
-                    </div>
-                </div>
                 <div className='dashboard_form_divs'>
                     <div>
                         <label className='dashboard_labels'>Route Type</label>
                     </div>
-                        <input className='input_dashboard_page' type="text" name='RouteType' />
+                        <input className='input_dashboard_page' type="text" name='RouteType' defaultValue={`${otherSelection.location}`}/>
                 </div>
                 <div className='dashboard_form_divs'>
                     <div>
                         <label className='dashboard_labels'>Wave Time </label>
                     </div>
-                        <input className='input_dashboard_page' type="text" name='LogInTime' />
+                        <input className='input_dashboard_page' type="text" name='LogInTime' defaultValue={`${otherSelection.logIn_time}`}/>
                 </div>
                 <div className='dashboard_form_divs'>
                     <div>
                         <label className='dashboard_labels'>Log Out Time </label>
                     </div>
-                        <input className='input_dashboard_page' type="text" name='LogOutTime' />
+                        <input className='input_dashboard_page' type="text" name='LogOutTime' defaultValue={`${otherSelection.logOut_time}`}/>
                 </div>
                 <div className='dashboard_form_divs'>
                     <div>
                         <label className='dashboard_labels'>Start Mileage </label>
                     </div>
-                        <input className='input_dashboard_page' type="text" name='StartMileage' />
+                        <input className='input_dashboard_page' type="text" name='StartMileage' defaultValue='0'/>
                 </div>
                 <div className='dashboard_form_divs'>
                     <div>
                         <label className='dashboard_labels'>Finish Mileage </label>
                     </div>
-                        <input className='input_dashboard_page' type="text" name='FinishMileage' />
+                        <input className='input_dashboard_page' type="text" name='FinishMileage' defaultValue={`0`}/>
                 </div>
                 <div className='dashboard_form_divs'>
                     <div>
                         <label className='dashboard_labels'>Vehicle Type </label>
                     </div>
-                        <input className='input_dashboard_page' type="text" name='VehicleType' />
+                        <input className='input_dashboard_page' type="text" name='VehicleType' defaultValue={`${otherSelection.vans}`}/>
                 </div>         
                 <div className='dashboard_form_divs'>    
                     <div>
                         <label className='dashboard_labels'>Route No. </label>
                     </div>
-                        <input className='input_dashboard_page' type="text" name='Route' />
+                        <input className='input_dashboard_page' type="text" name='Route' defaultValue={`${otherSelection.route}`}/>
                 </div>
                 <div className='dashboard_form_divs'>    
                     <div>
@@ -547,27 +452,127 @@ var formMaker
                     <div>
                         <label className='dashboard_labels'>No. Parcels Delivered </label>
                     </div>
-                        <input className='input_dashboard_page' type="text" name='NoParcelsDelivered' />
+                        <input className='input_dashboard_page' type="text" name='NoParcelsDelivered' defaultValue={`${otherSelection.parcel}`}/>
                 </div>
                 <div className='dashboard_form_divs'>    
                     <div>
                         <label className='dashboard_labels'>Parcels not Delivered </label>
                     </div>
-                        <input className='input_dashboard_page' type="text" name='NoParcelsBroughtBack' />
+                        <input className='input_dashboard_page' type="text" name='NoParcelsBroughtBack' defaultValue={`${otherSelection.parcel}`}/>
                 </div>
                 <div className='dashboard_form_divs'>    
                     <div>
                         <label className='dashboard_labels'>Vehicle Registration </label>
                     </div>
-                        <input className='input_dashboard_page' type="text" name='OwnerVehicleRegistration' />
+                        <input className='input_dashboard_page' type="text" name='OwnerVehicleRegistration' defaultValue={`${otherSelection.fuel}`}/>
                 </div>
             </div>
-                <div className="button_daily_service" onClick={handleSubmit}>
-                    <h3 className='remove_h3_padding'>Submit</h3>  
-                </div>  
+            <div className="button_daily_service" onClick={handleSubmit}>
+                <h3 className='remove_h3_padding'>Submit</h3>  
+            </div>  
         </form>
-        )
+    )
+}
+
+
+useEffect( () => {
+    if (selectedModification) {
+        returnForm(selectedModification)
     }
+}, [selectedModification])
+var formMaker
+
+formMaker = (
+    <form onSubmit={handleSubmit}  autoComplete='off'>
+    <div className='dashboard_form'>
+        <div>
+            <div className='dashboard_form_divs_name'>
+                <div>
+                    <label className='dashboard_labels'>Name</label>
+                </div>
+                    <input className='input_dashboard_page' type="text" name='Name' value={nameValue} onChange={handleChange} />
+            </div>
+            <div className={`${makeSearchBarVisible}`}>
+                {driverSearchArray}
+            </div>
+        </div>
+        <div className='dashboard_form_divs'>
+            <div>
+                <label className='dashboard_labels'>Route Type</label>
+            </div>
+                <input className='input_dashboard_page' type="text" name='RouteType' />
+        </div>
+        <div className='dashboard_form_divs'>
+            <div>
+                <label className='dashboard_labels'>Wave Time </label>
+            </div>
+                <input className='input_dashboard_page' type="text" name='LogInTime' />
+        </div>
+        <div className='dashboard_form_divs'>
+            <div>
+                <label className='dashboard_labels'>Log Out Time </label>
+            </div>
+                <input className='input_dashboard_page' type="text" name='LogOutTime' />
+        </div>
+        <div className='dashboard_form_divs'>
+            <div>
+                <label className='dashboard_labels'>Start Mileage </label>
+            </div>
+                <input className='input_dashboard_page' type="text" name='StartMileage' />
+        </div>
+        <div className='dashboard_form_divs'>
+            <div>
+                <label className='dashboard_labels'>Finish Mileage </label>
+            </div>
+                <input className='input_dashboard_page' type="text" name='FinishMileage' />
+        </div>
+        <div className='dashboard_form_divs'>
+            <div>
+                <label className='dashboard_labels'>Vehicle Type </label>
+            </div>
+                <input className='input_dashboard_page' type="text" name='VehicleType' />
+        </div>         
+        <div className='dashboard_form_divs'>    
+            <div>
+                <label className='dashboard_labels'>Route No. </label>
+            </div>
+                <input className='input_dashboard_page' type="text" name='Route' />
+        </div>
+        <div className='dashboard_form_divs'>    
+            <div>
+            </div><label className='dashboard_labels'>Location </label>
+            <Dropdown 
+                options={options} 
+                onChange={onSelect} 
+                value={selectedCityAbbrev} 
+                placeholder="Select an option" 
+                className='drop_down_bar_dashboard'
+            />
+        </div>
+        <div className='dashboard_form_divs'>    
+            <div>
+                <label className='dashboard_labels'>No. Parcels Delivered </label>
+            </div>
+                <input className='input_dashboard_page' type="text" name='NoParcelsDelivered' />
+        </div>
+        <div className='dashboard_form_divs'>    
+            <div>
+                <label className='dashboard_labels'>Parcels not Delivered </label>
+            </div>
+                <input className='input_dashboard_page' type="text" name='NoParcelsBroughtBack' />
+        </div>
+        <div className='dashboard_form_divs'>    
+            <div>
+                <label className='dashboard_labels'>Vehicle Registration </label>
+            </div>
+                <input className='input_dashboard_page' type="text" name='OwnerVehicleRegistration' />
+        </div>
+    </div>
+        <div className="button_daily_service" onClick={handleSubmit}>
+            <h3 className='remove_h3_padding'>Submit</h3>  
+        </div>  
+</form>
+)
 
     return (
         <div className='home_content'>
