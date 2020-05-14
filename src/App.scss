@@ -1902,6 +1902,32 @@
     padding: 0;
   }
 
+  .button_daily_service {
+    background-color: $logoLightColor;
+    width: 7vw;
+    height: 4vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid $amazon_blue;
+    border-radius: .5rem;
+    margin: 1rem auto;
+  }
+
+  .button_daily_service:hover {
+    background-color: rgb(133, 221, 224);
+    transform: translateY(-.1rem);
+  }
+
+  .dashboard_form_divs_comments {
+    width: 30vw;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
   .elements_in_list_dashboard_names {
     display: flex;
     margin-left: 2rem;
@@ -1913,14 +1939,14 @@
   }
 
   .dashboard_text_field {
-    width: 15.5vw;
+    width: 30vw;
     height: 10vh;
   }
 
   .dashboard_form {
     display: flex;
     flex-wrap: wrap;
-    padding: 1rem 0 0 1rem;
+    padding: 1rem 0 0 8rem;
   }
 
   .dashboard_form_divs {

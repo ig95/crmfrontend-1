@@ -7,7 +7,7 @@ import 'react-calendar/dist/Calendar.css'
 import ListForDashboard from '../components/ListForDashboard'
 
 var y = 0 
-const Dashboard = () => {
+const Dashboard = (props) => {
     const [ drivers, setDrivers ] = useState(null)
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ schedule, setSchedule ] = useState(null)
@@ -22,6 +22,7 @@ const Dashboard = () => {
     const [ data, setData ] = useState(null)
     const [ todaysRoutes, setTodaysRoutes ] = useState([])
     const [ logicalGate, setLogicalGate ] = useState(0)
+    const [ selectedModification, setSelectedModification ] = useState(null)
 
     // make this like the daily operations page. show vehicle recommendation in entry column
     // location rota system shows not exceeding 7 days for same person
@@ -223,7 +224,6 @@ const Dashboard = () => {
     // map data into the top box
     var routesBox
     if (todaysRoutes.length > 0) {
-        console.log(todaysRoutes)
         let routesTotal = todaysRoutes.length
         let DBS2Num = 0
         let DEX2Num = 0
@@ -241,6 +241,332 @@ const Dashboard = () => {
         )
     } else {
         routesBox = (<div className='dashboard_route_type_list'></div>)
+    }
+
+    let myTester = 0
+    if (selectedModification && myTester === 0) {
+        console.log(selectedModification)
+        myTester += 1
+    }
+
+/////****************************************** List Component ********************************** */
+const listComponents = (theRoutes) => {
+    let quicksort = (arr, min, max) => {
+        // set the quicksort pointer to the first element in the array
+        if (min === undefined) {
+            min = 0
+        }
+
+        // set the quicksort max pointer to the last element in the array
+        if (max === undefined) {
+            max = arr.length - 1
+        }
+
+        // if the arr pointer's aren't at each other yet then continue recursively iterating
+        if (min < max) {
+            let pivot = partition(arr, min, max)
+            quicksort(arr, min, pivot)
+            quicksort(arr, pivot + 1, max)
+        }
+
+        // return the arr after it has been sorted
+        return arr
+    }
+
+    let partition = (arr, min, max) => {
+        // set the pivot in the middle of the array
+        let pivotNumber = Math.floor(min + (max - min) / 2) 
+        let pivot = arr[pivotNumber]
+
+        // for each of these later there are do-while loops impemented to we set them out of range
+        let i = min - 1
+        let j = max + 1
+
+        // infinite loop until conditions are met
+        while (true) {
+            // while i is refrencing a point lower than the middle of the array iterate up unitl the middle is reached
+            do {
+                i++
+            } 
+            while (arr[i] < pivot)
+
+            // while j is higher than the middle index of the array iterate down towards the middle
+            do {
+                j--
+            } 
+            while (arr[j] > pivot)
+
+            // if the point is reached where both indices are pointing at the middle point then do a switch and put the numbers on the other side of the pivot
+            if (i >= j) {
+              return j
+            }
+            let temp = arr[i]
+            arr[i] = arr[j]
+            arr[j] = temp 
+        }
+    }
+
+    var listOfRoutes
+
+    // modify button
+    const onClick = (e, dateForChange) => {
+        setSelectedModification(dateForChange)
+    }
+
+    let localArray = []
+    theRoutes.forEach( ele => {
+        ele.datesArray.forEach( element => {
+            if (new Date(element.date).toDateString() === new Date().toDateString()) {
+                localArray.push(
+                    <div className='list_overall_flex_dashboard'>
+                        <div className='elements_in_list_dashboard_names'>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{ele.location}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{ele.name}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{element.route}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{element.location}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{element.logIn_time}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{element.logOut_time}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{element.timeDifference[0]}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>--</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>--</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{element.deductions}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{element.support}</h4>
+                            </div>
+                        </div>
+                        <button className='modify_button' onClick={(e, elements) => onClick(e, element)}>
+                            <h4>Modify</h4>
+                        </button>
+                        <button className='modify_button_delete'>
+                            <h4>x</h4>
+                        </button>
+                    </div>
+                )
+            }
+        })
+    })
+    if (localArray.length === 0) {
+        localArray.push(
+            <div className='list_overall_flex_dashboard'>
+                <h3>
+                    Available: 0
+                </h3>
+            </div>
+        )
+    }
+    listOfRoutes = localArray
+    return (
+        <>
+            {listOfRoutes}
+        </>
+    )
+}
+
+var myForm
+var formMaker
+    if (selectedModification) {
+        console.log(selectedModification)
+        const returnForm = () => {
+            return (
+                <form onSubmit={handleSubmit}  autoComplete='off'>
+                    <div className='dashboard_form'>
+                        <div className='dashboard_form_divs_name'>
+                            <div>
+                                <label className='dashboard_labels'>Name</label>
+                            </div>
+                                <input className='input_dashboard_page' type="text" name='Name' defaultValue={`${selectedModification.driver_id}`} />
+                        </div>
+                    <div className='dashboard_form_divs'>
+                        <div>
+                            <label className='dashboard_labels'>Route Type</label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='RouteType' defaultValue={`${selectedModification.location}`}/>
+                    </div>
+                    <div className='dashboard_form_divs'>
+                        <div>
+                            <label className='dashboard_labels'>Wave Time </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='LogInTime' defaultValue={`${selectedModification.logIn_time}`}/>
+                    </div>
+                    <div className='dashboard_form_divs'>
+                        <div>
+                            <label className='dashboard_labels'>Log Out Time </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='LogOutTime' defaultValue={`${selectedModification.logOut_time}`}/>
+                    </div>
+                    <div className='dashboard_form_divs'>
+                        <div>
+                            <label className='dashboard_labels'>Start Mileage </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='StartMileage' defaultValue='0'/>
+                    </div>
+                    <div className='dashboard_form_divs'>
+                        <div>
+                            <label className='dashboard_labels'>Finish Mileage </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='FinishMileage' defaultValue={`0`}/>
+                    </div>
+                    <div className='dashboard_form_divs'>
+                        <div>
+                            <label className='dashboard_labels'>Vehicle Type </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='VehicleType' defaultValue={`${selectedModification.vans}`}/>
+                    </div>         
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>Route No. </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='Route' defaultValue={`${selectedModification.route}`}/>
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                        </div><label className='dashboard_labels'>Location </label>
+                        <Dropdown 
+                            options={options} 
+                            onChange={onSelect} 
+                            value={selectedCityAbbrev} 
+                            placeholder="Select an option" 
+                            className='drop_down_bar_dashboard'
+                        />
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>No. Parcels Delivered </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='NoParcelsDelivered' defaultValue={`${selectedModification.parcel}`}/>
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>Parcels not Delivered </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='NoParcelsBroughtBack' defaultValue={`${selectedModification.parcel}`}/>
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>Vehicle Registration </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='OwnerVehicleRegistration' defaultValue={`${selectedModification.fuel}`}/>
+                    </div>
+                </div>
+                <div className="button_daily_service" onClick={handleSubmit}>
+                    <h3 className='remove_h3_padding'>Submit</h3>  
+                </div>  
+            </form>
+            )
+        }
+        myForm = returnForm()
+    } else {
+        formMaker = (
+            <form onSubmit={handleSubmit}  autoComplete='off'>
+            <div className='dashboard_form'>
+                <div>
+                    <div className='dashboard_form_divs_name'>
+                        <div>
+                            <label className='dashboard_labels'>Name</label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='Name' value={nameValue} onChange={handleChange} />
+                    </div>
+                    <div className={`${makeSearchBarVisible}`}>
+                        {driverSearchArray}
+                    </div>
+                </div>
+                <div className='dashboard_form_divs'>
+                    <div>
+                        <label className='dashboard_labels'>Route Type</label>
+                    </div>
+                        <input className='input_dashboard_page' type="text" name='RouteType' />
+                </div>
+                <div className='dashboard_form_divs'>
+                    <div>
+                        <label className='dashboard_labels'>Wave Time </label>
+                    </div>
+                        <input className='input_dashboard_page' type="text" name='LogInTime' />
+                </div>
+                <div className='dashboard_form_divs'>
+                    <div>
+                        <label className='dashboard_labels'>Log Out Time </label>
+                    </div>
+                        <input className='input_dashboard_page' type="text" name='LogOutTime' />
+                </div>
+                <div className='dashboard_form_divs'>
+                    <div>
+                        <label className='dashboard_labels'>Start Mileage </label>
+                    </div>
+                        <input className='input_dashboard_page' type="text" name='StartMileage' />
+                </div>
+                <div className='dashboard_form_divs'>
+                    <div>
+                        <label className='dashboard_labels'>Finish Mileage </label>
+                    </div>
+                        <input className='input_dashboard_page' type="text" name='FinishMileage' />
+                </div>
+                <div className='dashboard_form_divs'>
+                    <div>
+                        <label className='dashboard_labels'>Vehicle Type </label>
+                    </div>
+                        <input className='input_dashboard_page' type="text" name='VehicleType' />
+                </div>         
+                <div className='dashboard_form_divs'>    
+                    <div>
+                        <label className='dashboard_labels'>Route No. </label>
+                    </div>
+                        <input className='input_dashboard_page' type="text" name='Route' />
+                </div>
+                <div className='dashboard_form_divs'>    
+                    <div>
+                    </div><label className='dashboard_labels'>Location </label>
+                    <Dropdown 
+                        options={options} 
+                        onChange={onSelect} 
+                        value={selectedCityAbbrev} 
+                        placeholder="Select an option" 
+                        className='drop_down_bar_dashboard'
+                    />
+                </div>
+                <div className='dashboard_form_divs'>    
+                    <div>
+                        <label className='dashboard_labels'>No. Parcels Delivered </label>
+                    </div>
+                        <input className='input_dashboard_page' type="text" name='NoParcelsDelivered' />
+                </div>
+                <div className='dashboard_form_divs'>    
+                    <div>
+                        <label className='dashboard_labels'>Parcels not Delivered </label>
+                    </div>
+                        <input className='input_dashboard_page' type="text" name='NoParcelsBroughtBack' />
+                </div>
+                <div className='dashboard_form_divs'>    
+                    <div>
+                        <label className='dashboard_labels'>Vehicle Registration </label>
+                    </div>
+                        <input className='input_dashboard_page' type="text" name='OwnerVehicleRegistration' />
+                </div>
+            </div>
+                <div className="button_daily_service" onClick={handleSubmit}>
+                    <h3 className='remove_h3_padding'>Submit</h3>  
+                </div>  
+        </form>
+        )
     }
 
     return (
@@ -262,112 +588,15 @@ const Dashboard = () => {
                 <div className='top_rectangles_container'>
                     {topRectangles}
                 </div>    
-                <ListForDashboard todaysRoutes={todaysRoutes}/>
+                {listComponents(todaysRoutes)}
                 <hr />
-                <form onSubmit={handleSubmit} className='dashboard_form' autoComplete='off'>
-                    <div >
-                        <div className='dashboard_form_divs_name'>
-                            <div>
-                                <label className='dashboard_labels'>Name </label>
-                            </div>
-                                <input className='input_dashboard_page' type="text" name='Name' value={nameValue} onChange={handleChange} />
-                        </div>
-                        <div className={`${makeSearchBarVisible}`}>
-                            {driverSearchArray}
-                        </div>
+                {selectedModification ? myForm : formMaker}
+                <div className='dashboard_form_divs_comments'>    
+                    <div>
+                        <label className='dashboard_labels_dashboard'>Comments </label>
                     </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Route Type </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='RouteType' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Wave Time </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='LogInTime' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Log Out Time </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='LogOutTime' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Start Mileage </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='StartMileage' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Finish Mileage </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='FinishMileage' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Vehicle Type </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='VehicleType' />
-                    </div>         
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Route No. </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='Route' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                        </div><label className='dashboard_labels'>Location </label>
-                        <Dropdown 
-                            options={options} 
-                            onChange={onSelect} 
-                            value={selectedCityAbbrev} 
-                            placeholder="Select an option" 
-                            className='drop_down_bar_dashboard'
-                        />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>No. Parcels Delivered </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='NoParcelsDelivered' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>No. Parcels Brought Back </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='NoParcelsBroughtBack' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Vehicle Registration </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='OwnerVehicleRegistration' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div className="btn" onClick={handleSubmit}>
-                            <svg width="125" height="45">
-                                <defs>
-                                    <linearGradient id="grad1">
-                                        <stop offset="0%" stopColor="#232F3E"/>
-                                        <stop offset="100%" stopColor="#232F3E" />
-                                    </linearGradient>
-                                </defs>
-                                <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
-                            </svg>
-                            <span className='span_in_Button_add'>Submit</span>  
-                        </div>  
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels_dashboard'>Comment </label>
-                        </div>
-                            <textarea className='dashboard_text_field' type="text" name='Comment' />
-                    </div>
-                </form>
+                        <textarea className='dashboard_text_field' type="text" name='Comment' />
+                </div>
             </div>
         </div>
     )
