@@ -1,15 +1,15 @@
 import React from 'react'
 import NavigationBar from '../components/NavBar'
 
-//// reports page
-const Statistics = (props) => {
+const Forms = () => {
+
     return (
         <div className='home_content'>
-            <NavigationBar title='Reports'/>
+            <NavigationBar title='Forms'/>
             <div className='main_content_driver_documents'>
             </div>
         </div>
     )
 }
 
-export default Statistics
+export default Forms

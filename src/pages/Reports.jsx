@@ -1,9 +1,9 @@
 import React from 'react'
 import NavigationBar from '../components/NavBar'
 
-//// reports page
-const Statistics = (props) => {
-    return (
+const Reports = () => {
+
+    return ( 
         <div className='home_content'>
             <NavigationBar title='Reports'/>
             <div className='main_content_driver_documents'>
@@ -12,4 +12,4 @@ const Statistics = (props) => {
     )
 }
 
-export default Statistics
+export default Reports

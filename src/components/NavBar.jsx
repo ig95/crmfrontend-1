@@ -47,7 +47,7 @@ const NavigationBar = (props) => {
             <div className='nav_bar'>
                 <Link to="/home" className='links'> 
                     <div className='link_style'>
-                        Summary 
+                        Home
                     </div>
                 </Link>
                 <Link to="/dashboard" className='links'>
@@ -55,29 +55,34 @@ const NavigationBar = (props) => {
                         Daily Service 
                     </div>
                 </Link>
-                <Link to="/makemployee" className='links'>
-                    <div className='link_style'>
-                        Drivers
-                    </div>
-                </Link>
                 <Link to="/weekschedule" className='links'>
                     <div className='link_style'>
                         Location Rota 
                     </div>
                 </Link>
+                <Link to="/documentation" className='links'>
+                    <div className='link_style'>
+                        Compliance
+                    </div>
+                </Link>
                 <Link to="/invoicework" className='links'>
                     <div className='link_style'>
-                        Invoice Work 
+                        Invoices
+                    </div>
+                </Link>
+                <Link to="/forms" className='links'>
+                    <div className='link_style'>
+                        Forms
                     </div>
                 </Link>
                 <Link to="/statistics" className='links'>
                     <div className='link_style'>
-                        Statistics 
+                        Reports
                     </div>
                 </Link>
-                <Link to="/documentation" className='links'>
+                <Link to="/makemployee" className='links'>
                     <div className='link_style'>
-                        Documents 
+                        Drivers
                     </div>
                 </Link>
             </div>

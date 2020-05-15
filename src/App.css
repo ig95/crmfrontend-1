@@ -544,12 +544,14 @@
 }
 .btn_picture span {
   background: #fefefe;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .btn_picture:hover span {
   background: #fff;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: #fff;
 }
 .btn_picture:hover svg rect {
@@ -586,10 +588,12 @@
 .btn_big span {
   background: #232f3e;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .btn_big:hover span {
   background: #2b3a4d;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: #2b3a4d;
 }
@@ -980,7 +984,8 @@ body {
   z-index: 1;
 }
 .nav_current_date {
-  margin: auto 0 auto 1rem;
+  margin: 0;
+  padding: 0;
 }
 .middle_nav {
   text-align: center;
@@ -1504,14 +1509,76 @@ body {
   animation-name: loadingStyle;
   animation-duration: 1s;
 }
+.clock_and_calendar {
+  padding: 0;
+  margin: 0;
+  width: 85vw;
+  padding: 1rem 0 2rem 2rem;
+  display: flex;
+}
+.triangle_dashboard_page {
+  height: 15px;
+  margin-left: 5px;
+}
+.triangle_dashboard_page_down {
+  height: 15px;
+  margin-left: 5px;
+  transform: rotate(90deg);
+}
+.shadow_calendar_class {
+  display: inline-block;
+}
+.shadow_calendar_class_two {
+  height: 0px;
+  animation: slideFromTop 0.5s forwards;
+  animation-timing-function: linear;
+}
+.calender_modification {
+  opacity: 0;
+  animation: waitToShow 0.6s forwards;
+  animation-timing-function: linear;
+}
+@keyframes waitToShow {
+  0% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes slideFromTop {
+  0% {
+    height: 10px;
+  }
+  100% {
+    display: inline;
+    height: 240px;
+    z-index: 1;
+  }
+}
+.calendar_date_picker_dashboard {
+  margin-left: 60%;
+}
+.make_calendar_span {
+  font-size: 1.2em;
+}
+.make_calendar_span:hover {
+  text-shadow: 0.5px 0.5px 0.5px black;
+}
 .dashboard_route_type_list {
   width: 11vw;
   height: 7vh;
-  padding: 10px;
+  padding: 15px;
   margin: 0 auto 1rem;
-  background-color: #78d1d4;
-  border: 3px solid #2b3a4d;
+  background-color: #202020;
+  border: 3px solid grey;
+  color: #c3cdd3;
   border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
 }
 .dashboard_labels {
   margin: 1rem;
@@ -1564,7 +1631,8 @@ h4 {
   padding: 0;
 }
 .button_daily_service {
-  background-color: #78d1d4;
+  background-color: #202020;
+  color: #c3cdd3;
   width: 7vw;
   height: 4vh;
   display: flex;
@@ -1575,7 +1643,7 @@ h4 {
   margin: 1rem auto;
 }
 .button_daily_service:hover {
-  background-color: #85dde0;
+  background-color: #595a5a;
   transform: translateY(-0.1rem);
 }
 .dashboard_form_divs_comments {
@@ -1588,9 +1656,11 @@ h4 {
 }
 .elements_in_list_dashboard_names {
   display: flex;
+  align-items: center;
   margin-left: 2rem;
   padding: 2px;
-  background-color: #78d1d4;
+  background-color: #202020;
+  color: #c3cdd3;
   margin-bottom: 10px;
   border-radius: 0.5rem;
   width: 90%;
@@ -1670,6 +1740,8 @@ h4 {
   margin-left: 1.5vw;
   margin-right: 2vw;
   border: 2px solid #232f3e;
+  display: flex;
+  align-items: center;
 }
 .dashboard_top_rectangles:hover {
   background-color: #e0e0e0;

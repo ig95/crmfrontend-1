@@ -8,6 +8,7 @@ import InvoiceWork from './pages/InvoiceWork'
 import DriverDocumentation from './pages/DriverDocumentation'
 import Statistics from './pages/Statistics'
 import HomeTwo from './pages/HomeTwo'
+import Forms from './pages/Forms'
 import Driver from './pages/Driver'
 import logo from './images/logoMinified.png'
 import './App.scss';
@@ -95,6 +96,7 @@ const App = () => {
         <Route exact path = '/driver/:id/:date' render={ () => <Driver user_name={userName} user_email={userEmail} driver_data={drivers} schedule_data={schedule}/> } />
         <Route exact path = '/dashboard' render={ () => <Dashboard user_name={userName} user_email={userEmail}/> } />
         <Route exact path = '/statistics' render={ () => <Statistics user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/forms' render={ () => <Forms user_name={userName} user_email={userEmail}/> } />
         <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail}/> } />
         <Route exact path = '/documentation' render={ () => <DriverDocumentation user_name={userName} user_email={userEmail}/> } />
         <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail}/> } />

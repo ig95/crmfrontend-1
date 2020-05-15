@@ -78,7 +78,7 @@ const DriverDocumentation = (props) => {
     var driverList = listTheDrivers()
     return (
         <div className='home_content'>
-            <NavigationBar title='Driver Documents'/>
+            <NavigationBar title='Compliance'/>
             <div className='main_content_driver_documents'>
                 <div className='documents_search_bar'>
                     <nav className="menu">

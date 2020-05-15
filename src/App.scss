@@ -10,6 +10,8 @@
   $blue: rgb(43, 58, 77);
   $transparent-gray: rgba(0, 0, 0, 0.3);
   $transparent-white: rgba(255, 255, 255, 0.15);
+  $greyBoxBackground: #202020;
+  $greyBoxContrast: rgb(195, 205, 211);
 
   /*********************** DROPDOWN BAR EFFECTS *****************************************/
 
@@ -664,12 +666,14 @@
   
   .btn_picture span{
     background: $offWhite;
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   .btn_picture:hover span{
     background: rgb(255, 255, 255);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: rgb(255, 255, 255);
   }
   
@@ -713,11 +717,13 @@
   .btn_big span{
     background: $amazon_blue;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-
+  
   .btn_big:hover span{
     background: $amazon_blue_hover;
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: $amazon_blue_hover;
   }
@@ -1161,7 +1167,9 @@
   }
 
   .nav_current_date {
-    margin: auto 0 auto 1rem;
+    // margin: auto 0 auto 1rem;
+    margin: 0;
+    padding: 0;
   }
 
   .middle_nav {
@@ -1828,14 +1836,87 @@
     animation-duration: 1s;
   }
 
+  .clock_and_calendar {
+    padding: 0;
+    margin: 0;
+    width: 85vw;
+    padding: 1rem 0 2rem 2rem;
+    display: flex;
+  }
+
+  .triangle_dashboard_page {
+    height: 15px;
+    margin-left: 5px;
+  }
+
+  .triangle_dashboard_page_down {
+    height: 15px;
+    margin-left: 5px;
+    transform: rotate(90deg);
+  }
+
+  .shadow_calendar_class {
+    display: inline-block;
+  }
+
+  .shadow_calendar_class_two {
+    height: 0px;
+    animation: slideFromTop .5s forwards;
+    animation-timing-function: linear;
+  }
+
+  .calender_modification {
+    opacity: 0;
+    animation: waitToShow .6s forwards;
+    animation-timing-function: linear;
+  }
+
+  @keyframes waitToShow {
+    0% {
+      opacity: 0;
+    }
+    99% {
+      opacity: 0;
+    }
+    100%{
+      opacity: 1;
+    } 
+  }
+
+  @keyframes slideFromTop {
+    0% {
+      height: 10px;
+    }
+    100% {
+      display: inline;
+      height: 240px;
+      z-index: 1;
+    }
+  }
+  
+  .calendar_date_picker_dashboard {
+    margin-left: 60%;
+  }
+
+  .make_calendar_span {
+    font-size: 1.2em;
+  }
+
+  .make_calendar_span:hover {
+    text-shadow: .5px .5px .5px black;
+  }
+
   .dashboard_route_type_list {
     width: 11vw;
     height: 7vh;
-    padding: 10px;
+    padding: 15px;
     margin: 0 auto 1rem;
-    background-color: $logoLightColor;
-    border: 3px solid $amazon_blue_hover;
+    background-color: $greyBoxBackground;
+    border: 3px solid grey;
+    color: $greyBoxContrast;
     border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
   }
 
   .dashboard_labels {
@@ -1903,7 +1984,8 @@
   }
 
   .button_daily_service {
-    background-color: $logoLightColor;
+    background-color: $greyBoxBackground;
+    color: $greyBoxContrast;
     width: 7vw;
     height: 4vh;
     display: flex;
@@ -1915,7 +1997,7 @@
   }
 
   .button_daily_service:hover {
-    background-color: rgb(133, 221, 224);
+    background-color: rgb(89, 90, 90);
     transform: translateY(-.1rem);
   }
 
@@ -1930,9 +2012,11 @@
 
   .elements_in_list_dashboard_names {
     display: flex;
+    align-items: center;
     margin-left: 2rem;
     padding: 2px;
-    background-color: $logoLightColor;
+    background-color: $greyBoxBackground;
+    color: $greyBoxContrast;
     margin-bottom: 10px;
     border-radius: .5rem;
     width: 90%;
@@ -2021,10 +2105,13 @@
   .dashboard_top_rectangles {
     width: 4.5vw;
     border-radius: .5rem;
-    padding: 2px;
+    padding: 5px;
     margin-left: 1.5vw;
     margin-right: 2vw;
     border:2px solid $amazon_blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .dashboard_top_rectangles:hover {

@@ -4,53 +4,34 @@ import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
-import ListForDashboard from '../components/ListForDashboard'
+import DashboardForm from '../components/DashboardForm'
+import triangle from '../images/triangledark.png'
 
-var y = 0 
+var myInterval
 const Dashboard = (props) => {
     const [ drivers, setDrivers ] = useState(null)
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ schedule, setSchedule ] = useState(null)
     const [ selectedCity, setSelectedCity ] = useState('Bristol - DBS2')
-    const [ selectedCityAbbrev, setSelectedCityAbbrev ] = useState('DBS2')
-    const [ driverSearchArray, setDriverSearchArray ] = useState([])
+    const [ selectedCitySort, setSelectedCitySort ] = useState('DBS2')
     const [ topRectangles, setTopRectangles ] = useState([])
-    const [ dateSelected, setDateSelected ] = useState('')
-    const [ makeSearchBarVisible, setMakeSearchBarVisible ] = useState('dashboard_form_divs_name_bar_none')
-    const [ nameValue, setNameValue ] = useState('')
-    const [ submittedArray, setSubmittedArray ] = useState([])
     const [ data, setData ] = useState(null)
     const [ todaysRoutes, setTodaysRoutes ] = useState([])
     const [ logicalGate, setLogicalGate ] = useState(0)
     const [ selectedModification, setSelectedModification ] = useState(null)
+    const [ currentDate, setCurrentDate ] = useState(new Date())
+    const [ listOfRoutes, setListOfRoutes ] = useState([])
+    const [ triangleToggle, setTriangleToggle ] = useState('triangle_dashboard_page')
 
-    // make this like the daily operations page. show vehicle recommendation in entry column
-    // location rota system shows not exceeding 7 days for same person
-    // fetch call to the db for all data related to drivers and schedule
-    useEffect(() => {
-        async function getData(url = '') {
-            const response = await fetch(url, {
-                method: 'GET', 
-                mode: 'cors',
-                cache: 'no-cache',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
-                }
-            });
 
-            return response ? response.json() : console.log('no reponse')
+    var dayArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
+    var monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"]
 
-        };
-
-        getData('https://pythonicbackend.herokuapp.com/drivers/').then( (response) => {
-            setDrivers(response.results)
-            getData('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
-                setSchedule(response.results)
-            })
-        })
-    }, [])
+    // eslint-disable-next-line no-extend-native
+    Date.prototype.getWeek = function () {
+        var firstDate = new Date(this.getFullYear(), 0, 1)
+        return Math.ceil((((new Date(this.getFullYear(), this.getMonth(), this.getDate()) - firstDate) / 86400000) + firstDate.getDay() + 1) / 7)
+    }
 
     useEffect( () => {
         async function getData(url = '') {
@@ -72,12 +53,11 @@ const Dashboard = (props) => {
         getData('https://pythonicbackend.herokuapp.com/data/').then( (response) => {
             console.log(response.data)
             setData(response.data)
-            let today = new Date()
             let localArray = []
             response.data.drivers.forEach( element => {
-                if (element.location === selectedCityAbbrev) {
+                if (element.location === selectedCitySort) {
                     element.datesArray.forEach( ele => {
-                        if (new Date(ele.date).toDateString() === today.toDateString()) {
+                        if (new Date(ele.date).toDateString() === selectedDate.toDateString()) {
                             localArray.push(element)
                         }
                     })
@@ -85,112 +65,142 @@ const Dashboard = (props) => {
             })
             console.log(localArray)
             setTodaysRoutes(localArray)
+           
+            setListOfRoutes(listComponents(localArray))
         })
-    }, [selectedCityAbbrev])
 
-    // dropdown menu options
-    const options = [
-        'DBS2',
-        'DSN1',
-        'DEX2'
-    ]
+    }, [selectedCitySort, selectedDate])
 
-    // dropdown menu selection function
-    const onSelect = (e) => {
-        setSelectedCity(e.value)
-    }
-
-    // select name
-    const handleNameClick = (e, theName) => {
-        makeSearchUnderBar('', 10)
-        setNameValue(theName)
-    }
-
-    const makeSearchUnderBar = (theValue, theLength) => {
-        if (theValue !== '' && theLength <= 3) {
-            setMakeSearchBarVisible('dashboard_form_divs_name_bar')
-        } else {
-            setMakeSearchBarVisible('dashboard_form_divs_name_bar_none')
-        }
-    }
+    const listComponents = (theRoutes) => {
+        let quicksort = (arr, min, max) => {
+            // set the quicksort pointer to the first element in the array
+            if (min === undefined) {
+                min = 0
+            }
     
-    // search bar function
-    const handleChange = (e) => {
-        setNameValue(e.target.value)
-        makeSearchUnderBar(e.target.value, nameValue.length)
-        let localArray = []
-        drivers.forEach( (ele, id) => {
-            if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 4) {
-                localArray.push(
-                    <h4 className='name_suggestions' onClick={(e, theName) => handleNameClick(e, `${ele.name}`)}>{ele.name}</h4>
-                )
+            // set the quicksort max pointer to the last element in the array
+            if (max === undefined) {
+                max = arr.length - 1
             }
-        })
-        setDriverSearchArray(localArray)
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log('submit clicked')
-        let localDriverId = 0
-        let localID = 0
-        let driverID = ''
-        let mileage = e.target.FinishMileage.value - e.target.StartMileage.value
-        drivers.forEach( (ele, id) => {
-            if (ele.name === e.target.Name.value) {
-                localDriverId = ele.driver_id
+    
+            // if the arr pointer's aren't at each other yet then continue recursively iterating
+            if (min < max) {
+                let pivot = partition(arr, min, max)
+                quicksort(arr, min, pivot)
+                quicksort(arr, pivot + 1, max)
             }
-        })
-        if (localDriverId > 0) {
-            console.log(schedule, localDriverId)
-            schedule.forEach( (ele, id) => {
-                if (ele.driver_id === `https://pythonicbackend.herokuapp.com/drivers/${localDriverId}/` && ele.date === dateSelected) {
-                    console.log('inside tis if')
-                    driverID = ele.driver_id
-                    localID = ele.date_id
+    
+            // return the arr after it has been sorted
+            return arr
+        }
+    
+        let partition = (arr, min, max) => {
+            // set the pivot in the middle of the array
+            let pivotNumber = Math.floor(min + (max - min) / 2) 
+            let pivot = arr[pivotNumber]
+    
+            // for each of these later there are do-while loops impemented to we set them out of range
+            let i = min - 1
+            let j = max + 1
+    
+            // infinite loop until conditions are met
+            while (true) {
+                // while i is refrencing a point lower than the middle of the array iterate up unitl the middle is reached
+                do {
+                    i++
+                } 
+                while (arr[i] < pivot)
+    
+                // while j is higher than the middle index of the array iterate down towards the middle
+                do {
+                    j--
+                } 
+                while (arr[j] > pivot)
+    
+                // if the point is reached where both indices are pointing at the middle point then do a switch and put the numbers on the other side of the pivot
+                if (i >= j) {
+                  return j
+                }
+                let temp = arr[i]
+                arr[i] = arr[j]
+                arr[j] = temp 
+            }
+        }
+    
+        var listOfRoutes
+    
+        // modify button
+        const onClick = (e, dateForChange) => {
+            setSelectedModification(dateForChange)
+        }
+    
+        let localArrayTwo = []
+        theRoutes.forEach( ele => {
+            ele.datesArray.forEach( element => {
+                if (new Date(element.date).toDateString() === new Date().toDateString()) {
+                    localArrayTwo.push(
+                        <div className='list_overall_flex_dashboard'>
+                            <div className='elements_in_list_dashboard_names'>
+                                <div className='list_spacer_content'>
+                                    <h4 className='remove_h3_padding'>{ele.location}</h4>
+                                </div>
+                                <div className='list_spacer_content'>
+                                    <h4 className='remove_h3_padding'>{ele.name}</h4>
+                                </div>
+                                <div className='list_spacer_content'>
+                                    <h4 className='remove_h3_padding'>{element.route}</h4>
+                                </div>
+                                <div className='list_spacer_content'>
+                                    <h4 className='remove_h3_padding'>{element.location}</h4>
+                                </div>
+                                <div className='list_spacer_content'>
+                                    <h4 className='remove_h3_padding'>{element.logIn_time}</h4>
+                                </div>
+                                <div className='list_spacer_content'>
+                                    <h4 className='remove_h3_padding'>{element.logOut_time}</h4>
+                                </div>
+                                <div className='list_spacer_content'>
+                                    <h4 className='remove_h3_padding'>{element.timeDifference[0]}</h4>
+                                </div>
+                                <div className='list_spacer_content'>
+                                    <h4 className='remove_h3_padding'>--</h4>
+                                </div>
+                                <div className='list_spacer_content'>
+                                    <h4 className='remove_h3_padding'>--</h4>
+                                </div>
+                                <div className='list_spacer_content'>
+                                    <h4 className='remove_h3_padding'>{element.deductions}</h4>
+                                </div>
+                                <div className='list_spacer_content'>
+                                    <h4 className='remove_h3_padding'>{element.support}</h4>
+                                </div>
+                            </div>
+                            <button className='modify_button' onClick={(e, elements) => onClick(e, element)}>
+                                <h4>Modify</h4>
+                            </button>
+                            <button className='modify_button_delete'>
+                                <h4>x</h4>
+                            </button>
+                        </div>
+                    )
                 }
             })
-        }
-        async function postData(url = '', data = {}) {
-            console.log('posting data')
-            const response = await fetch(url, {
-                method: 'PUT', 
-                mode: 'cors',
-                cache: 'no-cache',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify(data)
-                });
-
-            return response ? response.json() : console.log('no reponse')
-        };
-        let myObjectToPut = () => {
-            console.log('object being made')
-            let myObj = {}
-                e.target.Name.value ? myObj['name'] = {nameValue} : console.log(null)
-                e.target.Route.value ? myObj['route'] = e.target.Route.value : console.log(null)
-                e.target.LogInTime.value ? myObj['logIn_time'] = e.target.LogInTime.value : console.log(null)
-                e.target.LogOutTime.value ? myObj['logOut_time'] = e.target.LogOutTime.value : console.log(null) 
-                selectedCity ? myObj['location'] = myObj['location'] = selectedCity : console.log(null) 
-                mileage ? myObj['mileage'] = mileage : console.log(null) 
-                e.target.NoParcelsDelivered.value ? myObj['parcels'] = e.target.NoParcelsDelivered.value : console.log(null)
-                myObj['driver_id'] = driverID
-            return (
-                myObj
+        })
+        if (localArrayTwo.length === 0) {
+            localArrayTwo.push(
+                <div className='list_overall_flex_dashboard'>
+                    <h3>
+                        Available: 0
+                    </h3>
+                </div>
             )
         }
-        if (localID > 0) {
-            postData(`https://pythonicbackend.herokuapp.com/schedule/${localID}/`, myObjectToPut())
-            .then( response => {
-                let localArray = []
-                submittedArray.length > 0 ? localArray = [...submittedArray] : localArray = []
-                localArray.push(response)
-                console.log('submitted')
-            })
-        }
+        listOfRoutes = localArrayTwo
+        return (
+            <>
+                {listOfRoutes}
+            </>
+        )
     }
 
     useEffect( () => {
@@ -204,17 +214,17 @@ const Dashboard = (props) => {
             )
         }
         setTopRectangles(localArray)
-    }, [])
+    }, [selectedCity])
 
     // set city
     const handleSelectCity = (e, city) => {
         setSelectedCity(city)
         if (city === 'Bristol - DBS2') {
-            setSelectedCityAbbrev('DBS2')
+            setSelectedCitySort('DBS2')
         } else if (city === 'Southampton - DSN1') {
-            setSelectedCityAbbrev('DSN1')
+            setSelectedCitySort('DSN1')
         } else {
-            setSelectedCityAbbrev('DEX2')
+            setSelectedCitySort('DEX2')
         }
         let x = logicalGate
         x = x+1
@@ -243,335 +253,67 @@ const Dashboard = (props) => {
         routesBox = (<div className='dashboard_route_type_list'></div>)
     }
 
-    let myTester = 0
-    if (selectedModification && myTester === 0) {
-        console.log(selectedModification)
-        myTester += 1
-    }
-
 /////****************************************** List Component ********************************** */
-const listComponents = (theRoutes) => {
-    let quicksort = (arr, min, max) => {
-        // set the quicksort pointer to the first element in the array
-        if (min === undefined) {
-            min = 0
-        }
-
-        // set the quicksort max pointer to the last element in the array
-        if (max === undefined) {
-            max = arr.length - 1
-        }
-
-        // if the arr pointer's aren't at each other yet then continue recursively iterating
-        if (min < max) {
-            let pivot = partition(arr, min, max)
-            quicksort(arr, min, pivot)
-            quicksort(arr, pivot + 1, max)
-        }
-
-        // return the arr after it has been sorted
-        return arr
-    }
-
-    let partition = (arr, min, max) => {
-        // set the pivot in the middle of the array
-        let pivotNumber = Math.floor(min + (max - min) / 2) 
-        let pivot = arr[pivotNumber]
-
-        // for each of these later there are do-while loops impemented to we set them out of range
-        let i = min - 1
-        let j = max + 1
-
-        // infinite loop until conditions are met
-        while (true) {
-            // while i is refrencing a point lower than the middle of the array iterate up unitl the middle is reached
-            do {
-                i++
-            } 
-            while (arr[i] < pivot)
-
-            // while j is higher than the middle index of the array iterate down towards the middle
-            do {
-                j--
-            } 
-            while (arr[j] > pivot)
-
-            // if the point is reached where both indices are pointing at the middle point then do a switch and put the numbers on the other side of the pivot
-            if (i >= j) {
-              return j
-            }
-            let temp = arr[i]
-            arr[i] = arr[j]
-            arr[j] = temp 
-        }
-    }
-
-    var listOfRoutes
-
-    // modify button
-    const onClick = (e, dateForChange) => {
-        setSelectedModification(dateForChange)
-    }
-
-    let localArray = []
-    theRoutes.forEach( ele => {
-        ele.datesArray.forEach( element => {
-            if (new Date(element.date).toDateString() === new Date().toDateString()) {
-                localArray.push(
-                    <div className='list_overall_flex_dashboard'>
-                        <div className='elements_in_list_dashboard_names'>
-                            <div className='list_spacer_content'>
-                                <h4 className='remove_h3_padding'>{ele.location}</h4>
-                            </div>
-                            <div className='list_spacer_content'>
-                                <h4 className='remove_h3_padding'>{ele.name}</h4>
-                            </div>
-                            <div className='list_spacer_content'>
-                                <h4 className='remove_h3_padding'>{element.route}</h4>
-                            </div>
-                            <div className='list_spacer_content'>
-                                <h4 className='remove_h3_padding'>{element.location}</h4>
-                            </div>
-                            <div className='list_spacer_content'>
-                                <h4 className='remove_h3_padding'>{element.logIn_time}</h4>
-                            </div>
-                            <div className='list_spacer_content'>
-                                <h4 className='remove_h3_padding'>{element.logOut_time}</h4>
-                            </div>
-                            <div className='list_spacer_content'>
-                                <h4 className='remove_h3_padding'>{element.timeDifference[0]}</h4>
-                            </div>
-                            <div className='list_spacer_content'>
-                                <h4 className='remove_h3_padding'>--</h4>
-                            </div>
-                            <div className='list_spacer_content'>
-                                <h4 className='remove_h3_padding'>--</h4>
-                            </div>
-                            <div className='list_spacer_content'>
-                                <h4 className='remove_h3_padding'>{element.deductions}</h4>
-                            </div>
-                            <div className='list_spacer_content'>
-                                <h4 className='remove_h3_padding'>{element.support}</h4>
-                            </div>
-                        </div>
-                        <button className='modify_button' onClick={(e, elements) => onClick(e, element)}>
-                            <h4>Modify</h4>
-                        </button>
-                        <button className='modify_button_delete'>
-                            <h4>x</h4>
-                        </button>
-                    </div>
-                )
-            }
-        })
-    })
-    if (localArray.length === 0) {
-        localArray.push(
-            <div className='list_overall_flex_dashboard'>
-                <h3>
-                    Available: 0
-                </h3>
-            </div>
-        )
-    }
-    listOfRoutes = localArray
-    return (
-        <>
-            {listOfRoutes}
-        </>
-    )
-}
-
-var myForm
-var returnForm = (otherSelection) => {
-    console.log(otherSelection)
-    myForm = 
-        (
-            <form onSubmit={handleSubmit}  autoComplete='off'>
-                <div className='dashboard_form'>
-                    <div className='dashboard_form_divs_name'>
-                        <div>
-                            <label className='dashboard_labels'>Name</label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='Name' defaultValue={`${otherSelection.driver_id}`} />
-                    </div>
-                <div className='dashboard_form_divs'>
-                    <div>
-                        <label className='dashboard_labels'>Route Type</label>
-                    </div>
-                        <input className='input_dashboard_page' type="text" name='RouteType' defaultValue={`${otherSelection.location}`}/>
-                </div>
-                <div className='dashboard_form_divs'>
-                    <div>
-                        <label className='dashboard_labels'>Wave Time </label>
-                    </div>
-                        <input className='input_dashboard_page' type="text" name='LogInTime' defaultValue={`${otherSelection.logIn_time}`}/>
-                </div>
-                <div className='dashboard_form_divs'>
-                    <div>
-                        <label className='dashboard_labels'>Log Out Time </label>
-                    </div>
-                        <input className='input_dashboard_page' type="text" name='LogOutTime' defaultValue={`${otherSelection.logOut_time}`}/>
-                </div>
-                <div className='dashboard_form_divs'>
-                    <div>
-                        <label className='dashboard_labels'>Start Mileage </label>
-                    </div>
-                        <input className='input_dashboard_page' type="text" name='StartMileage' defaultValue='0'/>
-                </div>
-                <div className='dashboard_form_divs'>
-                    <div>
-                        <label className='dashboard_labels'>Finish Mileage </label>
-                    </div>
-                        <input className='input_dashboard_page' type="text" name='FinishMileage' defaultValue={`0`}/>
-                </div>
-                <div className='dashboard_form_divs'>
-                    <div>
-                        <label className='dashboard_labels'>Vehicle Type </label>
-                    </div>
-                        <input className='input_dashboard_page' type="text" name='VehicleType' defaultValue={`${otherSelection.vans}`}/>
-                </div>         
-                <div className='dashboard_form_divs'>    
-                    <div>
-                        <label className='dashboard_labels'>Route No. </label>
-                    </div>
-                        <input className='input_dashboard_page' type="text" name='Route' defaultValue={`${otherSelection.route}`}/>
-                </div>
-                <div className='dashboard_form_divs'>    
-                    <div>
-                    </div><label className='dashboard_labels'>Location </label>
-                    <Dropdown 
-                        options={options} 
-                        onChange={onSelect} 
-                        value={selectedCityAbbrev} 
-                        placeholder="Select an option" 
-                        className='drop_down_bar_dashboard'
-                    />
-                </div>
-                <div className='dashboard_form_divs'>    
-                    <div>
-                        <label className='dashboard_labels'>No. Parcels Delivered </label>
-                    </div>
-                        <input className='input_dashboard_page' type="text" name='NoParcelsDelivered' defaultValue={`${otherSelection.parcel}`}/>
-                </div>
-                <div className='dashboard_form_divs'>    
-                    <div>
-                        <label className='dashboard_labels'>Parcels not Delivered </label>
-                    </div>
-                        <input className='input_dashboard_page' type="text" name='NoParcelsBroughtBack' defaultValue={`${otherSelection.parcel}`}/>
-                </div>
-                <div className='dashboard_form_divs'>    
-                    <div>
-                        <label className='dashboard_labels'>Vehicle Registration </label>
-                    </div>
-                        <input className='input_dashboard_page' type="text" name='OwnerVehicleRegistration' defaultValue={`${otherSelection.fuel}`}/>
-                </div>
-            </div>
-            <div className="button_daily_service" onClick={handleSubmit}>
-                <h3 className='remove_h3_padding'>Submit</h3>  
-            </div>  
-        </form>
-    )
-}
 
 
+// handling the clock
 useEffect( () => {
-    if (selectedModification) {
-        returnForm(selectedModification)
+    clearInterval(myInterval)
+    const timeFunction = () => {
+        let setTime = () => {
+            setCurrentDate(new Date())
+        }
+        myInterval = setInterval( setTime, 1000)
     }
-}, [selectedModification])
-var formMaker
+    timeFunction()
+}, [])
 
-formMaker = (
-    <form onSubmit={handleSubmit}  autoComplete='off'>
-    <div className='dashboard_form'>
-        <div>
-            <div className='dashboard_form_divs_name'>
-                <div>
-                    <label className='dashboard_labels'>Name</label>
-                </div>
-                    <input className='input_dashboard_page' type="text" name='Name' value={nameValue} onChange={handleChange} />
-            </div>
-            <div className={`${makeSearchBarVisible}`}>
-                {driverSearchArray}
-            </div>
-        </div>
-        <div className='dashboard_form_divs'>
-            <div>
-                <label className='dashboard_labels'>Route Type</label>
-            </div>
-                <input className='input_dashboard_page' type="text" name='RouteType' />
-        </div>
-        <div className='dashboard_form_divs'>
-            <div>
-                <label className='dashboard_labels'>Wave Time </label>
-            </div>
-                <input className='input_dashboard_page' type="text" name='LogInTime' />
-        </div>
-        <div className='dashboard_form_divs'>
-            <div>
-                <label className='dashboard_labels'>Log Out Time </label>
-            </div>
-                <input className='input_dashboard_page' type="text" name='LogOutTime' />
-        </div>
-        <div className='dashboard_form_divs'>
-            <div>
-                <label className='dashboard_labels'>Start Mileage </label>
-            </div>
-                <input className='input_dashboard_page' type="text" name='StartMileage' />
-        </div>
-        <div className='dashboard_form_divs'>
-            <div>
-                <label className='dashboard_labels'>Finish Mileage </label>
-            </div>
-                <input className='input_dashboard_page' type="text" name='FinishMileage' />
-        </div>
-        <div className='dashboard_form_divs'>
-            <div>
-                <label className='dashboard_labels'>Vehicle Type </label>
-            </div>
-                <input className='input_dashboard_page' type="text" name='VehicleType' />
-        </div>         
-        <div className='dashboard_form_divs'>    
-            <div>
-                <label className='dashboard_labels'>Route No. </label>
-            </div>
-                <input className='input_dashboard_page' type="text" name='Route' />
-        </div>
-        <div className='dashboard_form_divs'>    
-            <div>
-            </div><label className='dashboard_labels'>Location </label>
-            <Dropdown 
-                options={options} 
-                onChange={onSelect} 
-                value={selectedCityAbbrev} 
-                placeholder="Select an option" 
-                className='drop_down_bar_dashboard'
+// calendar change function
+const onChangeDate = (e) => {
+    console.log(e)
+    setSelectedDate(e)
+    setTriangleToggle('triangle_dashboard_page')
+}
+
+// calendar
+var onClickVar
+
+//  toggle triangle
+const handleTogleTriangle = () => {
+    triangleToggle === 'triangle_dashboard_page_down' ? setTriangleToggle('triangle_dashboard_page') : setTriangleToggle('triangle_dashboard_page_down')
+}
+
+// make calendar and reset triangle
+if (triangleToggle === 'triangle_dashboard_page_down') {
+    onClickVar = (
+        <div className='shadow_calendar_class_two'>
+            <Calendar 
+                onChange={onChangeDate}
+                value={selectedDate}
+                className='calender_modification'
             />
         </div>
-        <div className='dashboard_form_divs'>    
-            <div>
-                <label className='dashboard_labels'>No. Parcels Delivered </label>
+    )
+}
+
+// clock and calendar
+var clockAndCalendar
+clockAndCalendar = (
+    <div className='clock_and_calendar'>
+        <h3 className='nav_current_date'>{dayArray[currentDate.getDay()]} {currentDate.getDate()} {monthArray[currentDate.getMonth()]} {currentDate.getFullYear()}
+            {<br />}
+            Week: {currentDate.getWeek()}
+            {<br />}
+            {currentDate.toLocaleTimeString()}
+        </h3>
+        <h3 className='calendar_date_picker_dashboard'>
+            <div className='shadow_calendar_class'>
+                Date Selected: {' '}{dayArray[selectedDate.getDay()]} {selectedDate.getDate()} {monthArray[selectedDate.getMonth()]} {selectedDate.getFullYear()}
+                <span onClick={handleTogleTriangle}><img src={triangle} alt="triangle" className={triangleToggle}/></span>
+                {onClickVar}
             </div>
-                <input className='input_dashboard_page' type="text" name='NoParcelsDelivered' />
-        </div>
-        <div className='dashboard_form_divs'>    
-            <div>
-                <label className='dashboard_labels'>Parcels not Delivered </label>
-            </div>
-                <input className='input_dashboard_page' type="text" name='NoParcelsBroughtBack' />
-        </div>
-        <div className='dashboard_form_divs'>    
-            <div>
-                <label className='dashboard_labels'>Vehicle Registration </label>
-            </div>
-                <input className='input_dashboard_page' type="text" name='OwnerVehicleRegistration' />
-        </div>
+        </h3>
     </div>
-        <div className="button_daily_service" onClick={handleSubmit}>
-            <h3 className='remove_h3_padding'>Submit</h3>  
-        </div>  
-</form>
 )
 
     return (
@@ -590,12 +332,16 @@ formMaker = (
                     </ol>
                 </nav>
                 {routesBox}
+                {clockAndCalendar}
                 <div className='top_rectangles_container'>
                     {topRectangles}
                 </div>    
-                {listComponents(todaysRoutes)}
+                {listOfRoutes}
                 <hr />
-                {selectedModification ? myForm : formMaker}
+                <DashboardForm 
+                    otherSelection={selectedModification}
+                    data={data}
+                />
                 <div className='dashboard_form_divs_comments'>    
                     <div>
                         <label className='dashboard_labels_dashboard'>Comments </label>
