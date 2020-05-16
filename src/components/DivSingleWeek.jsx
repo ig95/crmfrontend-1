@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 import React, {useEffect, useState} from 'react'
 import spinner from '../images/spinner.svg'
 
@@ -34,7 +35,7 @@ const DivSingleWeek = (props) => {
         })
         setSelectedResponse(props.selectedCity)
 
-    }, [getData])
+    }, [getData, props.selectedCity])
 
     // making the rows
     useEffect( () => {
@@ -85,8 +86,9 @@ const DivSingleWeek = (props) => {
                 for (let i = 0; i < amount; i++) {
 
                     // check each date for each driver sum them
-                    data.data.drivers.forEach( (ele, id) => {
-                        ele.datesArray.forEach( (date, id) => {
+                    // eslint-disable-next-line no-loop-func
+                    data.data.drivers.forEach( (ele) => {
+                        ele.datesArray.forEach( (date) => {
                             if (date.date === checkForDate[i]) {
                                 console.log('hello there')
                                 localArray[i] = localArray[i] + 1
@@ -99,6 +101,30 @@ const DivSingleWeek = (props) => {
             }
             return lastWeekDivsArray
         }
+
+    // get sundays
+    const getSundays = () => {
+        let bookingOptions = []
+        let optionsArray = [
+            'IN',
+            'CT',
+            'RT',
+            'Holiday'
+        ]
+        optionsArray.forEach( ele => {
+            bookingOptions.push(
+                <li className="menu-item" id='sub_menu_options' >
+                    <a href="#0" id='dropdown_text_rota'>
+                        {ele}
+                    </a>
+                </li>
+            )
+        })
+        return bookingOptions
+    }
+
+    // dropdown menu options
+    const optionsThree = getSundays()
 
         var middleRows
         // middle row mapped divs
@@ -117,51 +143,59 @@ const DivSingleWeek = (props) => {
                         )  
                         for (let i = 0; i < amount; i++) {
                             localArray.push(
-                                // eslint-disable-next-line no-loop-func
-                                <div key={Math.random()} className={`${calenderDivsInner}`} onClick={(e) => handleClick(e, checkForDate[i], ele.name, ele.datesArray, ele.driver_id, ele.location)}>
-                                    <h4 className='inner_calander_text'>
-                                        OFF
-                                    </h4>
-                                </div>  
+                                <nav className="menu_rota">
+                                    <ol>
+                                        <li className="menu-item"><a href="#0" id='menu_rota_a' >OFF</a>
+                                            <ol className="sub-menu" onClick={(e) => handleClick(e, checkForDate[i], ele.driver_id, ele.location)}>
+                                                {optionsThree}
+                                            </ol>
+                                        </li>
+                                    </ol>
+                                </nav>
                             )  
                         }
                         // eslint-disable-next-line no-loop-func
                         ele.datesArray.forEach( (dateEle) => {
                             if (checkForDate.includes(dateEle.date)) {
                                 let colorChange
+                                // eslint-disable-next-line default-case
                                 switch (dateEle.location) {
                                     case 'DEX2':
-                                        colorChange = 'color_change_blue' 
+                                        colorChange = 'menu_rota_in' 
                                         break;
                                     case 'DSN1':
-                                        colorChange = 'color_change_yellow' 
+                                        colorChange = 'menu_rota_in' 
                                         break;
                                     case `DBS2`:
-                                        colorChange = 'color_change'
+                                        colorChange = 'menu_rota_in'
                                         break;
                                     case 'MFN':
-                                        colorChange = 'color_change_purple'  
+                                        colorChange = 'menu_rota_purple'  
                                         break; 
                                     case 'CT':
-                                        colorChange = 'color_change_purple'  
+                                        colorChange = 'menu_rota_purple'  
                                         break; 
                                     case 'RT':
-                                        colorChange = 'color_change_purple'  
+                                        colorChange = 'menu_rota_purple'  
+                                        break; 
+                                    case 'Holiday':
+                                        colorChange = 'menu_rota_holiday'  
                                         break; 
                                 }
-                                localArray[checkForDate.indexOf(dateEle.date)+1] = ( 
-                                    <div  className={`${calenderDivsInnerBooked}`} key={Math.random()} >
-                                        <div className={`${colorChange}`}>
-                                            <h3 className='inner_calander_text'>
-                                                {dateEle.location === props.selectedCity ? 'IN' : dateEle.location}
-                                            </h3>
-                                        </div>
-                                    </div>
+                                localArray[checkForDate.indexOf(dateEle.date)+1] = (
+                                    <nav className={colorChange}>
+                                        <ol>
+                                            <li className="menu-item"><a href="#0" id='menu_rota_a'>{dateEle.location === props.selectedCity ? 'IN' : dateEle.location}</a>
+                                                <ol className="sub-menu" >
+                                                    {optionsThree}
+                                                </ol>
+                                            </li>
+                                        </ol>
+                                    </nav>
                                 )
                             }
                         })
                         mappedProps.push(localArray)
-                
                     }
                 })
                 return mappedProps
@@ -216,57 +250,24 @@ const DivSingleWeek = (props) => {
             })
         }
         
-        function handleSelectCity(e, city, dateSelection, nameSelection, dateList, id, location) {
-            e.preventDefault()
-            setSelectedResponse(city)
-            setMiddleRow(makeForm(city, dateSelection, nameSelection, dateList, id, location))
-        }
-
-        // render the form div
-        const makeForm = (city, dateSelection, nameSelection, dateList, id, location) => {
-            let theCity
-            city ? theCity = city : theCity = selectedResponse
-            const handleSubmit = (e) => { 
-                e.preventDefault()
-                let station = theCity
-                handleSubmitButton(dateSelection, id, station)
-            } 
-            return (
-                <div className='inner_calender_form'>
-                    <div className='inner_form_div'>
-                        <form onSubmit={handleSubmit} autoComplete='on'>
-                            <h3>Name: {nameSelection}</h3>
-                            <h3>Date: {dateSelection}</h3>
-                            <nav className="menu">
-                                <ol>
-                                    <li className="menu-item"><a href="#0">{theCity}</a>
-                                        <ol className="sub-menu">
-                                            <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2', dateSelection, nameSelection, dateList, id, location)}><a href="#0">DBS2</a></li>
-                                            <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1', dateSelection, nameSelection, dateList, id, location)}><a href="#0">DSN1</a></li>
-                                            <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2', dateSelection, nameSelection, dateList, id, location)}><a href="#0">DEX2</a></li>
-                                            <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'CT', dateSelection, nameSelection, dateList, id, location)}><a href="#0">CT</a></li>
-                                            <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'MFN', dateSelection, nameSelection, dateList, id, location)}><a href="#0">MFN</a></li>
-                                        </ol>
-                                    </li>
-                                </ol>
-                            </nav>
-                            <input type='submit' className='form_button' value='Add Work' />
-                        </form>
-                    </div>
-                </div>
-            )
-        }
-
         // when click on a date to book
-        const handleClick = (e, weekDaySelected, theName, datesList, id, location) => {
+        const handleClick = (e, weekDaySelected, id, location) => {
             e.preventDefault()
-            setMiddleRow(makeForm(null, weekDaySelected, theName, datesList, id, location))
+            console.log(e.target.text)
+            let locationvar
+            if (e.target.text === 'IN') {
+                locationvar = props.selectedCity
+            } else {
+                locationvar = e.target.text
+            }
+            handleSubmitButton(weekDaySelected, id, locationvar)
+            // setMiddleRow(makeForm(null, weekDaySelected, theName, datesList, id, location))
         }
 
         setTopRow(thisWeekDivs())
         setMiddleRow(middleRows())
         setBottomRow(bottomDivs())
-    }, [props.selectedDate, data, props, getData, calenderDivs, calenderDivsInner, calenderDivsInnerBooked])
+    }, [props.selectedDate, data, props, getData, calenderDivs, calenderDivsInner, calenderDivsInnerBooked, selectedResponse])
 
     return (
         <div className='single_week_grid'>
@@ -286,4 +287,47 @@ const DivSingleWeek = (props) => {
 export default DivSingleWeek
 
 
+
+
+
+        // function handleSelectCity(e, city, dateSelection, nameSelection, dateList, id, location) {
+        //     e.preventDefault()
+        //     setSelectedResponse(city)
+        //     setMiddleRow(makeForm(city, dateSelection, nameSelection, dateList, id, location))
+        // }
+
+        // // render the form div
+        // const makeForm = (city, dateSelection, nameSelection, dateList, id, location) => {
+        //     let theCity
+        //     city ? theCity = city : theCity = selectedResponse
+        //     const handleSubmit = (e) => { 
+        //         e.preventDefault()
+        //         let station = theCity
+        //         handleSubmitButton(dateSelection, id, station)
+        //     } 
+        //     return (
+        //         <div className='inner_calender_form'>
+        //             <div className='inner_form_div'>
+        //                 <form onSubmit={handleSubmit} autoComplete='on'>
+        //                     <h3>Name: {nameSelection}</h3>
+        //                     <h3>Date: {dateSelection}</h3>
+        //                     <nav className="menu">
+        //                         <ol>
+        //                             <li className="menu-item"><a href="#0">{theCity}</a>
+        //                                 <ol className="sub-menu">
+        //                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2', dateSelection, nameSelection, dateList, id, location)}><a href="#0">DBS2</a></li>
+        //                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1', dateSelection, nameSelection, dateList, id, location)}><a href="#0">DSN1</a></li>
+        //                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2', dateSelection, nameSelection, dateList, id, location)}><a href="#0">DEX2</a></li>
+        //                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'CT', dateSelection, nameSelection, dateList, id, location)}><a href="#0">CT</a></li>
+        //                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'MFN', dateSelection, nameSelection, dateList, id, location)}><a href="#0">MFN</a></li>
+        //                                 </ol>
+        //                             </li>
+        //                         </ol>
+        //                     </nav>
+        //                     <input type='submit' className='form_button' value='Add Work' />
+        //                 </form>
+        //             </div>
+        //         </div>
+        //     )
+        // }
 

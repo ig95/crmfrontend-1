@@ -9,6 +9,13 @@ const WeekSchedule = () => {
     const [ selectedAmount, setSelectedAmount ] = useState('14')
     const [ selectedSunday, setSelectedSunday ] = useState('14')
     const [ mathSunday, setMathSunday ] = useState('14')
+    const [ varForMapping, setVarForMapping ] = useState('DBS2')
+
+    // eslint-disable-next-line no-extend-native
+    Date.prototype.getWeek = function () {
+        var firstDate = new Date(this.getFullYear(), 0, 1)
+        return Math.ceil((((new Date(this.getFullYear(), this.getMonth(), this.getDate()) - firstDate) / 86400000) + firstDate.getDay() + 1) / 7)
+    }
 
     // dev data ... note to self... the following component only accepts format day:date
     // call this location rota, make it color coded by deopt, and trianing different color - 14 days
@@ -40,13 +47,15 @@ const WeekSchedule = () => {
         while (myDate.getDay() > 0) {
             myDate.setDate(myDate.getDate() - 1)
         }
-        setSelectedSunday(myDate.toDateString())
+        setSelectedSunday(`${myDate.toDateString()} | Week: ${myDate.getWeek()}`)
+        setVarForMapping(myDate.toDateString())
         setMathSunday(myDate.toDateString())
     }, [])
 
     // set city
-    const handleSelectSunday = (e, city) => {
+    const handleSelectSunday = (e, city, pick) => {
         setSelectedSunday(city)
+        setVarForMapping(pick)
     }
 
     // get sundays
@@ -57,7 +66,7 @@ const WeekSchedule = () => {
             let dateInner = new Date(currentDate.getFullYear(), currentDate.getMonth(), i)
             if (dateInner.getDay() === 0) {
                 sundays.push(
-                    <li className="menu-item" onClick={(e, city) => handleSelectSunday(e, `${dateInner.toDateString()}`)}><a href="#0">{dateInner.toDateString()}</a></li>
+                    <li className="menu-item" onClick={(e, city) => handleSelectSunday(e, `${dateInner.toDateString()} | Week: ${dateInner.getWeek()}`, `${dateInner.toDateString()}`)}><a href="#0">{dateInner.toDateString()} | Week: {dateInner.getWeek()}</a></li>
                     )
             }
         }
@@ -119,7 +128,7 @@ const WeekSchedule = () => {
                         <DivSingleWeek 
                             drivers={drivers} 
                             schedule={schedule}
-                            selectedDate={selectedSunday}
+                            selectedDate={varForMapping}
                             divAmount={selectedAmount}
                             selectedCity={selectedCity ? selectedCity : 'DBS2'}
                         />

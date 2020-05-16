@@ -12,6 +12,88 @@
   $transparent-white: rgba(255, 255, 255, 0.15);
   $greyBoxBackground: #202020;
   $greyBoxContrast: rgb(195, 205, 211);
+  $offRotaColor: #F4666B;
+
+
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+  ::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: rgb(35, 47, 62);
+      box-shadow: 0 0 1px rgba(35, 47, 62, 0.329);
+      -webkit-box-shadow: 0 0 1px rgba(35, 47, 62, 0.329);
+  }
+
+  %centerThings {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  %calendar_divs_class {
+    border: 1px solid black;
+    flex: 1 0 14%;
+    height: 10vh;
+    width: 4vw;
+    margin-bottom: 5px;
+    background-color: white;
+    color: black;
+    z-index: 0;
+    @extend %remove_link;
+    font-family: $ubuntu_font;
+  }
+
+  %remove_link {
+    text-decoration: none;
+  }
+
+  %input_bars {
+    border-radius: .25rem;
+    border: 1px solid $amazon_blue;
+    width: 15vw;
+    height: 2.5vh;
+    padding: 5px;
+    font-family: $ubuntu_font;
+    font-size: 1.2em;
+  }
+
+  %input_bars:hover {
+    border: 1px solid rgb(113, 113, 185);
+  }
+
+  %label_text {
+    font-size: 1.3em;
+    margin: 2vh 0 .5vh 0;
+  }
+
+  %buttons {
+    background-color: $amazon_blue;
+    margin-top: 1vh;
+    border: none;
+    color: $offWhite;
+    width: 8vw;
+    height: 4vh;
+    border-radius: .25rem;
+  }
+
+  %buttons:hover {
+    background-color: $amazon_blue_hover;
+    transform: translateY(-.15vh);
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: $offWhite;
+    overflow: hidden;
+  }
 
   /*********************** DROPDOWN BAR EFFECTS *****************************************/
 
@@ -564,6 +646,479 @@
 	}
 }
 
+// .cal_divs_single_first {
+//   @extend %calendar_divs_class;
+//   min-width: 10vw;
+//   flex: 1 0 5%;
+//   height: 5vh;
+//   margin-bottom: 5px;
+//   background-color: $calendar_top_background;
+//   color: $amazon_blue;
+//   display: flex;
+//   align-items: center;
+// }
+// rota
+
+#menu_rota_a {
+  width: 4vw;
+  color: black;
+}
+
+#sub_menu_options {
+  background-color: white;
+}
+
+#sub_menu_options:hover {
+  background-color: rgb(194, 194, 194);
+}
+
+#dropdown_text_rota {
+  color: black;
+}
+
+.menu_rota {
+  height: 5vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 6%;
+	ol {
+    list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+    
+		&:first-child {
+      align-items: center;
+      background-color:  $offRotaColor;
+		}
+	}
+  
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+.menu_rota:hover {
+  z-index: 1;
+}
+
+// in version
+.menu_rota_in {
+  height: 5vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 6%;
+	ol {
+    list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+    
+		&:first-child {
+      align-items: center;
+      background-color:  #A5FFBE;
+		}
+	}
+  
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: rgb(131, 113, 113);
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: black;
+			text-decoration: none;
+		}
+	}
+}
+.menu_rota_in:hover {
+  z-index: 1;
+}
+
+// ct rt and mfn
+.menu_rota_purple {
+  height: 5vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 6%;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+
+		&:first-child {
+			align-items: center;
+      background-color:  #BE9ADB;
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+.menu_rota_purple:hover {
+  z-index: 1;
+}
+
+//holiday version
+.menu_rota_holiday {
+  height: 5vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 6%;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+
+		&:first-child {
+			align-items: center;
+      box-shadow: 0px 3px 8px $transparent-gray;
+      background-color:  rgb(122, 211, 255);
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+.menu_rota_holiday:hover {
+  z-index: 1;
+}
+
 
   /*********************** BUTTON EFFECT *****************************************/
 
@@ -911,86 +1466,6 @@
 
 
   /*********************** BUTTON ENTRANCE EFFECT *****************************************/
-
-  
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-  }
-  ::-webkit-scrollbar-thumb {
-      border-radius: 4px;
-      background-color: rgb(35, 47, 62);
-      box-shadow: 0 0 1px rgba(35, 47, 62, 0.329);
-      -webkit-box-shadow: 0 0 1px rgba(35, 47, 62, 0.329);
-  }
-
-  %centerThings {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  %calendar_divs_class {
-    border: 1px solid black;
-    flex: 1 0 14%;
-    height: 10vh;
-    width: 4vw;
-    margin-bottom: 5px;
-    background-color: white;
-    color: black;
-    z-index: 0;
-    @extend %remove_link;
-    font-family: $ubuntu_font;
-  }
-
-  %remove_link {
-    text-decoration: none;
-  }
-
-  %input_bars {
-    border-radius: .25rem;
-    border: 1px solid $amazon_blue;
-    width: 15vw;
-    height: 2.5vh;
-    padding: 5px;
-    font-family: $ubuntu_font;
-    font-size: 1.2em;
-  }
-
-  %input_bars:hover {
-    border: 1px solid rgb(113, 113, 185);
-  }
-
-  %label_text {
-    font-size: 1.3em;
-    margin: 2vh 0 .5vh 0;
-  }
-
-  %buttons {
-    background-color: $amazon_blue;
-    margin-top: 1vh;
-    border: none;
-    color: $offWhite;
-    width: 8vw;
-    height: 4vh;
-    border-radius: .25rem;
-  }
-
-  %buttons:hover {
-    background-color: $amazon_blue_hover;
-    transform: translateY(-.15vh);
-  }
-
-  h1 {
-    text-align: center;
-  }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    background-color: $offWhite;
-    overflow: hidden;
-  }
 
   /****************************************  SVG WAVES ************************************************************/
 
