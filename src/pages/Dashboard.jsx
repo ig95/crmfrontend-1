@@ -34,6 +34,29 @@ const Dashboard = (props) => {
     }
 
     useEffect( () => {
+        async function getDataNext(url = '') {
+            const response = await fetch(url, {
+                method: 'GET', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            });
+            return response ? response.json() : console.log('no reponse')
+          };
+      
+          getDataNext('https://pythonicbackend.herokuapp.com/drivers/').then( (response) => {
+            setDrivers(response.results)
+            getDataNext('https://pythonicbackend.herokuapp.com/schedule/').then( (response) => {
+              setSchedule(response.results)
+            })
+          })
+    }, [])
+
+    useEffect( () => {
         async function getData(url = '') {
             const response = await fetch(url, {
                 method: 'GET', 
@@ -71,7 +94,11 @@ const Dashboard = (props) => {
 
     }, [selectedCitySort, selectedDate])
 
-    const listComponents = (theRoutes) => {
+    const listComponents = (theRoutes, sortingValue=null) => {
+        if (sortingValue) {
+            console.log(sortingValue)
+        }
+
         let quicksort = (arr, min, max) => {
             // set the quicksort pointer to the first element in the array
             if (min === undefined) {
@@ -139,53 +166,16 @@ const Dashboard = (props) => {
             ele.datesArray.forEach( element => {
                 if (new Date(element.date).toDateString() === new Date().toDateString()) {
                     localArrayTwo.push(
-                        <div className='list_overall_flex_dashboard'>
-                            <div className='elements_in_list_dashboard_names'>
-                                <div className='list_spacer_content'>
-                                    <h4 className='remove_h3_padding'>{ele.location}</h4>
-                                </div>
-                                <div className='list_spacer_content'>
-                                    <h4 className='remove_h3_padding'>{ele.name}</h4>
-                                </div>
-                                <div className='list_spacer_content'>
-                                    <h4 className='remove_h3_padding'>{element.route}</h4>
-                                </div>
-                                <div className='list_spacer_content'>
-                                    <h4 className='remove_h3_padding'>{element.location}</h4>
-                                </div>
-                                <div className='list_spacer_content'>
-                                    <h4 className='remove_h3_padding'>{element.logIn_time}</h4>
-                                </div>
-                                <div className='list_spacer_content'>
-                                    <h4 className='remove_h3_padding'>{element.logOut_time}</h4>
-                                </div>
-                                <div className='list_spacer_content'>
-                                    <h4 className='remove_h3_padding'>{element.timeDifference[0]}</h4>
-                                </div>
-                                <div className='list_spacer_content'>
-                                    <h4 className='remove_h3_padding'>--</h4>
-                                </div>
-                                <div className='list_spacer_content'>
-                                    <h4 className='remove_h3_padding'>--</h4>
-                                </div>
-                                <div className='list_spacer_content'>
-                                    <h4 className='remove_h3_padding'>{element.deductions}</h4>
-                                </div>
-                                <div className='list_spacer_content'>
-                                    <h4 className='remove_h3_padding'>{element.support}</h4>
-                                </div>
-                            </div>
-                            <button className='modify_button' onClick={(e, elements) => onClick(e, element)}>
-                                <h4>Modify</h4>
-                            </button>
-                            <button className='modify_button_delete'>
-                                <h4>x</h4>
-                            </button>
-                        </div>
+                        {
+                            driver: ele,
+                            date: element 
+                        }
                     )
                 }
             })
         })
+
+        let localArrayThree = []
         if (localArrayTwo.length === 0) {
             localArrayTwo.push(
                 <div className='list_overall_flex_dashboard'>
@@ -194,8 +184,56 @@ const Dashboard = (props) => {
                     </h3>
                 </div>
             )
-        }
-        listOfRoutes = localArrayTwo
+        } else (
+            localArrayTwo.forEach( ele => {
+                localArrayThree.push(
+                    <div className='list_overall_flex_dashboard'>
+                    <div className='elements_in_list_dashboard_names'>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>{ele.driver.location}</h4>
+                        </div>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>{ele.driver.name}</h4>
+                        </div>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>{ele.date.route}</h4>
+                        </div>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>{ele.date.location}</h4>
+                        </div>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>{ele.date.logIn_time}</h4>
+                        </div>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>{ele.date.logOut_time}</h4>
+                        </div>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>{ele.date.timeDifference[0]}</h4>
+                        </div>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>--</h4>
+                        </div>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>--</h4>
+                        </div>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>{ele.date.deductions}</h4>
+                        </div>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>{ele.date.support}</h4>
+                        </div>
+                    </div>
+                    <button className='modify_button' onClick={(e, elements) => onClick(e, ele.date)}>
+                        <h4>Modify</h4>
+                    </button>
+                    <button className='modify_button_delete'>
+                        <h4>x</h4>
+                    </button>
+                </div>
+                )
+            })
+        )
+        listOfRoutes = localArrayThree
         return (
             <>
                 {listOfRoutes}
@@ -203,13 +241,17 @@ const Dashboard = (props) => {
         )
     }
 
+    const handleSorting = (e, targetBox) => {
+        listComponents(todaysRoutes, targetBox)
+    }
+
     useEffect( () => {
         let localArray = []
         let labelArray =[`${selectedCity}`, 'Da Name', 'Route No', 'Route', 'Log In', 'Log Out', 'TORH', 'Start Mileage', 'Finish Mileage', 'Late Wave Payment', 'Support', 'Deduction', 'Fuel Card Change']
         for (let i = 0; i < 11; i++) {
             localArray.push(
-                <div className='dashboard_top_rectangles'>
-                    <h4 className='remove_h3_padding'>{labelArray[i]}</h4>   
+                <div className='dashboard_top_rectangles' onClick={(e, targetValue) => handleSorting(e, labelArray[i])}>
+                    <h4 className='remove_h3_padding' >{labelArray[i]}</h4>   
                 </div>
             )
         }
@@ -341,6 +383,8 @@ clockAndCalendar = (
                 <DashboardForm 
                     otherSelection={selectedModification}
                     data={data}
+                    drivers={drivers}
+                    dates={schedule}
                 />
                 <div className='dashboard_form_divs_comments'>    
                     <div>

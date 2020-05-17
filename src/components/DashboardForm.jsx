@@ -23,6 +23,7 @@ const DashboardForm = (props) => {
     const [ routeNumber, setRouteNumber ] = useState('')
     const [ parcelsDelivered, setParcelsDelivered ] = useState('')
     const [ vehicleRegistaration, setVehicleRegistaration ] = useState('')
+    const [ logInTime, setLogInTime ] = useState('')
     
     // list for routes
     const onSelectTwo = (e) => {
@@ -75,7 +76,7 @@ const DashboardForm = (props) => {
         let myObjectToPut = () => {
             console.log('object being made')
             let myObj = {}
-                e.target.Name.value ? myObj['name'] = {nameValue} : console.log(null)
+                nameValue ? myObj['name'] = {nameValue} : console.log(null)
                 selectedRouteType ? myObj['route'] = selectedRouteType : console.log(null)
                 e.target.LogInTime.value ? myObj['logIn_time'] = e.target.LogInTime.value : console.log(null)
                 e.target.LogOutTime.value ? myObj['logOut_time'] = e.target.LogOutTime.value : console.log(null) 
@@ -105,16 +106,14 @@ const DashboardForm = (props) => {
         let localDriverId = 0
         let localID = 0
         let driverID = ''
-        let mileage = e.target.FinishMileage.value - e.target.StartMileage.value
-        props.data.drivers.forEach( (ele, id) => {
-            if (ele.name === e.target.Name.value) {
+        props.drivers.forEach( (ele, id) => {
+            if (ele.name === nameState) {
                 localDriverId = ele.driver_id
             }
         })
         if (localDriverId > 0) {
-            props.data.dates.forEach( (ele, id) => {
-                if (ele.driver_id === `https://pythonicbackend.herokuapp.com/drivers/${localDriverId}/` && ele.date === dateSelected) {
-                    console.log('inside tis if')
+            props.dates.forEach( (ele, id) => {
+                if (ele.driver_id === `https://pythonicbackend.herokuapp.com/drivers/${localDriverId}/` && ele.date === props.otherSelection.date) {
                     driverID = ele.driver_id
                     localID = ele.date_id
                 }
@@ -136,17 +135,27 @@ const DashboardForm = (props) => {
 
             return response ? response.json() : console.log('no reponse')
         };
+        let logInLocal = logInTime.slice(0, 4)
+        let logOutLocal = logOutTime.slice(0, 4)
+        console.log(logInTime, logInLocal)
+        console.log(logOutTime, logOutLocal)
+
         let myObjectToPut = () => {
-            console.log('object being made')
-            let myObj = {}
-                e.target.Name.value ? myObj['name'] = {nameValue} : console.log(null)
-                selectedRouteType ? myObj['route'] = selectedRouteType : console.log(null)
-                e.target.LogInTime.value ? myObj['logIn_time'] = e.target.LogInTime.value : console.log(null)
-                e.target.LogOutTime.value ? myObj['logOut_time'] = e.target.LogOutTime.value : console.log(null) 
-                selectedCity ? myObj['location'] = myObj['location'] = selectedCity : console.log(null) 
-                mileage ? myObj['mileage'] = mileage : console.log(null) 
-                e.target.NoParcelsDelivered.value ? myObj['parcels'] = e.target.NoParcelsDelivered.value : console.log(null)
-                myObj['driver_id'] = driverID
+            let myObj = {
+                name: nameState,
+                start_mileage: startMileage,
+                route: selectedRouteType,
+                logOut_time: logOutLocal,
+                logIn_time: logInLocal,
+                finish_mileage: finishMileage,
+                LateWavePayment: waveTime,
+                location: selectedCityAbbrev,
+                parcel: parcelsDelivered,
+                parcelNotDelivered: parcelsNotDelivered,
+                driver_id: driverID
+            }
+            console.log(myObj)
+
             return (
                 myObj
             )
@@ -154,10 +163,10 @@ const DashboardForm = (props) => {
         if (localID > 0) {
             postData(`https://pythonicbackend.herokuapp.com/schedule/${localID}/`, myObjectToPut())
             .then( response => {
+                console.log(response)
                 let localArray = []
                 submittedArray.length > 0 ? localArray = [...submittedArray] : localArray = []
                 localArray.push(response)
-                console.log('submitted')
             })
         }
     }
@@ -217,7 +226,7 @@ const DashboardForm = (props) => {
             console.log(props.otherSelection)
             setOtherSelection(props.otherSelection)
             setNameState(props.otherSelection.driver_id)
-            setWaveTime(props.otherSelection.logIn_time)
+            setWaveTime('0')
             setStartMileage('0')
             setVehicleType('Not Owned')
             setParcelsNotDelivered(props.otherSelection.parcel)
@@ -226,15 +235,15 @@ const DashboardForm = (props) => {
             setRouteNumber(props.otherSelection.route)
             setParcelsDelivered(props.otherSelection.parcel)
             setVehicleRegistaration('0')
+            setLogInTime(props.otherSelection.logIn_time)
         }
-    }, [props])
+    }, [props.otherSelection])
 
     // handle the input changes
     const handleChangeInputs = (e) => {
-        console.log(e.target.value)
         let x = 0
         e.target.name === 'Name' ? setNameState(e.target.value) : x = x + 1
-        e.target.name === 'LogInTime' ? setWaveTime(e.target.value) : x = x + 1
+        e.target.name === 'waveTime' ? setWaveTime(e.target.value) : x = x + 1
         e.target.name === 'LogOutTime' ? setLogOutTime(e.target.value) : x = x + 1
         e.target.name === 'StartMileage' ? setStartMileage(e.target.value) : x = x + 1
         e.target.name === 'FinishMileage' ? setFinishMileage(e.target.value) : x = x + 1
@@ -243,6 +252,7 @@ const DashboardForm = (props) => {
         e.target.name === 'ParcelsDelivered' ? setParcelsDelivered(e.target.value) : x = x + 1
         e.target.name === 'ParcelsNotDelivered' ? setParcelsNotDelivered(e.target.value) : x = x + 1
         e.target.name === 'vehicleRegistaration' ? setVehicleRegistaration(e.target.value) : x = x + 1
+        e.target.name === 'LogInTime' ? setLogInTime(e.target.value) : x = x + 1
     }
 
     var myForm
@@ -270,15 +280,21 @@ const DashboardForm = (props) => {
                     </div>
                     <div className='dashboard_form_divs'>
                         <div>
-                            <label className='dashboard_labels'>Wave Time </label>
+                            <label className='dashboard_labels'>Wave Payment </label>
                         </div>
-                            <input className='input_dashboard_page' type="text" name='LogInTime' value={waveTime} onChange={handleChangeInputs}/>
+                            <input className='input_dashboard_page' type="text" name='waveTime' value={waveTime} onChange={handleChangeInputs} required/>
                     </div>
                     <div className='dashboard_form_divs'>
                         <div>
                             <label className='dashboard_labels'>Log Out Time </label>
                         </div>
-                            <input className='input_dashboard_page' type="text" name='LogOutTime' value={logOutTime} onChange={handleChangeInputs}/>
+                            <input className='input_dashboard_page' type="time" name='LogOutTime' value={logOutTime} onChange={handleChangeInputs} required/>
+                    </div>
+                    <div className='dashboard_form_divs'>
+                        <div>
+                            <label className='dashboard_labels'>Log In Time </label>
+                        </div>
+                            <input className='input_dashboard_page' type="time" name='LogInTime' value={logInTime} onChange={handleChangeInputs} required/>
                     </div>
                     <div className='dashboard_form_divs'>
                         <div>
@@ -327,14 +343,8 @@ const DashboardForm = (props) => {
                         </div>
                             <input className='input_dashboard_page' type="text" name='ParcelsNotDelivered' value={parcelsNotDelivered} onChange={handleChangeInputs}/>
                     </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Vehicle Registration </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='vehicleRegistaration' value={vehicleRegistaration} onChange={handleChangeInputs}/>
-                    </div>
                 </div>
-                <div className="button_daily_service" onClick={handleSubmit}>
+                <div className="button_daily_service" onClick={handleSubmitState}>
                     <h3 className='remove_h3_padding'>Submit</h3>  
                 </div>  
             </form>
@@ -368,27 +378,33 @@ const DashboardForm = (props) => {
                     </div>
                     <div className='dashboard_form_divs'>
                         <div>
-                            <label className='dashboard_labels'>Wave Time </label>
+                            <label className='dashboard_labels'>Wave Payment </label>
                         </div>
-                            <input className='input_dashboard_page' type="text" name='LogInTime' />
+                            <input className='input_dashboard_page' type="text" name='waveTime' />
                     </div>
                     <div className='dashboard_form_divs'>
                         <div>
                             <label className='dashboard_labels'>Log Out Time </label>
                         </div>
-                            <input className='input_dashboard_page' type="text" name='LogOutTime' />
+                            <input className='input_dashboard_page' type="time" name='LogOutTime' />
+                    </div>
+                    <div className='dashboard_form_divs'>
+                        <div>
+                            <label className='dashboard_labels'>Log In Time </label>
+                        </div>
+                            <input className='input_dashboard_page' type="time" name='LogInTime' />
                     </div>
                     <div className='dashboard_form_divs'>
                         <div>
                             <label className='dashboard_labels'>Start Mileage </label>
                         </div>
-                            <input className='input_dashboard_page' type="text" name='StartMileage' />
+                            <input className='input_dashboard_page' type="number" name='StartMileage' defaultValue='0'/>
                     </div>
                     <div className='dashboard_form_divs'>
                         <div>
                             <label className='dashboard_labels'>Finish Mileage </label>
                         </div>
-                            <input className='input_dashboard_page' type="text" name='FinishMileage' />
+                            <input className='input_dashboard_page' type="number" name='FinishMileage' />
                     </div>
                     <div className='dashboard_form_divs'>
                         <div>
@@ -417,19 +433,13 @@ const DashboardForm = (props) => {
                         <div>
                             <label className='dashboard_labels'>No. Parcels Delivered </label>
                         </div>
-                            <input className='input_dashboard_page' type="text" name='NoParcelsDelivered' />
+                            <input className='input_dashboard_page' type="number" name='NoParcelsDelivered' />
                     </div>
                     <div className='dashboard_form_divs'>    
                         <div>
                             <label className='dashboard_labels'>Parcels not Delivered </label>
                         </div>
-                            <input className='input_dashboard_page' type="text" name='NoParcelsBroughtBack' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Vehicle Registration </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='OwnerVehicleRegistration' />
+                            <input className='input_dashboard_page' type="number" name='NoParcelsBroughtBack'/>
                     </div>
                 </div>
                 <div className="button_daily_service" onClick={handleSubmit}>
