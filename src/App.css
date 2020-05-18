@@ -578,6 +578,12 @@ body {
 #sub_menu_options {
   background-color: white;
 }
+#sub_menu_options:hover {
+  background-color: #c2c2c2;
+}
+#dropdown_text_rota {
+  color: black;
+}
 .menu_rota {
   height: 5vh;
   display: flex;
@@ -872,7 +878,7 @@ body {
 .menu_rota_holiday ol:first-child {
   align-items: center;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3);
-  background-color: #232f3e;
+  background-color: #7ad3ff;
 }
 .menu_rota_holiday-item {
   display: flex;
@@ -2004,9 +2010,21 @@ h4 {
   padding: 0;
 }
 .list_spacer_content {
-  width: 4.5vw;
+  width: 4vw;
   margin-left: 1.5vw;
   margin-right: 1.5vw;
+  padding: 0;
+}
+.list_spacer_content_location {
+  width: 4vw;
+  margin-left: 0.7vw;
+  margin-right: 1.2vw;
+  padding: 0;
+}
+.list_spacer_content_name {
+  width: 4vw;
+  margin-left: 1.5vw;
+  margin-right: 2vw;
   padding: 0;
 }
 .list_spacer_content_end {
@@ -2090,8 +2108,7 @@ h4 {
 }
 .top_rectangles_container {
   display: flex;
-  padding: 2px;
-  margin-left: 2rem;
+  margin-left: 1rem;
   margin-bottom: 1vh;
   width: 90%;
 }
@@ -2122,11 +2139,10 @@ h4 {
   background-color: #db5e5e;
 }
 .dashboard_top_rectangles {
-  width: 4.5vw;
+  width: 4vw;
   border-radius: 0.5rem;
   padding: 5px;
   margin-left: 1.5vw;
-  margin-right: 2vw;
   border: 2px solid #232f3e;
   display: flex;
   align-items: center;

@@ -24,6 +24,9 @@ const DashboardForm = (props) => {
     const [ parcelsDelivered, setParcelsDelivered ] = useState('')
     const [ vehicleRegistaration, setVehicleRegistaration ] = useState('')
     const [ logInTime, setLogInTime ] = useState('')
+    const [ support, setSupport ] = useState('')
+    const [ deductions, setDeductions ] = useState('')
+    const [ feulCardCharge, setFeulCardCharge ] = useState('')
     
     // list for routes
     const onSelectTwo = (e) => {
@@ -152,7 +155,11 @@ const DashboardForm = (props) => {
                 location: selectedCityAbbrev,
                 parcel: parcelsDelivered,
                 parcelNotDelivered: parcelsNotDelivered,
-                driver_id: driverID
+                driver_id: driverID,
+                routeNumber: routeNumber,
+                support: support,
+                deductions: deductions,
+                fuel: feulCardCharge
             }
             console.log(myObj)
 
@@ -164,9 +171,7 @@ const DashboardForm = (props) => {
             postData(`https://pythonicbackend.herokuapp.com/schedule/${localID}/`, myObjectToPut())
             .then( response => {
                 console.log(response)
-                let localArray = []
-                submittedArray.length > 0 ? localArray = [...submittedArray] : localArray = []
-                localArray.push(response)
+                props.updateParentFunction()
             })
         }
     }
@@ -223,19 +228,26 @@ const DashboardForm = (props) => {
     // map props to state
     useEffect( () => {
         if (props.otherSelection) {
+            let deductionsValue = props.otherSelection.deductions.replace(/GB£/, '')
+            let supportValue = props.otherSelection.support.replace(/GB£/, '')
+            let fuelValue = props.otherSelection.fuel.replace(/GB£/, '')
             console.log(props.otherSelection)
             setOtherSelection(props.otherSelection)
             setNameState(props.otherSelection.driver_id)
-            setWaveTime('0')
+            setWaveTime(props.otherSelection.LateWavePayment)
             setStartMileage('0')
             setVehicleType('Not Owned')
-            setParcelsNotDelivered(props.otherSelection.parcel)
+            setParcelsNotDelivered(props.otherSelection.parcelNotDelivered)
             setLogOutTime(props.otherSelection.logOut_time)
-            setFinishMileage('0')
+            setFinishMileage(props.otherSelection.finish_mileage)
             setRouteNumber(props.otherSelection.route)
             setParcelsDelivered(props.otherSelection.parcel)
             setVehicleRegistaration('0')
             setLogInTime(props.otherSelection.logIn_time)
+            setRouteNumber(props.otherSelection.routeNumber)
+            setSupport(supportValue)
+            setDeductions(deductionsValue)
+            setFeulCardCharge(fuelValue)
         }
     }, [props.otherSelection])
 
@@ -253,6 +265,9 @@ const DashboardForm = (props) => {
         e.target.name === 'ParcelsNotDelivered' ? setParcelsNotDelivered(e.target.value) : x = x + 1
         e.target.name === 'vehicleRegistaration' ? setVehicleRegistaration(e.target.value) : x = x + 1
         e.target.name === 'LogInTime' ? setLogInTime(e.target.value) : x = x + 1
+        e.target.name === 'deductions' ? setDeductions(e.target.value) : x = x + 1
+        e.target.name === 'support' ? setSupport(e.target.value) : x = x + 1
+        e.target.name === 'feulCardCharge' ? setFeulCardCharge(e.target.value) : x = x + 1
     }
 
     var myForm
@@ -319,6 +334,24 @@ const DashboardForm = (props) => {
                             <label className='dashboard_labels'>Route No. </label>
                         </div>
                             <input className='input_dashboard_page' type="text" name='Route' value={routeNumber} onChange={handleChangeInputs}/>
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>Support </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='support' value={support} onChange={handleChangeInputs}/>
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>Deductions </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='deductions' value={deductions} onChange={handleChangeInputs}/>
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>Fuel Card Charge </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='feulCardCharge' value={feulCardCharge} onChange={handleChangeInputs}/>
                     </div>
                     <div className='dashboard_form_divs'>    
                         <div>
@@ -417,6 +450,24 @@ const DashboardForm = (props) => {
                             <label className='dashboard_labels'>Route No. </label>
                         </div>
                             <input className='input_dashboard_page' type="text" name='Route' />
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>Support </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='support' />
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>Deductions </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='deductions' />
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>Fuel Card Charge </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='feulCardCharge' />
                     </div>
                     <div className='dashboard_form_divs'>    
                         <div>

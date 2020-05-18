@@ -2441,9 +2441,32 @@
   }
 
   .list_spacer_content {
-    width: 4.5vw;
+    width: 4vw;
     margin-left: 1.5vw;
     margin-right: 1.5vw;
+    padding: 0;
+    text-align: center;
+  }
+
+  .list_spacer_content_location {
+    width: 4vw;
+    margin-left: .7vw;
+    margin-right: 1.2vw;
+    padding: 0;
+  }
+
+  .list_spacer_content_name {
+    width: 4vw;
+    margin-left: 1.5vw;
+    margin-right: .5vw;
+    padding: 0;
+  }
+
+  .list_spacer_content_routeNumber {
+    width: 4.5vw;
+    text-align: center;
+    margin-left: 2.5vw;
+    margin-right: .5vw;
     padding: 0;
   }
 
@@ -2540,8 +2563,7 @@
 
   .top_rectangles_container {
     display: flex;
-    padding: 2px;
-    margin-left: 2rem;
+    margin-left: 1rem;
     margin-bottom: 1vh;
     width: 90%
   }
@@ -2578,11 +2600,10 @@
   }
 
   .dashboard_top_rectangles {
-    width: 4.5vw;
+    width: 4vw;
     border-radius: .5rem;
     padding: 5px;
     margin-left: 1.5vw;
-    margin-right: 2vw;
     border:2px solid $amazon_blue;
     display: flex;
     align-items: center;

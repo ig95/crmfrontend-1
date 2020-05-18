@@ -22,6 +22,7 @@ const Dashboard = (props) => {
     const [ currentDate, setCurrentDate ] = useState(new Date())
     const [ listOfRoutes, setListOfRoutes ] = useState([])
     const [ triangleToggle, setTriangleToggle ] = useState('triangle_dashboard_page')
+    const [ updateVariable, setUpdateVariable ] = useState(0)
 
 
     var dayArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
@@ -32,6 +33,17 @@ const Dashboard = (props) => {
         var firstDate = new Date(this.getFullYear(), 0, 1)
         return Math.ceil((((new Date(this.getFullYear(), this.getMonth(), this.getDate()) - firstDate) / 86400000) + firstDate.getDay() + 1) / 7)
     }
+
+    // update parent function
+    const updateParent = () => {
+        let localVariable = updateVariable
+        let updateValue = localVariable += 1
+        setUpdateVariable(updateValue)
+    }
+
+    useEffect( () => {
+        console.log('child rendered this update')
+    }, [updateVariable])
 
     useEffect( () => {
         async function getDataNext(url = '') {
@@ -92,7 +104,7 @@ const Dashboard = (props) => {
             setListOfRoutes(listComponents(localArray))
         })
 
-    }, [selectedCitySort, selectedDate])
+    }, [selectedCitySort, selectedDate, updateVariable])
 
     const listComponents = (theRoutes, sortingValue=null) => {
         if (sortingValue) {
@@ -189,17 +201,17 @@ const Dashboard = (props) => {
                 localArrayThree.push(
                     <div className='list_overall_flex_dashboard'>
                     <div className='elements_in_list_dashboard_names'>
-                        <div className='list_spacer_content'>
+                        <div className='list_spacer_content_location'>
                             <h4 className='remove_h3_padding'>{ele.driver.location}</h4>
                         </div>
-                        <div className='list_spacer_content'>
+                        <div className='list_spacer_content_name'>
                             <h4 className='remove_h3_padding'>{ele.driver.name}</h4>
                         </div>
-                        <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.route}</h4>
+                        <div className='list_spacer_content_routeNumber'>
+                            <h4 className='remove_h3_padding'>{ele.date.routeNumber === '0' ? '--' : ele.date.routeNumber}</h4>
                         </div>
                         <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.location}</h4>
+                            <h4 className='remove_h3_padding'>{ele.date.route === '0' ? '--' : ele.date.route }</h4>
                         </div>
                         <div className='list_spacer_content'>
                             <h4 className='remove_h3_padding'>{ele.date.logIn_time}</h4>
@@ -208,19 +220,25 @@ const Dashboard = (props) => {
                             <h4 className='remove_h3_padding'>{ele.date.logOut_time}</h4>
                         </div>
                         <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.timeDifference[0]}</h4>
+                            <h4 className='remove_h3_padding'>{ele.date.timeDifference[0] === '0:00:00' ? '--' : ele.date.timeDifference[0]}</h4>
                         </div>
                         <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>--</h4>
+                            <h4 className='remove_h3_padding'>{ele.date.start_mileage}</h4>
                         </div>
                         <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>--</h4>
+                            <h4 className='remove_h3_padding'>{ele.date.finish_mileage ? ele.date.finish_mileage : '--'}</h4>
                         </div>
                         <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.deductions}</h4>
+                            <h4 className='remove_h3_padding'>{ele.date.deductions === 'GB£0.00' ? '--' : ele.date.deductions}</h4>
                         </div>
                         <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.support}</h4>
+                            <h4 className='remove_h3_padding'>{ele.date.support === 'GB£0.00' ? '--' : ele.date.support}</h4>
+                        </div>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>{ele.date.deductions === 'GB£0.00' ? '--' : ele.date.deductions}</h4>
+                        </div>
+                        <div className='list_spacer_content'>
+                            <h4 className='remove_h3_padding'>{ele.date.deductions === 'GB£0.00' ? '--' : ele.date.deductions}</h4>
                         </div>
                     </div>
                     <button className='modify_button' onClick={(e, elements) => onClick(e, ele.date)}>
@@ -248,7 +266,7 @@ const Dashboard = (props) => {
     useEffect( () => {
         let localArray = []
         let labelArray =[`${selectedCity}`, 'Da Name', 'Route No', 'Route', 'Log In', 'Log Out', 'TORH', 'Start Mileage', 'Finish Mileage', 'Late Wave Payment', 'Support', 'Deduction', 'Fuel Card Change']
-        for (let i = 0; i < 11; i++) {
+        for (let i = 0; i < 13; i++) {
             localArray.push(
                 <div className='dashboard_top_rectangles' onClick={(e, targetValue) => handleSorting(e, labelArray[i])}>
                     <h4 className='remove_h3_padding' >{labelArray[i]}</h4>   
@@ -256,6 +274,7 @@ const Dashboard = (props) => {
             )
         }
         setTopRectangles(localArray)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCity])
 
     // set city
@@ -278,11 +297,8 @@ const Dashboard = (props) => {
     if (todaysRoutes.length > 0) {
         let routesTotal = todaysRoutes.length
         let DBS2Num = 0
-        let DEX2Num = 0
-        let DSN1Num = 0
         let CTNum = 0
         let MFNNum = 0
-        let localArray = []
         routesBox = (
             <div className='dashboard_route_type_list'>
                 <h4>{routesTotal} Full Routes</h4>
@@ -385,6 +401,7 @@ clockAndCalendar = (
                     data={data}
                     drivers={drivers}
                     dates={schedule}
+                    updateParentFunction={updateParent}
                 />
                 <div className='dashboard_form_divs_comments'>    
                     <div>
