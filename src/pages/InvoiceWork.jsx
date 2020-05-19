@@ -561,7 +561,7 @@ const InvoiceWork = (props) => {
 
     return (
         <div className='home_content'>
-            <NavigationBar title='Invoicing'/>
+            <NavigationBar title='Invoicing' superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}/>
             <div className='main_content_invoicing'>
                 <div className='documents_search_bar_invoicing'>
                     <div className='invoice_form_divs_name'>

@@ -10,6 +10,7 @@ import Statistics from './pages/Statistics'
 import HomeTwo from './pages/HomeTwo'
 import Forms from './pages/Forms'
 import Driver from './pages/Driver'
+import CreateManager from './pages/CreateManager'
 import logo from './images/logoMinified.png'
 import './App.scss';
 import Home from './pages/home'
@@ -28,11 +29,11 @@ const App = () => {
   // const [ user, setUser] = useState(null);
 
   // dev mode
-  // useEffect( () => {
-  //   setUserName('Nicholas Shankland')
-  //   setUserEmail('nicholas.m.shankland@gmail.com')
-  //   setUserId('1923874-98y')
-  // },[])
+  useEffect( () => {
+    setUserName('Nicholas Shankland')
+    setUserEmail('nicholas.m.shankland@gmail.com')
+    setUserId('1923874-98y')
+  },[])
 
   useEffect( () => {
     async function getData(url = '', data={}) {
@@ -80,13 +81,30 @@ const App = () => {
 
   // handles writting data to database and recieving google data
   const responseGoogle = (response) => {
-    setUserName(response.profileObj.givenName)
-    setUserId(response.profileObj.googleId)
-    setUserEmail(response.profileObj.email)
+    // setUserName(response.profileObj.givenName)
+    // setUserId(response.profileObj.googleId)
+    // setUserEmail(response.profileObj.email)
   }
 
   var content
-  if (userName) {
+  if (userEmail === process.env.REACT_APP_EMAIL_VERIFICATION ) {
+    content = (
+      <Router>
+        <Route exact path = '/' render={ () => <Home user_name={userName} user_email={userEmail} user_id={userId} /> } />
+        <Route exact path = '/manager' render={ () => <CreateManager user_name={userName} user_email={userEmail} user_id={userId} /> } />
+        <Route exact path = '/home' render={ () => <HomeTwo user_name={userName} user_email={userEmail} user_id={userId} /> } />
+        <Route exact path = '/makemployee' render={ () => <MakeEmployee user_name={userName} user_email={userEmail} user_id={userId} /> } />
+        <Route exact path = '/weekschedule' render={ () => <WeekSchedule user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/driver/:id/:date' render={ () => <Driver user_name={userName} user_email={userEmail} driver_data={drivers} schedule_data={schedule}/> } />
+        <Route exact path = '/dashboard' render={ () => <Dashboard user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/statistics' render={ () => <Statistics user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/forms' render={ () => <Forms user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/documentation' render={ () => <DriverDocumentation user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail}/> } />
+      </Router>
+    )
+  } else if (userEmail) {
     content = (
       <Router>
         <Route exact path = '/' render={ () => <Home user_name={userName} user_email={userEmail} user_id={userId} /> } />

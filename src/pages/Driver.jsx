@@ -78,7 +78,7 @@ const Driver = (props) => {
 
     return (
         <div className='home_content'>
-            <NavigationBar />
+            <NavigationBar superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}/>
             <div className='main_content_driver'>
                 {mainTitleDriverPage}
                 {leftNav}

@@ -30,6 +30,17 @@ const NavigationBar = (props) => {
         return Math.ceil((((new Date(this.getFullYear(), this.getMonth(), this.getDate()) - firstDate) / 86400000) + firstDate.getDay() + 1) / 7)
     }
 
+    var createManagerPage
+    if (props.superUser) {
+        createManagerPage = (
+            <Link to="/manager" className='links'> 
+                <div className='link_style'>
+                    Create Manager
+                </div>
+            </Link>
+        )
+    }
+
     return (
         <>
             <div className='nav_bar_top'>
@@ -50,6 +61,7 @@ const NavigationBar = (props) => {
                         Home
                     </div>
                 </Link>
+                {createManagerPage}
                 <Link to="/dashboard" className='links'>
                     <div className='link_style'>
                         Daily Service 

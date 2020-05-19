@@ -3,7 +3,7 @@ import NavigationBar from '../components/NavBar'
 import DivSingleWeek from '../components/DivSingleWeek'
 import MakeDriver from './MakeEmployee'
 
-const WeekSchedule = () => {
+const WeekSchedule = (props) => {
     const [ drivers, setDrivers ] = useState(null)
     const [ schedule, setSchedule ] = useState(null)
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
@@ -221,7 +221,7 @@ const WeekSchedule = () => {
     if (drivers && !logicalGate && !deleteDriverSelection) {
         content = (
             <div className='home_content'>
-                <NavigationBar title='Location Rota'/>
+                <NavigationBar title='Location Rota' superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}/>
                 <div className='main_content_week_schedule'>
                     <div className='drop_down_bar_container_single_week'>
                         <nav className="menu_smaller">

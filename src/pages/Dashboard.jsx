@@ -376,7 +376,10 @@ clockAndCalendar = (
 
     return (
         <div className='home_content'>
-            <NavigationBar title='Daily Service'/>
+            <NavigationBar 
+            title='Daily Service'
+            superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}
+            />
             <div className='main_content_dashboard'>
                 <nav className="menu_white">
                     <ol>

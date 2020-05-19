@@ -154,7 +154,10 @@ const Home = (props) => {
         content = (
             <>
                 <div className='home_content_home'>
-                <NavigationBar title='Home'/>
+                <NavigationBar 
+                title='Home'
+                superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}
+                />
                     <div className='main_content'>
                         <div className='calandar_container'>
                             <div>

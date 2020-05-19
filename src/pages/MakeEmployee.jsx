@@ -449,7 +449,7 @@ const MakeEmployee = (props) => {
 
     return (
         <div className='home_content'>
-            <NavigationBar title='Drivers'/>
+            <NavigationBar title='Drivers' superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}/>
             {makeTheDriver}
             <div className='main_content_new_driver'>
                 <div className='search_bar_top_new_driver'>
