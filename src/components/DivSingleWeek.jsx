@@ -37,6 +37,10 @@ const DivSingleWeek = (props) => {
 
     }, [getData, props.selectedCity])
 
+    const handleDeleteToggle = (e, driver) => {
+        props.deletionDriver(e, driver)
+    }
+
     // making the rows
     useEffect( () => {
         let amount = parseInt(props.divAmount)
@@ -102,33 +106,33 @@ const DivSingleWeek = (props) => {
             return lastWeekDivsArray
         }
 
-    // get sundays
-    const getSundays = () => {
-        let bookingOptions = []
-        let optionsArray = [
-            'IN',
-            'CT',
-            'RT',
-            'Holiday'
-        ]
-        optionsArray.forEach( ele => {
-            bookingOptions.push(
-                <li className="menu-item" id='sub_menu_options' >
-                    <a href="#0" id='dropdown_text_rota'>
-                        {ele}
-                    </a>
-                </li>
-            )
-        })
-        return bookingOptions
-    }
+        // get sundays
+        const getSundays = () => {
+            let bookingOptions = []
+            let optionsArray = [
+                'IN',
+                'CT',
+                'RT',
+                'Holiday'
+            ]
+            optionsArray.forEach( ele => {
+                bookingOptions.push(
+                    <li className="menu-item" id='sub_menu_options' >
+                        <a href="#0" id='dropdown_text_rota'>
+                            {ele}
+                        </a>
+                    </li>
+                )
+            })
+            return bookingOptions
+        }
 
-    // dropdown menu options
-    const optionsThree = getSundays()
+        // dropdown menu options
+        const optionsThree = getSundays()
 
         var middleRows
         // middle row mapped divs
-        if (data && props) {
+        if (data && props && !props.deleteDriverScreen) {
             middleRows = () => {
                 let mappedProps = []
                 data.data.drivers.forEach( (ele, id) => {
@@ -195,6 +199,31 @@ const DivSingleWeek = (props) => {
                                 )
                             }
                         })
+                        mappedProps.push(localArray)
+                    }
+                })
+                return mappedProps
+            }
+        } else if (data && props && props.deleteDriverScreen) {
+            middleRows = () => {
+                let mappedProps = []
+                data.data.drivers.forEach( (ele, id) => {
+                    if (ele.location === props.selectedCity) {
+                        let localArray = []
+                        localArray.push(
+                            <div key={Math.random()} className='cal_divs_single_first_selectable' onClick={(e, targetObject) => handleDeleteToggle(e, ele)}>
+                                <h5 className='inner_calander_text'>
+                                    {ele.name}
+                                </h5>
+                            </div>  
+                        )  
+                        for (let i = 0; i < amount; i++) {
+                            localArray.push(
+                                <nav className="blanks">
+
+                                </nav>
+                            )  
+                        }
                         mappedProps.push(localArray)
                     }
                 })
@@ -285,49 +314,3 @@ const DivSingleWeek = (props) => {
 }
 
 export default DivSingleWeek
-
-
-
-
-
-        // function handleSelectCity(e, city, dateSelection, nameSelection, dateList, id, location) {
-        //     e.preventDefault()
-        //     setSelectedResponse(city)
-        //     setMiddleRow(makeForm(city, dateSelection, nameSelection, dateList, id, location))
-        // }
-
-        // // render the form div
-        // const makeForm = (city, dateSelection, nameSelection, dateList, id, location) => {
-        //     let theCity
-        //     city ? theCity = city : theCity = selectedResponse
-        //     const handleSubmit = (e) => { 
-        //         e.preventDefault()
-        //         let station = theCity
-        //         handleSubmitButton(dateSelection, id, station)
-        //     } 
-        //     return (
-        //         <div className='inner_calender_form'>
-        //             <div className='inner_form_div'>
-        //                 <form onSubmit={handleSubmit} autoComplete='on'>
-        //                     <h3>Name: {nameSelection}</h3>
-        //                     <h3>Date: {dateSelection}</h3>
-        //                     <nav className="menu">
-        //                         <ol>
-        //                             <li className="menu-item"><a href="#0">{theCity}</a>
-        //                                 <ol className="sub-menu">
-        //                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2', dateSelection, nameSelection, dateList, id, location)}><a href="#0">DBS2</a></li>
-        //                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1', dateSelection, nameSelection, dateList, id, location)}><a href="#0">DSN1</a></li>
-        //                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2', dateSelection, nameSelection, dateList, id, location)}><a href="#0">DEX2</a></li>
-        //                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'CT', dateSelection, nameSelection, dateList, id, location)}><a href="#0">CT</a></li>
-        //                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'MFN', dateSelection, nameSelection, dateList, id, location)}><a href="#0">MFN</a></li>
-        //                                 </ol>
-        //                             </li>
-        //                         </ol>
-        //                     </nav>
-        //                     <input type='submit' className='form_button' value='Add Work' />
-        //                 </form>
-        //             </div>
-        //         </div>
-        //     )
-        // }
-

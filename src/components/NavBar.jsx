@@ -80,11 +80,6 @@ const NavigationBar = (props) => {
                         Reports
                     </div>
                 </Link>
-                <Link to="/makemployee" className='links'>
-                    <div className='link_style'>
-                        Drivers
-                    </div>
-                </Link>
             </div>
         </>
     )

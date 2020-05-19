@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import NavigationBar from '../components/NavBar'
 import DivSingleWeek from '../components/DivSingleWeek'
+import MakeDriver from './MakeEmployee'
 
 const WeekSchedule = () => {
     const [ drivers, setDrivers ] = useState(null)
@@ -10,6 +11,11 @@ const WeekSchedule = () => {
     const [ selectedSunday, setSelectedSunday ] = useState('14')
     const [ mathSunday, setMathSunday ] = useState('14')
     const [ varForMapping, setVarForMapping ] = useState('DBS2')
+    const [ logicalGate, setLogicalGate ] = useState(false)
+    const [ reloadGate, setReloadGate ] = useState(false)
+    const [ submitPressed, setSubmitPressed ] = useState('Submit')
+    const [ deletionScreen, setDeletionScreen ] = useState(false)
+    const [ deleteDriverSelection, setDeleteDriverSelection ] = useState(null)
 
     // eslint-disable-next-line no-extend-native
     Date.prototype.getWeek = function () {
@@ -86,8 +92,133 @@ const WeekSchedule = () => {
         setSelectedAmount(city)
     }
 
+    // new driver selection
+    const handleMakeDriverPage = () => {
+        setLogicalGate(true)
+    }
+
+    // send form to backend
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setSubmitPressed('Created')
+        console.log('submitting')
+        async function postData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'POST', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(data)
+                });
+
+            return response ? response.json() : console.log('no reponse')
+
+        };
+
+        postData('https://pythonicbackend.herokuapp.com/drivers/', {
+            name: e.target.name.value ? e.target.name.value : 'null',
+            location: e.target.location.value ? e.target.location.value : 'null',
+            status: e.target.status.value ? e.target.status.value : 'null',
+            onboarding: e.target.Onboarding.value ? e.target.Onboarding.value : 0,
+            phone: e.target.mobile.value ? e.target.mobile.value : 'null',
+            email: e.target.email.value ? e.target.email.value : 'null',
+            BadgeNumber: e.target.BadgeNumber.value ? e.target.BadgeNumber.value : 'null',
+            DriverUniqueId: e.target.DriverID.value ? e.target.DriverID.value : 'null',
+            NINNumber: e.target.NINNumber.value ? e.target.NINNumber.value : 'null',
+            UTRNumber: e.target.UTRNumber.value ? e.target.UTRNumber.valuee : 'null',
+            VatNumber: e.target.VATNumber.value ? e.target.VATNumber.value : 'null',
+        }).then( (response) => {
+            console.log(response)
+            reloadGate ? setReloadGate(false) : setReloadGate(true)
+        })
+    }
+
+    // get rid of the driver page
+    const backToNormal = () => {
+        setLogicalGate(false)
+    }
+
+    // toggle the delete driver tab
+    const handleDeletionToggle = () => {
+        setDeletionScreen(true)
+    }
+
+    // make driver page
+    var makeTheDriver
+    makeTheDriver = (
+        <>
+        <MakeDriver />
+        <div className='absolute_return_button'>
+            <div className="button-container-2" onClick={backToNormal}>
+                <span className="mas2">Return</span>
+                <button className='buttonFront2' id='work2' type="button" name="Hover">
+                Return
+                </button>
+            </div> 
+        </div>
+        </>
+    )
+
+    // handle delete submit
+    const handleDeleteSubmit = () => {
+
+    }
+
+    // handle get back from deletion screnn
+    const backToNormalDeletion = () => {
+        setDeleteDriverSelection(null)
+        setDeletionScreen(false)
+    }
+
+    // handle making a delete driver screen
+    var deleteTheDriver
+    if (deleteDriverSelection) {
+        deleteTheDriver = (
+            <div className='new_driver_form_container'>
+                <div className='delete_screen_container'>
+                    <h1>Delete {deleteDriverSelection.name}</h1>
+                    <form onSubmit={handleDeleteSubmit}>
+                        <label className='container_checkbox'>Yes
+                            <input type="checkbox" />
+                            <span className='checkmark_yes' id='yes'></span>
+                        </label>
+                        <br/>    
+                        <label className='container_checkbox'>No
+                            <input type="checkbox" />
+                            <span className='checkmark_no' id='no'></span>
+                        </label>
+                        <div className='deleteDriverButtons'>
+                            <div className="button-container-2">
+                                <span className="mas2">Submit</span>
+                                <button className='buttonFront2' id='work2' type="button" name="Hover">
+                                    Submit
+                                </button>
+                            </div>
+                            <div className="button-container-2" onClick={backToNormalDeletion}>
+                                <span className="mas2">Return</span>
+                                <button className='buttonFront2' id='work2' type="button" name="Hover">
+                                    Return
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        )
+    }
+
+    // grab child selection
+    const deleteDriverFunction = (e, driverSelected) => {
+        console.log(driverSelected)
+        setDeleteDriverSelection(driverSelected)
+    }
+
     var content;
-    if (drivers) {
+    if (drivers && !logicalGate && !deleteDriverSelection) {
         content = (
             <div className='home_content'>
                 <NavigationBar title='Location Rota'/>
@@ -123,6 +254,22 @@ const WeekSchedule = () => {
                                 </li>
                             </ol>
                         </nav>
+                        <div className='rota_top_spacer'>
+                            <div className="button-container-2" onClick={handleMakeDriverPage}>
+                                <span className="mas2">View Driver</span>
+                                <button className='buttonFront2' id='work2' type="button" name="Hover">
+                                    View Drivers
+                                </button>
+                            </div>  
+                        </div>
+                        <div className='rota_top_spacer_two'>
+                            <div className="button-container-2" onClick={handleDeletionToggle}>
+                                <span className="mas2">Delete Driver</span>
+                                <button className='buttonFront2' id='work2' type="button" name="Hover">
+                                    Delete Driver
+                                </button>
+                            </div>  
+                        </div>
                     </div>
                     <div className='scheduling_single_week_overlay'>
                         <DivSingleWeek 
@@ -131,10 +278,20 @@ const WeekSchedule = () => {
                             selectedDate={varForMapping}
                             divAmount={selectedAmount}
                             selectedCity={selectedCity ? selectedCity : 'DBS2'}
+                            deletionDriver={deleteDriverFunction}
+                            deleteDriverScreen={deletionScreen}
                         />
                     </div>
                 </div>
             </div>
+        )
+    } else if (logicalGate && !deleteDriverSelection) {
+        content = (
+            makeTheDriver
+        )
+    } else if (deleteDriverSelection) {
+        content = (
+            deleteTheDriver
         )
     } else {
         content = ''

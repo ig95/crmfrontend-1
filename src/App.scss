@@ -13,6 +13,7 @@
   $greyBoxBackground: #202020;
   $greyBoxContrast: rgb(195, 205, 211);
   $offRotaColor: #F4666B;
+  $inRotaColor:   #B2FFC8;
 
 
 
@@ -1364,17 +1365,17 @@
 
   // button small for new driver page
   .button-container-2 {
-      position: relative;
-      margin-right: 1rem;
-      width: 10vw;
-      height: 5vh;
-      overflow: hidden;
-      font-weight: 300;
-      font-size: 1.1em;
-      transition: 0.5s;
-      letter-spacing: 1px;
-      color: $amazon_blue;
-  
+    position: relative;
+    margin-right: 1rem;
+    width: 10vw;
+    height: 5vh;
+    overflow: hidden;
+    font-weight: 300;
+    font-size: 1.1em;
+    transition: 0.5s;
+    letter-spacing: 1px;
+    color: $amazon_blue;
+    
     .mas2 {
       position: absolute;
       color: $amazon_blue;
@@ -1386,7 +1387,7 @@
       margin-top: 7px;
       overflow: hidden;
     }
-
+    
     .buttonFront2 {
       width: 101%;
       height: 100%;
@@ -1402,15 +1403,15 @@
       cursor: pointer;
       -webkit-animation: ani2 0.7s steps(22) forwards;
       animation: ani2 0.7s steps(22) forwards;
-    
+      
       &:hover {
         -webkit-animation: ani 0.7s steps(22) forwards;
         animation: ani 0.7s steps(22) forwards;
       }
-      }
+    }
   }
   
-
+  
   #work2:hover {
     color: $amazon_blue;
   }
@@ -1972,6 +1973,15 @@
     height: 100%;
     @extend %centerThings;
   }
+
+  .blanks {
+    opacity: .2;
+    height: 5vh;
+    @extend %calendar_divs_class;
+    display: flex;
+    align-items: center;
+    flex: 1 0 6%;
+  }
   
   // 14s
   .cal_divs_single {
@@ -1989,6 +1999,12 @@
     height: 5vh;
     background-color: #E06666;
     color: $amazon_blue;
+  }
+
+  .absolute_return_button {
+    position: absolute;
+    bottom: 10px;
+    right: 3rem;
   }
 
   .cal_divs_single_booked {
@@ -2091,6 +2107,166 @@
     align-items: center;
   }
   
+  /* Customize the label (the container) */
+.container_checkbox {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container_checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark_yes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border: 2px solid black;
+}
+
+.checkmark_no {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border: 2px solid black;
+}
+
+@keyframes makeBorderYes {
+  0% {
+    border: 2px solid black;
+  }
+  100% {
+    border: 2px solid $inRotaColor;
+  }
+}
+
+@keyframes makeBorderNo {
+  0% {
+    border: 2px solid black;
+  }
+  100% {
+    border: 2px solid $offRotaColor;
+  }
+}
+
+.deleteDriverButtons {
+  display: flex;
+}
+
+/* On mouse-over, add a grey background color */
+.container_checkbox:hover input ~ .checkmark_no {
+  animation: makeBorderNo .3s forwards linear;
+}
+
+/* On mouse-over, add a grey background color */
+.container_checkbox:hover input ~ .checkmark_yes {
+  animation: makeBorderYes .3s forwards linear;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container_checkbox input:checked ~ .checkmark_no {
+  background-color: $offRotaColor;
+}
+/* When the checkbox is checked, add a blue background */
+.container_checkbox input:checked ~ .checkmark_yes {
+  background-color: $inRotaColor;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark_no:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark_yes:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container_checkbox input:checked ~ .checkmark_no:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container_checkbox .checkmark_no:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* Show the checkmark when checked */
+.container_checkbox input:checked ~ .checkmark_yes:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container_checkbox .checkmark_yes:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.delete_screen_container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 5vw;
+  color: $amazon_blue
+}
+
+  .cal_divs_single_first_selectable {
+    @extend %calendar_divs_class;
+    min-width: 10vw;
+    flex: 1 0 5%;
+    height: 5vh;
+    margin-bottom: 5px;
+    background-color: rgb(243, 64, 70);
+    color: black;
+    display: flex;
+    align-items: center;
+  }
+
+  .cal_divs_single_first_selectable:hover {
+    background-color: $offRotaColor;
+  }
+  
   .top_row {
     grid-area: top_row;
     display: flex;
@@ -2113,6 +2289,10 @@
 
   .form_button {
     @extend %buttons;
+  }
+
+  .rota_top_spacer {
+    margin-left: 35vw;
   }
 
   .inner_form_div {
