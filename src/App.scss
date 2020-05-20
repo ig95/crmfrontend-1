@@ -3260,7 +3260,7 @@
   }
   
   /****************************************  INVOICING COMPONENT STYLE ************************************************************/
-
+  
   .main_content_invoicing{
     grid-area: main_content;
     background-color: $offWhite;
@@ -3268,7 +3268,7 @@
     animation-name: loadingStyle;
     animation-duration: 1s;
   }
-
+  
   .loading_link {
     width: 10vw;
     border-radius: .5rem;
@@ -3276,26 +3276,26 @@
     height: 5vh;
     background-color: $amazon_blue;
   }
-
+  
   .loading_link:hover {
     background-color: $amazon_blue_hover;
     transform: translateY(-.15rem);
   }
-
+  
   .pdf_text {
     text-decoration: none;
     margin-bottom: 2rem;
   }
-
+  
   .viewer_class {
     height: 80vh;
     width: 40vw;
   }
-
+  
   .loading_text {
     color: $offWhite;
   }
-
+  
   .signiture_page_documents {
     position: absolute;
     top: 0;
@@ -3309,11 +3309,11 @@
     justify-content: center;
     z-index: 1;
   }
-
+  
   .legally_text_div {
     color: $offWhite;
   }
-
+  
   .documents_search_bar_invoicing {
     border-bottom: 1px solid rgba(35, 47, 62, 0.26);
     border-top: 1px solid rgba(35, 47, 62, 0.26);
@@ -3336,19 +3336,19 @@
     background-color: white;
     z-index: 1;
   }
-
+  
   .invoice_content {
     margin: 2rem;
     color: $amazon_blue;
     font-family: $ubuntu_font;
   }
-
+  
   .invoice_form_divs_name {
     width: 32vw;
     margin-top: 1rem;
     display: flex;
   }
-
+  
   .documents_search_bar_invoicing_dates {
     display: flex;
     margin: auto 0;
@@ -3356,13 +3356,13 @@
     font-size: 1.3em;
     color: $amazon_blue;
   }
-
+  
   .invoices_overall {
     margin: 0 1rem .5rem 1rem;
     width: 86vw;
     height: 80vh;
   }
-
+  
   .top_divs {
     border-left: solid rgba(35, 47, 62, 0.199) 5px;
     border-bottom: 2px solid rgba(35, 47, 62, 0.199);
@@ -3370,18 +3370,18 @@
     padding: 5px;
     margin-right: 4px;
   }
-
+  
   .top_divs:hover {
     border-bottom: 2px solid rgba(35, 47, 62, 0.0);
     border-left: solid 5px rgba(35, 47, 62, 0.733) ;
     transform: translateY(-.1rem);
   }
-
+  
   .invoice_date_list {
     width: 86vw;
     display: flex;
   }
-
+  
   .single_Invoice {
     display: flex;
     flex-direction: column;
@@ -3403,110 +3403,125 @@
     animation-fill-mode: forwards;
     animation-timing-function: linear;
   }
-
+  
   .inside_text_invoice {
     margin-left: 1rem;
     animation-name: text_fun;
     animation-duration: .5s;
   }
-
-  // .invoice_item:hover {
-  //   border-bottom: 2px solid rgba(35, 47, 62, 0.733);
-  //   border-left: solid 5px rgba(35, 47, 62, 0.733) ;
-  //   transform: translateY(-.1rem);
-  // }
   
-  .single_Invoice_overall {
-    display: flex;
-    flex-direction: column;
-    height: 65vh;
-    margin-top: 5px;
-    border-top: 1px solid rgba(35, 47, 62, 0.26);
-    overflow-y: scroll;
-    padding: 1rem;
-  }
-
-  .invoice_overall_title {
-    @extend %centerThings;
-    flex-direction: column;
-    background-color: $amazon_blue;
-    color: $offWhite;
-    min-height: 25vh;
-  }
-
-  .h20_title {
-    font-size: 4em;
-    padding: 0;
-    margin: 0;
-  }
-
-  .billing_details_portion {
-    border: 2px solid $amazon_blue;
-    margin-top: .5rem;
-    min-height: 60vh;
-    display: flex;
-  }
-
-  .water_drop_picture {
-    height: 10vh;
-  }
-
-  .left_section_invoice {
-    width: 50%;
-  }
-
-  .right_section_invoice {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    width: 50%;
-  }
-
-  .driver_details_section {
-    display: flex;
-    width: 20vw;
-    height: 10vh;
-    font-size: 1.5em;
-    padding: 2rem;
-    margin: 2rem;
-    border-bottom: 1px solid $amazon_blue;
-  }
-
-  .driver_details_section_right {
-    display: flex;
-    width: 25vw;
-    height: 10vh;
-    font-size: 1.5em;
-    padding: 2rem;
-    margin: 2rem;
-    border-bottom: 1px solid $amazon_blue;
-  }
-
-  @keyframes slidein {
-    0% {
-      color: white;
-      transform: translatey(5vh);
+  // .invoice_item:hover {
+    //   border-bottom: 2px solid rgba(35, 47, 62, 0.733);
+    //   border-left: solid 5px rgba(35, 47, 62, 0.733) ;
+    //   transform: translateY(-.1rem);
+    // }
+    
+    .single_Invoice_overall {
+      display: flex;
+      flex-direction: column;
+      height: 65vh;
+      margin-top: 5px;
+      border-top: 1px solid rgba(35, 47, 62, 0.26);
+      overflow-y: scroll;
+      padding: 1rem;
     }
-    100% {
-      transform: translatey(0vh);
+    
+    .invoice_overall_title {
+      @extend %centerThings;
+      flex-direction: column;
+      background-color: $amazon_blue;
+      color: $offWhite;
+      min-height: 25vh;
     }
-  }
+    
+    .h20_title {
+      font-size: 4em;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .billing_details_portion {
+      border: 2px solid $amazon_blue;
+      margin-top: .5rem;
+      min-height: 60vh;
+      display: flex;
+    }
+    
+    .water_drop_picture {
+      height: 10vh;
+    }
+    
+    .left_section_invoice {
+      width: 50%;
+    }
+    
+    .right_section_invoice {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      width: 50%;
+    }
+    
+    .driver_details_section {
+      display: flex;
+      width: 20vw;
+      height: 10vh;
+      font-size: 1.5em;
+      padding: 2rem;
+      margin: 2rem;
+      border-bottom: 1px solid $amazon_blue;
+    }
+    
+    .driver_details_section_right {
+      display: flex;
+      width: 25vw;
+      height: 10vh;
+      font-size: 1.5em;
+      padding: 2rem;
+      margin: 2rem;
+      border-bottom: 1px solid $amazon_blue;
+    }
+    
+    @keyframes slidein {
+      0% {
+        color: white;
+        transform: translatey(5vh);
+      }
+      100% {
+        transform: translatey(0vh);
+      }
+    }
+    
+    @keyframes text_fun {
+      0% {
+        color: white;
+        transform: translatey(5vh);
+      }
+      100% {
+        transform: translatey(0vh);
+      }
+    }
+    
+    /****************************************  CREATE MANAGER PAGE ************************************************************/
+    .create_manager_form {
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+    }
 
-  @keyframes text_fun {
-    0% {
-      color: white;
-      transform: translatey(5vh);
+    .inputs_create_manager {
+      @extend %input_bars;
     }
-    100% {
-      transform: translatey(0vh);
+    
+    .labels_create_manager {
+      margin-right: 1rem;
     }
-  }
-
-  @media only screen and (max-width: 1500px) {
-    html, body {
-      font-size: 90%;
-    }
-
+    
+    @media only screen and (max-width: 1500px) {
+      html, body {
+        font-size: 90%;
+      }
+      
     .dashboard_form_divs_name_bar_invoicing {
       margin-top: 2.3rem;
       margin-left: 4.8rem;

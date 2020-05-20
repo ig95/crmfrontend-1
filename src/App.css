@@ -65,7 +65,8 @@
 .search_bar,
 .input_dashboard_page,
 .document_input,
-input {
+input,
+.inputs_create_manager {
   border-radius: 0.25rem;
   border: 1px solid #232f3e;
   width: 15vw;
@@ -79,7 +80,8 @@ input {
 .search_bar:hover,
 .input_dashboard_page:hover,
 .document_input:hover,
-input:hover {
+input:hover,
+.inputs_create_manager:hover {
   border: 1px solid #7171b9;
 }
 .labels,
@@ -1749,7 +1751,7 @@ body {
   display: flex;
   align-items: center;
 }
-.checkBoxContainter {
+.container_checkbox {
   display: block;
   position: relative;
   padding-left: 35px;
@@ -1761,36 +1763,99 @@ body {
   -ms-user-select: none;
   user-select: none;
 }
-.checkBoxContainter input {
+.container_checkbox input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
   height: 0;
   width: 0;
 }
-.checkBoxContainter input:checked {
-  background-color: black;
-}
-.checkmarkYes {
+.checkmark_yes {
   position: absolute;
-  width: 25px;
   top: 0;
   left: 0;
   height: 25px;
-  background-color: #b2ffc8;
-  border-radius: 50%;
-}
-.checkmarkNo {
-  position: absolute;
   width: 25px;
+  background-color: #eee;
+  border: 2px solid black;
+}
+.checkmark_no {
+  position: absolute;
   top: 0;
   left: 0;
   height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border: 2px solid black;
+}
+@keyframes makeBorderYes {
+  0% {
+    border: 2px solid black;
+  }
+  100% {
+    border: 2px solid #b2ffc8;
+  }
+}
+@keyframes makeBorderNo {
+  0% {
+    border: 2px solid black;
+  }
+  100% {
+    border: 2px solid #f4666b;
+  }
+}
+.deleteDriverButtons {
+  display: flex;
+}
+.container_checkbox:hover input ~ .checkmark_no {
+  animation: makeBorderNo 0.3s forwards linear;
+}
+.container_checkbox:hover input ~ .checkmark_yes {
+  animation: makeBorderYes 0.3s forwards linear;
+}
+.container_checkbox input:checked ~ .checkmark_no {
   background-color: #f4666b;
-  border-radius: 50%;
 }
-.checkmarkNo:hover {
-  background-color: #f79a9a;
+.container_checkbox input:checked ~ .checkmark_yes {
+  background-color: #b2ffc8;
+}
+.checkmark_no:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.checkmark_yes:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.container_checkbox input:checked ~ .checkmark_no:after {
+  display: block;
+}
+.container_checkbox .checkmark_no:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.container_checkbox input:checked ~ .checkmark_yes:after {
+  display: block;
+}
+.container_checkbox .checkmark_yes:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 .delete_screen_container {
   width: 100vw;
@@ -1798,6 +1863,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   margin-left: 5vw;
+  color: #232f3e;
 }
 .cal_divs_single_first_selectable {
   min-width: 10vw;
@@ -2842,6 +2908,14 @@ label {
   100% {
     transform: translatey(0vh);
   }
+}
+.create_manager_form {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+.labels_create_manager {
+  margin-right: 1rem;
 }
 @media only screen and (max-width: 1500px) {
   html,

@@ -26,14 +26,17 @@ const App = () => {
   const [ userEmail, setUserEmail] = useState('')
   const [ drivers, setDrivers] = useState(null)
   const [ schedule, setSchedule] = useState(null)
+  const [ station, setStation ] = useState('')
+  const [ userFound, setUserFound ] = useState('')
   // const [ user, setUser] = useState(null);
 
   // dev mode
-  useEffect( () => {
-    setUserName('Nicholas Shankland')
-    setUserEmail('nicholas.m.shankland@gmail.com')
-    setUserId('1923874-98y')
-  },[])
+  // useEffect( () => {
+  //   setUserName('Nicholas Shankland')
+  //   setUserEmail('nicholas.m.shankland@gmai.com')
+  //   setUserId('1923874-98y')
+  //   setStation('DBS2')
+  // },[])
 
   useEffect( () => {
     async function getData(url = '', data={}) {
@@ -50,13 +53,13 @@ const App = () => {
       return response ? response.json() : console.log('no reponse')
     };
 
-    getData('https://pythonicbackend.herokuapp.com/api-token-auth/', {
+    getData(process.env.REACT_APP_AUTH, {
       username: process.env.REACT_APP_DB_USERNAME,
       password: process.env.REACT_APP_DB_PASSWORD
     }).then( (response) => {
       localStorage.setItem('token', response.token)
     }).then( (response) => {
-      async function getDataNext(url = '') {
+      async function getDataNext(url = process.env.REACT_APP_AUTH) {
         const response = await fetch(url, {
             method: 'GET', 
             mode: 'cors',
@@ -81,9 +84,36 @@ const App = () => {
 
   // handles writting data to database and recieving google data
   const responseGoogle = (response) => {
-    // setUserName(response.profileObj.givenName)
-    // setUserId(response.profileObj.googleId)
-    // setUserEmail(response.profileObj.email)
+    async function getDataNext(url = '') {
+      const response = await fetch(url, {
+          method: 'GET', 
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${localStorage.getItem('token')}`
+          }
+      });
+      return response ? response.json() : console.log('no reponse')
+    };
+
+    getDataNext('https://pythonicbackend.herokuapp.com/managers/').then( response => {
+      let localVar = 0
+      response.results.forEach( ele => {
+        if (response.profileObj.email === ele.email) {
+          setUserName(response.profileObj.givenName)
+          setUserId(response.profileObj.googleId)
+          setUserEmail(response.profileObj.email)
+          setStation(ele.station)
+          localVar = 1
+        }
+      })
+      if (localVar === 0) {
+        setUserFound('Login not found. Please contact site administrator')
+      }
+      console.log(response.results)
+    })
   }
 
   var content
@@ -91,34 +121,60 @@ const App = () => {
     content = (
       <Router>
         <Route exact path = '/' render={ () => <Home user_name={userName} user_email={userEmail} user_id={userId} /> } />
-        <Route exact path = '/manager' render={ () => <CreateManager user_name={userName} user_email={userEmail} user_id={userId} /> } />
-        <Route exact path = '/home' render={ () => <HomeTwo user_name={userName} user_email={userEmail} user_id={userId} /> } />
+        <Route exact path = '/manager' render={ () => <CreateManager user_name={userName} user_email={userEmail} user_id={userId}  /> } />
+        <Route exact path = '/home' render={ () => <HomeTwo user_name={userName} user_email={userEmail} user_id={userId}  />  } />
         <Route exact path = '/makemployee' render={ () => <MakeEmployee user_name={userName} user_email={userEmail} user_id={userId} /> } />
-        <Route exact path = '/weekschedule' render={ () => <WeekSchedule user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/driver/:id/:date' render={ () => <Driver user_name={userName} user_email={userEmail} driver_data={drivers} schedule_data={schedule}/> } />
-        <Route exact path = '/dashboard' render={ () => <Dashboard user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/statistics' render={ () => <Statistics user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/forms' render={ () => <Forms user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/documentation' render={ () => <DriverDocumentation user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/weekschedule' render={ () => <WeekSchedule user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/driver/:id/:date' render={ () => <Driver user_name={userName} user_email={userEmail} driver_data={drivers} schedule_data={schedule} /> } />
+        <Route exact path = '/dashboard' render={ () => <Dashboard user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/statistics' render={ () => <Statistics user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/forms' render={ () => <Forms user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/documentation' render={ () => <DriverDocumentation user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail} /> } />
       </Router>
     )
   } else if (userEmail) {
     content = (
       <Router>
-        <Route exact path = '/' render={ () => <Home user_name={userName} user_email={userEmail} user_id={userId} /> } />
-        <Route exact path = '/home' render={ () => <HomeTwo user_name={userName} user_email={userEmail} user_id={userId} /> } />
-        <Route exact path = '/makemployee' render={ () => <MakeEmployee user_name={userName} user_email={userEmail} user_id={userId} /> } />
-        <Route exact path = '/weekschedule' render={ () => <WeekSchedule user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/driver/:id/:date' render={ () => <Driver user_name={userName} user_email={userEmail} driver_data={drivers} schedule_data={schedule}/> } />
-        <Route exact path = '/dashboard' render={ () => <Dashboard user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/statistics' render={ () => <Statistics user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/forms' render={ () => <Forms user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/documentation' render={ () => <DriverDocumentation user_name={userName} user_email={userEmail}/> } />
-        <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail}/> } />
+        <Route exact path = '/' render={ () => <Home user_name={userName} user_email={userEmail} user_id={userId} station={station} /> } />
+        <Route exact path = '/home' render={ () => <HomeTwo user_name={userName} user_email={userEmail} user_id={userId} station={station}/> } />
+        <Route exact path = '/makemployee' render={ () => <MakeEmployee user_name={userName} user_email={userEmail} user_id={userId} station={station}/> } />
+        <Route exact path = '/weekschedule' render={ () => <WeekSchedule user_name={userName} user_email={userEmail} station={station}/> } />
+        <Route exact path = '/driver/:id/:date' render={ () => <Driver user_name={userName} user_email={userEmail} driver_data={drivers} schedule_data={schedule} station={station}/> } />
+        <Route exact path = '/dashboard' render={ () => <Dashboard user_name={userName} user_email={userEmail} station={station}/> } />
+        <Route exact path = '/statistics' render={ () => <Statistics user_name={userName} user_email={userEmail} station={station}/> } />
+        <Route exact path = '/forms' render={ () => <Forms user_name={userName} user_email={userEmail} station={station}/> } />
+        <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail} station={station}/> } />
+        <Route exact path = '/documentation' render={ () => <DriverDocumentation user_name={userName} user_email={userEmail} station={station}/> } />
+        <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail} station={station}/> } />
       </Router>
+    )
+  } else if (userFound) {
+    content = (
+      <div className="header">
+          <div className="inner-header flex">
+              <img src={logo} alt="Logo" className='welcome_screen_logo'/>
+              <div className='google_log_in_container'>
+                {userFound}
+              </div>
+          </div>
+          <div>
+              <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
+              viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+              <defs>
+              <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+              </defs>
+              <g className="parallax">
+              <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(120, 209, 212, .8)" />
+              <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(38, 135, 199, .6)" />
+              <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(120, 209, 212, .4)" />
+              <use xlinkHref="#gentle-wave" x="48" y="7" fill="rgb(38, 135, 199)" />
+              </g>
+              </svg>
+          </div>
+          <div className='waves-background'></div>
+      </div >
     )
   } else {
     content = (

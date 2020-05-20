@@ -42,10 +42,6 @@ const Dashboard = (props) => {
     }
 
     useEffect( () => {
-        console.log('child rendered this update')
-    }, [updateVariable])
-
-    useEffect( () => {
         async function getDataNext(url = '') {
             const response = await fetch(url, {
                 method: 'GET', 
