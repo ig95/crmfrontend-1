@@ -83,7 +83,7 @@ const App = () => {
   }, [])
 
   // handles writting data to database and recieving google data
-  const responseGoogle = (response) => {
+  const responseGoogle = (responseGoog) => {
     async function getDataNext(url = '') {
       const response = await fetch(url, {
           method: 'GET', 
@@ -101,10 +101,10 @@ const App = () => {
     getDataNext('https://pythonicbackend.herokuapp.com/managers/').then( response => {
       let localVar = 0
       response.results.forEach( ele => {
-        if (response.profileObj.email === ele.email) {
-          setUserName(response.profileObj.givenName)
-          setUserId(response.profileObj.googleId)
-          setUserEmail(response.profileObj.email)
+        if (responseGoog.profileObj.email === ele.email) {
+          setUserName(responseGoog.profileObj.givenName)
+          setUserId(responseGoog.profileObj.googleId)
+          setUserEmail(responseGoog.profileObj.email)
           setStation(ele.station)
           localVar = 1
         }
