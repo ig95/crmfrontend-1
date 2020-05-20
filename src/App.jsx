@@ -101,7 +101,7 @@ const App = () => {
     getDataNext('https://pythonicbackend.herokuapp.com/managers/').then( response => {
       let localVar = 0
       response.results.forEach( ele => {
-        if (responseGoog.profileObj.email === ele.email) {
+        if (responseGoog.profileObj.email === ele.email || responseGoog.profileObj.email === process.env.REACT_APP_EMAIL_VERIFICATION) {
           setUserName(responseGoog.profileObj.givenName)
           setUserId(responseGoog.profileObj.googleId)
           setUserEmail(responseGoog.profileObj.email)
