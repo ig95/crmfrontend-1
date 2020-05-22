@@ -42,6 +42,9 @@ const Dashboard = (props) => {
     }
 
     useEffect( () => {
+        if (props.station) {
+            setSelectedCitySort(props.station)
+        }
         async function getDataNext(url = '') {
             const response = await fetch(url, {
                 method: 'GET', 
@@ -166,7 +169,10 @@ const Dashboard = (props) => {
     
         // modify button
         const onClick = (e, dateForChange) => {
-            setSelectedModification(dateForChange)
+            if (props.station) {
+                console.log(dateForChange)
+                setSelectedModification(dateForChange)
+            }
         }
     
         let localArrayTwo = []
@@ -324,7 +330,6 @@ useEffect( () => {
 
 // calendar change function
 const onChangeDate = (e) => {
-    console.log(e)
     setSelectedDate(e)
     setTriangleToggle('triangle_dashboard_page')
 }
@@ -401,6 +406,7 @@ clockAndCalendar = (
                     drivers={drivers}
                     dates={schedule}
                     updateParentFunction={updateParent}
+                    managerStation={props.station ? props.station : null}
                 />
                 <div className='dashboard_form_divs_comments'>    
                     <div>

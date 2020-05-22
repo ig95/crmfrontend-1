@@ -140,8 +140,6 @@ const DashboardForm = (props) => {
         };
         let logInLocal = logInTime.slice(0, 4)
         let logOutLocal = logOutTime.slice(0, 4)
-        console.log(logInTime, logInLocal)
-        console.log(logOutTime, logOutLocal)
 
         let myObjectToPut = () => {
             let myObj = {

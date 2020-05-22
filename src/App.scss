@@ -1464,7 +1464,60 @@
     }
   }
 
+  // button smaller for forms page
+  .button-container-3 {
+    position: relative;
+    margin-right: 1rem;
+    width: 6vw;
+    height: 5vh;
+    overflow: hidden;
+    font-weight: 300;
+    font-size: 1.1em;
+    transition: 0.5s;
+    letter-spacing: 1px;
+    color: $amazon_blue;
+    
+    .mas3 {
+      position: absolute;
+      color: $amazon_blue;
+      text-align: center;
+      width: 101%;
+      font-weight: 400;
+      position: absolute;
+      font-size: 1.3em;
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    
+    .buttonFront3 {
+      width: 101%;
+      height: 100%;
+      font-weight: 300;
+      font-size: 1.1em;
+      letter-spacing: 1px;
+      @include button($amazon_blue,
+      "https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png",
+      2300%,
+      100%,
+      none,
+      $offWhite);
+      cursor: pointer;
+      -webkit-animation: ani2 0.7s steps(22) forwards;
+      animation: ani2 0.7s steps(22) forwards;
+      
+      &:hover {
+        -webkit-animation: ani 0.7s steps(22) forwards;
+        animation: ani 0.7s steps(22) forwards;
+      }
+    }
+  }
 
+  .inner_text_button_forms_page {
+    font-size: 1em;
+    font-weight: 400;
+    font-family: "Font Awesome 5 Free";
+    margin: 0 auto;
+  }
 
   /*********************** BUTTON ENTRANCE EFFECT *****************************************/
 
@@ -2606,6 +2659,11 @@
     color: $offWhite;
   }
 
+  .name_suggestions_arrow_selection {
+    background-color: $amazon_blue_hover;
+    color: $offWhite;
+  }
+
   .input_dashboard_page {
     @extend %input_bars;
     border: 1px solid rgba(35, 47, 62, 0.247);
@@ -3508,7 +3566,7 @@
       flex-direction: column;
       padding: 2rem;
     }
-
+    
     .inputs_create_manager {
       @extend %input_bars;
     }
@@ -3516,11 +3574,176 @@
     .labels_create_manager {
       margin-right: 1rem;
     }
+
+    /****************************************  FORMS/DOCUMENTS PAGE ************************************************************/
+  .left_of_forms {
+    border-right: 2px solid $amazon_blue;
+    width: 25%;
+    height: 95%;
+    margin-left: 2rem;
+    padding: 0;
+  }
+
+  .submenus_forms_left {
+    display: flex;
+  }
+
+  .driver_list_forms_single {
+    background-color: $offWhite;
+  }
+
+  .driver_list_text {
+    display: inline-block;
+    position: relative;
+    margin: 0;
+    margin-top: .5rem;
+    padding: 0;
+    padding-left: 3px;
+    padding-right: 3px;
+    color: $amazon_blue;
+  }
+
+  .driver_list_text:hover {
+    color: $amazon_blue
+  }
+
+  .driver_list_text:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 2px;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: all 0.3s ease-in-out 0s;
+  }
+
+  .driver_list_text:hover:before {
+    visibility: visible;
+    background-color: $amazon_blue;
+    transform: scaleX(1);
+  }
+
+  .driver_list_container_forms {
+    padding-left: 1rem;
+  }
+
+  .selected_forms_name {
+    animation: blueUpList linear .3s forwards;
+  }
+
+  .top_three_forms_list {
+    display: flex;
+  }
+
+  @keyframes blueUpList {
+    0% {
+      background-color: $offWhite;
+      transform: scaleY(0);
+    }
+
+    100% {
+      background-color: $amazon_blue;
+      transform: scaleY(1);
+      color: $offWhite
+    }
+  }
+
+  .main_content_forms {
+    grid-area: main_content;
+    background-color: $offWhite;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
+  }
+
+  .right_of_forms {
+    height: 95%;
+    width: 71%;
+    margin-right: 2rem;
+  }
+
+  .forms_divs_name_search {
+    margin: 0 auto;
+    width: 15vw;
+    margin-top: 1rem;
+  }
+
+  .name_suggestions_arrow_selection_down {
+    background-color: $amazon_blue_hover;
+    color: $offWhite;
+  }
+  
+  .name_suggestions_arrow_selection_up {
+    background-color: $amazon_blue_hover;
+    color: $offWhite;
+  }
+
+  .search_bar_forms {
+    width: 15vw;
+  }
+
+  .submit_files_two_freedom {
+    padding: 1rem;
+    margin: 0;
+    margin-top: 1rem;
+    height: 87.4%;
+    border-top: 2px solid $amazon_blue;
+    animation: formSubmit linear .5s forwards;
+  }
+
+  .document_input_forms {
+    width: 10vw;
+  }
+
+  .document_input_forms_top {
+    margin-top: 2px;
+    width: 20vw;
+    height: 3vh;
+    padding: 10px;
+  }
+
+  @keyframes formSubmit {
+    0% {
+      width: 0%;
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+      width: 98%;
+    }
+  }
+
+  .dashboard_form_divs_name_bar_forms {
+    width: 15vw;
+    padding: 5px;
+    height: 0vh;
+    border-right: 1px solid $amazon_blue;
+    border-left: 1px solid $amazon_blue;
+    border-bottom: 1px solid $amazon_blue;
+    overflow-y: auto;
+    animation: searchBarDrop linear .3s forwards;
+  }
+
+  @keyframes searchBarDrop {
+    0% {
+      height: 0vh;
+    }
+
+    100% {
+      height: 10vh
+    }
+  }
     
-    @media only screen and (max-width: 1500px) {
-      html, body {
-        font-size: 90%;
-      }
+  @media only screen and (max-width: 1500px) {
+    html, body {
+      font-size: 90%;
+    }
       
     .dashboard_form_divs_name_bar_invoicing {
       margin-top: 2.3rem;
