@@ -2908,8 +2908,8 @@
   }
   
   .uploaded_image {
-    max-width: 30vw;
-    max-height: 35vh;
+    margin-left: 10px;
+    height: 3vh
   }
 
   .documents_h3 {
@@ -3726,8 +3726,36 @@
     border-right: 1px solid $amazon_blue;
     border-left: 1px solid $amazon_blue;
     border-bottom: 1px solid $amazon_blue;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
     overflow-y: auto;
     animation: searchBarDrop linear .3s forwards;
+  }
+
+  .names_list_array_container_none {
+    display: none;
+  }
+
+  .names_list_array_container {
+    margin: 0;
+    overflow-y: scroll; 
+    width: 10.6vw;
+    padding-left: 2px;
+    border-right: 1px solid $amazon_blue;
+    border-bottom: 1px solid $amazon_blue;
+    border-left: 1px solid $amazon_blue;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    animation: searchBarDropTwo .3s linear forwards;
+  }
+
+  .names_in_names_list_array_forms:hover {
+    background-color: lightgray;
+  }
+
+  .uploaded_image_three_false {
+    height: 5vh;
+    width: 5vw;
   }
 
   @keyframes searchBarDrop {
@@ -3736,7 +3764,17 @@
     }
 
     100% {
-      height: 10vh
+      height: 10vh;
+    }
+  }
+
+  @keyframes searchBarDropTwo {
+    0% {
+      height: 0vh;
+    }
+
+    100% {
+      height: 25vh;
     }
   }
     
