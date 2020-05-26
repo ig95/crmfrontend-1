@@ -561,15 +561,6 @@ const InvoiceWork = (props) => {
 
     var MyDocument
     var theDocument
-    if (MyDocument) {
-        theDocument = (
-            <PDFViewer >
-                <MyDocument />
-            </PDFViewer>
-        )
-    } else {
-        theDocument = ''
-    }
 
     return (
         <div className='home_content'>
