@@ -8,7 +8,7 @@ import logo from '../images/logoMinified.png'
 var myInterval
 const NavigationBar = (props) => {
     const [ currentDate, setCurrentDate ] = useState(new Date())
-    const [ subMenuText, setSubMenuText ] = useState('Verification')
+    const [ subMenuText, setSubMenuText ] = useState('Compliance Menu')
     const [ makeVisible, setMakeVisible ] = useState('menu_rota_sub_none')
     
     // handling the clock
@@ -96,25 +96,41 @@ const NavigationBar = (props) => {
                             <ol>
                                 <li className="menu-item" id='remove_border_please'><a href="#0" id='top_menu_nav'>{subMenuText}</a>
                                     <ol className="sub-menu" >
-                                        <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Docs for Verification')}>
-                                            <a href="#0" >
-                                                Docs for Verification
-                                            </a>
+                                        <li className="menu-item"  id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Main Page')}>
+                                            <Link to="/compliance" id='link_style_sub_menu'>
+                                                    <a href="#0" >
+                                                        Main Page
+                                                    </a>
+                                            </Link>
                                         </li>
+                                        <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Docs for Verification')}>
+                                            <Link to='/documentsforverification' id='link_style_sub_menu'>
+                                                <a href="#0" >
+                                                    Docs for Verification
+                                                </a>
+                                            </Link>
+                                        </li>
+                                        
                                         <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Driver Documents')}>
-                                            <a href="#0" >
-                                                Driver Documents
-                                            </a>
+                                            <Link to='/driverdocuments' id='link_style_sub_menu'>
+                                                <a href="#0" >
+                                                    Driver Documents
+                                                </a>
+                                            </Link>
                                         </li>
                                         <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Driver Compliance')}>
-                                            <a href="#0" >
-                                                Driver Compliance 
-                                            </a>
+                                            <Link to='drivercompliancecheck' id='link_style_sub_menu'>
+                                                <a href="#0" >
+                                                    Driver Compliance 
+                                                </a>
+                                            </Link>
                                         </li>
                                         <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Company Vans')}>
-                                            <a href="#0" >
-                                                Company Vans
-                                            </a>
+                                            <Link to='/companyvans' id='link_style_sub_menu'>
+                                                <a href="#0" >
+                                                    Company Vans
+                                                </a>
+                                            </Link>
                                         </li>
                                     </ol>
                                 </li>

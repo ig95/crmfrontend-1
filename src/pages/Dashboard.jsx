@@ -169,10 +169,7 @@ const Dashboard = (props) => {
     
         // modify button
         const onClick = (e, dateForChange) => {
-            if (props.station) {
-                console.log(dateForChange)
                 setSelectedModification(dateForChange)
-            }
         }
     
         let localArrayTwo = []

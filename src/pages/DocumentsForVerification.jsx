@@ -5,7 +5,7 @@ import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import folderPic from '../images/folder.png'
 
-const DriverDocumentation = (props) => {
+const DocumentsForVerification = (props) => {
     const [ selectedDriver, setSelectedDriver ] = useState(null)
     const [ drivers, setDrivers ] = useState(null)
     const [ dataset, setDataset ] = useState(null)
@@ -78,10 +78,10 @@ const DriverDocumentation = (props) => {
     var driverList = listTheDrivers()
     return (
         <div className='home_content'>
-            <NavigationBar title='Compliance' superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}/>
+            <NavigationBar title='Documents For Verification' superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}/>
             <div className='main_content_driver_documents'>
                 <div className='documents_search_bar'>
-                    <nav className="menu">
+                    <nav className="menu_docs_verification">
                         <ol>
                             <li className="menu-item"><a href="#0">{selectedCity}</a>
                                 <ol className="sub-menu">
@@ -96,10 +96,12 @@ const DriverDocumentation = (props) => {
                         {driverList}
                     </div>
                 </div>
-                {content}
+                <div>
+                    {content}
+                </div>
             </div>
         </div>
     )
 }
 
-export default DriverDocumentation
+export default DocumentsForVerification

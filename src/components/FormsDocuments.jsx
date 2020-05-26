@@ -5,9 +5,6 @@ import 'react-calendar/dist/Calendar.css'
 
 const FormsDocuments = (props) => {
     const [  valueForSubmit, setValueForSubmit ] = useState('')
-    const [ imageArray, setImageArray ] = useState([])
-    const [ submitFilesDivSelection, setSubmitFilesDivSelection ] = useState(true)
-    const [ highlightedPicture, setHighlightedPicture ] = useState(null)
     const [ nameValue, setNameValue ] = useState('')
     const [ dateSelected, setDateSelected ] = useState(new Date())
     const [ calendarGate, setCalendarGate] = useState(false)
@@ -17,7 +14,7 @@ const FormsDocuments = (props) => {
     const [ countryFromListArray, setCountryFromListArray] = useState([])
     const [ countryFromList, setCountryFromList] = useState()
     const [ displayCountryArray, setDisplayCountryArray] = useState('names_list_array_container_none')
-
+    const [ submitPressed, setSubmitPressed] = useState('Submit')
 
     // save image to cloudinary
     var uploadImage = (e) => {
@@ -36,18 +33,9 @@ const FormsDocuments = (props) => {
         })
     }
 
-    // function for selecting image for big div 
-    const handleMakingMainImage = (e, source) => {
-        setHighlightedPicture(<img src={source} alt='cannot view' className='big_picture'/>)
-    }
-
     // handle submitting document to backend
     var handleSubmit = (e) => {
         e.preventDefault()
-        console.log(valueForSubmit)
-        console.log(props.selectedDriver.driver_id)
-        let imageName
-        nameValue ? imageName = nameValue : imageName = 'None'
 
         async function postData(url = '', data = {}) {
             const response = await fetch(url, {
@@ -67,33 +55,21 @@ const FormsDocuments = (props) => {
         
         postData(`https://pythonicbackend.herokuapp.com/images/`, {
             ImagesLink: valueForSubmit,
-            ImageName: imageName,
+            ImageName: nameFromList,
+            LicenseOrigin: countryFromList.slice(5),
             ExpiryDate: dateSelected,
             driver_id: `https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`
         }).then( response => {
-            let myNum = 0
-            if (imageArray.length > 0) {
-                myNum = imageArray.length-1
-            }
-            let valueForImage = (
-                <div className='image_list_divs_false'>
-                    <h3>{imageName}</h3>
-                    <img src={valueForSubmit} alt='cannot view' className='uploaded_image_two_false' onClick={(e, source) => handleMakingMainImage(e, valueForSubmit, response, myNum)}/>
-                </div>
-            )
-            let localArray = []
-            if (imageArray.length > 0) {
-                localArray = [...imageArray]
-                localArray.push(valueForImage)
-            } else {
-                localArray.push(valueForImage)
-            }
-            setImageArray(localArray)
+            console.log(response)
+            setSubmitted()
         })
     }
-     // make the state keep he name
-     const handleChange = (e) => {
-        setNameValue(e.target.value)
+
+    const setSubmitted = () => {
+        setSubmitPressed('Added')
+        setTimeout( () => {
+            setSubmitPressed('Submit')
+        }, 2000)
     }
 
     // make react happy
@@ -455,7 +431,6 @@ const FormsDocuments = (props) => {
     // function for submitting files
     var submitFilesDiv
     if (props.selectedDriver) {
-        console.log(props)
         submitFilesDiv = (
             <div className='submit_files_two_freedom'>
                 <form onSubmit={handleSubmit} className='form_on_document_page'>
@@ -499,13 +474,10 @@ const FormsDocuments = (props) => {
                                 </div>
                             </div>
                             <br />
-                    <div className="button-container-2" id="formsButtonSubmit">
-                        <span className="mas2">Submit</span>
-                            <button className='buttonFront2' id='work2' type="button" name="Hover">
-                                <input type="submit" value='Submit' className='make_submit_invisible'/>
-                            </button>
+                        <div className="button-container-2" id="formsButtonSubmit">
+                            <input type="submit" value={submitPressed} className='compliance_add_driver_button_submit' />
                         </div> 
-                    </div> 
+                    </div>
                 </form>
             </div>
         )

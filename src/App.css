@@ -2596,15 +2596,7 @@ h4 {
   justify-content: space-evenly;
   height: 10vh;
 }
-.drivers_names_documents {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  overflow: scroll;
-  animation-name: fadeSmall;
-  animation-duration: 0.75s;
-  animation-fill-mode: forwards;
-}
+
 @keyframes fadeSmall {
   0% {
     width: 50vw;
@@ -2678,11 +2670,7 @@ h4 {
     font-size: 1em;
   }
 }
-.drivers_names_documents:hover {
-  animation-name: fadeBig;
-  animation-duration: 0.75s;
-  animation-fill-mode: forwards;
-}
+
 @keyframes fadeBig {
   0% {
     width: 50vw;

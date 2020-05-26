@@ -215,6 +215,113 @@
 		}
 	}
 }
+.menu_docs_verification {
+  height: 5vh;
+  margin: 0 auto;
+  z-index: 1;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+
+		&:first-child {
+      width: 15vw;
+
+			align-items: center;
+      box-shadow: 0px 3px 8px $transparent-gray;
+      background-color: $amazon_blue;
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+				font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+			top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+					content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      margin: 0 auto;
+      width: 15vw; 
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
 
 #menu_text_white {
   color: $amazon_blue;
@@ -1976,6 +2083,14 @@
     transform: rotate(180deg);
   }
 
+  #link_style_sub_menu {
+    font-size: 1em;
+  }
+
+  #link_style_sub_menu:hover {
+    font-size: 1em;
+  }
+
   .drop_down_hamburger:hover .drop_down_content{
     position: absolute;
     @extend %centerThings;
@@ -3114,6 +3229,7 @@
     background-color: $offWhite;
     animation-name: loadingStyle;
     animation-duration: 1s;
+    display: flex;
   }
 
   .overall_documents{
@@ -3304,11 +3420,11 @@
     display: flex;
     flex-wrap: wrap;
     overflow: scroll;
-    height: 70vh;
+    height: 85vh;
     animation-name: fadeInRight;
-    animation-duration: 1s;
+    animation-duration: .5s;
     animation-fill-mode: forwards;
-    animation-timing-function: linear;
+    animation-timing-function: ease-in-out;
   }
 
   .enter_information_documents {
@@ -3345,15 +3461,11 @@
 
   @keyframes fadeInRight {
     0% {
-      width: 0%;
+      width: 0vw;
       opacity: 0;
     }
-    50% {
-      width: 50%;
-      opacity: .2;
-    }
     100% {
-      width: 100%;
+      width: 65vw;
       opacity: 1;
     }
   }
@@ -3367,37 +3479,19 @@
 
   .documents_search_bar {
     border: 2px solid #232F3E;
-    padding: 1rem;
-    margin: 0 1rem .5rem 1rem;
+    height: 85vh;
+    width: 20vw;
     display: flex;
-    justify-content: space-evenly;
-    height: 10vh;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
   .drivers_names_documents {
+    padding-top: 1rem;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    overflow: scroll;
-    animation-name: fadeSmall; 
-    animation-duration: .75s;
-    animation-fill-mode: forwards;
-  }
-
-  @keyframes fadeSmall {
-    0% {
-      width: 50vw;
-      height: 30vh;
-      background-color: $offWhite;
-      z-index: 1;
-      border-radius: .5rem;
-    }
-
-    100% {
-      width: 50vw;
-      height: 10vh;
-      opacity: 1;
-    }
+    flex-direction: column;
+    overflow-y: scroll;
   }
 
   .button_div_box_top {
@@ -3464,12 +3558,6 @@
     }
   }
 
-  .drivers_names_documents:hover {
-    animation-name: fadeBig;
-    animation-duration: .75s;
-    animation-fill-mode: forwards;
-  }
-
   @keyframes fadeBig {
     0% {
       width: 50vw;
@@ -3497,10 +3585,11 @@
 
   .name_list_documents {
     position: relative;
-    font-size: 1.3em;
+    display: block;
+    font-size: 1.2em;
     font-weight: 400;
-    margin: 10px;
-    padding: 0;
+    margin: 0;
+    margin-top: 5px;
   }
 
   .name_list_documents:hover {
@@ -3827,227 +3916,371 @@
     }
 
     /****************************************  FORMS/DOCUMENTS PAGE ************************************************************/
-  .left_of_forms {
-    border-right: 2px solid $amazon_blue;
-    width: 25%;
-    height: 95%;
-    margin-left: 2rem;
-    padding: 0;
-  }
-
-  .submenus_forms_left {
-    display: flex;
-  }
-
-  .driver_list_forms_single {
-    background-color: $offWhite;
-  }
-
-  .driver_list_text {
-    display: inline-block;
-    position: relative;
-    margin: 0;
-    margin-top: .5rem;
-    padding: 0;
-    padding-left: 3px;
-    padding-right: 3px;
-    color: $amazon_blue;
-  }
-
-  .driver_list_text:hover {
-    color: $amazon_blue
-  }
-
-  .driver_list_text:before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 2px;
-    visibility: hidden;
-    transform: scaleX(0);
-    transition: all 0.3s ease-in-out 0s;
-  }
-
-  .driver_list_text:hover:before {
-    visibility: visible;
-    background-color: $amazon_blue;
-    transform: scaleX(1);
-  }
-
-  .driver_list_container_forms {
-    padding-left: 1rem;
-  }
-
-  .selected_forms_name {
-    animation: blueUpList linear .3s forwards;
-  }
-
-  .button_for_ginishka {
-    height: 5vh;
-    background-color: $amazon_blue;
-    border: none;
-    border-radius: .5rem;
-    color: $offWhite;
-  }
-
-
-
-  .button_for_ginishka:hover {
-    background-color: $offWhite;
-    color: $amazon_blue;
-  }
-
-  .h3_inside{
-    font-size: 1em;
-  }
-
-  .top_three_forms_list {
-    display: flex;
-  }
-
-  @keyframes blueUpList {
-    0% {
+    .left_of_forms {
+      border-right: 2px solid $amazon_blue;
+      width: 25%;
+      height: 95%;
+      margin-left: 2rem;
+      padding: 0;
+    }
+    
+    .submenus_forms_left {
+      display: flex;
+    }
+    
+    .driver_list_forms_single {
       background-color: $offWhite;
-      transform: scaleY(0);
     }
-
-    100% {
+    
+    .driver_list_text {
+      display: inline-block;
+      position: relative;
+      margin: 0;
+      margin-top: .5rem;
+      padding: 0;
+      padding-left: 3px;
+      padding-right: 3px;
+      color: $amazon_blue;
+    }
+    
+    .driver_list_text:hover {
+      color: $amazon_blue
+    }
+    
+    .driver_list_text:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 2px;
+      visibility: hidden;
+      transform: scaleX(0);
+      transition: all 0.3s ease-in-out 0s;
+    }
+    
+    .driver_list_text:hover:before {
+      visibility: visible;
       background-color: $amazon_blue;
-      transform: scaleY(1);
-      color: $offWhite
+      transform: scaleX(1);
     }
-  }
-
-  .main_content_forms {
-    grid-area: main_content;
-    background-color: $offWhite;
+    
+    .driver_list_container_forms {
+      padding-left: 1rem;
+    }
+    
+    .selected_forms_name {
+      animation: blueUpList linear .3s forwards;
+    }
+    
+    .button_for_ginishka {
+      height: 5vh;
+      background-color: $amazon_blue;
+      border: none;
+      border-radius: .5rem;
+      color: $offWhite;
+    }
+    
+    
+    
+    .button_for_ginishka:hover {
+      background-color: $offWhite;
+      color: $amazon_blue;
+    }
+    
+    .h3_inside{
+      font-size: 1em;
+    }
+    
+    .top_three_forms_list {
+      display: flex;
+    }
+    
+    @keyframes blueUpList {
+      0% {
+        background-color: $offWhite;
+        transform: scaleY(0);
+      }
+      
+      100% {
+        background-color: $amazon_blue;
+        transform: scaleY(1);
+        color: $offWhite
+      }
+    }
+    
+    .main_content_forms {
+      grid-area: main_content;
+      background-color: $offWhite;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      animation-name: loadingStyle;
+      animation-duration: 1s;
+    }
+    
+    .right_of_forms {
+      height: 95%;
+      width: 71%;
+      margin-right: 2rem;
+    }
+    
+    .forms_divs_name_search {
+      margin: 0 auto;
+      width: 15vw;
+      margin-top: 1rem;
+    }
+    
+    .name_suggestions_arrow_selection_down {
+      background-color: $amazon_blue_hover;
+      color: $offWhite;
+    }
+    
+    .name_suggestions_arrow_selection_up {
+      background-color: $amazon_blue_hover;
+      color: $offWhite;
+    }
+    
+    .search_bar_forms {
+      width: 15vw;
+    }
+    
+    .submit_files_two_freedom {
+      padding: 1rem;
+      margin: 0;
+      margin-top: 1rem;
+      height: 87.4%;
+      border-top: 2px solid $amazon_blue;
+      animation: formSubmit linear .5s forwards;
+    }
+    
+    .document_input_forms {
+      width: 10vw;
+    }
+    
+    .document_input_forms_top {
+      margin-top: 2px;
+      width: 20vw;
+      height: 3vh;
+      padding: 10px;
+    }
+    
+    @keyframes formSubmit {
+      0% {
+        width: 0%;
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+        width: 98%;
+      }
+    }
+    
+    #formsButtonSubmit {
+      position: absolute;
+      bottom: 5vh;
+    }
+    
+    .dashboard_form_divs_name_bar_forms {
+      width: 15vw;
+      padding: 5px;
+      height: 0vh;
+      border-right: 1px solid $amazon_blue;
+      border-left: 1px solid $amazon_blue;
+      border-bottom: 1px solid $amazon_blue;
+      border-bottom-left-radius: .5rem;
+      border-bottom-right-radius: .5rem;
+      overflow-y: auto;
+      animation: searchBarDrop linear .3s forwards;
+    }
+    
+    .names_list_array_container_none {
+      display: none;
+    }
+    
+    .names_list_array_container {
+      margin: 0;
+      overflow-y: scroll; 
+      width: 10.6vw;
+      padding-left: 2px;
+      border-right: 1px solid $amazon_blue;
+      border-bottom: 1px solid $amazon_blue;
+      border-left: 1px solid $amazon_blue;
+      border-bottom-left-radius: .5rem;
+      border-bottom-right-radius: .5rem;
+      animation: searchBarDropTwo .3s linear forwards;
+    }
+    
+    .names_in_names_list_array_forms:hover {
+      background-color: lightgray;
+    }
+    
+    .uploaded_image_three_false {
+      height: 5vh;
+      width: 5vw;
+    }
+    
+  /****************************************  FORMS/DOCUMENTS PAGE ************************************************************/
+  .top_container_compliance_page {
+    width: 100%;
+    padding: 2rem;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
+  }
+  
+  .main_content_compliance {
+    grid-area: main_content;
+    display: flex;
+    width: 96%;
+    flex-direction: column;
+    background-color: $offWhite;
     animation-name: loadingStyle;
     animation-duration: 1s;
   }
-
-  .right_of_forms {
-    height: 95%;
-    width: 71%;
-    margin-right: 2rem;
-  }
-
-  .forms_divs_name_search {
-    margin: 0 auto;
+  
+  .compliance_add_driver_button {
+    display: block;
+    position: relative;
+    height: 5vh;
+    border: none;
+    background: linear-gradient(to right, $amazon_blue_hover 50%, $amazon_blue 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    color: $offWhite;
     width: 15vw;
-    margin-top: 1rem;
+    font-weight: 400;
+    font-family: $ubuntu_font;
+    font-size: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 3px 8px $transparent-gray;
+    transition: all .3s ease-in-out;
   }
 
-  .name_suggestions_arrow_selection_down {
-    background-color: $amazon_blue_hover;
+  .compliance_add_driver_button_driver_docs {
+    display: block;
+    position: relative;
+    height: 5.1vh;
+    border: none;
+    margin-left: 5vw;
+    background: linear-gradient(to right, $amazon_blue_hover 50%, $amazon_blue 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    color: $offWhite;
+    width: 7vw;
+    font-weight: 400;
+    font-family: $ubuntu_font;
+    font-size: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 3px 8px $transparent-gray;
+    transition: all .3s ease-in-out;
+  }
+
+  .compliance_add_driver_button_driver_docs:hover {
+    background-position: left bottom;
+  }
+  
+  .compliance_add_driver_button:hover {
+    background-position: left bottom;
+  }
+  
+  .compliance_add_driver_button_submit {
+    display: block;
+    position: relative;
+    height: 5vh;
+    border: none;
+    background: linear-gradient(to right, $amazon_blue_hover 50%, $amazon_blue 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    color: $offWhite;
+    width: 10vw;
+    font-weight: 400;
+    font-family: $ubuntu_font;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 3px 8px $transparent-gray;
+    transition: all .3s ease-in-out;
+    margin-right: 10px;
+    border-radius: .5rem;
+  }
+  
+  .compliance_add_driver_button_submit:hover {
+    background-position: left bottom;
+  }
+  .span_in_complaince_button {
     color: $offWhite;
   }
   
-  .name_suggestions_arrow_selection_up {
-    background-color: $amazon_blue_hover;
-    color: $offWhite;
+  .bottom_container_compliance_page {
+    width: 100%;
+    height: 100%;
+    border-top: 2px solid rgba(0, 0, 0, 0.151);
+    display: flex;
   }
-
-  .search_bar_forms {
-    width: 15vw;
-  }
-
-  .submit_files_two_freedom {
+  
+  .bottom_buttons_compliance_page {
+    height: 70vh;
     padding: 1rem;
-    margin: 0;
-    margin-top: 1rem;
-    height: 87.4%;
-    border-top: 2px solid $amazon_blue;
-    animation: formSubmit linear .5s forwards;
+    border-right: 2px solid rgba(0, 0, 0, 0.151);
+    width: 100%;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
   }
-
-  .document_input_forms {
-    width: 10vw;
+  
+  #last_div_compliance_page {
+    border: none;
   }
-
-  .document_input_forms_top {
-    margin-top: 2px;
-    width: 20vw;
-    height: 3vh;
-    padding: 10px;
+  
+  .h3_for_compliance_Page {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+    background: linear-gradient(to right, rgb(236, 236, 236) 50%, $offWhite 50%);
+    background-size: 200% 100%;
+    margin: 2px;
+    background-position: right bottom;
+    color: $amazon_blue;
+    font-weight: 400;
+    font-family: $ubuntu_font;
+    font-size: 1.1em;
+    transition: all .3s ease-in-out;
   }
-
-  @keyframes formSubmit {
-    0% {
-      width: 0%;
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-      width: 98%;
-    }
+  
+  .h3_for_compliance_Page:hover {
+    background-position: left bottom;
   }
-
-  #formsButtonSubmit {
-    position: absolute;
-    bottom: 5vh;
+  
+  /****************************************  FORMS/DOCUMENTS PAGE ************************************************************/
+  .documents_forverification_list_div {
+    padding: 1rem;
   }
-
-  .dashboard_form_divs_name_bar_forms {
-    width: 15vw;
-    padding: 5px;
-    height: 0vh;
-    border-right: 1px solid $amazon_blue;
-    border-left: 1px solid $amazon_blue;
-    border-bottom: 1px solid $amazon_blue;
-    border-bottom-left-radius: .5rem;
-    border-bottom-right-radius: .5rem;
-    overflow-y: auto;
-    animation: searchBarDrop linear .3s forwards;
-  }
-
-  .names_list_array_container_none {
-    display: none;
-  }
-
-  .names_list_array_container {
-    margin: 0;
-    overflow-y: scroll; 
-    width: 10.6vw;
-    padding-left: 2px;
-    border-right: 1px solid $amazon_blue;
-    border-bottom: 1px solid $amazon_blue;
-    border-left: 1px solid $amazon_blue;
-    border-bottom-left-radius: .5rem;
-    border-bottom-right-radius: .5rem;
-    animation: searchBarDropTwo .3s linear forwards;
-  }
-
-  .names_in_names_list_array_forms:hover {
-    background-color: lightgray;
-  }
-
-  .uploaded_image_three_false {
-    height: 5vh;
-    width: 5vw;
+  .remove_h3_padding {
+    margin: none;
+    padding: none;
   }
 
   @keyframes searchBarDrop {
     0% {
       height: 0vh;
     }
-
+    
     100% {
       height: 10vh;
     }
   }
-
+  
   @keyframes searchBarDropTwo {
     0% {
       height: 0vh;
     }
-
+    
     100% {
       height: 25vh;
     }

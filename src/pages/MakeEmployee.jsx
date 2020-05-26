@@ -77,10 +77,12 @@ const MakeEmployee = (props) => {
         })
     }
 
+    // reset the page
     const backToNormal = () => {
         setLogicalGate(false)
     }
 
+    // make the driver page
     var makeTheDriver
     if (logicalGate) {
         makeTheDriver = (
