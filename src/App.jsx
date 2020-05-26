@@ -33,7 +33,7 @@ const App = () => {
   // dev mode
   // useEffect( () => {
   //   setUserName('Nicholas Shankland')
-  //   setUserEmail('nicholas.m.shankland@gmai.com')
+  //   setUserEmail('nicholas.m.shankland@gmail.com')
   //   setUserId('1923874-98y')
   //   setStation('DBS2')
   // },[])

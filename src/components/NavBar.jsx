@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import logo from '../images/logoMinified.png'
 
@@ -8,6 +8,8 @@ import logo from '../images/logoMinified.png'
 var myInterval
 const NavigationBar = (props) => {
     const [ currentDate, setCurrentDate ] = useState(new Date())
+    const [ subMenuText, setSubMenuText ] = useState('Verification')
+    const [ makeVisible, setMakeVisible ] = useState('menu_rota_sub_none')
     
     // handling the clock
     useEffect( () => {
@@ -41,6 +43,21 @@ const NavigationBar = (props) => {
         )
     }
 
+    // handle the nav menu
+    const handleMouseEnter = () => {
+        setMakeVisible('menu_rota_sub_nav')
+    }
+
+    // handle the nav menu
+    const handleChangeTitle = (e, values) => {
+        setSubMenuText(values)
+    }
+
+    // handle the nav menu
+    const handleMouseleave = () => {
+        setMakeVisible('menu_rota_sub_none')
+    }
+
     return (
         <>
             <div className='nav_bar_top'>
@@ -72,11 +89,39 @@ const NavigationBar = (props) => {
                         Location Rota 
                     </div>
                 </Link>
-                <Link to="/documentation" className='links'>
+                <div className='links' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseleave}>
                     <div className='link_style'>
                         Compliance
+                        <nav className={makeVisible} id='top_menu_nav'>
+                            <ol>
+                                <li className="menu-item" id='remove_border_please'><a href="#0" id='top_menu_nav'>{subMenuText}</a>
+                                    <ol className="sub-menu" >
+                                        <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Docs for Verification')}>
+                                            <a href="#0" >
+                                                Docs for Verification
+                                            </a>
+                                        </li>
+                                        <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Driver Documents')}>
+                                            <a href="#0" >
+                                                Driver Documents
+                                            </a>
+                                        </li>
+                                        <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Driver Compliance')}>
+                                            <a href="#0" >
+                                                Driver Compliance 
+                                            </a>
+                                        </li>
+                                        <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Company Vans')}>
+                                            <a href="#0" >
+                                                Company Vans
+                                            </a>
+                                        </li>
+                                    </ol>
+                                </li>
+                            </ol>
+                        </nav>
                     </div>
-                </Link>
+                </div>
                 <Link to="/invoicework" className='links'>
                     <div className='link_style'>
                         Invoices
