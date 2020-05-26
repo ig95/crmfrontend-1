@@ -215,7 +215,7 @@ const Forms = (props) => {
 
     return (
         <div className='home_content' >
-            <NavigationBar title='Forms' superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}/>
+            <NavigationBar title='Driver Documents' superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}/>
             <div className='main_content_forms'>
                 <div className='left_of_forms'>
                     <div className='top_three_forms_list'>

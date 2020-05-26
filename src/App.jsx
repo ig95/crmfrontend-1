@@ -31,12 +31,12 @@ const App = () => {
   // const [ user, setUser] = useState(null);
 
   // dev mode
-  useEffect( () => {
-    setUserName('Nicholas Shankland')
-    setUserEmail('nicholas.m.shankland@gmai.com')
-    setUserId('1923874-98y')
-    setStation('DBS2')
-  },[])
+  // useEffect( () => {
+  //   setUserName('Nicholas Shankland')
+  //   setUserEmail('nicholas.m.shankland@gmai.com')
+  //   setUserId('1923874-98y')
+  //   setStation('DBS2')
+  // },[])
 
   useEffect( () => {
     async function getData(url = '', data={}) {
@@ -100,18 +100,18 @@ const App = () => {
 
     getDataNext('https://pythonicbackend.herokuapp.com/managers/').then( response => {
       let localVar = 0
-      // response.results.forEach( ele => {
-      //   if (responseGoog.profileObj.email === ele.email || responseGoog.profileObj.email === process.env.REACT_APP_EMAIL_VERIFICATION || responseGoog.profileObj.email === process.env.REACT_APP_SUPER_USER) {
-      //     setUserName(responseGoog.profileObj.givenName)
-      //     setUserId(responseGoog.profileObj.googleId)
-      //     setUserEmail(responseGoog.profileObj.email)
-      //     setStation(ele.station)
-      //     localVar = 1
-      //   }
-      // })
-      // if (localVar === 0) {
-      //   setUserFound('Login not found. Please contact site administrator')
-      // }
+      response.results.forEach( ele => {
+        if (responseGoog.profileObj.email === ele.email || responseGoog.profileObj.email === process.env.REACT_APP_EMAIL_VERIFICATION || responseGoog.profileObj.email === process.env.REACT_APP_SUPER_USER) {
+          setUserName(responseGoog.profileObj.givenName)
+          setUserId(responseGoog.profileObj.googleId)
+          setUserEmail(responseGoog.profileObj.email)
+          setStation(ele.station)
+          localVar = 1
+        }
+      })
+      if (localVar === 0) {
+        setUserFound('Login not found. Please contact site administrator')
+      }
       console.log(response.results)
     })
   }

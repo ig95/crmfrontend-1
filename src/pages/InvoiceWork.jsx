@@ -34,6 +34,7 @@ const InvoiceWork = (props) => {
         };
     
         getDataNext('https://pythonicbackend.herokuapp.com/data/').then( (response) => {
+            console.log(response)
             setDataset(response.data.drivers)
         })
     }, [])
@@ -403,6 +404,7 @@ const InvoiceWork = (props) => {
             )
         }
         if (selectedInvoice) {
+            console.log(invoices)
             // pdf stuff
             const styles = StyleSheet.create({
                 single_Invoice_overall: {
@@ -553,11 +555,21 @@ const InvoiceWork = (props) => {
                     </View>
                   </Page>
                 </Document>
-            );
+            )
         }
     }
 
     var MyDocument
+    var theDocument
+    if (MyDocument) {
+        theDocument = (
+            <PDFViewer >
+                <MyDocument />
+            </PDFViewer>
+        )
+    } else {
+        theDocument = ''
+    }
 
     return (
         <div className='home_content'>
@@ -580,6 +592,7 @@ const InvoiceWork = (props) => {
                 <div className='invoices_overall'>
                     {invoiceContent}
                     {invoiceSelection}
+                    {theDocument}
                     <PDFDownloadLink document={MyDocument} filename='Invoice.pdf'  className='pdf_text'>
                         {({ blob, url, loading, error }) => (
                             loading ? 

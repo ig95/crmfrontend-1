@@ -499,7 +499,7 @@ const FormsDocuments = (props) => {
                                 </div>
                             </div>
                             <br />
-                    <div className="button-container-2" >
+                    <div className="button-container-2" id="formsButtonSubmit">
                         <span className="mas2">Submit</span>
                             <button className='buttonFront2' id='work2' type="button" name="Hover">
                                 <input type="submit" value='Submit' className='make_submit_invisible'/>
