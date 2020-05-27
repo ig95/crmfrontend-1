@@ -771,6 +771,12 @@
   width: 4vw;
   color: black;
 }
+
+#menu_rota_b {
+  width: 7vw;
+  color: black;
+}
+
 #menu_rota_zed {
   width: 4vw;
   color: $offWhite;
@@ -895,14 +901,117 @@
 	}
 }
 
-.menu_rota_sub_none {
-  display: none;
-}
-
 .menu_rota_sub {
   height: 5vh;
   position: absolute;
   left: 5.3vw;
+  z-index: 1;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  background-color:  $offRotaColor;
+	ol {
+    list-style: none;
+		padding: 0;
+    margin: 0;
+    
+		&:first-child {
+      align-items: center;
+      background-color:  $offRotaColor;
+		}
+	}
+  
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+.menu_rota_sub_seven {
+  height: 5vh;
+  position: absolute;
+  left: 8.7vw;
   z-index: 1;
   @extend %calendar_divs_class;
   display: flex;
@@ -1474,6 +1583,448 @@
 }
 
 .menu_rota_holiday:hover {
+  z-index: 1;
+}
+
+.menu_rota_seven:hover {
+  z-index: 1;
+}
+
+.menu_rota_seven {
+  height: 5vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 11%;
+	ol {
+    list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+    
+		&:first-child {
+      align-items: center;
+      background-color:  $offRotaColor;
+		}
+	}
+  
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+// in version
+.menu_rota_in_seven {
+  height: 5vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 11%;
+	ol {
+    list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+    
+		&:first-child {
+      align-items: center;
+      background-color:  #A5FFBE;
+		}
+	}
+  
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: rgb(131, 113, 113);
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: black;
+			text-decoration: none;
+		}
+	}
+}
+.menu_rota_in_seven:hover {
+  z-index: 1;
+}
+
+// ct rt and mfn
+.menu_rota_purple_seven {
+  height: 5vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 11%;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+
+		&:first-child {
+			align-items: center;
+      background-color:  #BE9ADB;
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+.menu_rota_purple_seven:hover {
+  z-index: 1;
+}
+
+//holiday version
+.menu_rota_holiday_seven {
+  height: 5vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 11%;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+
+		&:first-child {
+			align-items: center;
+      box-shadow: 0px 3px 8px $transparent-gray;
+      background-color:  rgb(122, 211, 255);
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+.menu_rota_holiday_seven:hover {
   z-index: 1;
 }
 

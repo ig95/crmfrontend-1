@@ -196,6 +196,7 @@ const MakeEmployee = (props) => {
             SigningUrlNumber: randoNumber
         }).then( response => {
             console.log(response)
+            console.log(props.user_email)
             getData('https://intense-headland-70415.herokuapp.com/mail', {
                 password: process.env.REACT_APP_INTERCHANGE,
                 email: props.user_email,

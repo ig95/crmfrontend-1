@@ -151,7 +151,7 @@ const WeekSchedule = (props) => {
     var makeTheDriver
     makeTheDriver = (
         <>
-        <MakeDriver />
+        <MakeDriver user_name={props.user_name} user_email={props.user_email} user_id={props.user_id}/>
         <div className='absolute_return_button'>
             <div className="button-container-2" onClick={backToNormal}>
                 <span className="mas2">Return</span>

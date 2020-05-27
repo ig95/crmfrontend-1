@@ -149,6 +149,36 @@ const DivSingleWeek = (props) => {
             )
         }
 
+        // make the nav visible
+        const handleMouseEnterSeven = () => {
+            console.log('onMouseEnter')
+            setMenuVisibility(
+                <nav className='menu_rota_sub_seven' >
+                    <ol>
+                        <li className="menu-item"><a href="#0" id='menu_rota_zed' >Station</a>
+                            <ol className="sub-menu" >
+                                <li className="menu-item" id='sub_menu_options'>
+                                    <a href="#0" id='dropdown_text_rota'>
+                                        DSN1
+                                    </a>
+                                </li>
+                                <li className="menu-item" id='sub_menu_options'>
+                                    <a href="#0" id='dropdown_text_rota'>
+                                        DBS2
+                                    </a>
+                                </li>
+                                <li className="menu-item" id='sub_menu_options'>
+                                    <a href="#0" id='dropdown_text_rota'>
+                                        DEX2
+                                    </a>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </nav>
+            )
+        }
+
 
         // get sundays
         const getSundays = () => {
@@ -160,6 +190,34 @@ const DivSingleWeek = (props) => {
             ]
             bookingOptions.push (
                 <li className="menu-item" id='sub_menu_options' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    <a href="#0" id='dropdown_text_rota' >
+                        IN
+                    </a>
+                    {menuVisibility}
+                </li>
+            )
+            optionsArray.forEach( ele => {
+                bookingOptions.push(
+                    <li className="menu-item" id='sub_menu_options'>
+                        <a href="#0" id='dropdown_text_rota'>
+                            {ele}
+                        </a>
+                    </li>
+                )
+            })
+            return bookingOptions
+        }
+
+        // get sundays
+        const getSundaysSeven = () => {
+            let bookingOptions = []
+            let optionsArray = [
+                'CT',
+                'RT',
+                'Holiday'
+            ]
+            bookingOptions.push (
+                <li className="menu-item" id='sub_menu_options' onMouseEnter={handleMouseEnterSeven} onMouseLeave={handleMouseLeave}>
                     <a href="#0" id='dropdown_text_rota' >
                         IN
                     </a>
@@ -209,48 +267,116 @@ const DivSingleWeek = (props) => {
                                 </nav>
                             )  
                         }
-                        // eslint-disable-next-line no-loop-func
-                        ele.datesArray.forEach( (dateEle) => {
-                            if (checkForDate.includes(dateEle.date)) {
-                                let colorChange
-                                // eslint-disable-next-line default-case
-                                switch (dateEle.location) {
-                                    case 'DEX2':
-                                        colorChange = 'menu_rota_in' 
-                                        break;
-                                    case 'DSN1':
-                                        colorChange = 'menu_rota_in' 
-                                        break;
-                                    case `DBS2`:
-                                        colorChange = 'menu_rota_in'
-                                        break;
-                                    case 'MFN':
-                                        colorChange = 'menu_rota_purple'  
-                                        break; 
-                                    case 'CT':
-                                        colorChange = 'menu_rota_purple'  
-                                        break; 
-                                    case 'RT':
-                                        colorChange = 'menu_rota_purple'  
-                                        break; 
-                                    case 'Holiday':
-                                        colorChange = 'menu_rota_holiday'  
-                                        break; 
+                        if (parseInt(props.divAmount) === 14) {
+                            // eslint-disable-next-line no-loop-func
+                            ele.datesArray.forEach( (dateEle) => {
+                                if (checkForDate.includes(dateEle.date)) {
+                                    let colorChange
+                                    // eslint-disable-next-line default-case
+                                    switch (dateEle.location) {
+                                        case 'DEX2':
+                                            colorChange = 'menu_rota_in' 
+                                            break;
+                                        case 'DSN1':
+                                            colorChange = 'menu_rota_in' 
+                                            break;
+                                        case `DBS2`:
+                                            colorChange = 'menu_rota_in'
+                                            break;
+                                        case 'MFN':
+                                            colorChange = 'menu_rota_purple'  
+                                            break; 
+                                        case 'CT':
+                                            colorChange = 'menu_rota_purple'  
+                                            break; 
+                                        case 'RT':
+                                            colorChange = 'menu_rota_purple'  
+                                            break; 
+                                        case 'Holiday':
+                                            colorChange = 'menu_rota_holiday'  
+                                            break; 
+                                    }
+                                    localArray[checkForDate.indexOf(dateEle.date)+1] = (
+                                        <nav className={colorChange}>
+                                            <ol>
+                                                <li className="menu-item"><a href="#0" id='menu_rota_a'>{dateEle.location === props.selectedCity ? 'IN' : dateEle.location}</a>
+                                                    <ol className="sub-menu" onClick={(e) => handleClickPut(e, checkForDate[checkForDate.indexOf(dateEle.date)], ele.driver_id, ele.location)}>
+                                                        {optionsThree}
+                                                    </ol>
+                                                </li>
+                                            </ol>
+                                        </nav>
+                                    )
                                 }
-                                localArray[checkForDate.indexOf(dateEle.date)+1] = (
-                                    <nav className={colorChange}>
+                            })
+                            mappedProps.push(localArray)
+                        } else {
+                            // dropdown menu options
+                            const optionsThree = getSundaysSeven()
+                            let localArray= []
+                            localArray.push(
+                                <div key={Math.random()} className='cal_divs_single_first'>
+                                    <h5 className='inner_calander_text'>
+                                        {ele.name}
+                                    </h5>
+                                </div>  
+                            )  
+                            for (let i = 0; i < 7; i++) {
+                                localArray.push(
+                                    <nav className="menu_rota_seven">
                                         <ol>
-                                            <li className="menu-item"><a href="#0" id='menu_rota_a'>{dateEle.location === props.selectedCity ? 'IN' : dateEle.location}</a>
-                                                <ol className="sub-menu" onClick={(e) => handleClickPut(e, checkForDate[checkForDate.indexOf(dateEle.date)], ele.driver_id, ele.location)}>
+                                            <li className="menu-item"><a href="#0" id='menu_rota_b' >OFF</a>
+                                                <ol className="sub-menu" onClick={(e) => handleClick(e, checkForDate[i], ele.driver_id, ele.location)}>
                                                     {optionsThree}
                                                 </ol>
                                             </li>
                                         </ol>
                                     </nav>
-                                )
+                                )  
                             }
-                        })
-                        mappedProps.push(localArray)
+                            // eslint-disable-next-line no-loop-func
+                            ele.datesArray.forEach( (dateEle) => {
+                                if (checkForDate.includes(dateEle.date)) {
+                                    let colorChange
+                                    // eslint-disable-next-line default-case
+                                    switch (dateEle.location) {
+                                        case 'DEX2':
+                                            colorChange = 'menu_rota_in_seven' 
+                                            break;
+                                        case 'DSN1':
+                                            colorChange = 'menu_rota_in_seven' 
+                                            break;
+                                        case `DBS2`:
+                                            colorChange = 'menu_rota_in_seven'
+                                            break;
+                                        case 'MFN':
+                                            colorChange = 'menu_rota_purple_seven'  
+                                            break; 
+                                        case 'CT':
+                                            colorChange = 'menu_rota_purple_seven'  
+                                            break; 
+                                        case 'RT':
+                                            colorChange = 'menu_rota_purple_seven'  
+                                            break; 
+                                        case 'Holiday':
+                                            colorChange = 'menu_rota_holiday_seven'  
+                                            break; 
+                                    }
+                                    localArray[checkForDate.indexOf(dateEle.date)+1] = (
+                                        <nav className={colorChange}>
+                                            <ol>
+                                                <li className="menu-item"><a href="#0" id='menu_rota_b'>{dateEle.location === props.selectedCity ? 'IN' : dateEle.location}</a>
+                                                    <ol className="sub-menu" onClick={(e) => handleClickPut(e, checkForDate[checkForDate.indexOf(dateEle.date)], ele.driver_id, ele.location)}>
+                                                        {optionsThree}
+                                                    </ol>
+                                                </li>
+                                            </ol>
+                                        </nav>
+                                    )
+                                }
+                            })
+                            mappedProps.push(localArray)
+                        }
                     }
                 })
                 return mappedProps
