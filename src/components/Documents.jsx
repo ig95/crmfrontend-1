@@ -41,7 +41,6 @@ const Documents = (props) => {
                 }
             }
             )
-            console.log(ImageArray)
             setImageArray(ImageArray)
         } else {
             setImageArray([])
@@ -73,14 +72,14 @@ const Documents = (props) => {
         };
         
         postData(`https://pythonicbackend.herokuapp.com/images/${highlightedImageDetails.image_id}/`, {
-            Verified: true,
+            verified: true,
             driver_id: `https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`
         }).then( response => {
             let localArray = [...imageArray]
             localArray[currentId] = (
                 <div className='image_list_divs'>
-                    <h3>{highlightedImageDetails.ImageName}</h3>
-                    <img src={highlightedImageDetails.ImagesLink} alt='cannot view' className='uploaded_image_two_true' onClick={(e, source) => handleMakingMainImage(e, highlightedImageDetails.ImagesLink, highlightedImageDetails, currentId)}/>
+                    <h3>{highlightedImageDetails.name}</h3>
+                    <img src={highlightedImageDetails.imagesLink} alt='cannot view' className='uploaded_image_two_true' onClick={(e, source) => handleMakingMainImage(e, highlightedImageDetails.imagesLink, highlightedImageDetails, currentId)}/>
                 </div>
             )
             setImageArray(localArray)
