@@ -98,112 +98,114 @@ const ComplianceCheck = (props) => {
             // 'V5' 
 
             console.log(props.data)
-            let localArray = []
-            let localCheckArray = ['passp']
+            let localCheckArray = []
             if (props.data) {
                 props.data.drivers.forEach( (driver, driverID) => {
+                    let localArray = []
                     localArray.push(
-                        <div key={driverID*Math.random()} className='labels_for_compliance_check_name'>
+                        <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='labels_for_compliance_check_name'>
                             {driver.name}
                         </div>
                     )
                     for (let i = 0; i < 23 ; i++) {
                         localArray.push(
-                            <div key={driverID*Math.random()} className='drivers_for_compliance_check_documents_missing'>
+                            <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_missing'>
                                 Missing
                             </div>
                         )
                     }
                     driver.imgArray.forEach( (image, imageId) => {
                         if (image.name === 'Passport' || image.name === 'ID') {
+                            console.log('found passport', driver)
                             localArray[1] = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
                                     {image.name}
                                 </div>
                             )
                             localArray[2] = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
                                     {image.countryOfIssue ? image.countryOfIssue : 'not entered'}
                                 </div>
                             )
                             localArray[3] = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
                                     {new Date(image.expiryDate).toDateString()}
                                 </div>
                             )
                         } 
                         if (image.name === 'Visa') {
                             localArray[4]  = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
                                     {new Date(image.expiryDate).toDateString()}
                                 </div>
                             )
                         }
                         if (image.name === 'Driving licence Front' || image.name === 'Driving licence Back') {
                             localArray[5]  = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
                                     {image.countryOfIssue ? image.countryOfIssue : 'not entered'}
                                 </div>
                             )
                             localArray[6]  = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
                                     {new Date(image.expiryDate).toDateString()}
                                 </div>
                             )
                         }
                         if (image.name === 'DVLA Check') {
                             localArray[7]  = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
                                     {new Date(image.expiryDate).toDateString()}
                                 </div>
                             )
                         }
                         if (image.name === 'BGC') {
                             localArray[8]  = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents_check'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_check'>
                                     V
                                 </div>
                             )
                         }
                         if (image.name === 'D&A test') {
                             localArray[8]  = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
                                     {new Date(image.expiryDate).toDateString()}
                                 </div>
                             )
                         }
                         if (image.name === 'Application Package') {
                             localArray[8]  = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents_check'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_check'>
                                     V
                                 </div>
                             )
                         }
                         if (image.name === 'NIN') {
                             localArray[8]  = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents_check'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_check'>
                                     V
                                 </div>
                             )
                         }
                         if (image.name === 'UTR') {
                             localArray[8]  = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents_check'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_check'>
                                     V
                                 </div>
                             )
                         }
                         if (image.name === 'POA') {
                             localArray[8]  = (
-                                <div key={imageId*Math.random()} className='drivers_for_compliance_check_documents_check'>
+                                <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_check'>
                                     V
                                 </div>
                             )
                         }
                     })
+                    localCheckArray.push(localArray)
                 })
             }
-            return localArray
+            return localCheckArray
         }
 
         // set the rows into state for display
