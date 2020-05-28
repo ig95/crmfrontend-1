@@ -11,35 +11,8 @@ const Documents = (props) => {
     const [ buttonText, setButtonText ] = useState('Add Document')
     const [ classForDiv, setClassForDiv ] = useState('submit_files')
     const [ highlightedPicture, setHighlightedPicture ] = useState(null)
-    const [ nameValue, setNameValue ] = useState('')
     const [ highlightedImageDetails, setHighlitedImageDetails ] = useState(null)
     const [ currentId, setCurrentId ] = useState(0)
-    const [ signiture, setSigniture ] = useState(null)
-    const [ captchkaValue, setCaptchkaValue ] = useState('')
-    const [ signitureStatus, setSignitureStatus ] = useState('Not Signed')
-    const [ dateSelected, setDateSelected ] = useState(new Date())
-    const [ calendarGate, setCalendarGate] = useState(false)
-
-        // save image to cloudinary
-        var uploadImage = (e) => {
-            const files = e.target.files
-            const data = new FormData()
-            data.append('file', files[0])
-            data.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET)
-            data.append("api_key", process.env.REACT_APP_CLOUDINARY_API_KEY)
-            axios.post(process.env.REACT_APP_UPLOAD_IMAGE, data).then(response => {
-                let myOtherResponse = ''
-                if (response.data.secure_url.includes('.pdf')) {
-                    let myNewName = response.data.secure_url.replace(/.pdf/, '.png')
-                    response.data.secure_url = myNewName
-                }
-                // if (response.data.secure_url.includes('.jpg')) {
-                //     let myNewName = response.data.secure_url.replace(/.jpg/, '.png')
-                //     response.data.secure_url = myNewName
-                // }
-                setValueForSubmit(myOtherResponse ? myOtherResponse : response.data.secure_url)
-            })
-        }
 
     const handleMakingMainImage = (e, source, fullSource, id) => {
         setClassForDiv('submit_files_dissapear')
@@ -54,20 +27,22 @@ const Documents = (props) => {
     }
 
     useEffect( () => {
-        let imageArray = []
+        console.log('on the docs page', props.selectedDriver.imgArray)
+        let ImageArray = []
         if (props.selectedDriver.imgArray) {
             props.selectedDriver.imgArray.forEach( (ele, id) => {
-                if (ele.Verified === false) {
-                    imageArray.push (
+                if (ele.verified === false) {
+                    ImageArray.push (
                         <div className='image_list_divs_false'>
-                            <h3>{ele.ImageName}</h3>
-                            <img src={ele.ImagesLink} alt='cannot view' key={id} className='uploaded_image_two_false' onClick={(e, source) => handleMakingMainImage(e, ele.ImagesLink, ele, id)}/>
+                            <h3>{ele.name}</h3>
+                            <img src={ele.imagesLink} alt='cannot view' key={id} className='uploaded_image_two_false' onClick={(e, source) => handleMakingMainImage(e, ele.imagesLink, ele, id)}/>
                         </div>
                     )
                 }
             }
             )
-            setImageArray(imageArray)
+            console.log(ImageArray)
+            setImageArray(ImageArray)
         } else {
             setImageArray([])
         }
@@ -148,19 +123,13 @@ const Documents = (props) => {
                             Driver: {highlightedImageDetails.driver_id}
                         </h3>
                         <h3>
-                            Document: {highlightedImageDetails.ImageName}
+                            Document: {highlightedImageDetails.name}
                         </h3>
                         <h3>
-                            Driver Signed: {highlightedImageDetails.DriverSigned ? 'True' : 'False'}
+                            Verified: {highlightedImageDetails.verified ? 'True' : 'False'}
                         </h3>
                         <h3>
-                            Manager Signed: {highlightedImageDetails.ManagerSigned ? 'True' : 'False'}
-                        </h3>
-                        <h3>
-                            Verified: {highlightedImageDetails.Verified ? 'True' : 'False'}
-                        </h3>
-                        <h3>
-                            Expiry Date: {new Date(highlightedImageDetails.ExpiryDate).toDateString()}
+                            Expiry Date: {new Date(highlightedImageDetails.expiryDate).toDateString()}
                         </h3>
                     </div>
                 </div>

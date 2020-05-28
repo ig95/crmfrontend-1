@@ -54,10 +54,10 @@ const FormsDocuments = (props) => {
         };
         
         postData(`https://pythonicbackend.herokuapp.com/images/`, {
-            ImagesLink: valueForSubmit,
-            ImageName: nameFromList,
-            LicenseOrigin: countryFromList.slice(5),
-            ExpiryDate: dateSelected,
+            imagesLink: valueForSubmit,
+            name: nameFromList,
+            countryOfIssue: countryFromList ? countryFromList.slice(5) : 'n/a',
+            expiryDate: dateSelected,
             driver_id: `https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`
         }).then( response => {
             console.log(response)
@@ -409,6 +409,7 @@ const FormsDocuments = (props) => {
     // list of names for documents
     let namesListArray = [
         'Passport',
+        'ID',
         'Visa',
         'Photo',
         'Driving licence Front',

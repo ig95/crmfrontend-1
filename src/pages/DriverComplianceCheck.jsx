@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
+import ComplianceCheck from '../components/ComplianceCheck'
 
 const DriverComplianceCheck = () => {
     const [ data, setData ] = useState(null)
@@ -29,7 +30,8 @@ const DriverComplianceCheck = () => {
     return (
         <div className='home_content'>
             <NavigationBar title='Driver Compliance Check'/>
-            <div className='main_content_driver_documents'>
+            <div className='main_content_compliance_check'>
+                <ComplianceCheck data={data} />
             </div>
         </div>
     )

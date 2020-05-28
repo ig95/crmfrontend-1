@@ -4816,6 +4816,93 @@
     margin: none;
     padding: none;
   }
+  
+  /****************************************  COMPLAINCE CHECK ************************************************************/
+  .main_content_compliance_check{
+    grid-area: main_content;
+    background-color: $offWhite;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
+    width: 100%;
+    overflow: scroll;
+  }
+
+  .compliance_check_container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-right: 10px;
+    // overflow: scroll;
+  }
+
+  .row_container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 4950px;
+  }
+  
+  .labels_for_compliance_check_name {
+    @extend %centerThings;
+    background-color: rgb(171, 238, 171);
+    border: 1px solid black;
+    width: 300px;
+    height: 50px;
+  }
+  .labels_for_compliance_check_documents {
+    @extend %centerThings;
+    border: 1px solid black;
+    width: 200px;
+    height: 50px;
+    background-color: rgb(238, 151, 151);
+  }
+  .labels_for_compliance_check_vans {
+    @extend %centerThings;
+    border: 1px solid black;
+    background-color: rgb(171, 194, 243);
+    width: 200px;
+    height: 50px;
+  }
+  .labels_for_compliance_check_manager {
+    @extend %centerThings;
+    border: 1px solid black;
+    background-color: rgb(99, 231, 95);
+    width: 200px;
+    height: 50px;
+  }
+  // end of label ones
+
+  .drivers_for_compliance_check_name {
+    @extend %centerThings;
+    border: 1px solid black;
+    width: 300px;
+    height: 50px;
+  }
+
+  .drivers_for_compliance_check_documents {
+    @extend %centerThings;
+    border: 1px solid black;
+    width: 200px;
+    height: 50px;
+  }
+
+  .drivers_for_compliance_check_documents_check {
+    @extend %centerThings;
+    border: 1px solid black;
+    background-color: rgb(171, 238, 171);
+    width: 200px;
+    height: 50px;
+  }
+  
+  // end of driver found ones
+  .drivers_for_compliance_check_documents_missing {
+    @extend %centerThings;
+    border: 1px solid black;
+    background-color: rgb(228, 110, 110);
+    width: 200px;
+    height: 50px;
+  }
+
+
 
   @keyframes searchBarDrop {
     0% {
