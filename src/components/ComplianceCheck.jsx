@@ -167,35 +167,35 @@ const ComplianceCheck = (props) => {
                             )
                         }
                         if (image.name === 'D&A test') {
-                            localArray[8]  = (
+                            localArray[9]  = (
                                 <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
                                     {new Date(image.expiryDate).toDateString()}
                                 </div>
                             )
                         }
                         if (image.name === 'Application Package') {
-                            localArray[8]  = (
+                            localArray[10]  = (
                                 <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_check'>
                                     V
                                 </div>
                             )
                         }
                         if (image.name === 'NIN') {
-                            localArray[8]  = (
+                            localArray[11]  = (
                                 <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_check'>
                                     V
                                 </div>
                             )
                         }
                         if (image.name === 'UTR') {
-                            localArray[8]  = (
+                            localArray[12]  = (
                                 <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_check'>
                                     V
                                 </div>
                             )
                         }
                         if (image.name === 'POA') {
-                            localArray[8]  = (
+                            localArray[13]  = (
                                 <div key={imageId*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_check'>
                                     V
                                 </div>
