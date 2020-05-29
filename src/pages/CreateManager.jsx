@@ -47,12 +47,7 @@ const CreateManager = (props) => {
                     <label className='labels_create_manager'>Station</label>
                         <input className='inputs_create_manager' type="text" name="station" required/>
                     <br />    
-                    <div className="button-container-2" >
-                        <span className="mas2">{submitPressed}</span>
-                            <button className='buttonFront2' id='work2' type="button" name="Hover">
-                                <input type="submit" value={`${submitPressed}`} className='make_submit_invisible'/>
-                            </button>
-                    </div>
+                    <input type="submit" value={submitPressed} className='compliance_add_driver_button_submit' />
                 </form>
             </div>
         </div>

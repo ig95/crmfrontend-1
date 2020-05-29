@@ -255,20 +255,14 @@ const WeekSchedule = (props) => {
                             </ol>
                         </nav>
                         <div className='rota_top_spacer'>
-                            <div className="button-container-2" onClick={handleMakeDriverPage}>
-                                <span className="mas2">View Driver</span>
-                                <button className='buttonFront2' id='work2' type="button" name="Hover">
-                                    View Drivers
-                                </button>
-                            </div>  
+                            <button className='compliance_add_driver_button_submit' onClick={handleMakeDriverPage}>
+                                <span className='span_in_complaince_button'>View Drivers</span> 
+                            </button>
                         </div>
                         <div className='rota_top_spacer_two'>
-                            <div className="button-container-2" onClick={handleDeletionToggle}>
-                                <span className="mas2">Delete Driver</span>
-                                <button className='buttonFront2' id='work2' type="button" name="Hover">
-                                    Delete Driver
-                                </button>
-                            </div>  
+                            <button className='compliance_add_driver_button_submit' onClick={handleDeletionToggle}>
+                                <span className='span_in_complaince_button'>Delete Drivers</span> 
+                            </button> 
                         </div>
                     </div>
                     <div className='scheduling_single_week_overlay'>
