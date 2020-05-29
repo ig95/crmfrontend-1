@@ -420,13 +420,7 @@ const FormsDocuments = (props) => {
         'Application Package',
         'NIN',
         'UTR',
-        'POA',
-        'TAX',
-        'MOT',
-        'Motor Insurance',
-        'G.I.T. Insurance',
-        'P.L. Insurance',
-        'V5' 
+        'POA'
     ]
 
     // function for submitting files
@@ -464,14 +458,6 @@ const FormsDocuments = (props) => {
                                         <div className={displayCountryArray} onMouseLeave={mouseLeaveCountry}>
                                             {countryFromListArray}
                                         </div>
-                                </div>
-                                <div className='inner_input_information_documents_tab'>
-                                    <h3 className='documents_h3'>Registration:</h3>
-                                        <input type="text" name="registration" className='document_input_forms' autoComplete='off'/>
-                                </div>
-                                <div className='inner_input_information_documents_tab'>
-                                    <h3 className='documents_h3'>Vehicle Type:</h3>
-                                        <input type="text" name="vehicleType" className='document_input_forms' autoComplete='off'/>
                                 </div>
                             </div>
                             <br />

@@ -93,7 +93,7 @@ const Documents = (props) => {
     // verify button
     var verifyButton 
     if (highlightedPicture) {
-        if (!highlightedImageDetails.Verified) {
+        if (!highlightedImageDetails.verified) {
             verifyButton = (
                 <div className="btn_picture" onClick={(e, targetImage) => getDivsBackAndVerify(e, highlightedPicture)}>
                 <svg width="125" height="45">

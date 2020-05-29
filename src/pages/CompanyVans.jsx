@@ -6,7 +6,11 @@ const CompanyVans = () => {
 
     const [ selection, setSelection ] = useState('')
     const [ content, setContent ] = useState(null)
-    const [ vansList, setVansList ] = useState()
+    const [ vansList, setVansList ] = useState([])
+    const [ reRenderTrigger, setReRenderTrigger ] = useState(0)
+    const [ displayDiv, setDisplayDiv ] = useState('diplay_none')
+    const [ letMeView, setLetMeView ] = useState('main_div_vans_none')
+    const [ vanDocs, setVanDocs ] = useState([])
 
     useEffect(() => {
         async function getData(url = '') {
@@ -26,28 +30,41 @@ const CompanyVans = () => {
         };
 
         getData('https://pythonicbackend.herokuapp.com/vehicles/').then( (response) => {
-            console.log(response)
-            setVansList(response)
+            console.log(response.results)
+            setVansList(response.results)
+            getData('https://pythonicbackend.herokuapp.com/images/').then( (response) => {
+                let localArray = []
+                response.results.forEach( (image, ImageID) => {
+                    if (image.vehicle_id) {
+                        localArray.push(image)
+                    }
+                })
+                setVanDocs(localArray)
+                console.log(localArray)
+            })
         })
-    }, [])
+    }, [reRenderTrigger])
+
+    // function for rerendering
+    const reRenderMe = () => {
+        let myVar = reRenderTrigger
+        myVar++
+        setReRenderTrigger(myVar)
+    }
 
     // make the h2o vans option appear
     const handleH2oVansClick = () => {
+        setLetMeView('main_div_vans')
         setSelection('H2O Vans')
-        setContent(
-            <VansComponent data={vansList}/>
-            )
-        }
+        setContent(true)
+    }
         
     // make the h2o vans option appear
     const handleRentalVansClick = () => {
+        setLetMeView('main_div_vans')
         setSelection('Rental Vans')
-        setContent(
-            <VansComponent data={vansList}/>
-        )
+        setContent(false)
     }
-
-    // render the correct vans selections
 
     return (
         <div className='home_content'>
@@ -62,7 +79,15 @@ const CompanyVans = () => {
                 </button>
                 <h2>{selection}</h2>
             </div>
-            {content}
+            <div className={displayDiv}>
+                <VansComponent 
+                    owned={content}
+                    data={vansList}
+                    reRender={reRenderMe}
+                    viewMe={letMeView}
+                    vanDocs={vanDocs}
+                />
+            </div>
         </div>
     </div>
     )

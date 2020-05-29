@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import Documents from '../components/Documents'
 import NavigationBar from '../components/NavBar'
-import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import folderPic from '../images/folder.png'
 
