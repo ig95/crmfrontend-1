@@ -10,6 +10,11 @@ const Compliance = () => {
     const [ data, setData ] = useState(null)
     const [ nonActiveDrivers, setNonActiveDrivers ] = useState([])
     const [ nonVerifiedImages, setNonVerifiedImages ] = useState([])
+    const [ nonDriverVans, setNonDriverVans ] = useState([])
+    const [ vanList, setVanList ] = useState([])
+    const [ selectedVan, setSelectedVan ] = useState(null)
+    const [ selectedDriver, setSelectedDriver ] = useState(null)
+    const [ reload, setReload ] = useState(0)
 
     // grab the main data
     useEffect( () => {
@@ -29,11 +34,44 @@ const Compliance = () => {
 
         };
         getData('https://pythonicbackend.herokuapp.com/data/').then( response => {
-            console.log(response)
             setData(response.data)
+            getData('https://pythonicbackend.herokuapp.com/vehicles/').then( reponse => {
+                setVanList(reponse.results)
+            })
         })
-    }, [])
+    }, [reload])
     
+    // make a vehicle belong to a driver
+    if (selectedDriver && selectedVan) {
+        async function putData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'PUT', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(data)
+            });
+
+            return response ? response.json() : console.log('no reponse')
+
+        };
+        console.log(`https://pythonicbackend.herokuapp.com/drivers/${selectedDriver.driver_id}/`)
+        putData(`https://pythonicbackend.herokuapp.com/vehicles/${selectedVan.vehicle_id}/`, {
+            driver_id: `https://pythonicbackend.herokuapp.com/drivers/${selectedDriver.driver_id}/`
+        }).then( response => {
+            console.log(response)
+            setSelectedDriver(null)
+            setSelectedVan(null)
+            let x = reload
+            let y = x + 1
+            setReload(y)
+        })
+    }
+
     // function for changing the city from dropdown
     const handleSelectCity = (e, selectCity) => {
         setSelectedCity(selectCity)
@@ -126,6 +164,30 @@ const Compliance = () => {
         setLogicalGate(true)
     }
 
+    // select a van to assign to a driver
+    const handleSelectDriver = (e, driver) => {
+        let localArray = driverLocalList
+        console.log(localArray)
+        setSelectedDriver(driver)
+        localArray.forEach( (driverEle, driverEleId) => {
+            console.log(parseInt(driverEle.key), driver.driver_id)
+            if (parseInt(driverEle.key) === driver.driver_id) {
+                localArray[driverEleId] = (
+                    <div key={driver.driver_id}>
+                        <h3 className='h3_for_compliance_Page_colored' onClick={handleSelectDriver}>
+                            {driver.name}
+                        </h3>
+                        <br />
+                    </div>
+                )
+            }
+        })
+        setNonActiveDrivers([localArray])
+    }
+
+    // react you can actually suck a fat dick and then i hope you choke
+    var driverLocalList
+
     // map the non active drivers to list
     useEffect( () => {
         let localArray = []
@@ -134,29 +196,30 @@ const Compliance = () => {
                 if (driver.status) {
                     if (driver.status !== 'active') {
                         localArray.push(
-                            <>
-                                <h3 key={driverID} className='h3_for_compliance_Page'>
+                            <div key={driver.driver_id}>
+                                <h3 key={driverID} className='h3_for_compliance_Page' onClick={(e, theDriver) => handleSelectDriver(e, driver)}>
                                     {driver.name}
                                 </h3>
                                 <br />
-                            </>
+                            </div>
                         )
                     }
                 }
                 if (!driver.status) {
                     localArray.push(
-                        <>
-                            <h3 key={driverID} className='h3_for_compliance_Page'>
+                        <div key={driver.driver_id}>
+                            <h3 key={driverID} className='h3_for_compliance_Page' onClick={(e, theDriver) => handleSelectDriver(e, driver)}>
                                 {driver.name}
                             </h3>
                             <br />
-                        </>
+                        </div>
                     )
                 }
             })
         }
         console.log(localArray)
         setNonActiveDrivers(localArray)
+        driverLocalList = localArray
     }, [data])
 
     useEffect( () => {
@@ -180,6 +243,49 @@ const Compliance = () => {
         console.log(localArray)
         setNonVerifiedImages(localArray)
     }, [data])
+
+    // react you fucking suck
+    var stupidAssList
+
+    // select a van to assign to a driver
+    const handleVanNameClick = (e, van) => {
+        let localArray = stupidAssList
+        setSelectedVan(van)
+        localArray.forEach( (vanEle, vanEleId) => {
+            if (vanEle.key === van.registration) {
+                localArray[vanEleId] = (
+                    <div key={van.registration}>
+                        <h3 className='h3_for_compliance_Page_colored' onClick={(e, theVan) => handleVanNameClick(e, van)}>
+                            {van.registration} {van.model} {van.make}
+                        </h3>
+                        <br />
+                    </div>
+                )
+            }
+        })
+        setNonDriverVans([localArray])
+    }
+
+    useEffect( () => {
+        let localArray = []
+        if (vanList) {
+            vanList.forEach( (van, vanID) => {
+                if (van.driver_id === null) {
+                    localArray.push(
+                        <div key={van.registration}>
+                            <h3 className='h3_for_compliance_Page' onClick={(e, theVan) => handleVanNameClick(e, van)}>
+                                {van.registration} {van.model} {van.make}
+                            </h3>
+                            <br />
+                        </div>
+                    )
+                }
+            })
+        }
+        console.log(localArray)
+        setNonDriverVans(localArray)
+        stupidAssList = localArray
+    }, [vanList])
 
     return (
         <div className='home_content'>
@@ -238,6 +344,8 @@ const Compliance = () => {
                                 <span className='span_in_complaince_button'>Company Vans</span> 
                             </button>
                         </Link>
+                        <br />
+                        {nonDriverVans}
                     </div>
                 </div>
             </div>

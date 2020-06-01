@@ -6,10 +6,15 @@ import 'react-calendar/dist/Calendar.css'
 const DocumentVans = (props) => {
     const [  valueForSubmit, setValueForSubmit ] = useState('')
     const [ dateSelected, setDateSelected ] = useState(new Date())
+    const [ dateSelectedTwo, setDateSelectedTwo ] = useState(new Date())
     const [ calendarGate, setCalendarGate] = useState(false)
+    const [ calendarGateTwo, setCalendarGateTwo] = useState(false)
     const [ nameFromListArray, setNameFromListArray] = useState([])
     const [ nameFromList, setNameFromList] = useState('')
+    const [ damageNameFromList, setDamageNameFromList] = useState('')
+    const [ damageNamesListArray, setDamageNamesListArray] = useState([])
     const [ displayNameArray, setDisplayNameArray ] = useState('names_list_array_container_none')
+    const [ damageDisplayNameArray, setDamageDisplayNameArray ] = useState('names_list_array_container_none')
     const [ submitPressed, setSubmitPressed] = useState('Submit')
     const [ vanDocuments, setVanDocuments ] = useState([])
     const [ submitFilesDivSelection, setSubmitFilesDivSelection ] = useState(false)
@@ -98,6 +103,10 @@ const DocumentVans = (props) => {
     const handleChangeCalendar = () => {
 
     }
+    // make react happy
+    const handleChangeCalendarTwo = () => {
+
+    }
 
     // date selection function
     var theCalendar
@@ -106,23 +115,45 @@ const DocumentVans = (props) => {
         setCalendarGate(false)
     }
 
+    // date selection function
+    var theCalendarTwo
+    const handleDateSelectionTwo = (date) => {
+        setDateSelectedTwo(date)
+        setCalendarGateTwo(false)
+    }
+
     // calendar function
     const handleMakingCalendar = () => {
         console.log('clicked')
         setCalendarGate(true)
     }
 
+    const handleMakingCalendarTwo = () => {
+        console.log('clicked')
+        setCalendarGateTwo(true)
+    }
+
     // make the calendar
     if (calendarGate) {
         theCalendar = (
-            theCalendar = (
-                <div>
-                    <Calendar
-                        onChange={handleDateSelection}
-                        value={dateSelected}
-                    />
-                </div>
-            )
+            <div>
+                <Calendar
+                    onChange={handleDateSelection}
+                    value={dateSelected}
+                />
+            </div>
+        )
+    } 
+
+    // make the calendar
+    if (calendarGateTwo) {
+        theCalendarTwo = (
+            <div>
+                <Calendar
+                    onChange={handleDateSelectionTwo}
+                    value={dateSelectedTwo}
+                />
+            </div>
         )
     } 
 
@@ -131,6 +162,13 @@ const DocumentVans = (props) => {
         setNameFromList(targetName)
         setNameFromListArray([])
         setDisplayNameArray('names_list_array_container_none')
+    }
+
+    // handle selecting name of document
+    const handleDamageNameClick = (e, targetName) => {
+        setDamageNameFromList(targetName)
+        setDamageNamesListArray([])
+        setDamageDisplayNameArray('names_list_array_container_none')
     }
 
     // function for making drop down for names list
@@ -153,6 +191,26 @@ const DocumentVans = (props) => {
         setDisplayNameArray('names_list_array_container_none')
     }
 
+    // function for making drop down for names list
+    const mouseEnterDamageName = () => {
+        let localArray = []
+        damageNamesListArrayTwo.forEach( (ele, id) => {
+            localArray.push(
+                <div key={id} className='names_in_names_list_array_forms' onClick={(e, targetName) => handleDamageNameClick(e, ele)}>
+                    <p>{ele}</p>
+                </div>    
+            )
+        })
+        setDamageNamesListArray(localArray)
+        setDamageDisplayNameArray('names_list_array_container')
+    }
+
+    // function for mouse leaving names list
+    const mouseLeaveDamageName = () => {
+        setDamageNamesListArray([])
+        setDamageDisplayNameArray('names_list_array_container_none')
+    }
+
     // list of names for documents
     let namesListArray = [
         'TAX',
@@ -161,6 +219,15 @@ const DocumentVans = (props) => {
         'G.I.T. Insurance',
         'P.L. Insurance',
         'V5' 
+    ]
+
+
+    let damageNamesListArrayTwo = [
+        'Rental Agreement',
+        'Pictures of Damages',
+        'Statement',
+        'Quote',
+        'Invoice'
     ]
 
     const handleMakingMainImage = (e, source, fullSource, id) => {
@@ -210,8 +277,55 @@ const DocumentVans = (props) => {
     }
 
     // submit damage report for vehicle
-    const handleSubmitDamage = () => {
+    const handleSubmitDamage = (e) => {
+        // e.preventDefault()
+        // let mySubmitObject
+        // // 'Rental Agreement',
+        // // 'Pictures of Damages',
+        // // 'Statement',
+        // // 'Quote',
+        // // 'Invoice'
+        // if (damageNameFromList === 'Statement') {
+        //     mySubmitObject = {
+        //         statementOfDamage: e.target.statement.value,
+        //         vehicle_id: `https://pythonicbackend.herokuapp.com/vehicles/${props.selectedVan.vehicle_id}/`,
+        //         dateOfIncident: dateSelectedTwo
+        //     }
+        // } else if (damageNameFromList === 'Rental Agreement') {
 
+        // }
+
+        //     // VehicleDamages_id = models.AutoField(primary_key=True)
+        //     // driver_id = models.ForeignKey(Driver, blank=True, null=True, on_delete=models.CASCADE)
+        //     // vehicle_id = models.ForeignKey(Vehicles, on_delete=models.CASCADE)
+        //     // statmentOfDamage = models.CharField(max_length = 500)
+        //     // dateOfIncident = models.CharField(max_length = 100)
+        //     // picturesOfIncident = ArrayField(models.CharField(max_length=100), default=list, blank=True)
+        //     // quotePrice = MoneyField("INCIDENT QUOTE", default=0, max_digits=19, decimal_places=2, default_currency='GBP', null = True)
+        //     // invoice = MoneyField("INCIDENT INVOICE", default=0, max_digits=19, decimal_places=2, default_currency='GBP', null = True)
+        //     // list of names for documents
+
+        // async function postData(url = '', data = {}) {
+        //     const response = await fetch(url, {
+        //         method: 'POST', 
+        //         mode: 'cors',
+        //         cache: 'no-cache',
+        //         credentials: 'same-origin',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': `Token ${localStorage.getItem('token')}`
+        //         },
+        //         body: JSON.stringify(data)
+        //         });
+
+        //     return response ? response.json() : console.log('no reponse')
+        // };
+        
+        // postData(`https://pythonicbackend.herokuapp.com/vehicledamages/`, mySubmitObject).then( response => {
+        //     console.log(response)
+        //     setSubmitted()
+        //     props.reRender()
+        // })
     }
 
     var content
@@ -243,6 +357,15 @@ const DocumentVans = (props) => {
         setDamageGate(true)
     }
 
+    var statementBox
+    if (damageNameFromList === 'Statement') {
+        statementBox = (
+            <div>
+                <h3 className='documents_h3'>Statement:</h3>
+                <textarea type="textarea" name="statement" className='textarea_vans_page'/>
+            </div>
+        )
+    }
     // if pressed make to form to submit new damage documentation
     var damageContent
     if (damageGate) {
@@ -257,20 +380,21 @@ const DocumentVans = (props) => {
                                 <h3 className='documents_h3'>Name of Document:</h3>
                                     <input type="text" 
                                     name="theName"  
-                                    value={nameFromList} 
+                                    value={damageNameFromList} 
                                     autoComplete='off' 
                                     className='document_input_forms' 
-                                    onMouseEnter={mouseEnterName}
+                                    onMouseEnter={mouseEnterDamageName}
                                     />
-                                    <div className={displayNameArray} onMouseLeave={mouseLeaveName}>
-                                        {nameFromListArray}
+                                    <div className={damageDisplayNameArray} onMouseLeave={mouseLeaveDamageName}>
+                                        {damageNamesListArray}
                                     </div>
                             </div>
                             <div className='inner_input_information_documents_tab'>
                                 <h3 className='documents_h3'>Expiry Date:</h3>
-                                    <input type="text" name="expiryDate"  className='document_input_forms'value={dateSelected.toDateString()}  onChange={handleChangeCalendar} autoComplete='off' onClick={handleMakingCalendar}/>
-                                    {theCalendar}
+                                    <input type="text" name="expiryDate"  className='document_input_forms'value={dateSelectedTwo.toDateString()}  onChange={handleChangeCalendarTwo} autoComplete='off' onClick={handleMakingCalendarTwo}/>
+                                    {theCalendarTwo}
                             </div>
+                            {statementBox}
                         </div>
                         <br />
                     <div className="button-container-2" id="formsButtonSubmit">

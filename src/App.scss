@@ -5009,6 +5009,30 @@
   .enter_information_documents_vans {
     display: flex;
   }
+
+  .textarea_vans_page {
+    height: 20vh;
+    text-align: left;
+  }
+
+  .h3_for_compliance_Page_colored {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+    background: rgb(236, 236, 236);
+    background-size: 200% 100%;
+    margin: 2px;
+    background-position: right bottom;
+    color: $amazon_blue;
+    font-weight: 400;
+    font-family: $ubuntu_font;
+    font-size: 1.1em;
+    transition: all .3s ease-in-out;
+  }
+  
+  .h3_for_compliance_Page_colored:hover {
+    background-position: left bottom;
+  }
   
   @keyframes searchBarDrop {
     0% {
