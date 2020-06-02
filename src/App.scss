@@ -2734,8 +2734,13 @@
   }
 
   .home_details {
+    text-align: center;
+    width: 87vw;
+    font-size: 1.2em;
+  }
+
+  .home_time {
     margin-left: 1rem;
-    width: 20vw;
   }
 
   .drop_down_bar_container {
@@ -2786,6 +2791,84 @@
     align-items: flex-start;
     animation-name: loadingStyle;
     animation-duration: 1s;
+  }
+
+  .lower_home_page {
+    width: 96%;
+    height: 70vh;
+    margin-left: 2rem;
+    @extend %centerThings;
+  }
+
+  .inner_lower_home_container {
+    width: 100%;
+    box-shadow: 0px 3px 8px $transparent-gray;
+    margin-right: 8rem;
+    border-radius: 1rem;
+    height: 50%;
+    text-align: center;
+  }
+
+  .docs_for_verification_home {
+    @extend %centerThings;
+    flex-direction: column;
+  }
+
+  .docs_for_verification_home_expiration {
+    overflow-y: scroll;
+    margin: 1rem;
+    max-height: 22vh;
+  }
+
+  .rejected_div {
+    background-color: $offRotaColor;
+    width: 50%;
+    height: 5vh;
+    @extend %centerThings;
+    border-radius: .5rem;
+  }
+
+  .approved_div {
+    background-color: rgb(106, 219, 106);
+    width: 50%;
+    height: 5vh;
+    @extend %centerThings;
+    padding: 0;
+    margin: 3px;
+    border-radius: .5rem;
+  }
+  
+  .pending_div {
+    background-color: rgb(241, 241, 103);
+    width: 50%;
+    height: 5vh;
+    @extend %centerThings;
+    border-radius: .5rem;
+  }
+
+  .remove_padding {
+    padding: 0;
+    margin: 0;
+  }
+
+  .remove_padding_align {
+    padding: 0;
+    margin: 0;
+    text-align: left;
+  }
+
+
+  #left_one {
+    background-color: lightblue;
+  }
+
+  #center_one {
+    background-color: $offRotaColor;
+  }
+
+  #right_one {
+    background-color: rgb(226, 105, 226);
+    margin-right: 0;
   }
 
   .calandar_container {

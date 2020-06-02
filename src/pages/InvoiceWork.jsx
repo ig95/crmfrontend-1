@@ -403,7 +403,7 @@ const InvoiceWork = (props) => {
                 </div>
             )
         }
-        if (selectedInvoice) {
+        if (selectedInvoice && invoices.length > 0) {
             console.log(invoices)
             // pdf stuff
             const styles = StyleSheet.create({

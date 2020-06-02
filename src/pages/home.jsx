@@ -1,16 +1,22 @@
 import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
-import DivWeek from '../components/DivWeek'
-import Dropdown from 'react-dropdown';
+import axios from 'axios'
 import 'react-dropdown/style.css';
 
-
+var myInterval
 const Home = (props) => {
     const [ selectedDate, setSelectedDate ] = useState(new Date())
+    const [ currentDate, setCurrentDate ] = useState(new Date())
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
     const [ schedule, setSchedule ] = useState(null)
     const [ loadingGate, setLoadingGate ] = useState(0)
     const [ theDateRandom, setTheDateRandom ] = useState(new Date())
+    const [ verifiedDocumentsDivs, setVerifiedDocumentsDivs ] = useState(null)
+    const [ expirationList, setExpirationList ] = useState(null)
+    const [ quoteOfDay, setQuoteOfDay ] = useState(null)
+    const [ quoteOfDayArray, setQuoteOfDayArray ] = useState(null)
+    const [ data, setData ] = useState(null)
+    
 
     // grab the data
     useEffect(() => {
@@ -41,6 +47,14 @@ const Home = (props) => {
             setTimeout( () => {
                 setLoadingGate(2)
             }, 1000)
+            getData('https://pythonicbackend.herokuapp.com/data/').then( (response ) => {
+                console.log(response)
+                setData(response)
+                axios.get('https://quotes.rest/qod/management').then( response => {
+                    console.log(response)
+                    setQuoteOfDay(response.data.contents.quotes[0])
+                })
+            })
         })
     }, [])
 
@@ -89,59 +103,6 @@ const Home = (props) => {
         todaysDrivers = (
             <h3>Drivers Today at {selectedCity}: {localNum}</h3>
         )
-        var segment1 
-        var segment2 
-        if (dbs2Drivers || dex2Drivers || dsn1Drivers) {
-            console.log('dbs2: ', dbs2Drivers, 'dex2: ', dex2Drivers, 'dsn1: ', dsn1Drivers)
-            let theSum = dbs2Drivers + dex2Drivers + dsn1Drivers
-
-            if (dbs2Drivers === 0 && dsn1Drivers === 0 && dex2Drivers !== 0 ) {
-                segment1 = 0
-                segment2 = 0
-            }
-            // dbs2
-            if (dbs2Drivers !== 0) {
-                if (dbs2Drivers/theSum === 1) {
-                    segment1 = 360
-                    segment2 = 0
-                }
-                segment1 = (dbs2Drivers/theSum) * 100
-            } else {
-                segment1 = 0
-            }
-
-            // dsn1
-            if (dsn1Drivers !== 0) {
-                if (dex2Drivers === 0) {
-                    segment2 = 100
-                } else if (dsn1Drivers/theSum === 1) {
-                    segment2 = 360
-                    segment1 = 0
-                } else {
-                    segment2 = (dsn1Drivers/theSum) * 100
-                }
-            } else {
-                segment2 = 0
-            }
-        }
-        if (segment1 || segment2) {
-            chart = (
-                <div className='chart_overall'>
-                    <div className='names_label'>
-                        <h3>DBS2 <div className='colordivsblue'></div></h3>
-                        <h3>DSN1 <div className='colordivsgreen'></div></h3>
-                        <h3>DEX2 <div className='colordivsyellow'></div></h3>
-                    </div>
-                    <div 
-                        className="pie" 
-                        style={{
-                            backgroundImage:
-                                `conic-Gradient(#232F3E ${3.6 * segment1}deg, rgb(16, 109, 16) 0 ${3.6 * segment2}deg, rgb(134, 134, 45) 0)`
-                        }}>
-                    </div>
-                </div>
-            )
-        }
     }
     
     // set city
@@ -149,49 +110,143 @@ const Home = (props) => {
         setSelectedCity(city)
     }
 
+    // handling the clock
+    useEffect( () => {
+        clearInterval(myInterval)
+        const timeFunction = () => {
+            let setTime = () => {
+                setCurrentDate(new Date())
+            }
+            myInterval = setInterval( setTime, 1000)
+        }
+        timeFunction()
+    }, [])
+
+    var dayArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
+    var monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"]
+
+    // eslint-disable-next-line no-extend-native
+    Date.prototype.getWeek = function () {
+        var firstDate = new Date(this.getFullYear(), 0, 1)
+        return Math.ceil((((new Date(this.getFullYear(), this.getMonth(), this.getDate()) - firstDate) / 86400000) + firstDate.getDay() + 1) / 7)
+    }
+
+    // map the verified documents
+    useEffect( () => {
+        let localArray = []
+        let expirationDatesArray = []
+        let expirationDatesArrayDivs = []
+        let rejected = 0
+        let approved = 0
+        let pending = 0
+        let thirtyDaysNotice = currentDate.setDate(currentDate.getDate() + 30)
+        if (data) {
+            data.data.images.forEach( image => {
+                // docs for verification part
+                console.log(image)
+                if (image.verified === false) {
+                    pending++
+                } else {
+                    approved++
+                }
+
+                if (new Date(image.expiryDate) < thirtyDaysNotice) {
+                    expirationDatesArray.push(image)
+                }
+            })
+        }
+        localArray.push(
+            <div className='docs_for_verification_home'>
+                <div className='rejected_div'><h3 className='remove_padding'>{rejected} Rejected</h3></div>
+                <div className='approved_div'><h3 className='remove_padding'>{approved} Approved</h3></div>
+                <div className='pending_div'><h3 className='remove_padding'>{pending} Pending</h3></div>
+            </div>
+        )
+        console.log(expirationDatesArray)
+        setVerifiedDocumentsDivs(localArray)
+        expirationDatesArray.forEach( (image, imageID) => {
+            expirationDatesArrayDivs.push(
+                <>
+                    <h3 className='remove_padding_align'>{image.vehicle_id !== 'None' ? `Van Registration: ${image.vehicle_id}` : `Driver: ${image.driver_id}`}</h3>
+                    <h3 className='remove_padding_align'>Document Name: {image.name}</h3>
+                    <h3 className='remove_padding_align'>Expiration Date: {new Date(image.expiryDate).toDateString()}</h3>
+                    <br />
+                </>
+
+            )
+        })
+        setExpirationList(expirationDatesArrayDivs)
+    }, [data])
+
+    useEffect( () => {
+        let localArray = []
+        if (quoteOfDay) {
+            localArray.push(
+                <div>
+                    <h3 className='remove_padding_align'>{quoteOfDay.quote}</h3>
+                    <br />
+                    <h4 className='remove_padding_align'>- {quoteOfDay.author}</h4>
+                </div>
+            )
+        }
+        setQuoteOfDayArray(localArray)
+    }, [quoteOfDay])
+
     var content
     if (loadingGate === 2) {
         content = (
             <>
-                <div className='home_content_home'>
-                <NavigationBar 
-                title='Home'
-                superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}
-                />
-                    <div className='main_content'>
+                <div className='home_content'>
+                <NavigationBar title='Home' superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}/>
+                    <div className='main_content_home_two'>
                         <div className='calandar_container'>
                             <div>
                                 <div className='home_details'>
                                     <h2>Welcome {props.user_name}</h2>
                                     {todaysDrivers}
-                                </div>
-                                <div className='drop_down_bar_container'>
-                                    <nav class="menu">
+                                    <nav className="menu_white">
                                         <ol>
-                                            <li className="menu-item"><a href="#0">{selectedCity}</a>
+                                            <li className="menu-item" id='white_top'><a href="#0" id='menu_text_white'>{selectedCity}</a>
                                                 <ol className="sub-menu">
-                                                    <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2')}><a href="#0">DBS2</a></li>
-                                                    <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1')}><a href="#0">DSN1</a></li>
-                                                    <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2')}><a href="#0">DEX2</a></li>
+                                                    <li className="menu-item" id='item_white_one' onClick={(e, city) => handleSelectCity(e, 'DBS2')}><a href="#0" id='menu_text_white'>Bristol</a></li>
+                                                    <li className="menu-item" id='item_white_two' onClick={(e, city) => handleSelectCity(e, 'DSN1')}><a href="#0" id='menu_text_white'>Swansea</a></li>
+                                                    <li className="menu-item" id='item_white_three' onClick={(e, city) => handleSelectCity(e, 'DEX2 ')}><a href="#0" id='menu_text_white'>Exeter</a></li>
                                                 </ol>
                                             </li>
                                         </ol>
                                     </nav>
                                 </div>
+                                <h3 className='home_time'>
+                                    {dayArray[currentDate.getDay()]}, {currentDate.getDate()} {monthArray[currentDate.getMonth()]}, {currentDate.getFullYear()}
+                                    <br />
+                                    {currentDate.toLocaleTimeString()}
+                                    <br />
+                                    Week: {currentDate.getWeek()}
+                                </h3>
                             </div>
-                            <div className='canvas_chart'>
-                                {chart}
+                            <div>
                             </div>
                         </div>
-                        <div className='scheduling_four_week_overlay' onClick={handleClick}>
-                            <DivWeek 
-                                currentDate={selectedDate}
-                                scheduleDates={schedule}
-                                selectedLocation={selectedCity ? selectedCity : 'DBS2'}
-                            />
+                        <div className='lower_home_page'>
+                            <div className='inner_lower_home_container' id='left_one'>
+                                <h2>Documents For Verification</h2>
+                                {verifiedDocumentsDivs}
+                            </div>
+                            <div className='inner_lower_home_container' id='center_one'>
+                                <h2>Upcoming Expiration Dates</h2>
+                                <div className='docs_for_verification_home_expiration'>
+                                    {expirationList}
+                                </div>
+                            </div>
+                            <div className='inner_lower_home_container' id='right_one'>
+                                <h2>Quote Of The Day</h2>
+                                <div className='docs_for_verification_home_expiration'>
+                                    {quoteOfDayArray}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </div>  
             </>
         )
     } else if (loadingGate === 0) {
@@ -252,3 +307,58 @@ const Home = (props) => {
 }
 
 export default Home
+
+
+
+        // var segment1 
+        // var segment2 
+        // if (dbs2Drivers || dex2Drivers || dsn1Drivers) {
+        //     let theSum = dbs2Drivers + dex2Drivers + dsn1Drivers
+
+        //     if (dbs2Drivers === 0 && dsn1Drivers === 0 && dex2Drivers !== 0 ) {
+        //         segment1 = 0
+        //         segment2 = 0
+        //     }
+        //     // dbs2
+        //     if (dbs2Drivers !== 0) {
+        //         if (dbs2Drivers/theSum === 1) {
+        //             segment1 = 360
+        //             segment2 = 0
+        //         }
+        //         segment1 = (dbs2Drivers/theSum) * 100
+        //     } else {
+        //         segment1 = 0
+        //     }
+
+        //     // dsn1
+        //     if (dsn1Drivers !== 0) {
+        //         if (dex2Drivers === 0) {
+        //             segment2 = 100
+        //         } else if (dsn1Drivers/theSum === 1) {
+        //             segment2 = 360
+        //             segment1 = 0
+        //         } else {
+        //             segment2 = (dsn1Drivers/theSum) * 100
+        //         }
+        //     } else {
+        //         segment2 = 0
+        //     }
+        // }
+        // if (segment1 || segment2) {
+        //     chart = (
+        //         <div className='chart_overall'>
+        //             <div className='names_label'>
+        //                 <h3>DBS2 <div className='colordivsblue'></div></h3>
+        //                 <h3>DSN1 <div className='colordivsgreen'></div></h3>
+        //                 <h3>DEX2 <div className='colordivsyellow'></div></h3>
+        //             </div>
+        //             <div 
+        //                 className="pie" 
+        //                 style={{
+        //                     backgroundImage:
+        //                         `conic-Gradient(#232F3E ${3.6 * segment1}deg, rgb(16, 109, 16) 0 ${3.6 * segment2}deg, rgb(134, 134, 45) 0)`
+        //                 }}>
+        //             </div>
+        //         </div>
+        //     )
+        // }
