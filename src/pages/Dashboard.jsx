@@ -169,13 +169,14 @@ const Dashboard = (props) => {
     
         // modify button
         const onClick = (e, dateForChange) => {
-                setSelectedModification(dateForChange)
+            setSelectedModification(dateForChange)
         }
-    
+        
+        console.log('the routes: ', theRoutes, selectedDate)
         let localArrayTwo = []
         theRoutes.forEach( ele => {
             ele.datesArray.forEach( element => {
-                if (new Date(element.date).toDateString() === new Date().toDateString()) {
+                if (new Date(element.date).toDateString() === new Date(selectedDate).toDateString()) {
                     localArrayTwo.push(
                         {
                             driver: ele,

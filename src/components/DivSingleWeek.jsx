@@ -85,7 +85,6 @@ const DivSingleWeek = (props) => {
             if (data && props && checkForDate) {
                 // create array to increment
                 let localArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                console.log(data)
 
                 // loop through each index in the amount of divs refrenced
                 for (let i = 0; i < amount; i++) {
@@ -95,7 +94,6 @@ const DivSingleWeek = (props) => {
                     data.data.drivers.forEach( (ele) => {
                         ele.datesArray.forEach( (date) => {
                             if (date.date === checkForDate[i]) {
-                                console.log('hello there')
                                 localArray[i] = localArray[i] + 1
                             }
 
@@ -107,13 +105,6 @@ const DivSingleWeek = (props) => {
             return lastWeekDivsArray
         }
 
-        // check for if its in, to set different options
-        const handleCheckForIn = (e, targetString) => {
-            if( targetString === 'IN') {
-                console.log('found sub menu')
-            }
-        }
-
         // make nav invisbile
         const handleMouseLeave = () => {
             setMenuVisibility(null)
@@ -121,7 +112,6 @@ const DivSingleWeek = (props) => {
 
         // make the nav visible
         const handleMouseEnter = () => {
-            console.log('onMouseEnter')
             setMenuVisibility(
                 <nav className='menu_rota_sub' >
                     <ol>
@@ -151,7 +141,6 @@ const DivSingleWeek = (props) => {
 
         // make the nav visible
         const handleMouseEnterSeven = () => {
-            console.log('onMouseEnter')
             setMenuVisibility(
                 <nav className='menu_rota_sub_seven' >
                     <ol>
@@ -414,8 +403,6 @@ const DivSingleWeek = (props) => {
 
         // send data to database from from
         const handleSubmitButton = (myDate, id, location) => {
-            console.log(props)
-            console.log(myDate)
             let myDateTime = new Date()
             let hours = myDateTime.getHours()
             let minutes = myDateTime.getMinutes()
@@ -436,7 +423,6 @@ const DivSingleWeek = (props) => {
     
                 return response ? response.json() : console.log('no reponse')
             };
-            
             postData(`https://pythonicbackend.herokuapp.com/schedule/`, {
                 date: myDate,
                 logIn_time: timeEntry,
@@ -458,8 +444,6 @@ const DivSingleWeek = (props) => {
         }
 
         const handleSubmitButtonPut = (myDate, id, location) => {
-            console.log(myDate)
-            console.log(data)
             let scheduleDateId = -1
             data.data.drivers.forEach( ele => {
                 if (ele.driver_id === id) {
@@ -517,7 +501,6 @@ const DivSingleWeek = (props) => {
         // when click on a date to book
         const handleClick = (e, weekDaySelected, id, location) => {
             e.preventDefault()
-            console.log(e.target.text)
             let locationvar
             if (e.target.text === 'IN') {
                 locationvar = props.selectedCity
@@ -530,7 +513,6 @@ const DivSingleWeek = (props) => {
 
         const handleClickPut = (e, weekDaySelected, id, location) => {
             e.preventDefault()
-            console.log(e.target.text)
             let locationvar
             if (e.target.text === 'IN') {
                 locationvar = props.selectedCity

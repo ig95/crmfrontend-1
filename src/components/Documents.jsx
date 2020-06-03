@@ -31,7 +31,7 @@ const Documents = (props) => {
         let ImageArray = []
         if (props.selectedDriver.imgArray) {
             props.selectedDriver.imgArray.forEach( (ele, id) => {
-                if (ele.verified === false) {
+                if (ele.verified !== 'True') {
                     ImageArray.push (
                         <div className='image_list_divs_false'>
                             <h3>{ele.name}</h3>
@@ -72,7 +72,41 @@ const Documents = (props) => {
         };
         
         postData(`https://pythonicbackend.herokuapp.com/images/${highlightedImageDetails.image_id}/`, {
-            verified: true,
+            verified: 'True',
+            driver_id: `https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`
+        }).then( response => {
+            let localArray = [...imageArray]
+            localArray[currentId] = (
+                <div className='image_list_divs'>
+                    <h3>{highlightedImageDetails.name}</h3>
+                    <img src={highlightedImageDetails.imagesLink} alt='cannot view' className='uploaded_image_two_true' onClick={(e, source) => handleMakingMainImage(e, highlightedImageDetails.imagesLink, highlightedImageDetails, currentId)}/>
+                </div>
+            )
+            setImageArray(localArray)
+        })
+        setHighlitedImageDetails(null)
+        setHighlightedPicture(null)
+    }
+
+    const getDivsBackAndVerifyFalse = (e) => {
+        async function postData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'PUT', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(data)
+                });
+
+            return response ? response.json() : console.log('no reponse')
+        };
+        
+        postData(`https://pythonicbackend.herokuapp.com/images/${highlightedImageDetails.image_id}/`, {
+            verified: 'False',
             driver_id: `https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`
         }).then( response => {
             let localArray = [...imageArray]
@@ -92,8 +126,9 @@ const Documents = (props) => {
 
     // verify button
     var verifyButton 
+    var rejectButton
     if (highlightedPicture) {
-        if (!highlightedImageDetails.verified) {
+        if (highlightedImageDetails.verified !== ('True' || 'False)')) {
             verifyButton = (
                 <div className="btn_picture" onClick={(e, targetImage) => getDivsBackAndVerify(e, highlightedPicture)}>
                 <svg width="125" height="45">
@@ -106,6 +141,20 @@ const Documents = (props) => {
                 <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
                 </svg>
                 <span className='span_in_Button'>Verify</span>  
+            </div>  
+            )
+            rejectButton = (
+                <div className="btn_picture" onClick={(e, targetImage) => getDivsBackAndVerifyFalse(e, highlightedPicture)}>
+                <svg width="125" height="45">
+                <defs>
+                    <linearGradient id="grad1">
+                        <stop offset="0%" stopColor="#F3F6F6"/>
+                        <stop offset="100%" stopColor="#F3F6F6" />
+                    </linearGradient>
+                </defs>
+                <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="115" height="35"></rect>
+                </svg>
+                <span className='span_in_Button'>Reject</span>  
             </div>  
             )
         }
@@ -149,6 +198,7 @@ const Documents = (props) => {
                         <span className='span_in_Button'>Return</span>  
                     </div>   
                     {verifyButton}
+                    {rejectButton}
                 </div>
             </div>
         )

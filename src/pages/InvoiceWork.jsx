@@ -20,22 +20,26 @@ const InvoiceWork = (props) => {
         setSundayDate(myDate.toDateString())
         setSundayTwoWeeks(new Date(myDate.getTime() + 12096e5).toDateString())
         async function getDataNext(url = '') {
-        const response = await fetch(url, {
-            method: 'GET', 
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${localStorage.getItem('token')}`
-            }
-        });
+            const response = await fetch(url, {
+                method: 'GET', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            });
+
         return response ? response.json() : console.log('no reponse')
+
         };
     
         getDataNext('https://pythonicbackend.herokuapp.com/data/').then( (response) => {
-            console.log(response)
             setDataset(response.data.drivers)
+            getDataNext('https://pythonicbackend.herokuapp.com/invoice/').then( response => {
+                console.log(response)
+            })
         })
     }, [])
 

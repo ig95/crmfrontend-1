@@ -187,81 +187,85 @@ const ComplianceCheck = (props) => {
                     // 'G.I.T. Insurance',
                     // 'P.L. Insurance',
                     // 'V5' 
-                    if (driver.vehicleArray.length > 0) {
-                        // 14
-                        if (!driver.vehicleArray[0]) {
-                            localArray[14] = (
-                                <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_check'>
-                                    V
-                                </div>
-                            )
-                        } else {
-                            localArray[14] = (
-                                <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_false'>
-                                    X
-                                </div>
-                            )
-                        }
-                        if (driver.vehicleArray[0]) {
-                            localArray[15] = (
-                                <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
-                                    {driver.vehicleArray[0].registration}
-                                </div>
-                            )
-                        }
-                        if (driver.vehicleArray[0]) {
-                            localArray[16] = (
-                                <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
-                                    {driver.vehicleArray[0].vtype}
-                                </div>
-                            )
-                        }
-                    }
-                    if (driver.vehicleArray.length > 0) {
-                        driver.vehicleArray[0].imgArray.forEach( (vehicleImage, vehicleImageID) => {
-                            if (vehicleImage.name === 'MOT') {
-                                localArray[17] = (
-                                    <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
-                                        {new Date(vehicleImage.expiryDate).toDateString()}
-                                    </div>
-                                )
-                            }
-                            if (vehicleImage.name === 'Motor Insurance') {
-                                localArray[18] = (
-                                    <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
-                                        {new Date(vehicleImage.expiryDate).toDateString()}
-                                    </div>
-                                )
-                            }
-                            if (vehicleImage.name === 'G.I.T. Insurance') {
-                                localArray[19] = (
-                                    <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
-                                        {new Date(vehicleImage.expiryDate).toDateString()}
-                                    </div>
-                                )
-                            }
-                            if (vehicleImage.name === 'P.L. Insurance') {
-                                localArray[20] = (
-                                    <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
-                                        {new Date(vehicleImage.expiryDate).toDateString()}
-                                    </div>
-                                )
-                            }
-                            if (vehicleImage.name === 'V5') {
-                                localArray[21] = (
+                    if (driver.vehicleArray) {
+                        if (driver.vehicleArray.length > 0) {
+                            // 14
+                            if (!driver.vehicleArray[0]) {
+                                localArray[14] = (
                                     <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_check'>
                                         V
                                     </div>
                                 )
-                            }
-                            if (vehicleImage.name === 'TAX') {
-                                localArray[22] = (
-                                    <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
-                                        {new Date(vehicleImage.expiryDate).toDateString()}
+                            } else {
+                                localArray[14] = (
+                                    <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_false'>
+                                        X
                                     </div>
                                 )
                             }
-                        })
+                            if (driver.vehicleArray[0]) {
+                                localArray[15] = (
+                                    <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
+                                        {driver.vehicleArray[0].registration}
+                                    </div>
+                                )
+                            }
+                            if (driver.vehicleArray[0]) {
+                                localArray[16] = (
+                                    <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
+                                        {driver.vehicleArray[0].vtype}
+                                    </div>
+                                )
+                            }
+                        }
+                    }
+                    if (driver.vehicleArray) {
+                        if (driver.vehicleArray.length > 0) {
+                            driver.vehicleArray[0].imgArray.forEach( (vehicleImage, vehicleImageID) => {
+                                if (vehicleImage.name === 'MOT') {
+                                    localArray[17] = (
+                                        <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
+                                            {new Date(vehicleImage.expiryDate).toDateString()}
+                                        </div>
+                                    )
+                                }
+                                if (vehicleImage.name === 'Motor Insurance') {
+                                    localArray[18] = (
+                                        <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
+                                            {new Date(vehicleImage.expiryDate).toDateString()}
+                                        </div>
+                                    )
+                                }
+                                if (vehicleImage.name === 'G.I.T. Insurance') {
+                                    localArray[19] = (
+                                        <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
+                                            {new Date(vehicleImage.expiryDate).toDateString()}
+                                        </div>
+                                    )
+                                }
+                                if (vehicleImage.name === 'P.L. Insurance') {
+                                    localArray[20] = (
+                                        <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
+                                            {new Date(vehicleImage.expiryDate).toDateString()}
+                                        </div>
+                                    )
+                                }
+                                if (vehicleImage.name === 'V5') {
+                                    localArray[21] = (
+                                        <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_check'>
+                                            V
+                                        </div>
+                                    )
+                                }
+                                if (vehicleImage.name === 'TAX') {
+                                    localArray[22] = (
+                                        <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents'>
+                                            {new Date(vehicleImage.expiryDate).toDateString()}
+                                        </div>
+                                    )
+                                }
+                            })
+                        }
                     }
                     localCheckArray.push(localArray)
                 })

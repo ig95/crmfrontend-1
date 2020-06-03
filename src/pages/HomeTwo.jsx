@@ -124,10 +124,12 @@ const HomeTwo = (props) => {
             data.data.images.forEach( image => {
                 // docs for verification part
                 console.log(image)
-                if (image.verified === false) {
+                if (image.verified !== ('True' || 'False')) {
                     pending++
-                } else {
+                } else if (image.verified === 'True'){
                     approved++
+                } else {
+                    rejected++
                 }
 
                 if (new Date(image.expiryDate) < thirtyDaysNotice) {
