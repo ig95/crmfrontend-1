@@ -58,12 +58,6 @@ const Home = (props) => {
         })
     }, [])
 
-    // handle selecting different day
-    const handleClick = (e) => {
-        let myString = e.target.innerText.slice(0, 15)
-        setTheDateRandom(new Date(myString))
-    }
-
     // dropdown menu options
     const options = [
         'DBS2',
@@ -144,10 +138,12 @@ const Home = (props) => {
             data.data.images.forEach( image => {
                 // docs for verification part
                 console.log(image)
-                if (image.verified === false) {
+                if (image.verified !== ('True' || 'False')) {
                     pending++
-                } else {
+                } else if (image.verified === 'True'){
                     approved++
+                } else {
+                    rejected++
                 }
 
                 if (new Date(image.expiryDate) < thirtyDaysNotice) {
