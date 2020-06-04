@@ -9,6 +9,7 @@ const VansComponent = (props) => {
 
     // handle mapping owned vans
     useEffect( () => {
+        console.log(props)
         setContent(null)
         let localArray = []
         if (props.data) {
@@ -25,27 +26,38 @@ const VansComponent = (props) => {
                 }
             })
         }
-        console.log(localArray)
         setVanList(localArray)
-    }, [props.data, props.owned])
+        if (props.selectedVan) {
+            setContent (
+                <DocumentVans 
+                    selectedVan={props.selectedVan}
+                    vanDocs={props.vanDocs}
+                    reRender={props.reRender}
+                    content={props.content}
+                />
+            )
+        }
+    }, [props.data, props.owned, props.vanDocs])
 
     // function for rendering van selection
-    const handleVanSelection = (e, theVan) => {
+    const handleVanSelection = (e, theVan) => { 
         setContent (
             <DocumentVans 
                 selectedVan={theVan}
                 vanDocs={props.vanDocs}
                 reRender={props.reRender}
+                content={props.content}
             />
         )
     }
-
+            
     // button for making new van
-    const handleAddVan = () => {
+    const handleAddVan = (e, theVan) => {
         setContent(
             <VansDocument 
                 owned={props.owned}
                 reRender={props.reRender}
+                content={props.content}
             />
         )
     }

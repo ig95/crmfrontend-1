@@ -4,7 +4,7 @@ import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 
 const DocumentVans = (props) => {
-    const [  valueForSubmit, setValueForSubmit ] = useState('')
+    const [ valueForSubmit, setValueForSubmit ] = useState('')
     const [ dateSelected, setDateSelected ] = useState(new Date())
     const [ dateSelectedTwo, setDateSelectedTwo ] = useState(new Date())
     const [ calendarGate, setCalendarGate] = useState(false)
@@ -88,7 +88,9 @@ const DocumentVans = (props) => {
         }).then( response => {
             console.log(response)
             setSubmitted()
-            props.reRender()
+            setValueForSubmit('')
+            setNameFromList('')
+            props.reRender(props.content, props.selectedVan)
         })
     }
 

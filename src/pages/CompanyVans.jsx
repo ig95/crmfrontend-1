@@ -11,6 +11,7 @@ const CompanyVans = (props) => {
     const [ displayDiv, setDisplayDiv ] = useState('diplay_none')
     const [ letMeView, setLetMeView ] = useState('main_div_vans_none')
     const [ vanDocs, setVanDocs ] = useState([])
+    const [ selectedVan, setSelectedVan ] = useState(null)
 
     useEffect(() => {
         async function getData(url = '') {
@@ -43,13 +44,59 @@ const CompanyVans = (props) => {
                 console.log(localArray)
             })
         })
+    }, [])
+
+    useEffect(() => {
+        async function getData(url = '') {
+            const response = await fetch(url, {
+                method: 'GET', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            });
+
+            return response ? response.json() : console.log('no reponse')
+
+        };
+
+        getData('https://pythonicbackend.herokuapp.com/vehicles/').then( (response) => {
+            setVansList(response.results)
+            getData('https://pythonicbackend.herokuapp.com/images/').then( (response) => {
+                let localArray = []
+                response.results.forEach( (image, ImageID) => {
+                    if (image.vehicle_id) {
+                        localArray.push(image)
+                    }
+                })
+                console.log(localArray)
+                setVanDocs(localArray)
+            })
+        })
     }, [reRenderTrigger])
 
     // function for rerendering
-    const reRenderMe = () => {
+    const reRenderMe = (content=null, selectedVan=null) => {
         let myVar = reRenderTrigger
         myVar++
         setReRenderTrigger(myVar)
+        if (content !== null) {
+            if (content === true) {
+                setLetMeView('main_div_vans')
+                setSelection('H2O Vans')
+                setContent(true)
+            } else {
+                setLetMeView('main_div_vans')
+                setSelection('Rental Vans')
+                setContent(false)
+            }
+        }
+        if (selectedVan !== null) {
+            setSelectedVan(selectedVan)
+        }
     }
 
     // make the h2o vans option appear
@@ -86,6 +133,8 @@ const CompanyVans = (props) => {
                     reRender={reRenderMe}
                     viewMe={letMeView}
                     vanDocs={vanDocs}
+                    content={content}
+                    selectedVan={selectedVan}
                 />
             </div>
         </div>

@@ -36,7 +36,7 @@ const VansDocument = (props) => {
         }).then( response => {
             console.log(response)
             setSubmitted()
-            props.reRender()
+            props.reRender(props.content)
         })
     }
 
