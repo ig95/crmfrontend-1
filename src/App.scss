@@ -3751,8 +3751,8 @@
     align-items: center;
     margin-left: 2rem;
     padding: 2px;
-    background-color: $greyBoxBackground;
-    color: $greyBoxContrast;
+    background-color: #AFCCFE;
+    color: black;
     margin-bottom: 10px;
     border-radius: .5rem;
     width: 90%;
@@ -3846,6 +3846,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #E7F0FF;
   }
 
   .dashboard_top_rectangles:hover {

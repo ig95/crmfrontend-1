@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
 import VansComponent from '../components/VansComponent'
 
-const CompanyVans = () => {
+const CompanyVans = (props) => {
 
     const [ selection, setSelection ] = useState('')
     const [ content, setContent ] = useState(null)
@@ -68,7 +68,7 @@ const CompanyVans = () => {
 
     return (
         <div className='home_content'>
-        <NavigationBar title='Company Vans'/>
+        <NavigationBar title='Company Vans' />
         <div className='main_content_vans'>
             <div className='top_company_vans'>
                 <button className='compliance_add_driver_button_submit' onClick={handleH2oVansClick}>
