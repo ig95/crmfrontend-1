@@ -46,10 +46,8 @@ const HomeTwo = (props) => {
             setSchedule(response.results)
             setLoadGate(1)
             getData('https://pythonicbackend.herokuapp.com/data/').then( (response ) => {
-                console.log(response)
                 setData(response)
-                axios.get('https://quotes.rest/qod/management').then( response => {
-                    console.log(response)
+                axios.get('https://quotes.rest/qod/inspire').then( response => {
                     setQuoteOfDay(response.data.contents.quotes[0])
                 })
             })

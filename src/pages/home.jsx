@@ -48,10 +48,8 @@ const Home = (props) => {
                 setLoadingGate(2)
             }, 1000)
             getData('https://pythonicbackend.herokuapp.com/data/').then( (response ) => {
-                console.log(response)
                 setData(response)
-                axios.get('https://quotes.rest/qod/management').then( response => {
-                    console.log(response)
+                axios.get('https://quotes.rest/qod/inspire').then( response => {
                     setQuoteOfDay(response.data.contents.quotes[0])
                 })
             })
@@ -135,6 +133,7 @@ const Home = (props) => {
         let pending = 0
         let thirtyDaysNotice = currentDate.setDate(currentDate.getDate() + 30)
         if (data) {
+            console.log(data)
             data.data.images.forEach( image => {
                 // docs for verification part
                 console.log(image)

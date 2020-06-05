@@ -5,7 +5,6 @@ import 'react-calendar/dist/Calendar.css'
 
 const FormsDocuments = (props) => {
     const [  valueForSubmit, setValueForSubmit ] = useState('')
-    const [ nameValue, setNameValue ] = useState('')
     const [ dateSelected, setDateSelected ] = useState(new Date())
     const [ calendarGate, setCalendarGate] = useState(false)
     const [ nameFromListArray, setNameFromListArray] = useState([])
@@ -62,6 +61,9 @@ const FormsDocuments = (props) => {
         }).then( response => {
             console.log(response)
             setSubmitted()
+            setValueForSubmit('')
+            setNameFromList('')
+            setCountryFromList('')
         })
     }
 

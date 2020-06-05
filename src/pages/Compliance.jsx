@@ -15,6 +15,7 @@ const Compliance = () => {
     const [ selectedVan, setSelectedVan ] = useState(null)
     const [ selectedDriver, setSelectedDriver ] = useState(null)
     const [ reload, setReload ] = useState(0)
+    const [ idVans, setIdVans ] = useState([])
 
     // grab the main data
     useEffect( () => {
@@ -194,7 +195,7 @@ const Compliance = () => {
         if (data) {
             data.drivers.forEach( (driver, driverID) => {
                 if (driver.status) {
-                    if (driver.status !== 'active') {
+                    if (driver.status !== 'Active') {
                         localArray.push(
                             <div key={driver.driver_id}>
                                 <h3 key={driverID} className='h3_for_compliance_Page' onClick={(e, theDriver) => handleSelectDriver(e, driver)}>
@@ -227,7 +228,7 @@ const Compliance = () => {
         if (data) {
             data.drivers.forEach( (driver, driverID) => {
                 if (driver.status) {
-                    if (driver.status === 'active') {
+                    if (driver.status === 'Active') {
                         localArray.push(
                             <>
                                 <h3 key={driverID} className='h3_for_compliance_Page'>
@@ -268,6 +269,7 @@ const Compliance = () => {
 
     useEffect( () => {
         let localArray = []
+        let localArrayIDeD = []
         if (vanList) {
             vanList.forEach( (van, vanID) => {
                 if (van.driver_id === null) {
@@ -279,10 +281,20 @@ const Compliance = () => {
                             <br />
                         </div>
                     )
+                } else {
+                    localArrayIDeD.push(
+                        <div key={van.registration}>
+                            <h3 className='h3_for_compliance_Page' onClick={(e, theVan) => handleVanNameClick(e, van)}>
+                                {van.registration} {van.model} {van.make}
+                            </h3>
+                            <br />
+                        </div>
+                    )
                 }
             })
         }
         console.log(localArray)
+        setIdVans(localArrayIDeD)
         setNonDriverVans(localArray)
         stupidAssList = localArray
     }, [vanList])
@@ -319,7 +331,7 @@ const Compliance = () => {
                                 <span className='span_in_complaince_button'>Waiting for Verification</span> 
                             </button>
                         </Link>
-                        <br />
+                        <h2 className='h2Label'>NonVerified Drivers</h2>
                         {nonActiveDrivers}
                     </div>
                     <div className='bottom_buttons_compliance_page'>
@@ -328,7 +340,7 @@ const Compliance = () => {
                                 <span className='span_in_complaince_button'>Driver Documents</span> 
                             </button>
                         </Link>
-                        <br />
+                        <h2 className='h2Label'>Verified Drivers</h2>
                         {nonVerifiedImages}
                     </div>
                     <div className='bottom_buttons_compliance_page'>
@@ -337,6 +349,8 @@ const Compliance = () => {
                                 <span className='span_in_complaince_button'>Driver Compliance Check</span> 
                             </button>
                         </Link>
+                        <h2 className='h2Label'>Assigned Vans</h2>
+                        {idVans}
                     </div>
                     <div className='bottom_buttons_compliance_page' id='last_div_compliance_page'>
                         <Link to='/companyvans' className='links'>
@@ -344,7 +358,7 @@ const Compliance = () => {
                                 <span className='span_in_complaince_button'>Company Vans</span> 
                             </button>
                         </Link>
-                        <br />
+                        <h2 className='h2Label'>Not Assigned Vans</h2>
                         {nonDriverVans}
                     </div>
                 </div>

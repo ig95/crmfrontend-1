@@ -2,8 +2,9 @@ import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
 import ComplianceCheck from '../components/ComplianceCheck'
 
-const DriverComplianceCheck = () => {
+const DriverComplianceCheck = (props) => {
     const [ data, setData ] = useState(null)
+    const [ reload, setReload ] = useState(0) 
 
     // grab the main data
     useEffect( () => {
@@ -25,13 +26,24 @@ const DriverComplianceCheck = () => {
         getData('https://pythonicbackend.herokuapp.com/data/').then( response => {
             setData(response.data)
         })
-    }, [])
+    }, [reload])
+
+    // reload
+    const makeReload = () => {
+        let myVar = reload
+        let nextVar = myVar+1
+        setReload(nextVar)
+    }
 
     return (
         <div className='home_content'>
             <NavigationBar title='Driver Compliance Check'/>
             <div className='main_content_compliance_check'>
-                <ComplianceCheck data={data} />
+                <ComplianceCheck 
+                    data={data}
+                    user_name={props.user_name}
+                    makeReload={makeReload}
+                />
             </div>
         </div>
     )

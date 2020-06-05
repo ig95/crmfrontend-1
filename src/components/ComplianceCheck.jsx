@@ -3,7 +3,37 @@ import React, { useEffect, useState} from 'react'
 const ComplianceCheck = (props) => {
     const [ topRow, setTopRow ] = useState([])
     const [ bottomRows, setBottomRows ] = useState([])
+    
+    // verify the driver
+    const handleVerifyDriver = (e, driverProfile) => {
+        let theDate = new Date()
 
+        // handle submitting document to backend
+        async function putData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'PUT', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(data)
+                });
+
+            return response ? response.json() : console.log('no reponse')
+        };
+        
+        putData(`https://pythonicbackend.herokuapp.com/drivers/${driverProfile.driver_id}/`, {
+            status: 'Active',
+            approvedBy: props.user_name,
+            approvedDateAndTime: theDate.toDateString()
+        }).then( response => {
+            console.log(response)
+            props.makeReload()
+        })
+    }
 
     // function for making the grid
     useEffect( () => {
@@ -73,7 +103,6 @@ const ComplianceCheck = (props) => {
             return localArray
         }
 
-
         // middle/bottom rows
         const makeBottomRows = () => {
             console.log(props.data)
@@ -86,10 +115,39 @@ const ComplianceCheck = (props) => {
                             {driver.name}
                         </div>
                     )
-                    for (let i = 0; i < 24 ; i++) {
+                    for (let i = 0; i < 22 ; i++) {
                         localArray.push(
                             <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_missing'>
                                 Missing
+                            </div>
+                        )
+                    }
+                    for (let i = 0; i < 2 ; i++) {
+                        localArray.push(
+                            <div 
+                                key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} 
+                                className='drivers_for_compliance_check_documents_missing_verify' 
+                                onClick={(e, driverProfile) => handleVerifyDriver(e, driver)}
+                            >
+                                Not Verified
+                            </div>
+                        )
+                    }
+                    if (driver.status === 'Active') {
+                        localArray[23] = (
+                            <div 
+                                key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} 
+                                className='drivers_for_compliance_check_documents' 
+                            >
+                                {driver.approvedBy}
+                            </div>
+                        )
+                        localArray[24] = (
+                            <div 
+                                key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} 
+                                className='drivers_for_compliance_check_documents' 
+                            >
+                                {driver.approvedDateAndTime}
                             </div>
                         )
                     }
