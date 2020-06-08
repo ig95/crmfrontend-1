@@ -150,6 +150,7 @@ const ComplianceCheck = (props) => {
 
         // middle/bottom rows
         const makeBottomRows = () => {
+            console.log(data)
             if (data) {
                 let localCheckArray = []
                 data.drivers.forEach( (driver, driverID) => {

@@ -272,6 +272,7 @@ const Compliance = () => {
         let localArrayIDeD = []
         if (vanList) {
             vanList.forEach( (van, vanID) => {
+                console.log(van)
                 if (van.driver_id === null) {
                     localArray.push(
                         <div key={van.registration}>

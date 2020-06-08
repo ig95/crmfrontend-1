@@ -265,7 +265,7 @@ const Dashboard = (props) => {
 
     useEffect( () => {
         let localArray = []
-        let labelArray =[`${selectedCity}`, 'Da Name', 'Route No', 'Route', 'Log In', 'Log Out', 'TORH', 'Start Mileage', 'Finish Mileage', 'Late Wave Payment', 'Support', 'Deduction', 'Fuel Card Change']
+        let labelArray =[`${selectedCity}`, 'Da Name', 'Route No', 'Route Type', 'Log In', 'Log Out', 'TORH', 'Start Mileage', 'Finish Mileage', 'Late Wave Payment', 'Support', 'Deduction', 'Fuel Card Change']
         for (let i = 0; i < 13; i++) {
             localArray.push(
                 <div className='dashboard_top_rectangles' onClick={(e, targetValue) => handleSorting(e, labelArray[i])}>
@@ -357,9 +357,10 @@ if (triangleToggle === 'triangle_dashboard_page_down') {
 var clockAndCalendar
 clockAndCalendar = (
     <div className='clock_and_calendar'>
-        <h3 className='nav_current_date'>{dayArray[currentDate.getDay()]} {currentDate.getDate()} {monthArray[currentDate.getMonth()]} {currentDate.getFullYear()}
-            {<br />}
+        <h3 className='nav_current_date'>
             Week: {currentDate.getWeek()}
+            {<br />}
+            {dayArray[currentDate.getDay()]} {currentDate.getDate()} {monthArray[currentDate.getMonth()]} {currentDate.getFullYear()}
             {<br />}
             {currentDate.toLocaleTimeString()}
         </h3>

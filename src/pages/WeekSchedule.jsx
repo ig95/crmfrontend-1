@@ -53,7 +53,7 @@ const WeekSchedule = (props) => {
         while (myDate.getDay() > 0) {
             myDate.setDate(myDate.getDate() - 1)
         }
-        setSelectedSunday(`${myDate.toDateString()} | Week: ${myDate.getWeek()}`)
+        setSelectedSunday(`Week: ${myDate.getWeek()} | ${myDate.toDateString()} `)
         setVarForMapping(myDate.toDateString())
         setMathSunday(myDate.toDateString())
     }, [])
