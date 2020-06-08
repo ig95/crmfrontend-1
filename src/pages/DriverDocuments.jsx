@@ -14,6 +14,9 @@ const DriverDocuments = (props) => {
     const [ nameList, setNameList ] = useState(null)
     const [ shorterList , setShorterList ] = useState([])
     const [ selectedDriver, setSelectedDriver ] = useState(null)
+    const [ driverForOffboarding, setDriverForOffboarding ] = useState(null)
+    const [ reload, setReload] = useState(0)
+    const [ otherReload, setOtherReload ] = useState(0)
 
     // grab the main data
     useEffect( () => {
@@ -34,8 +37,9 @@ const DriverDocuments = (props) => {
         };
         getData('https://pythonicbackend.herokuapp.com/data/').then( response => {
             setData(response.data)
+            console.log(reload)
         })
-    }, [])
+    }, [reload])
 
     // function for handling changing the dropdiwn selection
     const handleSelectCity = (e, cityAbbreviation) => {
@@ -45,26 +49,30 @@ const DriverDocuments = (props) => {
     // change color and select name from list
     const handleNameSelection = (e, nameSelection) => {
         setListClassName(nameSelection)
+        data.drivers.forEach( driver => {
+            if (driver.name === nameSelection) {
+                setDriverForOffboarding(driver)
+            }
+        })
     }
 
+    // map the drivers
     // changes when the data changes
     useEffect( () => {
-        console.log('use effect firing')
-        // map the drivers
         const mapTheDrivers = () => {
-            let localArray = []
-            if (data) {
-                data.drivers.forEach( driver => {
-                    if (driver.location === selectedCity) {
-                        if (driver.status === 'active') {
-                            localArray.push(
-                                driver.name
-                            )
-                        }
+        let localArray = []
+        if (data) {
+            console.log(data)
+            data.drivers.forEach( driver => {
+                if (driver.location === selectedCity) {
+                    if (driver.status === 'Active') {
+                        localArray.push(
+                            driver.name
+                        )
                     }
-                })
-            }
-
+                }
+            })
+        }
             let quicksort = (arr, min, max) => {
                 // set the quicksort pointer to the first element in the array
                 if (min === undefined) {
@@ -112,7 +120,7 @@ const DriverDocuments = (props) => {
         
                     // if the point is reached where both indices are pointing at the middle point then do a switch and put the numbers on the other side of the pivot
                     if (i >= j) {
-                      return j
+                    return j
                     }
                     let temp = arr[i]
                     arr[i] = arr[j]
@@ -133,7 +141,42 @@ const DriverDocuments = (props) => {
             return localArray
         }
         setDriverList(mapTheDrivers())
-    }, [data, selectedCity, listClassName])
+    }, [data, otherReload, listClassName])
+
+    // handle deactivating
+    const handleDeactivation = () => {
+        console.log(driverForOffboarding)
+        let theDate = new Date()
+        // handle submitting document to backend
+        if (driverForOffboarding !== null) {
+            async function putData(url = '', data = {}) {
+                const response = await fetch(url, {
+                    method: 'PUT', 
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify(data)
+                    });
+    
+                return response ? response.json() : console.log('no reponse')
+            };
+            
+            putData(`https://pythonicbackend.herokuapp.com/drivers/${driverForOffboarding.driver_id}/`, {
+                status: 'Offboarded',
+                approvedBy: props.user_name,
+                approvedDateAndTime: theDate.toDateString()
+            }).then( response => {
+                console.log(response)
+                let myVar = reload
+                let myReloadVar = myVar + 1
+                setReload(myReloadVar)
+            })
+        }
+    }
 
     // select name
     const handleNameClick = (e, theName) => {
@@ -213,7 +256,7 @@ const DriverDocuments = (props) => {
                 }
             })
         }
-    }, [nameValue])
+    }, [nameValue, data])
 
     return (
         <div className='home_content' >
@@ -232,11 +275,12 @@ const DriverDocuments = (props) => {
                                 </li>
                             </ol>
                         </nav>
-                        <button className='compliance_add_driver_button_driver_docs' >
+                        <button className='compliance_add_driver_button_driver_docs' onClick={handleDeactivation}>
                             <span className='span_in_complaince_button'>Offboard</span> 
                         </button>
                     </div>
                     <div className='driver_list_container_forms'>
+                        <br />
                         {driverList}
                     </div>
                 </div>

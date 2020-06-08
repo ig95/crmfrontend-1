@@ -3,7 +3,30 @@ import React, { useEffect, useState} from 'react'
 const ComplianceCheck = (props) => {
     const [ topRow, setTopRow ] = useState([])
     const [ bottomRows, setBottomRows ] = useState([])
+    const [ data, setData ] = useState(null)
     
+    // grab the main data
+    useEffect( () => {
+        async function getData(url = '') {
+            const response = await fetch(url, {
+                method: 'GET', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            });
+
+            return response ? response.json() : console.log('no reponse')
+
+        };
+        getData('https://pythonicbackend.herokuapp.com/data/').then( response => {
+            setData(response.data)
+        })
+    }, [])
+
     // verify the driver
     const handleVerifyDriver = (e, driverProfile) => {
         let theDate = new Date()
@@ -29,11 +52,33 @@ const ComplianceCheck = (props) => {
             status: 'Active',
             approvedBy: props.user_name,
             approvedDateAndTime: theDate.toDateString()
+            
         }).then( response => {
-            console.log(response)
-            props.makeReload()
+            setBottomRows(null)
+            bottomArraysKeeper[response.driver_id-1][23] = (
+                <div 
+                    key={12*(Math.floor(Math.random()*Math.floor(6000)))} 
+                    className='drivers_for_compliance_check_documents' 
+                >
+                    {props.user_name}
+                </div>
+            )
+            bottomArraysKeeper[response.driver_id-1][24] = (
+                <div 
+                    key={10*(Math.floor(Math.random()*Math.floor(23000)))} 
+                    className='drivers_for_compliance_check_documents' 
+                >
+                    {theDate.toDateString()}
+                </div>
+            )
+            return bottomArraysKeeper
+        }).then( response => {
+            setBottomRows(response)
         })
     }
+
+    // fuck you react, you are literally shit
+    var bottomArraysKeeper
 
     // function for making the grid
     useEffect( () => {
@@ -105,16 +150,11 @@ const ComplianceCheck = (props) => {
 
         // middle/bottom rows
         const makeBottomRows = () => {
-            console.log(props.data)
-            let localCheckArray = []
-            if (props.data) {
-                props.data.drivers.forEach( (driver, driverID) => {
+            if (data) {
+                let localCheckArray = []
+                data.drivers.forEach( (driver, driverID) => {
                     let localArray = []
-                    localArray.push(
-                        <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='labels_for_compliance_check_name'>
-                            {driver.name}
-                        </div>
-                    )
+                    
                     for (let i = 0; i < 22 ; i++) {
                         localArray.push(
                             <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='drivers_for_compliance_check_documents_missing'>
@@ -133,24 +173,11 @@ const ComplianceCheck = (props) => {
                             </div>
                         )
                     }
-                    if (driver.status === 'Active') {
-                        localArray[23] = (
-                            <div 
-                                key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} 
-                                className='drivers_for_compliance_check_documents' 
-                            >
-                                {driver.approvedBy}
-                            </div>
-                        )
-                        localArray[24] = (
-                            <div 
-                                key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} 
-                                className='drivers_for_compliance_check_documents' 
-                            >
-                                {driver.approvedDateAndTime}
-                            </div>
-                        )
-                    }
+                    localArray.unshift(
+                        <div key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} className='labels_for_compliance_check_name'>
+                            {driver.name}
+                        </div>
+                    )
                     driver.imgArray.forEach( (image, imageId) => {
                         if (image.name === 'Passport' || image.name === 'ID') {
                             console.log('found passport', driver)
@@ -239,12 +266,6 @@ const ComplianceCheck = (props) => {
                             )
                         }
                     })
-                    // 'TAX',
-                    // 'MOT',
-                    // 'Motor Insurance',
-                    // 'G.I.T. Insurance',
-                    // 'P.L. Insurance',
-                    // 'V5' 
                     if (driver.vehicleArray) {
                         if (driver.vehicleArray.length > 0) {
                             // 14
@@ -325,16 +346,38 @@ const ComplianceCheck = (props) => {
                             })
                         }
                     }
+                    if (driver.status === 'Active') {
+                        localArray[23] = (
+                            <div 
+                                key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} 
+                                className='drivers_for_compliance_check_documents' 
+                            >
+                                {driver.approvedBy}
+                            </div>
+                        )
+                        localArray[24] = (
+                            <div 
+                            key={driverID*(Math.floor(Math.random()*Math.floor(9000)))} 
+                            className='drivers_for_compliance_check_documents' 
+                            >
+                                {driver.approvedDateAndTime}
+                            </div>
+                        )
+                    }
                     localCheckArray.push(localArray)
                 })
+                return localCheckArray
+            } else {
+                return []
             }
-            return localCheckArray
         }
-
+        let topArray = makeTopRow()
+        let bottomArray = makeBottomRows()
         // set the rows into state for display
-        setTopRow(makeTopRow()) 
-        setBottomRows(makeBottomRows())
-    }, [props.data])
+        setTopRow(topArray) 
+        setBottomRows(bottomArray)
+        bottomArraysKeeper = bottomArray
+    }, [data])
 
     return (
         <div className='compliance_check_container'>

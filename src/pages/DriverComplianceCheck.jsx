@@ -40,9 +40,7 @@ const DriverComplianceCheck = (props) => {
             <NavigationBar title='Driver Compliance Check'/>
             <div className='main_content_compliance_check'>
                 <ComplianceCheck 
-                    data={data}
                     user_name={props.user_name}
-                    makeReload={makeReload}
                 />
             </div>
         </div>

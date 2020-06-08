@@ -14,6 +14,7 @@ import DocumentsForVerification from './pages/DocumentsForVerification'
 import DriverComplianceCheck from './pages/DriverComplianceCheck'
 import CreateManager from './pages/CreateManager'
 import Compliance from './pages/Compliance'
+import RentalVanTracker from './pages/RentalVanTracker'
 import CompanyVans from './pages/CompanyVans'
 import logo from './images/logoMinified.png'
 import './App.scss';
@@ -135,6 +136,7 @@ const App = () => {
         <Route exact path = '/driverdocuments' render={ () => <DriverDocuments user_name={userName} user_email={userEmail} superUser={true}/> } />
         <Route exact path = '/documentsforverification' render={ () => <DocumentsForVerification user_name={userName} user_email={userEmail} superUser={true}/> } />
         <Route exact path = '/companyvans' render={ () => <CompanyVans user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/rentalvantracker' render={ () => <RentalVanTracker user_name={userName} user_email={userEmail} superUser={true}/> } />
         <Route exact path = '/compliance' render={ () => <Compliance user_name={userName} user_email={userEmail} superUser={true}/> } />
         <Route exact path = '/drivercompliancecheck' render={ () => <DriverComplianceCheck user_name={userName} user_email={userEmail} superUser={true}/> } />
         <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail}superUser={true} /> } />
@@ -156,6 +158,7 @@ const App = () => {
         <Route exact path = '/documentsforverification' render={ () => <DocumentsForVerification user_name={userName} user_email={userEmail} /> } />
         <Route exact path = '/companyvans' render={ () => <CompanyVans user_name={userName} user_email={userEmail} /> } />
         <Route exact path = '/compliance' render={ () => <Compliance user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/rentalvantracker' render={ () => <RentalVanTracker user_name={userName} user_email={userEmail} superUser={true}/> } />
         <Route exact path = '/drivercompliancecheck' render={ () => <DriverComplianceCheck user_name={userName} user_email={userEmail} /> } />
         <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail} station={station}/> } />
         <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail} station={station}/> } />
