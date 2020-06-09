@@ -44,6 +44,64 @@ const DivSingleWeek = (props) => {
 
     // making the rows
     useEffect( () => {
+        // sorting algorithms
+        let quicksort = (arr, min, max) => {
+            // set the quicksort pointer to the first element in the array
+            if (min === undefined) {
+                min = 0
+            }
+    
+            // set the quicksort max pointer to the last element in the array
+            if (max === undefined) {
+                max = arr.length - 1
+            }
+    
+            // if the arr pointer's aren't at each other yet then continue recursively iterating
+            if (min < max) {
+                let pivot = partition(arr, min, max)
+                quicksort(arr, min, pivot)
+                quicksort(arr, pivot + 1, max)
+            }
+    
+            // return the arr after it has been sorted
+            return arr
+        }
+    
+        let partition = (arr, min, max) => {
+            // set the pivot in the middle of the array
+            let pivotNumber = Math.floor(min + (max - min) / 2) 
+            let pivot = arr[pivotNumber]
+    
+            // for each of these later there are do-while loops impemented to we set them out of range
+            let i = min - 1
+            let j = max + 1
+    
+            // infinite loop until conditions are met
+            while (true) {
+                // while i is refrencing a point lower than the middle of the array iterate up unitl the middle is reached
+                do {
+                    i++
+                } 
+                while (arr[i] < pivot)
+    
+                // while j is higher than the middle index of the array iterate down towards the middle
+                do {
+                    j--
+                } 
+                while (arr[j] > pivot)
+    
+                // if the point is reached where both indices are pointing at the middle point then do a switch and put the numbers on the other side of the pivot
+                if (i >= j) {
+                  return j
+                }
+                let temp = arr[i]
+                arr[i] = arr[j]
+                arr[j] = temp 
+            }
+        }
+
+        // non sorting algorithms
+
         let amount = parseInt(props.divAmount)
         if (amount === 14) {
             setCalendarDivs('cal_divs_single')
@@ -63,7 +121,7 @@ const DivSingleWeek = (props) => {
             var thisWeekDivsArray = []
             let localDateArray = []
             let selectedDate = new Date(props.selectedDate)
-            thisWeekDivsArray.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>Search Bar</h4></div>)
+            thisWeekDivsArray.push(<div className='cal_divs_single_first_top_two'><h4 className='inner_calander_text'>Search Bar</h4></div>)
             for (let i = 0; i < amount; i++) {
                 let dateVar = new Date(selectedDate.setDate(selectedDate.getDate() + i)).toDateString()
                 thisWeekDivsArray.push(<div key={i+8} className={`${calenderDivs}`}><h4 className='inner_calander_text'>{dateVar}</h4></div>)
@@ -78,7 +136,7 @@ const DivSingleWeek = (props) => {
         function bottomDivs () {
             // make array for display and push forst column
             var lastWeekDivsArray = []
-            lastWeekDivsArray.push(<div className='cal_divs_single_first'><h4 className='inner_calander_text'>Total for Day:</h4></div>)
+            lastWeekDivsArray.push(<div className='cal_divs_single_first_top_two'><h4 className='inner_calander_text'>Total for Day:</h4></div>)
 
             
             // make sure all data needed is available
@@ -142,29 +200,7 @@ const DivSingleWeek = (props) => {
         // make the nav visible
         const handleMouseEnterSeven = () => {
             setMenuVisibility(
-                <nav className='menu_rota_sub_seven' >
-                    <ol>
-                        <li className="menu-item"><a href="#0" id='menu_rota_zed' >Station</a>
-                            <ol className="sub-menu" >
-                                <li className="menu-item" id='sub_menu_options'>
-                                    <a href="#0" id='dropdown_text_rota'>
-                                        DSN1
-                                    </a>
-                                </li>
-                                <li className="menu-item" id='sub_menu_options'>
-                                    <a href="#0" id='dropdown_text_rota'>
-                                        DBS2
-                                    </a>
-                                </li>
-                                <li className="menu-item" id='sub_menu_options'>
-                                    <a href="#0" id='dropdown_text_rota'>
-                                        DEX2
-                                    </a>
-                                </li>
-                            </ol>
-                        </li>
-                    </ol>
-                </nav>
+                
             )
         }
 
@@ -182,7 +218,29 @@ const DivSingleWeek = (props) => {
                     <a href="#0" id='dropdown_text_rota' >
                         IN
                     </a>
-                    {menuVisibility}
+                    <nav className='menu_rota_sub' >
+                        <ol>
+                            <li className="menu-item"><a href="#0" id='menu_rota_zed' >Station</a>
+                                <ol className="sub-menu" >
+                                    <li className="menu-item" id='sub_menu_options'>
+                                        <a href="#0" id='dropdown_text_rota'>
+                                            DSN1
+                                        </a>
+                                    </li>
+                                    <li className="menu-item" id='sub_menu_options'>
+                                        <a href="#0" id='dropdown_text_rota'>
+                                            DBS2
+                                        </a>
+                                    </li>
+                                    <li className="menu-item" id='sub_menu_options'>
+                                        <a href="#0" id='dropdown_text_rota'>
+                                            DEX2
+                                        </a>
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </nav>
                 </li>
             )
             optionsArray.forEach( ele => {
@@ -247,7 +305,7 @@ const DivSingleWeek = (props) => {
                             localArray.push(
                                 <nav className="menu_rota">
                                     <ol>
-                                        <li className="menu-item"><a href="#0" id='menu_rota_a' >OFF</a>
+                                        <li className="menu-item" id='fuckingTits'><a href="#0" id='menu_rota_a' >OFF</a>
                                             <ol className="sub-menu" onClick={(e) => handleClick(e, checkForDate[i], ele.driver_id, ele.location)}>
                                                 {optionsThree}
                                             </ol>
@@ -257,6 +315,7 @@ const DivSingleWeek = (props) => {
                             )  
                         }
                         if (parseInt(props.divAmount) === 14) {
+                            let localSevenDayCheck = []
                             // eslint-disable-next-line no-loop-func
                             ele.datesArray.forEach( (dateEle) => {
                                 if (checkForDate.includes(dateEle.date)) {
@@ -285,10 +344,11 @@ const DivSingleWeek = (props) => {
                                             colorChange = 'menu_rota_holiday'  
                                             break; 
                                     }
+                                    localSevenDayCheck.push(checkForDate.indexOf(dateEle.date)+1)
                                     localArray[checkForDate.indexOf(dateEle.date)+1] = (
                                         <nav className={colorChange}>
                                             <ol>
-                                                <li className="menu-item"><a href="#0" id='menu_rota_a'>{dateEle.location === props.selectedCity ? 'IN' : dateEle.location}</a>
+                                                <li className="menu-item" id='fuckingTits'><a href="#0" id='menu_rota_a'>{dateEle.location === props.selectedCity ? 'IN' : dateEle.location}</a>
                                                     <ol className="sub-menu" onClick={(e) => handleClickPut(e, checkForDate[checkForDate.indexOf(dateEle.date)], ele.driver_id, ele.location)}>
                                                         {optionsThree}
                                                     </ol>
@@ -298,6 +358,51 @@ const DivSingleWeek = (props) => {
                                     )
                                 }
                             })
+                            let warningVar = []
+                            if (localSevenDayCheck.length > 5) {
+                                quicksort(localSevenDayCheck)
+                                console.log(localSevenDayCheck)
+                                let checkForConsecutive = 0
+                                let countInRow = 1
+                                localSevenDayCheck.forEach( (dateBooked, dateBookedID) => {
+                                    // set the current index equal to the number found in array
+                                    if (countInRow === 5) {
+                                        if (dateBooked+1 <= 14 ) {
+                                            warningVar.push(dateBooked+1) 
+                                        } 
+                                        if (dateBooked-6 > 0) {
+                                            warningVar.push(dateBooked-6)
+                                        }
+                                        countInRow = 1
+                                        checkForConsecutive = 0
+                                        return
+                                    }
+
+                                    if (checkForConsecutive === 0) {
+                                        checkForConsecutive = dateBooked
+                                        return
+                                    }
+                                    // check if the next number is consecutive
+                                    if (dateBooked === (checkForConsecutive+1)) {
+                                        countInRow++
+                                        checkForConsecutive++
+                                        return
+                                    } else {
+                                        checkForConsecutive = 0
+                                        countInRow = 1
+                                        return
+                                    }
+                                })
+                            }
+                            if (warningVar.length > 0) {
+                                warningVar.forEach( element => {
+                                    localArray[element] = (
+                                        <div className='enforced_holiday'>
+                                            Enforced Holiday
+                                        </div>
+                                    )
+                                })
+                            }
                             mappedProps.push(localArray)
                         } else {
                             // dropdown menu options
@@ -314,7 +419,7 @@ const DivSingleWeek = (props) => {
                                 localArray.push(
                                     <nav className="menu_rota_seven">
                                         <ol>
-                                            <li className="menu-item"><a href="#0" id='menu_rota_b' >OFF</a>
+                                            <li className="menu-item" id='fuckingTits'><a href="#0" id='menu_rota_b' >OFF</a>
                                                 <ol className="sub-menu" onClick={(e) => handleClick(e, checkForDate[i], ele.driver_id, ele.location)}>
                                                     {optionsThree}
                                                 </ol>
@@ -324,6 +429,7 @@ const DivSingleWeek = (props) => {
                                 )  
                             }
                             // eslint-disable-next-line no-loop-func
+                            let localSevenDayCheck = []
                             ele.datesArray.forEach( (dateEle) => {
                                 if (checkForDate.includes(dateEle.date)) {
                                     let colorChange
@@ -351,10 +457,11 @@ const DivSingleWeek = (props) => {
                                             colorChange = 'menu_rota_holiday_seven'  
                                             break; 
                                     }
+                                    localSevenDayCheck.push(checkForDate.indexOf(dateEle.date)+1)
                                     localArray[checkForDate.indexOf(dateEle.date)+1] = (
                                         <nav className={colorChange}>
                                             <ol>
-                                                <li className="menu-item"><a href="#0" id='menu_rota_b'>{dateEle.location === props.selectedCity ? 'IN' : dateEle.location}</a>
+                                                <li className="menu-item" id='fuckingTits'><a href="#0" id='menu_rota_b'>{dateEle.location === props.selectedCity ? 'IN' : dateEle.location}</a>
                                                     <ol className="sub-menu" onClick={(e) => handleClickPut(e, checkForDate[checkForDate.indexOf(dateEle.date)], ele.driver_id, ele.location)}>
                                                         {optionsThree}
                                                     </ol>
@@ -364,6 +471,51 @@ const DivSingleWeek = (props) => {
                                     )
                                 }
                             })
+                            let warningVar = []
+                            if (localSevenDayCheck.length > 5) {
+                                quicksort(localSevenDayCheck)
+                                console.log(localSevenDayCheck)
+                                let checkForConsecutive = 0
+                                let countInRow = 1
+                                localSevenDayCheck.forEach( (dateBooked, dateBookedID) => {
+                                    // set the current index equal to the number found in array
+                                    if (countInRow === 5) {
+                                        if (dateBooked+1 <= 7 ) {
+                                            warningVar.push(dateBooked+1) 
+                                        } 
+                                        if (dateBooked-6 > 0) {
+                                            warningVar.push(dateBooked-6)
+                                        }
+                                        countInRow = 1
+                                        checkForConsecutive = 0
+                                        return
+                                    }
+
+                                    if (checkForConsecutive === 0) {
+                                        checkForConsecutive = dateBooked
+                                        return
+                                    }
+                                    // check if the next number is consecutive
+                                    if (dateBooked === (checkForConsecutive+1)) {
+                                        countInRow++
+                                        checkForConsecutive++
+                                        return
+                                    } else {
+                                        checkForConsecutive = 0
+                                        countInRow = 1
+                                        return
+                                    }
+                                })
+                            }
+                            if (warningVar.length > 0) {
+                                warningVar.forEach( element => {
+                                    localArray[element] = (
+                                        <div className='enforced_holiday_seven'>
+                                            Enforced Holiday
+                                        </div>
+                                    )
+                                })
+                            }
                             mappedProps.push(localArray)
                         }
                     }
