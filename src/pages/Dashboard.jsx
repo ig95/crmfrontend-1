@@ -396,8 +396,10 @@ clockAndCalendar = (
                 {clockAndCalendar}
                 <div className='top_rectangles_container'>
                     {topRectangles}
-                </div>    
-                {listOfRoutes}
+                </div>  
+                <div className='list_of_routes_dashboard'>
+                    {listOfRoutes}
+                </div>  
                 <hr />
                 <DashboardForm 
                     otherSelection={selectedModification}

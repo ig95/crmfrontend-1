@@ -1480,6 +1480,227 @@
 	}
 }
 
+.menu_rota_yellow {
+  height: 3vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 6%;
+  margin-bottom: 1px;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+
+		&:first-child {
+			align-items: center;
+      background-color:  #F6DF62;
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 3vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+.menu_rota_yellow:hover {
+  z-index: 1;
+}
+
+.menu_rota_blue {
+  height: 3vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 6%;
+  margin-bottom: 1px;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+
+		&:first-child {
+			align-items: center;
+      background-color:  rgb(113, 123, 209);
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 3vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+.menu_rota_blue:hover {
+  z-index: 1;
+}
 .menu_rota_purple:hover {
   z-index: 1;
 }
@@ -1501,7 +1722,7 @@
 		&:first-child {
 			align-items: center;
       box-shadow: 0px 3px 8px $transparent-gray;
-      background-color:  rgb(122, 211, 255);
+      background-color:  rgb(246, 249, 250);
 		}
 	}
 
@@ -3600,6 +3821,12 @@
     padding-bottom: 5rem;
     animation-name: loadingStyle;
     animation-duration: 1s;
+  }
+
+  .list_of_routes_dashboard {
+    max-height: 30vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   .clock_and_calendar {

@@ -151,10 +151,11 @@ const DivSingleWeek = (props) => {
                     // eslint-disable-next-line no-loop-func
                     data.data.drivers.forEach( (ele) => {
                         ele.datesArray.forEach( (date) => {
-                            if (date.date === checkForDate[i]) {
-                                localArray[i] = localArray[i] + 1
+                            if (date.location === props.selectedCity) {
+                                if (date.date === checkForDate[i]) {
+                                    localArray[i] = localArray[i] + 1
+                                }
                             }
-
                         })
                     })
                     lastWeekDivsArray.push(<div key={i+50} className={`${calenderDivs}`}><h4 className='inner_calander_text'>{localArray[i]}</h4></div>)
@@ -203,7 +204,6 @@ const DivSingleWeek = (props) => {
                 
             )
         }
-
 
         // get sundays
         const getSundays = () => {
@@ -323,10 +323,10 @@ const DivSingleWeek = (props) => {
                                     // eslint-disable-next-line default-case
                                     switch (dateEle.location) {
                                         case 'DEX2':
-                                            colorChange = 'menu_rota_in' 
+                                            colorChange = 'menu_rota_blue' 
                                             break;
                                         case 'DSN1':
-                                            colorChange = 'menu_rota_in' 
+                                            colorChange = 'menu_rota_yellow' 
                                             break;
                                         case `DBS2`:
                                             colorChange = 'menu_rota_in'
@@ -345,6 +345,7 @@ const DivSingleWeek = (props) => {
                                             break; 
                                     }
                                     localSevenDayCheck.push(checkForDate.indexOf(dateEle.date)+1)
+                                    console.log(checkForDate.indexOf(dateEle.date)+1)
                                     localArray[checkForDate.indexOf(dateEle.date)+1] = (
                                         <nav className={colorChange}>
                                             <ol>
