@@ -53,7 +53,7 @@ const WeekSchedule = (props) => {
         while (myDate.getDay() > 0) {
             myDate.setDate(myDate.getDate() - 1)
         }
-        setSelectedSunday(`${myDate.toDateString()} | Week: ${myDate.getWeek()}`)
+        setSelectedSunday(`Week: ${myDate.getWeek()} | ${myDate.toDateString()} `)
         setVarForMapping(myDate.toDateString())
         setMathSunday(myDate.toDateString())
     }, [])
@@ -151,7 +151,7 @@ const WeekSchedule = (props) => {
     var makeTheDriver
     makeTheDriver = (
         <>
-        <MakeDriver />
+        <MakeDriver user_name={props.user_name} user_email={props.user_email} user_id={props.user_id}/>
         <div className='absolute_return_button'>
             <div className="button-container-2" onClick={backToNormal}>
                 <span className="mas2">Return</span>
@@ -255,20 +255,14 @@ const WeekSchedule = (props) => {
                             </ol>
                         </nav>
                         <div className='rota_top_spacer'>
-                            <div className="button-container-2" onClick={handleMakeDriverPage}>
-                                <span className="mas2">View Driver</span>
-                                <button className='buttonFront2' id='work2' type="button" name="Hover">
-                                    View Drivers
-                                </button>
-                            </div>  
+                            <button className='compliance_add_driver_button_submit' onClick={handleMakeDriverPage}>
+                                <span className='span_in_complaince_button'>View Drivers</span> 
+                            </button>
                         </div>
                         <div className='rota_top_spacer_two'>
-                            <div className="button-container-2" onClick={handleDeletionToggle}>
-                                <span className="mas2">Delete Driver</span>
-                                <button className='buttonFront2' id='work2' type="button" name="Hover">
-                                    Delete Driver
-                                </button>
-                            </div>  
+                            <button className='compliance_add_driver_button_submit' onClick={handleDeletionToggle}>
+                                <span className='span_in_complaince_button'>Delete Drivers</span> 
+                            </button> 
                         </div>
                     </div>
                     <div className='scheduling_single_week_overlay'>

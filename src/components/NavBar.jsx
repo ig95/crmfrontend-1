@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import logo from '../images/logoMinified.png'
+import logo from '../images/coloration.png'
 
 // send automated emails dependant on expirey dates
 // mark driver as compliant or not
@@ -8,6 +8,8 @@ import logo from '../images/logoMinified.png'
 var myInterval
 const NavigationBar = (props) => {
     const [ currentDate, setCurrentDate ] = useState(new Date())
+    const [ subMenuText, setSubMenuText ] = useState('Compliance Menu')
+    const [ makeVisible, setMakeVisible ] = useState('menu_rota_sub_none')
     
     // handling the clock
     useEffect( () => {
@@ -41,6 +43,21 @@ const NavigationBar = (props) => {
         )
     }
 
+    // handle the nav menu
+    const handleMouseEnter = () => {
+        setMakeVisible('menu_rota_sub_nav')
+    }
+
+    // handle the nav menu
+    const handleChangeTitle = (e, values) => {
+        setSubMenuText(values)
+    }
+
+    // handle the nav menu
+    const handleMouseleave = () => {
+        setMakeVisible('menu_rota_sub_none')
+    }
+
     return (
         <>
             <div className='nav_bar_top'>
@@ -72,11 +89,55 @@ const NavigationBar = (props) => {
                         Location Rota 
                     </div>
                 </Link>
-                <Link to="/documentation" className='links'>
+                <div className='links' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseleave}>
                     <div className='link_style'>
                         Compliance
+                        <nav className={makeVisible} id='top_menu_nav'>
+                            <ol>
+                                <li className="menu-item" id='remove_border_please'><a href="#0" id='top_menu_nav'>{subMenuText}</a>
+                                    <ol className="sub-menu" >
+                                        <li className="menu-item"  id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Main Page')}>
+                                            <Link to="/compliance" id='link_style_sub_menu'>
+                                                    <a href="#0" >
+                                                        Main Page
+                                                    </a>
+                                            </Link>
+                                        </li>
+                                        <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Docs for Verification')}>
+                                            <Link to='/documentsforverification' id='link_style_sub_menu'>
+                                                <a href="#0" >
+                                                    Docs for Verification
+                                                </a>
+                                            </Link>
+                                        </li>
+                                        
+                                        <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Driver Documents')}>
+                                            <Link to='/driverdocuments' id='link_style_sub_menu'>
+                                                <a href="#0" >
+                                                    Driver Documents
+                                                </a>
+                                            </Link>
+                                        </li>
+                                        <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Driver Compliance')}>
+                                            <Link to='drivercompliancecheck' id='link_style_sub_menu'>
+                                                <a href="#0" >
+                                                    Driver Compliance 
+                                                </a>
+                                            </Link>
+                                        </li>
+                                        <li className="menu-item" id="nav_menu_sub" onMouseEnter={(e, values) => handleChangeTitle(e, 'Company Vans')}>
+                                            <Link to='/companyvans' id='link_style_sub_menu'>
+                                                <a href="#0" >
+                                                    Company Vans
+                                                </a>
+                                            </Link>
+                                        </li>
+                                    </ol>
+                                </li>
+                            </ol>
+                        </nav>
                     </div>
-                </Link>
+                </div>
                 <Link to="/invoicework" className='links'>
                     <div className='link_style'>
                         Invoices
@@ -90,6 +151,11 @@ const NavigationBar = (props) => {
                 <Link to="/statistics" className='links'>
                     <div className='link_style'>
                         Reports
+                    </div>
+                </Link>
+                <Link to="/rentalvantracker" className='links'>
+                    <div className='link_style'>
+                        Rental Van Tracker
                     </div>
                 </Link>
             </div>

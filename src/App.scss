@@ -215,6 +215,113 @@
 		}
 	}
 }
+.menu_docs_verification {
+  height: 5vh;
+  margin: 0 auto;
+  z-index: 1;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+
+		&:first-child {
+      width: 15vw;
+
+			align-items: center;
+      box-shadow: 0px 3px 8px $transparent-gray;
+      background-color: $amazon_blue;
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+				font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+			top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+					content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      margin: 0 auto;
+      width: 15vw; 
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
 
 #menu_text_white {
   color: $amazon_blue;
@@ -454,7 +561,7 @@
 		justify-content: center;
 		border-top: 2px solid $blue;
     position: relative;
-    height: 5vh;
+    height: 3vh;
 		transition: background 0.3s ease-in-out;
 
 		@for $i from 1 through 1 {
@@ -657,12 +764,24 @@
 //   color: $amazon_blue;
 //   display: flex;
 //   align-items: center;
-// }
+// }\
+
 // rota
 
 #menu_rota_a {
-  width: 4vw;
+  height: 3vh;
   color: black;
+}
+
+#menu_rota_b {
+  width: 7vw;
+  color: black;
+}
+
+#menu_rota_zed {
+  width: 4vw;
+  color: $offWhite;
+  background-color: $amazon_blue;
 }
 
 #sub_menu_options {
@@ -678,11 +797,1038 @@
 }
 
 .menu_rota {
-  height: 5vh;
+  height: 3vh;
   @extend %calendar_divs_class;
   display: flex;
   align-items: center;
   flex: 1 0 6%;
+  margin-bottom: 1px;
+	ol {
+    list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+    
+		&:first-child {
+      align-items: center;
+      background-color:  $offRotaColor;
+		}
+	}
+  
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 2vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+        border-color: $transparent-white;
+        height: 3vh;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 3vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+.menu_rota_sub {
+  height: 5vh;
+  position: absolute;
+  left: 5.3vw;
+  z-index: 1;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  background-color:  $offRotaColor;
+	ol {
+    list-style: none;
+		padding: 0;
+    margin: 0;
+    
+		&:first-child {
+      align-items: center;
+      background-color:  $offRotaColor;
+		}
+	}
+  
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+.menu_rota_sub_seven {
+  height: 5vh;
+  position: absolute;
+  left: 8.7vw;
+  z-index: 1;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  background-color:  $offRotaColor;
+	ol {
+    list-style: none;
+		padding: 0;
+    margin: 0;
+    
+		&:first-child {
+      align-items: center;
+      background-color:  $offRotaColor;
+		}
+	}
+  
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+.menu_rota_sub_none {
+  display: none;
+}
+
+#nav_menu_sub {
+  background-color: grey;
+  font-size: .8em;
+}
+
+#nav_menu_sub:hover {
+  background-color: rgb(150, 150, 150);
+}
+
+#top_menu_nav {
+  border: grey;
+  background-color: grey;
+  font-size: 1em;
+}
+
+#remove_border_please {
+  border: none;
+  border-top-right-radius: 1rem;
+}
+
+.menu_rota_sub_nav {
+  margin: 0;
+  padding: 0;
+  height: 3vh;
+  position: absolute;
+  left: 8vw;
+  z-index: 1;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  background-color:  grey;
+	ol {
+    list-style: none;
+		padding: 0;
+    margin: 0;
+    
+		&:first-child {
+      align-items: center;
+      background-color:  grey;
+		}
+	}
+  
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid grey;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+    
+		@for $i from 1 through 1 {
+      &:nth-child(#{$i}) > a::before {
+				font-size: 1rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+        
+				@media (min-width: 768px) {
+          font-size: 1.5rem;
+				}
+			}
+		}
+    
+		.sub-menu > a {
+      color: $amazon_blue;
+		}
+    
+		&:not(:last-child) {
+      border-right: 1px solid $transparent-white;
+		}
+    
+		.sub-menu {
+      position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+
+			.menu-item {
+        border-color: $transparent-white;
+        
+				a::before {
+          content: "";
+				}
+        
+				&:first-child {
+          border: 0;
+				}
+			}
+		}
+    
+		&:hover,
+		&.active {
+      border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+      
+			a::before {
+        color: white;
+			}
+		}
+    
+		&:hover .sub-menu {
+      transform: rotateX(0deg);
+		}
+    
+		a {
+      height: 5vh;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+      text-decoration: none;
+      width: 5vw;
+		}
+	}
+}
+
+.menu_rota:hover {
+  z-index: 1;
+}
+
+#fuckingTits {
+  height: 3vh;
+}
+
+// in version
+.menu_rota_in {
+  height: 3vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 6%;
+  margin-bottom: 1px;
+	ol {
+    list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+    
+		&:first-child {
+      align-items: center;
+      background-color:  #A5FFBE;
+		}
+	}
+  
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 3vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+        border-color: $transparent-white;
+        height: 3vh;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: rgb(131, 113, 113);
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 3vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: black;
+			text-decoration: none;
+		}
+	}
+}
+.menu_rota_in:hover {
+  z-index: 1;
+}
+
+// ct rt and mfn
+.menu_rota_purple {
+  height: 3vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 6%;
+  margin-bottom: 1px;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+
+		&:first-child {
+			align-items: center;
+      background-color:  #BE9ADB;
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 3vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+.menu_rota_yellow {
+  height: 3vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 6%;
+  margin-bottom: 1px;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+
+		&:first-child {
+			align-items: center;
+      background-color:  #F6DF62;
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 3vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+.menu_rota_yellow:hover {
+  z-index: 1;
+}
+
+.menu_rota_blue {
+  height: 3vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 6%;
+  margin-bottom: 1px;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+
+		&:first-child {
+			align-items: center;
+      background-color:  rgb(113, 123, 209);
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 3vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+.menu_rota_blue:hover {
+  z-index: 1;
+}
+.menu_rota_purple:hover {
+  z-index: 1;
+}
+
+//holiday version
+.menu_rota_holiday {
+  height: 3vh;
+  margin-bottom: 1px;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 6%;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+
+		&:first-child {
+			align-items: center;
+      box-shadow: 0px 3px 8px $transparent-gray;
+      background-color:  rgb(246, 249, 250);
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 3vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
+
+.menu_rota_holiday:hover {
+  z-index: 1;
+}
+
+.menu_rota_seven:hover {
+  z-index: 1;
+}
+
+.menu_rota_seven {
+  height: 3vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 12%;
+  margin-bottom: 1px;
 	ol {
     list-style: none;
 		padding: 0;
@@ -782,18 +1928,14 @@
 		}
 	}
 }
-
-.menu_rota:hover {
-  z-index: 1;
-}
-
 // in version
-.menu_rota_in {
-  height: 5vh;
+.menu_rota_in_seven {
+  height: 3vh;
   @extend %calendar_divs_class;
   display: flex;
   align-items: center;
-  flex: 1 0 6%;
+  flex: 1 0 12%;
+  margin-bottom: 1px;
 	ol {
     list-style: none;
 		padding: 0;
@@ -893,17 +2035,18 @@
 		}
 	}
 }
-.menu_rota_in:hover {
+.menu_rota_in_seven:hover {
   z-index: 1;
 }
 
 // ct rt and mfn
-.menu_rota_purple {
-  height: 5vh;
+.menu_rota_purple_seven {
+  height: 3vh;
   @extend %calendar_divs_class;
   display: flex;
   align-items: center;
-  flex: 1 0 6%;
+  flex: 1 0 12%;
+  margin-bottom: 1px;
 	ol {
 		list-style: none;
 		padding: 0;
@@ -1004,17 +2147,18 @@
 	}
 }
 
-.menu_rota_purple:hover {
+.menu_rota_purple_seven:hover {
   z-index: 1;
 }
 
 //holiday version
-.menu_rota_holiday {
-  height: 5vh;
+.menu_rota_holiday_seven {
+  height: 3vh;
   @extend %calendar_divs_class;
   display: flex;
   align-items: center;
-  flex: 1 0 6%;
+  flex: 1 0 12%;
+  margin-bottom: 1px;
 	ol {
 		list-style: none;
 		padding: 0;
@@ -1116,10 +2260,34 @@
 	}
 }
 
-.menu_rota_holiday:hover {
+.menu_rota_holiday_seven:hover {
   z-index: 1;
 }
 
+.enforced_holiday {
+  width: 5.3vw;
+  height: 3vh;
+  border: 1px solid black;
+  background-color: rgb(236, 78, 223);
+  font-size: .7em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1px;
+}
+
+.enforced_holiday_seven {
+  flex: 1 0 12%;
+  height: 3vh;
+  border: 1px solid black;
+  background-color: rgb(236, 78, 223);
+  text-align: center;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1px;
+}
 
   /*********************** BUTTON EFFECT *****************************************/
 
@@ -1464,7 +2632,60 @@
     }
   }
 
+  // button smaller for forms page
+  .button-container-3 {
+    position: relative;
+    margin-right: 1rem;
+    width: 6vw;
+    height: 5vh;
+    overflow: hidden;
+    font-weight: 300;
+    font-size: 1.1em;
+    transition: 0.5s;
+    letter-spacing: 1px;
+    color: $amazon_blue;
+    
+    .mas3 {
+      position: absolute;
+      color: $amazon_blue;
+      text-align: center;
+      width: 101%;
+      font-weight: 400;
+      position: absolute;
+      font-size: 1.3em;
+      margin-top: 7px;
+      overflow: hidden;
+    }
+    
+    .buttonFront3 {
+      width: 101%;
+      height: 100%;
+      font-weight: 300;
+      font-size: 1.1em;
+      letter-spacing: 1px;
+      @include button($amazon_blue,
+      "https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png",
+      2300%,
+      100%,
+      none,
+      $offWhite);
+      cursor: pointer;
+      -webkit-animation: ani2 0.7s steps(22) forwards;
+      animation: ani2 0.7s steps(22) forwards;
+      
+      &:hover {
+        -webkit-animation: ani 0.7s steps(22) forwards;
+        animation: ani 0.7s steps(22) forwards;
+      }
+    }
+  }
 
+  .inner_text_button_forms_page {
+    font-size: 1em;
+    font-weight: 400;
+    font-family: "Font Awesome 5 Free";
+    margin: 0 auto;
+  }
 
   /*********************** BUTTON ENTRANCE EFFECT *****************************************/
 
@@ -1673,6 +2894,14 @@
     transform: rotate(180deg);
   }
 
+  #link_style_sub_menu {
+    font-size: 1em;
+  }
+
+  #link_style_sub_menu:hover {
+    font-size: 1em;
+  }
+
   .drop_down_hamburger:hover .drop_down_content{
     position: absolute;
     @extend %centerThings;
@@ -1694,6 +2923,7 @@
     height: 5vh;
     display: flex;
     align-items: center;
+    font-size: 1em;
   }
 
   .link_style:hover {
@@ -1764,8 +2994,13 @@
   }
 
   .home_details {
+    text-align: center;
+    width: 87vw;
+    font-size: 1.2em;
+  }
+
+  .home_time {
     margin-left: 1rem;
-    width: 20vw;
   }
 
   .drop_down_bar_container {
@@ -1816,6 +3051,84 @@
     align-items: flex-start;
     animation-name: loadingStyle;
     animation-duration: 1s;
+  }
+
+  .lower_home_page {
+    width: 96%;
+    height: 70vh;
+    margin-left: 2rem;
+    @extend %centerThings;
+  }
+
+  .inner_lower_home_container {
+    width: 100%;
+    box-shadow: 0px 3px 8px $transparent-gray;
+    margin-right: 8rem;
+    border-radius: 1rem;
+    height: 50%;
+    text-align: center;
+  }
+
+  .docs_for_verification_home {
+    @extend %centerThings;
+    flex-direction: column;
+  }
+
+  .docs_for_verification_home_expiration {
+    overflow-y: scroll;
+    margin: 1rem;
+    max-height: 22vh;
+  }
+
+  .rejected_div {
+    background-color: $offRotaColor;
+    width: 50%;
+    height: 5vh;
+    @extend %centerThings;
+    border-radius: .5rem;
+  }
+
+  .approved_div {
+    background-color: rgb(106, 219, 106);
+    width: 50%;
+    height: 5vh;
+    @extend %centerThings;
+    padding: 0;
+    margin: 3px;
+    border-radius: .5rem;
+  }
+  
+  .pending_div {
+    background-color: rgb(241, 241, 103);
+    width: 50%;
+    height: 5vh;
+    @extend %centerThings;
+    border-radius: .5rem;
+  }
+
+  .remove_padding {
+    padding: 0;
+    margin: 0;
+  }
+
+  .remove_padding_align {
+    padding: 0;
+    margin: 0;
+    text-align: left;
+  }
+
+
+  #left_one {
+    background-color: lightblue;
+  }
+
+  #center_one {
+    background-color: $offRotaColor;
+  }
+
+  #right_one {
+    background-color: rgb(226, 105, 226);
+    margin-right: 0;
   }
 
   .calandar_container {
@@ -1976,7 +3289,7 @@
 
   .blanks {
     opacity: .2;
-    height: 5vh;
+    height: 3vh;
     @extend %calendar_divs_class;
     display: flex;
     align-items: center;
@@ -1987,8 +3300,11 @@
   .cal_divs_single {
     @extend %calendar_divs_class;
     flex: 1 0 7.5%;
-    height: 5vh;
-    margin-bottom: 10px;
+    height: 5.5vh;
+    font-size: .9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: $calendar_top_background;
     color: $amazon_blue;
   }
@@ -2043,7 +3359,8 @@
   .cal_divs_single_seven {
     @extend %calendar_divs_class;
     flex: 1 0 9%;
-    height: 5vh;
+    min-width: 10.75vw;
+    height: 5.5vh;
     margin-bottom: 10px;
     background-color: $calendar_top_background;
     color: $amazon_blue;
@@ -2061,7 +3378,7 @@
   .cal_divs_single_booked_seven {
     @extend %calendar_divs_class;
     flex: 1 0 11%;
-    height: 5vh;
+    height: 3vh;
     margin-bottom: 5px;
     color: $amazon_blue;
   }
@@ -2071,8 +3388,8 @@
     display: flex;
     flex-wrap: wrap;
     overflow: scroll;
-    max-height: 68vh;
-    width: 72.5vw;
+    height: 70vh;
+    width: 86.5vw;
   }
 
   .cal_divs_single_table_seven:hover {
@@ -2097,10 +3414,24 @@
   
   .cal_divs_single_first {
     @extend %calendar_divs_class;
+    width: 10vw;
+    flex: 1 0 5%;
+    height: 3vh;
+    padding: 0;
+    margin: 0;
+    background-color: $calendar_top_background;
+    color: $amazon_blue;
+    display: flex;
+    align-items: center;
+  }
+
+  .cal_divs_single_first_top_two {
+    @extend %calendar_divs_class;
     min-width: 10vw;
     flex: 1 0 5%;
-    height: 5vh;
-    margin-bottom: 5px;
+    height: 5.5vh;
+    padding: 0;
+    margin: 0;
     background-color: $calendar_top_background;
     color: $amazon_blue;
     display: flex;
@@ -2270,6 +3601,7 @@
   .top_row {
     grid-area: top_row;
     display: flex;
+    height: 3vh;
   }
   
   .middle_row {
@@ -2277,7 +3609,7 @@
     display: flex;
     flex-wrap: wrap;
     overflow: scroll;
-    max-height: 68vh;
+    height: 70vh;
     width: 87.6vw;
     overflow-x: hidden;
   }
@@ -2491,6 +3823,12 @@
     animation-duration: 1s;
   }
 
+  .list_of_routes_dashboard {
+    max-height: 30vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
   .clock_and_calendar {
     padding: 0;
     margin: 0;
@@ -2606,6 +3944,11 @@
     color: $offWhite;
   }
 
+  .name_suggestions_arrow_selection {
+    background-color: $amazon_blue_hover;
+    color: $offWhite;
+  }
+
   .input_dashboard_page {
     @extend %input_bars;
     border: 1px solid rgba(35, 47, 62, 0.247);
@@ -2693,8 +4036,8 @@
     align-items: center;
     margin-left: 2rem;
     padding: 2px;
-    background-color: $greyBoxBackground;
-    color: $greyBoxContrast;
+    background-color: #AFCCFE;
+    color: black;
     margin-bottom: 10px;
     border-radius: .5rem;
     width: 90%;
@@ -2788,6 +4131,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #E7F0FF;
   }
 
   .dashboard_top_rectangles:hover {
@@ -2805,6 +4149,7 @@
     background-color: $offWhite;
     animation-name: loadingStyle;
     animation-duration: 1s;
+    display: flex;
   }
 
   .overall_documents{
@@ -2850,8 +4195,8 @@
   }
   
   .uploaded_image {
-    max-width: 30vw;
-    max-height: 35vh;
+    margin-left: 10px;
+    height: 3vh
   }
 
   .documents_h3 {
@@ -2995,11 +4340,11 @@
     display: flex;
     flex-wrap: wrap;
     overflow: scroll;
-    height: 70vh;
+    height: 85vh;
     animation-name: fadeInRight;
-    animation-duration: 1s;
+    animation-duration: .5s;
     animation-fill-mode: forwards;
-    animation-timing-function: linear;
+    animation-timing-function: ease-in-out;
   }
 
   .enter_information_documents {
@@ -3036,15 +4381,11 @@
 
   @keyframes fadeInRight {
     0% {
-      width: 0%;
+      width: 0vw;
       opacity: 0;
     }
-    50% {
-      width: 50%;
-      opacity: .2;
-    }
     100% {
-      width: 100%;
+      width: 65vw;
       opacity: 1;
     }
   }
@@ -3058,37 +4399,20 @@
 
   .documents_search_bar {
     border: 2px solid #232F3E;
-    padding: 1rem;
-    margin: 0 1rem .5rem 1rem;
+    height: 85vh;
+    width: 20vw;
     display: flex;
-    justify-content: space-evenly;
-    height: 10vh;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
   .drivers_names_documents {
+    margin-top: 1rem;
+    padding-right: 3rem;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    overflow: scroll;
-    animation-name: fadeSmall; 
-    animation-duration: .75s;
-    animation-fill-mode: forwards;
-  }
-
-  @keyframes fadeSmall {
-    0% {
-      width: 50vw;
-      height: 30vh;
-      background-color: $offWhite;
-      z-index: 1;
-      border-radius: .5rem;
-    }
-
-    100% {
-      width: 50vw;
-      height: 10vh;
-      opacity: 1;
-    }
+    flex-direction: column;
+    overflow-y: scroll;
   }
 
   .button_div_box_top {
@@ -3155,12 +4479,6 @@
     }
   }
 
-  .drivers_names_documents:hover {
-    animation-name: fadeBig;
-    animation-duration: .75s;
-    animation-fill-mode: forwards;
-  }
-
   @keyframes fadeBig {
     0% {
       width: 50vw;
@@ -3188,10 +4506,11 @@
 
   .name_list_documents {
     position: relative;
-    font-size: 1.3em;
+    display: block;
+    font-size: 1.2em;
     font-weight: 400;
-    margin: 10px;
-    padding: 0;
+    margin: 0;
+    margin-top: 5px;
   }
 
   .name_list_documents:hover {
@@ -3508,7 +4827,7 @@
       flex-direction: column;
       padding: 2rem;
     }
-
+    
     .inputs_create_manager {
       @extend %input_bars;
     }
@@ -3516,11 +4835,704 @@
     .labels_create_manager {
       margin-right: 1rem;
     }
+
+    /****************************************  FORMS/DOCUMENTS PAGE ************************************************************/
+    .left_of_forms {
+      border-right: 2px solid $amazon_blue;
+      width: 25%;
+      height: 95%;
+      margin-left: 2rem;
+      padding: 0;
+    }
     
-    @media only screen and (max-width: 1500px) {
-      html, body {
-        font-size: 90%;
+    .submenus_forms_left {
+      display: flex;
+    }
+    
+    .driver_list_forms_single {
+      background-color: $offWhite;
+    }
+    
+    .driver_list_text {
+      display: inline-block;
+      position: relative;
+      margin: 0;
+      margin-top: .5rem;
+      padding: 0;
+      padding-left: 3px;
+      padding-right: 3px;
+      color: $amazon_blue;
+    }
+    
+    .driver_list_text:hover {
+      color: $amazon_blue
+    }
+    
+    .driver_list_text:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 2px;
+      visibility: hidden;
+      transform: scaleX(0);
+      transition: all 0.3s ease-in-out 0s;
+    }
+    
+    .driver_list_text:hover:before {
+      visibility: visible;
+      background-color: $amazon_blue;
+      transform: scaleX(1);
+    }
+    
+    .driver_list_container_forms {
+      padding-left: 1rem;
+    }
+    
+    .selected_forms_name {
+      animation: blueUpList linear .3s forwards;
+    }
+    
+    .button_for_ginishka {
+      height: 5vh;
+      background-color: $amazon_blue;
+      border: none;
+      border-radius: .5rem;
+      color: $offWhite;
+    }
+    
+    
+    
+    .button_for_ginishka:hover {
+      background-color: $offWhite;
+      color: $amazon_blue;
+    }
+    
+    .h3_inside{
+      font-size: 1em;
+    }
+    
+    .top_three_forms_list {
+      display: flex;
+    }
+    
+    @keyframes blueUpList {
+      0% {
+        background-color: $offWhite;
+        transform: scaleY(0);
       }
+      
+      100% {
+        background-color: $amazon_blue;
+        transform: scaleY(1);
+        color: $offWhite
+      }
+    }
+    
+    .main_content_forms {
+      grid-area: main_content;
+      background-color: $offWhite;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      animation-name: loadingStyle;
+      animation-duration: 1s;
+    }
+    
+    .right_of_forms {
+      height: 95%;
+      width: 71%;
+      margin-right: 2rem;
+    }
+    
+    .forms_divs_name_search {
+      margin: 0 auto;
+      width: 15vw;
+      margin-top: 1rem;
+    }
+    
+    .name_suggestions_arrow_selection_down {
+      background-color: $amazon_blue_hover;
+      color: $offWhite;
+    }
+    
+    .name_suggestions_arrow_selection_up {
+      background-color: $amazon_blue_hover;
+      color: $offWhite;
+    }
+    
+    .search_bar_forms {
+      width: 15vw;
+    }
+    
+    .submit_files_two_freedom {
+      padding: 1rem;
+      margin: 0;
+      margin-top: 1rem;
+      height: 87.4%;
+      border-top: 2px solid $amazon_blue;
+      animation: formSubmit linear .5s forwards;
+    }
+    
+    .document_input_forms {
+      width: 10vw;
+    }
+    
+    .document_input_forms_top {
+      margin-top: 2px;
+      width: 20vw;
+      height: 3vh;
+      padding: 10px;
+    }
+    
+    @keyframes formSubmit {
+      0% {
+        width: 0%;
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+        width: 98%;
+      }
+    }
+    
+    #formsButtonSubmit {
+      position: absolute;
+      bottom: 5vh;
+    }
+    
+    .dashboard_form_divs_name_bar_forms {
+      width: 15vw;
+      padding: 5px;
+      height: 0vh;
+      border-right: 1px solid $amazon_blue;
+      border-left: 1px solid $amazon_blue;
+      border-bottom: 1px solid $amazon_blue;
+      border-bottom-left-radius: .5rem;
+      border-bottom-right-radius: .5rem;
+      overflow-y: auto;
+      animation: searchBarDrop linear .3s forwards;
+    }
+    
+    .names_list_array_container_none {
+      display: none;
+    }
+    
+    .names_list_array_container {
+      margin: 0;
+      overflow-y: scroll; 
+      width: 10.6vw;
+      padding-left: 2px;
+      border-right: 1px solid $amazon_blue;
+      border-bottom: 1px solid $amazon_blue;
+      border-left: 1px solid $amazon_blue;
+      border-bottom-left-radius: .5rem;
+      border-bottom-right-radius: .5rem;
+      animation: searchBarDropTwo .3s linear forwards;
+    }
+    
+    .names_in_names_list_array_forms:hover {
+      background-color: lightgray;
+    }
+    
+    .uploaded_image_three_false {
+      height: 5vh;
+      width: 5vw;
+    }
+    
+  /****************************************  FORMS/DOCUMENTS PAGE ************************************************************/
+  .top_container_compliance_page {
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .main_content_compliance {
+    grid-area: main_content;
+    display: flex;
+    width: 96%;
+    flex-direction: column;
+    background-color: $offWhite;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
+  }
+  
+  .compliance_add_driver_button {
+    display: block;
+    position: relative;
+    height: 5vh;
+    border: none;
+    background: linear-gradient(to right, $amazon_blue_hover 50%, $amazon_blue 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    color: $offWhite;
+    width: 15vw;
+    font-weight: 400;
+    font-family: $ubuntu_font;
+    font-size: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 3px 8px $transparent-gray;
+    transition: all .3s ease-in-out;
+  }
+
+  .compliance_add_driver_button_driver_docs {
+    display: block;
+    position: relative;
+    height: 5.1vh;
+    border: none;
+    margin-left: 5vw;
+    background: linear-gradient(to right, $amazon_blue_hover 50%, $amazon_blue 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    color: $offWhite;
+    width: 7vw;
+    font-weight: 400;
+    font-family: $ubuntu_font;
+    font-size: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 3px 8px $transparent-gray;
+    transition: all .3s ease-in-out;
+  }
+
+  .compliance_add_driver_button_driver_docs:hover {
+    background-position: left bottom;
+  }
+  
+  .compliance_add_driver_button:hover {
+    background-position: left bottom;
+  }
+  
+  .compliance_add_driver_button_submit {
+    display: block;
+    position: relative;
+    height: 5vh;
+    border: none;
+    background: linear-gradient(to right, $amazon_blue_hover 50%, $amazon_blue 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    color: $offWhite;
+    width: 10vw;
+    font-weight: 400;
+    font-family: $ubuntu_font;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 3px 8px $transparent-gray;
+    transition: all .3s ease-in-out;
+    margin-right: 10px;
+    border-radius: .5rem;
+  }
+  
+  .compliance_add_driver_button_submit:hover {
+    background-position: left bottom;
+  }
+  .span_in_complaince_button {
+    color: $offWhite;
+  }
+  
+  .bottom_container_compliance_page {
+    width: 100%;
+    height: 100%;
+    border-top: 2px solid rgba(0, 0, 0, 0.151);
+    display: flex;
+  }
+  
+  .bottom_buttons_compliance_page {
+    height: 70vh;
+    padding: 1rem;
+    border-right: 2px solid rgba(0, 0, 0, 0.151);
+    width: 100%;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
+  }
+  
+  #last_div_compliance_page {
+    border: none;
+  }
+  
+  .h3_for_compliance_Page {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+    background: linear-gradient(to right, rgb(236, 236, 236) 50%, $offWhite 50%);
+    background-size: 200% 100%;
+    margin: 2px;
+    background-position: right bottom;
+    color: $amazon_blue;
+    font-weight: 400;
+    font-family: $ubuntu_font;
+    font-size: 1.1em;
+    transition: all .3s ease-in-out;
+  }
+  
+  .h3_for_compliance_Page:hover {
+    background-position: left bottom;
+  }
+  
+  /****************************************  FORMS/DOCUMENTS PAGE ************************************************************/
+  .documents_forverification_list_div {
+    padding: 1rem;
+  }
+  .remove_h3_padding {
+    margin: none;
+    padding: none;
+  }
+  
+  /****************************************  COMPLAINCE CHECK ************************************************************/
+  .main_content_compliance_check{
+    grid-area: main_content;
+    background-color: $offWhite;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
+    width: 100%;
+    overflow: scroll;
+  }
+  
+  .compliance_check_container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-right: 10px;
+    // overflow: scroll;
+  }
+  
+  .row_container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 3190px;
+  }
+  
+  .labels_for_compliance_check_name {
+    @extend %centerThings;
+    background-color: rgb(171, 238, 171);
+    border: 1px solid black;
+    text-align: center;
+    width: 250px;
+    height: 50px;
+  }
+
+  .labels_for_compliance_check_documents {
+    @extend %centerThings;
+    border: 1px solid black;
+    text-align: center;
+    width: 120px;
+    height: 50px;
+    background-color: rgb(238, 151, 151);
+  }
+
+  .labels_for_compliance_check_vans {
+    @extend %centerThings;
+    text-align: center;
+    border: 1px solid black;
+    background-color: rgb(171, 194, 243);
+    width: 120px;
+    height: 50px;
+  }
+  
+  .labels_for_compliance_check_manager {
+    @extend %centerThings;
+    text-align: center;
+    border: 1px solid black;
+    background-color: rgb(99, 231, 95);
+    width: 120px;
+    height: 50px;
+  }
+  // end of label ones
+  
+  .drivers_for_compliance_check_name {
+    @extend %centerThings;
+    border: 1px solid black;
+    width: 120px;
+    text-align: center;
+    height: 50px;
+  }
+  
+  .drivers_for_compliance_check_documents {
+    @extend %centerThings;
+    border: 1px solid black;
+    width: 120px;
+    height: 50px;
+    text-align: center;
+  }
+  
+  .drivers_for_compliance_check_documents_check {
+    @extend %centerThings;
+    border: 1px solid black;
+    background-color: rgb(171, 238, 171);
+    width: 120px;
+    height: 50px;
+    text-align: center;
+  }
+  
+  // end of driver found ones
+  .drivers_for_compliance_check_documents_missing {
+    @extend %centerThings;
+    border: 1px solid black;
+    background-color: rgb(228, 110, 110);
+    text-align: center;
+    width: 120px;
+    height: 50px;
+  }
+
+  .drivers_for_compliance_check_documents_missing_verify {
+    @extend %centerThings;
+    border: 1px solid black;
+    background-color: rgb(240, 128, 128);
+    text-align: center;
+    width: 120px;
+    height: 50px;
+  }
+
+  .drivers_for_compliance_check_documents_missing_verify:hover {
+    background-color: rgb(248, 157, 157);
+  }
+  
+  .drivers_for_compliance_check_documents_false {
+    @extend %centerThings;
+    text-align: center;
+    border: 1px solid black;
+    background-color: rgb(189, 36, 36);
+    width: 120px;
+    height: 50px;
+  }
+  
+  /****************************************  VANS PAGES ************************************************************/
+  .main_content_vans {
+    grid-area: main_content;
+    background-color: $offWhite;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .document_vans_container {
+    display: flex;
+    height: 100%;
+  }
+  
+  .van_documents_document_vans {
+    height: 100%;
+    border-left: 2px solid black;
+    width: 100%;
+    padding-left: 2rem;
+  }
+  
+  .top_company_vans {
+    display: flex;
+    padding-left: 1rem;
+  }
+  
+  .top_company_vans h2 {
+    margin-left: 20vw;
+  }
+  
+  .main_div_vans_none {
+    width: 97%;
+    height: 82vh;
+    border-top: 2px solid $amazon_blue;
+    padding-top: 1rem;
+    margin: 1rem;
+    display: flex;
+    opacity: 0;
+  }
+  
+  .spacer_div_vans_list {
+    margin: 1rem 1rem 1rem 0;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.137);
+  }
+  
+  .main_div_vans {
+    width: 97%;
+    height: 80vh;
+    border-top: 2px solid $amazon_blue;
+    padding-top: 1rem;
+    margin: 1rem;
+    display: flex;
+    opacity: 1;
+  }
+  
+  #right_div_company_vans {
+    border: none;
+  }
+  
+  .inner_vans_component_div_left {
+    width: 15%;
+    height: 100%;
+    border-right: 2px solid rgba(0, 0, 0, 0.137);
+  }
+  
+  .submit_files_three_freedom {
+    padding: 2rem;
+    width: 100%;
+  }
+  
+  .inner_vans_component_div_right {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .types_list_array_container_none {
+    display: none;
+  }
+  
+  .types_list_array_container {
+    margin: 0;
+    overflow-y: scroll; 
+    width: 10.6vw;
+    padding-left: 2px;
+    border-right: 1px solid $amazon_blue;
+    border-bottom: 1px solid $amazon_blue;
+    border-left: 1px solid $amazon_blue;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    animation: searchBarDropThree .3s linear forwards;
+  }
+  
+  .van_list_van_component h2 {
+    text-align: center;
+  }
+  
+  .form_on_new_Van {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  .enter_information_documents_vans {
+    display: flex;
+  }
+  
+  .textarea_vans_page {
+    height: 20vh;
+    text-align: left;
+  }
+  
+  .h3_for_compliance_Page_colored {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+    background: rgb(236, 236, 236);
+    background-size: 200% 100%;
+    margin: 2px;
+    background-position: right bottom;
+    color: $amazon_blue;
+    font-weight: 400;
+    font-family: $ubuntu_font;
+    font-size: 1.1em;
+    transition: all .3s ease-in-out;
+  }
+  
+  .h3_for_compliance_Page_colored:hover {
+    background-position: left bottom;
+  }
+  
+  .front_page_button {
+    display: block;
+    position: relative;
+    height: 5vh;
+    border: none;
+    background: linear-gradient(to right, $logoLightColor 50%, $logoColor 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    color: $logoLightColor;
+    width: 15vw;
+    font-weight: 400;
+    font-family: $ubuntu_font;
+    font-size: 1.3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 3px 8px $transparent-gray;
+    transition: all .3s ease-in-out;
+    border-radius: .5rem;
+  }
+  
+  .h2Label {
+    color: $amazon_blue;
+    text-align: left;
+    border-bottom: 2px solid $amazon_blue;
+  }
+  
+  .front_page_button:hover {
+    background-position: left bottom;
+    color: $logoColor;
+  } 
+  
+  /****************************************  VANS PAGES ************************************************************/
+  .van_Horizontal {
+    display: flex;
+    padding-left: 1rem;
+    width: 1200px;
+  }
+
+  .van_vertical {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid black;
+  }
+
+  .van_vertical_weekday {
+    width: 100px;
+    padding: 10px;
+    border: 1px solid black;
+  }
+
+  .van_vertical_weekday_total {
+    width: 100px;
+    padding: 10px;
+    background-color: rgb(238, 116, 116);
+    border: 1px solid black;
+  }
+
+  .van_rental_tracker_overall {
+    overflow: scroll;
+  }
+  
+  @keyframes searchBarDrop {
+    0% {
+      height: 0vh;
+    }
+    
+    100% {
+      height: 10vh;
+    }
+  }
+  
+  @keyframes searchBarDropTwo {
+    0% {
+      height: 0vh;
+    }
+    
+    100% {
+      height: 25vh;
+    }
+  }
+
+  @keyframes searchBarDropThree {
+    0% {
+      height: 0vh;
+    }
+    
+    100% {
+      height: 65px;
+    }
+  }
+  
+  @media only screen and (max-width: 1500px) {
+    html, body {
+      font-size: 90%;
+    }
       
     .dashboard_form_divs_name_bar_invoicing {
       margin-top: 2.3rem;

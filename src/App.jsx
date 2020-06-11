@@ -5,12 +5,17 @@ import Dashboard from './pages/Dashboard'
 import MakeEmployee from './pages/MakeEmployee'
 import WeekSchedule from './pages/WeekSchedule'
 import InvoiceWork from './pages/InvoiceWork'
-import DriverDocumentation from './pages/DriverDocumentation'
 import Statistics from './pages/Statistics'
 import HomeTwo from './pages/HomeTwo'
-import Forms from './pages/Forms'
+import DriverDocuments from './pages/DriverDocuments'
 import Driver from './pages/Driver'
+import Forms from './pages/Forms'
+import DocumentsForVerification from './pages/DocumentsForVerification'
+import DriverComplianceCheck from './pages/DriverComplianceCheck'
 import CreateManager from './pages/CreateManager'
+import Compliance from './pages/Compliance'
+import RentalVanTracker from './pages/RentalVanTracker'
+import CompanyVans from './pages/CompanyVans'
 import logo from './images/logoMinified.png'
 import './App.scss';
 import Home from './pages/home'
@@ -33,7 +38,7 @@ const App = () => {
   // dev mode
   // useEffect( () => {
   //   setUserName('Nicholas Shankland')
-  //   setUserEmail('nicholas.m.shankland@gmai.com')
+  //   setUserEmail('nicholas.m.shankland@gmail.com')
   //   setUserId('1923874-98y')
   //   setStation('DBS2')
   // },[])
@@ -112,26 +117,30 @@ const App = () => {
       if (localVar === 0) {
         setUserFound('Login not found. Please contact site administrator')
       }
-      console.log(response.results)
     })
   }
 
   var content
-  if (userEmail === process.env.REACT_APP_EMAIL_VERIFICATION ) {
+  if (userEmail === (process.env.REACT_APP_EMAIL_VERIFICATION || process.env.REACT_APP_SUPER_USER)) {
     content = (
       <Router>
-        <Route exact path = '/' render={ () => <Home user_name={userName} user_email={userEmail} user_id={userId} /> } />
-        <Route exact path = '/manager' render={ () => <CreateManager user_name={userName} user_email={userEmail} user_id={userId}  /> } />
-        <Route exact path = '/home' render={ () => <HomeTwo user_name={userName} user_email={userEmail} user_id={userId}  />  } />
-        <Route exact path = '/makemployee' render={ () => <MakeEmployee user_name={userName} user_email={userEmail} user_id={userId} /> } />
-        <Route exact path = '/weekschedule' render={ () => <WeekSchedule user_name={userName} user_email={userEmail} /> } />
-        <Route exact path = '/driver/:id/:date' render={ () => <Driver user_name={userName} user_email={userEmail} driver_data={drivers} schedule_data={schedule} /> } />
-        <Route exact path = '/dashboard' render={ () => <Dashboard user_name={userName} user_email={userEmail} /> } />
-        <Route exact path = '/statistics' render={ () => <Statistics user_name={userName} user_email={userEmail} /> } />
-        <Route exact path = '/forms' render={ () => <Forms user_name={userName} user_email={userEmail} /> } />
-        <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail} /> } />
-        <Route exact path = '/documentation' render={ () => <DriverDocumentation user_name={userName} user_email={userEmail} /> } />
-        <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/' render={ () => <Home user_name={userName} user_email={userEmail} user_id={userId} superUser={true}/> } />
+        <Route exact path = '/manager' render={ () => <CreateManager user_name={userName} user_email={userEmail} user_id={userId}  superUser={true}/> } />
+        <Route exact path = '/home' render={ () => <HomeTwo user_name={userName} user_email={userEmail} user_id={userId} superUser={true} />  } />
+        <Route exact path = '/makemployee' render={ () => <MakeEmployee user_name={userName} user_email={userEmail} user_id={userId} superUser={true}/> } />
+        <Route exact path = '/weekschedule' render={ () => <WeekSchedule user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/driver/:id/:date' render={ () => <Driver user_name={userName} user_email={userEmail} driver_data={drivers} schedule_data={schedule} superUser={true}/> } />
+        <Route exact path = '/dashboard' render={ () => <Dashboard user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/statistics' render={ () => <Statistics user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/forms' render={ () => <Forms user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/driverdocuments' render={ () => <DriverDocuments user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/documentsforverification' render={ () => <DocumentsForVerification user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/companyvans' render={ () => <CompanyVans user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/rentalvantracker' render={ () => <RentalVanTracker user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/compliance' render={ () => <Compliance user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/drivercompliancecheck' render={ () => <DriverComplianceCheck user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail}superUser={true} /> } />
+        <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail} superUser={true}/> } />
       </Router>
     )
   } else if (userEmail) {
@@ -145,8 +154,13 @@ const App = () => {
         <Route exact path = '/dashboard' render={ () => <Dashboard user_name={userName} user_email={userEmail} station={station}/> } />
         <Route exact path = '/statistics' render={ () => <Statistics user_name={userName} user_email={userEmail} station={station}/> } />
         <Route exact path = '/forms' render={ () => <Forms user_name={userName} user_email={userEmail} station={station}/> } />
+        <Route exact path = '/driverdocuments' render={ () => <DriverDocuments user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/documentsforverification' render={ () => <DocumentsForVerification user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/companyvans' render={ () => <CompanyVans user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/compliance' render={ () => <Compliance user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/rentalvantracker' render={ () => <RentalVanTracker user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/drivercompliancecheck' render={ () => <DriverComplianceCheck user_name={userName} user_email={userEmail} /> } />
         <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail} station={station}/> } />
-        <Route exact path = '/documentation' render={ () => <DriverDocumentation user_name={userName} user_email={userEmail} station={station}/> } />
         <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail} station={station}/> } />
       </Router>
     )
@@ -185,12 +199,9 @@ const App = () => {
                 <GoogleLogin
                   clientId={process.env.REACT_APP_CLIENT_ID}
                   render={renderProps => (
-                    <div className="button-container-1" >
-                      <span className="mas">Login</span>
-                      <button onClick={renderProps.onClick} disabled={renderProps.disabled} className='buttonFront' id='work' type="button" name="Hover">
-                        Login
-                      </button>
-                    </div>
+                    <button className='front_page_button' onClick={renderProps.onClick}>
+                      <span className='span_in_front_page_button'>Login</span> 
+                    </button>
                   )}
                   onSuccess={responseGoogle}
                   onFailure={responseGoogle}

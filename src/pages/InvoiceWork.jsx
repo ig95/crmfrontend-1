@@ -20,21 +20,26 @@ const InvoiceWork = (props) => {
         setSundayDate(myDate.toDateString())
         setSundayTwoWeeks(new Date(myDate.getTime() + 12096e5).toDateString())
         async function getDataNext(url = '') {
-        const response = await fetch(url, {
-            method: 'GET', 
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${localStorage.getItem('token')}`
-            }
-        });
+            const response = await fetch(url, {
+                method: 'GET', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            });
+
         return response ? response.json() : console.log('no reponse')
+
         };
     
         getDataNext('https://pythonicbackend.herokuapp.com/data/').then( (response) => {
             setDataset(response.data.drivers)
+            getDataNext('https://pythonicbackend.herokuapp.com/invoice/').then( response => {
+                console.log(response)
+            })
         })
     }, [])
 
@@ -402,7 +407,8 @@ const InvoiceWork = (props) => {
                 </div>
             )
         }
-        if (selectedInvoice) {
+        if (selectedInvoice && invoices.length > 0) {
+            console.log(invoices)
             // pdf stuff
             const styles = StyleSheet.create({
                 single_Invoice_overall: {
@@ -553,11 +559,12 @@ const InvoiceWork = (props) => {
                     </View>
                   </Page>
                 </Document>
-            );
+            )
         }
     }
 
     var MyDocument
+    var theDocument
 
     return (
         <div className='home_content'>
@@ -580,6 +587,7 @@ const InvoiceWork = (props) => {
                 <div className='invoices_overall'>
                     {invoiceContent}
                     {invoiceSelection}
+                    {theDocument}
                     <PDFDownloadLink document={MyDocument} filename='Invoice.pdf'  className='pdf_text'>
                         {({ blob, url, loading, error }) => (
                             loading ? 
