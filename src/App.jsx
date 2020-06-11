@@ -36,12 +36,21 @@ const App = () => {
   // const [ user, setUser] = useState(null);
 
   // dev mode
+<<<<<<< Updated upstream
   // useEffect( () => {
   //   setUserName('Nicholas Shankland')
   //   setUserEmail('nicholas.m.shankland@gmail.com')
   //   setUserId('1923874-98y')
   //   setStation('DBS2')
   // },[])
+=======
+  useEffect( () => {
+    setUserName('Nicholas Shankland')
+    setUserEmail('nicholas.m.shankland@gmail.com')
+    setUserId('1923874-98y')
+    setStation('DBS2')
+  },[])
+>>>>>>> Stashed changes
 
   useEffect( () => {
     async function getData(url = '', data={}) {
@@ -89,20 +98,21 @@ const App = () => {
 
   // handles writting data to database and recieving google data
   const responseGoogle = (responseGoog) => {
-    async function getDataNext(url = '') {
-      const response = await fetch(url, {
-          method: 'GET', 
-          mode: 'cors',
-          cache: 'no-cache',
-          credentials: 'same-origin',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Token ${localStorage.getItem('token')}`
-          }
-      });
-      return response ? response.json() : console.log('no reponse')
-    };
+    // async function getDataNext(url = '') {
+    //   const response = await fetch(url, {
+    //       method: 'GET', 
+    //       mode: 'cors',
+    //       cache: 'no-cache',
+    //       credentials: 'same-origin',
+    //       headers: {
+    //           'Content-Type': 'application/json',
+    //           'Authorization': `Token ${localStorage.getItem('token')}`
+    //       }
+    //   });
+    //   return response ? response.json() : console.log('no reponse')
+    // };
 
+<<<<<<< Updated upstream
     getDataNext('https://pythonicbackend.herokuapp.com/managers/').then( response => {
       let localVar = 0
       response.results.forEach( ele => {
@@ -118,6 +128,24 @@ const App = () => {
         setUserFound('Login not found. Please contact site administrator')
       }
     })
+=======
+    // getDataNext('https://pythonicbackend.herokuapp.com/managers/').then( response => {
+    //   let localVar = 0
+    //   response.results.forEach( ele => {
+    //     if (responseGoog.profileObj.email === ele.email || responseGoog.profileObj.email === process.env.REACT_APP_EMAIL_VERIFICATION || responseGoog.profileObj.email === process.env.REACT_APP_SUPER_USER) {
+    //       setUserName(responseGoog.profileObj.givenName)
+    //       setUserId(responseGoog.profileObj.googleId)
+    //       setUserEmail(responseGoog.profileObj.email)
+    //       setStation(ele.station)
+    //       localVar = 1
+    //     }
+    //   })
+    //   if (localVar === 0) {
+    //     setUserFound('Login not found. Please contact site administrator')
+    //   }
+    //   console.log(response.results)
+    // })
+>>>>>>> Stashed changes
   }
 
   var content

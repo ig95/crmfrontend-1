@@ -386,7 +386,11 @@ clockAndCalendar = (
                         <li className="menu-item" id='white_top'><a href="#0" id='menu_text_white'>{selectedCity}</a>
                             <ol className="sub-menu">
                                 <li className="menu-item" id='item_white_one' onClick={(e, city) => handleSelectCity(e, 'Bristol - DBS2')}><a href="#0" id='menu_text_white'>Bristol - DBS2</a></li>
+<<<<<<< Updated upstream
                                 <li className="menu-item" id='item_white_two' onClick={(e, city) => handleSelectCity(e, 'Swindon - DSN1')}><a href="#0" id='menu_text_white'>Swindon - DSN1</a></li>
+=======
+                                <li className="menu-item" id='item_white_two' onClick={(e, city) => handleSelectCity(e, 'Swindon - DSN1')}><a href="#0" id='menu_text_white'>Southampton - DSN1</a></li>
+>>>>>>> Stashed changes
                                 <li className="menu-item" id='item_white_three' onClick={(e, city) => handleSelectCity(e, 'Exeter - DEX2')}><a href="#0" id='menu_text_white'>Exeter - DEX2</a></li>
                             </ol>
                         </li>
