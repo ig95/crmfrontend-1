@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react'
 import NavBar from '../components/NavBar'
 
 const SingleDay = () => {
+    var CryptoJS = require("crypto-js");
     const [selectedDate, setSelectedDate] = useState(new Date())
     const [selectedDateString, setSelectedDateString] = useState('')
     const [ selectedLocation, setSelectedLocation ] = useState('')

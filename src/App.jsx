@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import SingleDay from './pages/SingleDay'
@@ -16,7 +18,8 @@ import CreateManager from './pages/CreateManager'
 import Compliance from './pages/Compliance'
 import RentalVanTracker from './pages/RentalVanTracker'
 import CompanyVans from './pages/CompanyVans'
-import logo from './images/logoMinified.png'
+import logo from './images/coloration.png'
+import Summary from './pages/Summary'
 import './App.scss';
 import Home from './pages/home'
 import {
@@ -25,6 +28,8 @@ import {
 } from 'react-router-dom';
 
 const App = () => {
+
+  var CryptoJS = require("crypto-js");
   // Setting state with the user details retrieved using googles Oauth
   const [ userName, setUserName] = useState('')
   const [ userId, setUserId] = useState('')
@@ -33,27 +38,34 @@ const App = () => {
   const [ schedule, setSchedule] = useState(null)
   const [ station, setStation ] = useState('')
   const [ userFound, setUserFound ] = useState('')
+  const [ superUser, setSuperUser ] = useState(false)
   // const [ user, setUser] = useState(null);
 
-  // dev mode
-<<<<<<< Updated upstream
-  // useEffect( () => {
-  //   setUserName('Nicholas Shankland')
-  //   setUserEmail('nicholas.m.shankland@gmail.com')
-  //   setUserId('1923874-98y')
-  //   setStation('DBS2')
-  // },[])
-=======
+  // dev mode is for the coooooools
   useEffect( () => {
     setUserName('Nicholas Shankland')
     setUserEmail('nicholas.m.shankland@gmail.com')
     setUserId('1923874-98y')
     setStation('DBS2')
+    setSuperUser(true)
   },[])
->>>>>>> Stashed changes
 
   useEffect( () => {
+    // Encryption
+    // function encryptMe(msgString, key) {
+    //   let iv = CryptoJS.lib.WordArray.random(16);
+    //   let encrypted = CryptoJS.AES.encrypt(msgString, key, {
+    //     iv: iv
+    //   })
+    //   CryptoJS.enc.Utf8.parse(process.env.REACT_APP_ENCRYPTION_TYPE)
+    //   console.log(iv.concat(encrypted.ciphertext).toString(CryptoJS.enc.Base64))
+    //   return iv.concat(encrypted.ciphertext).toString(CryptoJS.enc.Base64)
+    // }
+    // encryptMe(process.env.REACT_APP_DB_USERNAME, process.env.REACT_APP_ENCRYPTION_TYPE)
+    // encryptMe(process.env.REACT_APP_DB_USERNAME, CryptoJS.enc.Utf8.parse(process.env.REACT_APP_ENCRYPTION_TYPE))
+    // console.log(CryptoJS.enc.Utf8.parse(process.env.REACT_APP_ENCRYPTION_TYPE))
     async function getData(url = '', data={}) {
+      let myBody = JSON.stringify(data)
       const response = await fetch(url, {
           method: 'POST', 
           mode: 'cors',
@@ -62,18 +74,24 @@ const App = () => {
           headers: {
               'Content-Type': 'application/json'
           },
-          body: JSON.stringify(data)
+          body: myBody
       });
       return response ? response.json() : console.log('no reponse')
     };
 
+    // let myUser = CryptoJS.AES.encrypt(process.env.REACT_APP_DB_USERNAME, process.env.REACT_APP_ENCRYPTION_TYPE).toString()
+    // let myPassword = CryptoJS.AES.encrypt(process.env.REACT_APP_DB_PASSWORD, process.env.REACT_APP_ENCRYPTION_TYPE).toString()
     getData(process.env.REACT_APP_AUTH, {
       username: process.env.REACT_APP_DB_USERNAME,
       password: process.env.REACT_APP_DB_PASSWORD
     }).then( (response) => {
-      localStorage.setItem('token', response.token)
+      console.log(response)
+      let encryptedToken = CryptoJS.AES.encrypt(response.token.toString(), process.env.REACT_APP_ENCRYPTION_TYPE).toString()
+      localStorage.setItem('token', encryptedToken)
     }).then( (response) => {
       async function getDataNext(url = process.env.REACT_APP_AUTH) {
+        let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+        let originalText = bytes.toString(CryptoJS.enc.Utf8);
         const response = await fetch(url, {
             method: 'GET', 
             mode: 'cors',
@@ -81,7 +99,7 @@ const App = () => {
             credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${localStorage.getItem('token')}`
+                'Authorization': `Token ${originalText}`
             }
         });
         return response ? response.json() : console.log('no reponse')
@@ -94,45 +112,44 @@ const App = () => {
         })
       })
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // handles writting data to database and recieving google data
   const responseGoogle = (responseGoog) => {
-    // async function getDataNext(url = '') {
-    //   const response = await fetch(url, {
-    //       method: 'GET', 
-    //       mode: 'cors',
-    //       cache: 'no-cache',
-    //       credentials: 'same-origin',
-    //       headers: {
-    //           'Content-Type': 'application/json',
-    //           'Authorization': `Token ${localStorage.getItem('token')}`
-    //       }
-    //   });
-    //   return response ? response.json() : console.log('no reponse')
-    // };
+    // eslint-disable-next-line no-unused-vars
+    async function getDataNext(url = '') {
+      let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+      let originalText = bytes.toString(CryptoJS.enc.Utf8);
+      const response = await fetch(url, {
+          method: 'GET', 
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${originalText}`
+          }
+      });
+      return response ? response.json() : console.log('no reponse')
+    };
 
-<<<<<<< Updated upstream
-    getDataNext('https://pythonicbackend.herokuapp.com/managers/').then( response => {
-      let localVar = 0
-      response.results.forEach( ele => {
-        if (responseGoog.profileObj.email === ele.email || responseGoog.profileObj.email === process.env.REACT_APP_EMAIL_VERIFICATION || responseGoog.profileObj.email === process.env.REACT_APP_SUPER_USER) {
-          setUserName(responseGoog.profileObj.givenName)
-          setUserId(responseGoog.profileObj.googleId)
-          setUserEmail(responseGoog.profileObj.email)
-          setStation(ele.station)
-          localVar = 1
-        }
-      })
-      if (localVar === 0) {
-        setUserFound('Login not found. Please contact site administrator')
-      }
-    })
-=======
     // getDataNext('https://pythonicbackend.herokuapp.com/managers/').then( response => {
     //   let localVar = 0
+    //   if (responseGoog.profileObj.email === process.env.REACT_APP_EMAIL_VERIFICATION) {
+    //     setUserName(responseGoog.profileObj.givenName)
+    //     setUserId(responseGoog.profileObj.googleId)
+    //     setUserEmail(responseGoog.profileObj.email)
+    //     setSuperUser(true)
+    //   }
+    //   if (responseGoog.profileObj.email === process.env.REACT_APP_SUPER_USER) {
+    //     setUserName(responseGoog.profileObj.givenName)
+    //     setUserId(responseGoog.profileObj.googleId)
+    //     setUserEmail(responseGoog.profileObj.email)
+    //     setSuperUser(true)
+    //   }
     //   response.results.forEach( ele => {
-    //     if (responseGoog.profileObj.email === ele.email || responseGoog.profileObj.email === process.env.REACT_APP_EMAIL_VERIFICATION || responseGoog.profileObj.email === process.env.REACT_APP_SUPER_USER) {
+    //     if (responseGoog.profileObj.email === ele.email) {
     //       setUserName(responseGoog.profileObj.givenName)
     //       setUserId(responseGoog.profileObj.googleId)
     //       setUserEmail(responseGoog.profileObj.email)
@@ -143,13 +160,11 @@ const App = () => {
     //   if (localVar === 0) {
     //     setUserFound('Login not found. Please contact site administrator')
     //   }
-    //   console.log(response.results)
     // })
->>>>>>> Stashed changes
   }
 
   var content
-  if (userEmail === (process.env.REACT_APP_EMAIL_VERIFICATION || process.env.REACT_APP_SUPER_USER)) {
+  if (superUser) {
     content = (
       <Router>
         <Route exact path = '/' render={ () => <Home user_name={userName} user_email={userEmail} user_id={userId} superUser={true}/> } />
@@ -159,6 +174,7 @@ const App = () => {
         <Route exact path = '/weekschedule' render={ () => <WeekSchedule user_name={userName} user_email={userEmail} superUser={true}/> } />
         <Route exact path = '/driver/:id/:date' render={ () => <Driver user_name={userName} user_email={userEmail} driver_data={drivers} schedule_data={schedule} superUser={true}/> } />
         <Route exact path = '/dashboard' render={ () => <Dashboard user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/summary' render={ () => <Summary user_name={userName} user_email={userEmail} superUser={true}/> } />
         <Route exact path = '/statistics' render={ () => <Statistics user_name={userName} user_email={userEmail} superUser={true}/> } />
         <Route exact path = '/forms' render={ () => <Forms user_name={userName} user_email={userEmail} superUser={true}/> } />
         <Route exact path = '/driverdocuments' render={ () => <DriverDocuments user_name={userName} user_email={userEmail} superUser={true}/> } />
@@ -167,7 +183,7 @@ const App = () => {
         <Route exact path = '/rentalvantracker' render={ () => <RentalVanTracker user_name={userName} user_email={userEmail} superUser={true}/> } />
         <Route exact path = '/compliance' render={ () => <Compliance user_name={userName} user_email={userEmail} superUser={true}/> } />
         <Route exact path = '/drivercompliancecheck' render={ () => <DriverComplianceCheck user_name={userName} user_email={userEmail} superUser={true}/> } />
-        <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail}superUser={true} /> } />
+        <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail} superUser={true} /> } />
         <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail} superUser={true}/> } />
       </Router>
     )
@@ -183,10 +199,11 @@ const App = () => {
         <Route exact path = '/statistics' render={ () => <Statistics user_name={userName} user_email={userEmail} station={station}/> } />
         <Route exact path = '/forms' render={ () => <Forms user_name={userName} user_email={userEmail} station={station}/> } />
         <Route exact path = '/driverdocuments' render={ () => <DriverDocuments user_name={userName} user_email={userEmail} /> } />
+        <Route exact path = '/summary' render={ () => <Summary user_name={userName} user_email={userEmail} /> } />
         <Route exact path = '/documentsforverification' render={ () => <DocumentsForVerification user_name={userName} user_email={userEmail} /> } />
         <Route exact path = '/companyvans' render={ () => <CompanyVans user_name={userName} user_email={userEmail} /> } />
         <Route exact path = '/compliance' render={ () => <Compliance user_name={userName} user_email={userEmail} /> } />
-        <Route exact path = '/rentalvantracker' render={ () => <RentalVanTracker user_name={userName} user_email={userEmail} superUser={true}/> } />
+        <Route exact path = '/rentalvantracker' render={ () => <RentalVanTracker user_name={userName} user_email={userEmail} /> } />
         <Route exact path = '/drivercompliancecheck' render={ () => <DriverComplianceCheck user_name={userName} user_email={userEmail} /> } />
         <Route exact path = '/invoicework' render={ () => <InvoiceWork user_name={userName} user_email={userEmail} station={station}/> } />
         <Route exact path = '/singleday/:id/:location' render={ () => <SingleDay user_name={userName} user_email={userEmail} station={station}/> } />

@@ -1,8 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
 import VansComponent from '../components/VansComponent'
 
 const CompanyVans = (props) => {
+    var CryptoJS = require("crypto-js");
 
     const [ selection, setSelection ] = useState('')
     const [ content, setContent ] = useState(null)
@@ -14,7 +17,10 @@ const CompanyVans = (props) => {
     const [ selectedVan, setSelectedVan ] = useState(null)
 
     useEffect(() => {
+        setDisplayDiv('display_none')
         async function getData(url = '') {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'GET', 
                 mode: 'cors',
@@ -22,7 +28,7 @@ const CompanyVans = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 }
             });
 
@@ -31,7 +37,6 @@ const CompanyVans = (props) => {
         };
 
         getData('https://pythonicbackend.herokuapp.com/vehicles/').then( (response) => {
-            console.log(response.results)
             setVansList(response.results)
             getData('https://pythonicbackend.herokuapp.com/images/').then( (response) => {
                 let localArray = []
@@ -41,13 +46,14 @@ const CompanyVans = (props) => {
                     }
                 })
                 setVanDocs(localArray)
-                console.log(localArray)
             })
         })
     }, [])
 
     useEffect(() => {
         async function getData(url = '') {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'GET', 
                 mode: 'cors',
@@ -55,7 +61,7 @@ const CompanyVans = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 }
             });
 
@@ -72,7 +78,6 @@ const CompanyVans = (props) => {
                         localArray.push(image)
                     }
                 })
-                console.log(localArray)
                 setVanDocs(localArray)
             })
         })

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import Calendar from 'react-calendar'
-import 'react-calendar/dist/Calendar.css'
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState} from 'react'
 
 const VansDocument = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ nameFromListArray, setNameFromListArray] = useState([])
     const [ nameFromList, setNameFromList] = useState('')
     const [ displayNameArray, setDisplayNameArray ] = useState('types_list_array_container_none')
@@ -11,6 +12,8 @@ const VansDocument = (props) => {
     var handleSubmit = (e) => {
         e.preventDefault()
         async function postData(url = '', data = {}) {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'POST', 
                 mode: 'cors',
@@ -18,7 +21,7 @@ const VansDocument = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 },
                 body: JSON.stringify(data)
                 });
@@ -34,7 +37,6 @@ const VansDocument = (props) => {
             model: e.target.model.value,
             companyOwned : props.owned
         }).then( response => {
-            console.log(response)
             setSubmitted()
             props.reRender(props.content)
         })

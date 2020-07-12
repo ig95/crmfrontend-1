@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
 import NavigationBar from '../components/NavBar'
 import DivSingleWeek from '../components/DivSingleWeek'
 import MakeDriver from './MakeEmployee'
 
 const WeekSchedule = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ drivers, setDrivers ] = useState(null)
     const [ schedule, setSchedule ] = useState(null)
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
@@ -27,6 +30,8 @@ const WeekSchedule = (props) => {
     // call this location rota, make it color coded by deopt, and trianing different color - 14 days
     useEffect(() => {
         async function getData(url = '') {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'GET', 
                 mode: 'cors',
@@ -34,7 +39,7 @@ const WeekSchedule = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 }
             });
 
@@ -101,7 +106,6 @@ const WeekSchedule = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitPressed('Created')
-        console.log('submitting')
         async function postData(url = '', data = {}) {
             const response = await fetch(url, {
                 method: 'POST', 
@@ -132,7 +136,6 @@ const WeekSchedule = (props) => {
             UTRNumber: e.target.UTRNumber.value ? e.target.UTRNumber.valuee : 'null',
             VatNumber: e.target.VATNumber.value ? e.target.VATNumber.value : 'null',
         }).then( (response) => {
-            console.log(response)
             reloadGate ? setReloadGate(false) : setReloadGate(true)
         })
     }
@@ -152,14 +155,11 @@ const WeekSchedule = (props) => {
     makeTheDriver = (
         <>
         <MakeDriver user_name={props.user_name} user_email={props.user_email} user_id={props.user_id}/>
-        <div className='absolute_return_button'>
-            <div className="button-container-2" onClick={backToNormal}>
-                <span className="mas2">Return</span>
-                <button className='buttonFront2' id='work2' type="button" name="Hover">
-                Return
+            <div className='absolute_return_button'>
+                <button className='compliance_add_driver_button_submit' onClick={backToNormal}>
+                    <span className='span_in_complaince_button'>Return</span> 
                 </button>
-            </div> 
-        </div>
+            </div>
         </>
     )
 
@@ -192,18 +192,12 @@ const WeekSchedule = (props) => {
                             <span className='checkmark_no' id='no'></span>
                         </label>
                         <div className='deleteDriverButtons'>
-                            <div className="button-container-2">
-                                <span className="mas2">Submit</span>
-                                <button className='buttonFront2' id='work2' type="button" name="Hover">
-                                    Submit
-                                </button>
-                            </div>
-                            <div className="button-container-2" onClick={backToNormalDeletion}>
-                                <span className="mas2">Return</span>
-                                <button className='buttonFront2' id='work2' type="button" name="Hover">
-                                    Return
-                                </button>
-                            </div>
+                            <button className='compliance_add_driver_button_submit' onClick={backToNormalDeletion}>
+                                <span className='span_in_complaince_button'>Submit</span> 
+                            </button>
+                            <button className='compliance_add_driver_button_submit' onClick={backToNormalDeletion}>
+                                <span className='span_in_complaince_button'>Return</span> 
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -213,7 +207,6 @@ const WeekSchedule = (props) => {
 
     // grab child selection
     const deleteDriverFunction = (e, driverSelected) => {
-        console.log(driverSelected)
         setDeleteDriverSelection(driverSelected)
     }
 
@@ -231,6 +224,7 @@ const WeekSchedule = (props) => {
                                         <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2')}><a href="#0">DBS2</a></li>
                                         <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1')}><a href="#0">DSN1</a></li>
                                         <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2')}><a href="#0">DEX2</a></li>
+                                        <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DXP1')}><a href="#0">DXP1</a></li>
                                     </ol>
                                 </li>
                             </ol>

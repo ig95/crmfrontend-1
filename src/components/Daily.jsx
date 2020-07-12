@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 
 // show route type and summary another one
 const Daily = () => {
+    var CryptoJS = require("crypto-js");
     return (
         <div className='details_component_overall'> 
             <form className='details_form'>

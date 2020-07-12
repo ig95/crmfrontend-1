@@ -1,8 +1,11 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react'
 import NavigationBar from '../components/NavBar'
 import FormsDocuments from '../components/FormsDocuments'
 
 const DriverDocuments = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ data, setData ] = useState(null)
     const [ selectedCity, setSelectedCity ] = useState(props.station ? props.station : 'DBS2')
     const [ driverList, setDriverList ] = useState(null)
@@ -21,6 +24,8 @@ const DriverDocuments = (props) => {
     // grab the main data
     useEffect( () => {
         async function getData(url = '') {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'GET', 
                 mode: 'cors',
@@ -28,7 +33,7 @@ const DriverDocuments = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 }
             });
 
@@ -37,7 +42,6 @@ const DriverDocuments = (props) => {
         };
         getData('https://pythonicbackend.herokuapp.com/data/').then( response => {
             setData(response.data)
-            console.log(reload)
         })
     }, [reload])
 
@@ -62,7 +66,6 @@ const DriverDocuments = (props) => {
         const mapTheDrivers = () => {
         let localArray = []
         if (data) {
-            console.log(data)
             data.drivers.forEach( driver => {
                 if (driver.location === selectedCity) {
                     if (driver.status === 'Active') {
@@ -141,15 +144,17 @@ const DriverDocuments = (props) => {
             return localArray
         }
         setDriverList(mapTheDrivers())
-    }, [data, otherReload, listClassName])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data, otherReload, listClassName, selectedCity])
 
     // handle deactivating
     const handleDeactivation = () => {
-        console.log(driverForOffboarding)
         let theDate = new Date()
         // handle submitting document to backend
         if (driverForOffboarding !== null) {
             async function putData(url = '', data = {}) {
+                let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+                let originalText = bytes.toString(CryptoJS.enc.Utf8);
                 const response = await fetch(url, {
                     method: 'PUT', 
                     mode: 'cors',
@@ -157,7 +162,7 @@ const DriverDocuments = (props) => {
                     credentials: 'same-origin',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${localStorage.getItem('token')}`
+                        'Authorization': `Token ${originalText}`
                     },
                     body: JSON.stringify(data)
                     });
@@ -166,11 +171,10 @@ const DriverDocuments = (props) => {
             };
             
             putData(`https://pythonicbackend.herokuapp.com/drivers/${driverForOffboarding.driver_id}/`, {
-                status: 'Offboarded',
+                status: 'OffboardedForever',
                 approvedBy: props.user_name,
                 approvedDateAndTime: theDate.toDateString()
             }).then( response => {
-                console.log(response)
                 let myVar = reload
                 let myReloadVar = myVar + 1
                 setReload(myReloadVar)
@@ -200,10 +204,12 @@ const DriverDocuments = (props) => {
             makeSearchUnderBar(e.target.value, nameValue.length)
             let localArray = []
             data.drivers.forEach( (ele, id) => {
-                if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 4) {
-                    localArray.push(
-                        <h4 className='name_suggestions' id={id} onClick={(e, theName) => handleNameClick(e, `${ele.name}`)} >{ele.name}</h4>
-                    )
+                if (ele.status !== 'OffboardedForever') {
+                    if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 4) {
+                        localArray.push(
+                            <h4 className='name_suggestions' id={id} onClick={(e, theName) => handleNameClick(e, `${ele.name}`)} >{ele.name}</h4>
+                        )
+                    }
                 }
             })
             setDriverSearchArray(localArray)
@@ -213,7 +219,6 @@ const DriverDocuments = (props) => {
     // handle arrow keys
     const handleArrowKeys = (e) => {
         let mylocalArray = []
-        console.log(nameList.getBoundingClientRect().top)
         if (driverSearchArray) {
             let localVar = arrowSelect
             if (e.keyCode === 13) {
@@ -271,6 +276,7 @@ const DriverDocuments = (props) => {
                                         <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2')}><a href="#0">DBS2</a></li>
                                         <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1')}><a href="#0">DSN1</a></li>
                                         <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2')}><a href="#0">DEX2</a></li>
+                                        <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DXP1')}><a href="#0">DXP1</a></li>
                                     </ol>
                                 </li>
                             </ol>

@@ -1,15 +1,18 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
-import Dashboard from '../pages/Dashboard'
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 
 const DashboardForm = (props) => {
+    var CryptoJS = require("crypto-js");
+    const [ myForm, setMyForm ] = useState(null)
     const [ selectedCity, setSelectedCity ] = useState('Bristol - DBS2')
     const [ selectedCityAbbrev, setSelectedCityAbbrev ] = useState('DBS2')
     const [ dateSelected, setDateSelected ] = useState('')
     const [ nameValue, setNameValue ] = useState('')
     const [ submittedArray, setSubmittedArray ] = useState([])
-    const [ selectedRouteType, setSelectedRouteType ] = useState('')
+    const [ selectedRouteType, setSelectedRouteType ] = useState('Full Standard Van Route')
     const [ otherSelection, setOtherSelection] = useState(null)
     const [ makeSearchBarVisible, setMakeSearchBarVisible ] = useState('dashboard_form_divs_name_bar_none')
     const [ driverSearchArray, setDriverSearchArray ] = useState([])
@@ -26,22 +29,44 @@ const DashboardForm = (props) => {
     const [ logInTime, setLogInTime ] = useState('')
     const [ support, setSupport ] = useState('')
     const [ deductions, setDeductions ] = useState('')
-    const [ feulCardCharge, setFeulCardCharge ] = useState('')
+    const [ deductionType, setDeductionType ] = useState('none')
+    const [ supportType, setSupportType ] = useState('none')
+    const [ deductionArea, setDeductionArea ] = useState(null)
+    const [ deductionComment, setDeductionComment ] = useState('Required Comment')
+    const [ supportArea, setSupportArea ] = useState(null)
+    const [ supportComment, setSupportComment ] = useState('Required Comment')
+    const [ reRender, setReRender] = useState(0)
     
     // list for routes
     const onSelectTwo = (e) => {
         setSelectedRouteType(e.value)
     }
 
+    var textMaker = 'none'
+    var supportMaker = 'none'
+
     // dropdown menu selection function
     const onSelect = (e) => {
         setSelectedCityAbbrev(e.value)
     }
 
+    // dropdown menu selection function
+    const onSelectDeduction = (e) => {
+        setDeductionType(e.value)
+        textMaker = e.value
+        makeComment()
+    }
+
+    // dropdown menu selection function
+    const onSelectSupport = (e) => {
+        setSupportType(e.value)
+        supportMaker = e.value
+        makeSupportComment()
+    }
+
     // submit
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log('submit clicked')
         let localDriverId = 0
         let localID = 0
         let driverID = ''
@@ -54,14 +79,14 @@ const DashboardForm = (props) => {
         if (localDriverId > 0) {
             props.data.dates.forEach( (ele, id) => {
                 if (ele.driver_id === `https://pythonicbackend.herokuapp.com/drivers/${localDriverId}/` && ele.date === dateSelected) {
-                    console.log('inside tis if')
                     driverID = ele.driver_id
                     localID = ele.date_id
                 }
             })
         }
         async function postData(url = '', data = {}) {
-            console.log('posting data')
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'PUT', 
                 mode: 'cors',
@@ -69,7 +94,7 @@ const DashboardForm = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 },
                 body: JSON.stringify(data)
                 });
@@ -77,7 +102,6 @@ const DashboardForm = (props) => {
             return response ? response.json() : console.log('no reponse')
         };
         let myObjectToPut = () => {
-            console.log('object being made')
             let myObj = {}
                 nameValue ? myObj['name'] = {nameValue} : console.log(null)
                 selectedRouteType ? myObj['route'] = selectedRouteType : console.log(null)
@@ -97,7 +121,6 @@ const DashboardForm = (props) => {
                 let localArray = []
                 submittedArray.length > 0 ? localArray = [...submittedArray] : localArray = []
                 localArray.push(response)
-                console.log('submitted')
             })
         }
     }
@@ -105,7 +128,6 @@ const DashboardForm = (props) => {
     // submit for state form
     const handleSubmitState = (e) => {
         e.preventDefault()
-        console.log('submit clicked')
         let localDriverId = 0
         let localID = 0
         let driverID = ''
@@ -123,7 +145,8 @@ const DashboardForm = (props) => {
             })
         }
         async function postData(url = '', data = {}) {
-            console.log('posting data')
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'PUT', 
                 mode: 'cors',
@@ -131,7 +154,24 @@ const DashboardForm = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
+                },
+                body: JSON.stringify(data)
+                });
+
+            return response ? response.json() : console.log('no reponse')
+        };
+        async function postDataPost(url = '', data = {}) {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
+            const response = await fetch(url, {
+                method: 'POST', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${originalText}`
                 },
                 body: JSON.stringify(data)
                 });
@@ -155,21 +195,52 @@ const DashboardForm = (props) => {
                 parcelNotDelivered: parcelsNotDelivered,
                 driver_id: driverID,
                 routeNumber: routeNumber,
-                support: support,
-                deductions: deductions,
-                fuel: feulCardCharge
             }
-            console.log(myObj)
 
             return (
                 myObj
             )
         }
-        if (localID > 0) {
-            postData(`https://pythonicbackend.herokuapp.com/schedule/${localID}/`, myObjectToPut())
-            .then( response => {
-                console.log(response)
-                props.updateParentFunction()
+
+        let myDeductionsObj = () => {
+            let myObj = {}
+            if (deductionType !== 'none') {
+                myObj = {
+                    date_id: `https://pythonicbackend.herokuapp.com/schedule/${localID}/`,
+                    name: deductionType,
+                    amount: deductions,
+                    comment: deductionComment,
+                }
+            } 
+
+            return (
+                myObj
+            )
+        }
+
+        let mySupportsObj = () => {
+            let myObj = {}
+            if (supportType !== 'none') {
+                myObj = {
+                    date_id: `https://pythonicbackend.herokuapp.com/schedule/${localID}/`,
+                    name: supportType,
+                    amount: support,
+                    comment: supportComment,
+                }
+            }
+
+            return (
+                myObj
+            )
+        }
+        if (localID.length > 0) {
+            postDataPost(`https://pythonicbackend.herokuapp.com/deductions/`, myDeductionsObj()).then( response => {
+                postDataPost(`https://pythonicbackend.herokuapp.com/support/`, mySupportsObj()).then( response => {
+                    postData(`https://pythonicbackend.herokuapp.com/schedule/${localID}/`, myObjectToPut())
+                    .then( response => {
+                        props.updateParentFunction()
+                    })
+                })
             })
         }
     }
@@ -178,7 +249,8 @@ const DashboardForm = (props) => {
     const options = [
         'DBS2',
         'DSN1',
-        'DEX2'
+        'DEX2',
+        'DXP1'
     ]
 
     // dropdown for route menu
@@ -190,14 +262,15 @@ const DashboardForm = (props) => {
         'Missort Route',
         'Classroom Training',
         'Ride Along',
-        'Sweeper'
+        'Sweeper',
+        'None'
     ]
 
-    // select name
-    const handleNameClick = (e, theName) => {
-        makeSearchUnderBar('', 10)
-        setNameValue(theName)
-    }
+    // // select name
+    // const handleNameClick = (e, theName) => {
+    //     makeSearchUnderBar('', 10)
+    //     setNameValue(theName)
+    // }
 
     // make the div under the name search bar
     const makeSearchUnderBar = (theValue, theLength) => {
@@ -208,28 +281,31 @@ const DashboardForm = (props) => {
         }
     }
 
-    // search bar function
-    const handleChange = (e) => {
-        setNameValue(e.target.value)
-        makeSearchUnderBar(e.target.value, nameValue.length)
-        let localArray = []
-        props.data.drivers.forEach( (ele, id) => {
-            if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 4) {
-                localArray.push(
-                    <h4 className='name_suggestions' onClick={(e, theName) => handleNameClick(e, `${ele.name}`)}>{ele.name}</h4>
-                )
-            }
-        })
-        setDriverSearchArray(localArray)
-    }
+    // // search bar function
+    // const handleChange = (e) => {
+    //     setNameValue(e.target.value)
+    //     makeSearchUnderBar(e.target.value, nameValue.length)
+    //     let localArray = []
+    //     props.data.drivers.forEach( (ele, id) => {
+    //         if (ele.name.includes(e.target.value) && e.target.value !== '' && e.target.value.length < 4) {
+    //             localArray.push(
+    //                 <h4 className='name_suggestions' onClick={(e, theName) => handleNameClick(e, `${ele.name}`)}>{ele.name}</h4>
+    //             )
+    //         }
+    //     })
+    //     setDriverSearchArray(localArray)
+    // }
     
     // map props to state
     useEffect( () => {
         if (props.otherSelection) {
-            let deductionsValue = props.otherSelection.deductions.replace(/GB£/, '')
-            let supportValue = props.otherSelection.support.replace(/GB£/, '')
-            let fuelValue = props.otherSelection.fuel.replace(/GB£/, '')
-            console.log(props.otherSelection)
+            let deductionsValue = props.otherSelection.deductionSum.replace(/GB£/, '')
+            let supportValue = props.otherSelection.supportSum.replace(/GB£/, '')
+            if (props.otherSelection.route !== "0") {
+                setSelectedRouteType(props.otherSelection.route)
+            } else {
+                setSelectedRouteType('Full Standard Van Route')
+            }
             setOtherSelection(props.otherSelection)
             setNameState(props.otherSelection.driver_id)
             setWaveTime(props.otherSelection.LateWavePayment)
@@ -245,12 +321,13 @@ const DashboardForm = (props) => {
             setRouteNumber(props.otherSelection.routeNumber)
             setSupport(supportValue)
             setDeductions(deductionsValue)
-            setFeulCardCharge(fuelValue)
         }
     }, [props.otherSelection])
 
     // handle the input changes
     const handleChangeInputs = (e) => {
+        let myVar = reRender
+        let newVar = myVar + 1
         let x = 0
         e.target.name === 'Name' ? setNameState(e.target.value) : x = x + 1
         e.target.name === 'waveTime' ? setWaveTime(e.target.value) : x = x + 1
@@ -261,16 +338,69 @@ const DashboardForm = (props) => {
         e.target.name === 'Route' ? setRouteNumber(e.target.value) : x = x + 1
         e.target.name === 'ParcelsDelivered' ? setParcelsDelivered(e.target.value) : x = x + 1
         e.target.name === 'ParcelsNotDelivered' ? setParcelsNotDelivered(e.target.value) : x = x + 1
-        e.target.name === 'vehicleRegistaration' ? setVehicleRegistaration(e.target.value) : x = x + 1
         e.target.name === 'LogInTime' ? setLogInTime(e.target.value) : x = x + 1
         e.target.name === 'deductions' ? setDeductions(e.target.value) : x = x + 1
         e.target.name === 'support' ? setSupport(e.target.value) : x = x + 1
-        e.target.name === 'feulCardCharge' ? setFeulCardCharge(e.target.value) : x = x + 1
+        setReRender(newVar)
     }
 
-    var myForm
-    if (otherSelection) {
-        myForm = (
+    let myDeductionList = [
+        'none',
+        'HiVis',
+        'Key Chain',
+        'Fuel Card Charge',
+        'Manual'
+    ]
+
+    let mySupportList = [
+        'Late Wave Payment',
+        'Additional Support',
+        'Manual'
+    ]
+
+    let mySuperSupportList = [
+        'none',
+        'Late Wave Payment',
+        'Additional Support',
+        'Seasonal Incentive',
+        'DPMO Incentive',
+        'Manual'
+    ]
+
+    const handleDeductionComment = (e) => {
+        setDeductionComment(e.target.value)
+    }
+    
+    const makeComment = () => {
+        if (textMaker !== 'none') {
+            setDeductionArea(
+                <textarea onChange={handleDeductionComment} rows="4" cols="50" id='deduction_textarea'>
+                    {deductionComment}
+                </textarea>
+            )
+        } else {
+            setDeductionArea(null)
+        }
+    }
+    
+    const handleSupportComment = (e) => {
+        setSupportComment(e.target.value)
+    }
+
+    const makeSupportComment = () => {
+        if (supportMaker !== 'none') {
+            setSupportArea(
+                <textarea onChange={handleSupportComment} rows="4" cols="50" id='deduction_textarea'>
+                    {supportComment}
+                </textarea>
+            )
+        } else {
+            setSupportArea(null)
+        }
+    }
+
+    useEffect( () => {
+        setMyForm(
             <form onSubmit={handleSubmitState}  autoComplete='off'>
                 <div className='dashboard_form'>
                     <div className='dashboard_form_divs_name'>
@@ -278,6 +408,24 @@ const DashboardForm = (props) => {
                             <label className='dashboard_labels'>Name</label>
                         </div>
                             <input className='input_dashboard_page' type="text" name='Name' value={nameState} onChange={handleChangeInputs}/>
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                        </div><label className='dashboard_labels'>Location </label>
+                        <Dropdown 
+                            options={options} 
+                            onChange={onSelect} 
+                            value={selectedCityAbbrev} 
+                            placeholder="Select an option" 
+                            className='drop_down_bar_dashboard'
+                            id='drop_down_style'
+                        />
+                    </div>
+                    <div className='dashboard_form_divs'>    
+                        <div>
+                            <label className='dashboard_labels'>Route No. </label>
+                        </div>
+                            <input className='input_dashboard_page' type="text" name='Route' value={routeNumber} onChange={handleChangeInputs}/>
                     </div>
                     <div className='dashboard_form_divs'>
                         <div>
@@ -289,13 +437,14 @@ const DashboardForm = (props) => {
                             value={selectedRouteType} 
                             placeholder="Select an option" 
                             className='drop_down_bar_dashboard'
+                            id='drop_down_style'
                         />
                     </div>
                     <div className='dashboard_form_divs'>
                         <div>
-                            <label className='dashboard_labels'>Wave Payment </label>
+                            <label className='dashboard_labels'>Log In Time </label>
                         </div>
-                            <input className='input_dashboard_page' type="text" name='waveTime' value={waveTime} onChange={handleChangeInputs} required/>
+                            <input className='input_dashboard_page' type="time" name='LogInTime' value={logInTime} onChange={handleChangeInputs} required/>
                     </div>
                     <div className='dashboard_form_divs'>
                         <div>
@@ -303,11 +452,43 @@ const DashboardForm = (props) => {
                         </div>
                             <input className='input_dashboard_page' type="time" name='LogOutTime' value={logOutTime} onChange={handleChangeInputs} required/>
                     </div>
-                    <div className='dashboard_form_divs'>
+                    <div className='dashboard_form_divs_texty'>  
+                            <div>
+                                <label className='dashboard_labels'>Support </label>        
+                            </div>
+                        <div className='solve_this'>
+                            <div>
+                                <Dropdown 
+                                    options={mySuperSupportList} 
+                                    onChange={onSelectSupport} 
+                                    value={supportType} 
+                                    placeholder="Select an option" 
+                                    className='drop_down_bar_dashboard'
+                                    id='drop_down_style'
+                                />
+                                <input className='input_dashboard_page' type="text" name='support' value={support} onChange={handleChangeInputs}/>
+                                {supportArea}
+                            </div>
+                        </div>  
+                    </div>
+                    <div className='dashboard_form_divs_texty'>    
                         <div>
-                            <label className='dashboard_labels'>Log In Time </label>
+                            <label className='dashboard_labels'>Deduction </label>        
                         </div>
-                            <input className='input_dashboard_page' type="time" name='LogInTime' value={logInTime} onChange={handleChangeInputs} required/>
+                        <div className='solve_this'>
+                            <div>
+                                <Dropdown 
+                                    options={myDeductionList} 
+                                    onChange={onSelectDeduction} 
+                                    value={deductionType} 
+                                    placeholder="Select an option" 
+                                    className='drop_down_bar_dashboard'
+                                    id='drop_down_style'
+                                />
+                                <input className='input_dashboard_page' type="text" name='deductions' value={deductions} onChange={handleChangeInputs}/>
+                                {deductionArea}
+                            </div>
+                        </div>
                     </div>
                     <div className='dashboard_form_divs'>
                         <div>
@@ -320,183 +501,15 @@ const DashboardForm = (props) => {
                             <label className='dashboard_labels'>Finish Mileage </label>
                         </div>
                             <input className='input_dashboard_page' type="text" name='FinishMileage' value={finishMileage} onChange={handleChangeInputs}/>
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Vehicle Type </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='VehicleType' value={vehicleType} onChange={handleChangeInputs}/>
-                    </div>         
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Route No. </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='Route' value={routeNumber} onChange={handleChangeInputs}/>
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Support </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='support' value={support} onChange={handleChangeInputs}/>
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Deductions </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='deductions' value={deductions} onChange={handleChangeInputs}/>
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Fuel Card Charge </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='feulCardCharge' value={feulCardCharge} onChange={handleChangeInputs}/>
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                        </div><label className='dashboard_labels'>Location </label>
-                        <Dropdown 
-                            options={options} 
-                            onChange={onSelect} 
-                            value={selectedCityAbbrev} 
-                            placeholder="Select an option" 
-                            className='drop_down_bar_dashboard'
-                        />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>No. Parcels Delivered </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='ParcelsDelivered' value={parcelsDelivered} onChange={handleChangeInputs}/>
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Parcels not Delivered </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='ParcelsNotDelivered' value={parcelsNotDelivered} onChange={handleChangeInputs}/>
-                    </div>
+                    </div>        
+
                 </div>
                 <div className="button_daily_service" onClick={handleSubmitState}>
                     <h3 className='remove_h3_padding'>Submit</h3>  
                 </div>  
             </form>
         )
-    } else {
-        myForm = (
-            <form onSubmit={handleSubmit}  autoComplete='off'>
-                <div className='dashboard_form'>
-                    <div>
-                        <div className='dashboard_form_divs_name'>
-                            <div>
-                                <label className='dashboard_labels'>Name</label>
-                            </div>
-                                <input className='input_dashboard_page' type="text" name='Name' value={nameValue} onChange={handleChange}/>
-                        </div>
-                        <div className={`${makeSearchBarVisible}`}>
-                            {driverSearchArray}
-                        </div>
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Route Type</label>
-                        </div>
-                        <Dropdown 
-                            options={optionsTwo} 
-                            onChange={onSelectTwo} 
-                            value={selectedRouteType} 
-                            placeholder="Select an option" 
-                            className='drop_down_bar_dashboard'
-                        />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Wave Payment </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='waveTime' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Log Out Time </label>
-                        </div>
-                            <input className='input_dashboard_page' type="time" name='LogOutTime' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Log In Time </label>
-                        </div>
-                            <input className='input_dashboard_page' type="time" name='LogInTime' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Start Mileage </label>
-                        </div>
-                            <input className='input_dashboard_page' type="number" name='StartMileage' defaultValue='0'/>
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Finish Mileage </label>
-                        </div>
-                            <input className='input_dashboard_page' type="number" name='FinishMileage' />
-                    </div>
-                    <div className='dashboard_form_divs'>
-                        <div>
-                            <label className='dashboard_labels'>Vehicle Type </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='VehicleType' />
-                    </div>         
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Route No. </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='Route' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Support </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='support' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Deductions </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='deductions' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Fuel Card Charge </label>
-                        </div>
-                            <input className='input_dashboard_page' type="text" name='feulCardCharge' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                        </div><label className='dashboard_labels'>Location </label>
-                        <Dropdown 
-                            options={options} 
-                            onChange={onSelect} 
-                            value={selectedCityAbbrev} 
-                            placeholder="Select an option" 
-                            className='drop_down_bar_dashboard'
-                        />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>No. Parcels Delivered </label>
-                        </div>
-                            <input className='input_dashboard_page' type="number" name='NoParcelsDelivered' />
-                    </div>
-                    <div className='dashboard_form_divs'>    
-                        <div>
-                            <label className='dashboard_labels'>Parcels not Delivered </label>
-                        </div>
-                            <input className='input_dashboard_page' type="number" name='NoParcelsBroughtBack'/>
-                    </div>
-                </div>
-                <div className="button_daily_service" onClick={handleSubmit}>
-                    <h3 className='remove_h3_padding'>Submit</h3>  
-                </div>  
-        </form>
-        )
-    }
+    }, [otherSelection, deductionArea, supportArea, reRender])
     
     return (
        <>

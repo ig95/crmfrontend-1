@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
 import 'react-dropdown/style.css';
@@ -6,6 +8,7 @@ import axios from 'axios'
 
 var myInterval
 const HomeTwo = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ currentDate, setCurrentDate ] = useState(new Date())
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
@@ -17,9 +20,11 @@ const HomeTwo = (props) => {
     const [ expirationList, setExpirationList ] = useState(null)
     const [ quoteOfDay, setQuoteOfDay ] = useState(null)
     const [ quoteOfDayArray, setQuoteOfDayArray ] = useState(null)
+    const [ todaysDrivers, setTodaysDrivers ] = useState(null)
 
     // grab the data
     useEffect(() => {
+        var CryptoJS = require("crypto-js");
         let myDate = new Date()
         while (myDate.getDay() > 0) {
             myDate.setDate(myDate.getDate() - 1)
@@ -27,6 +32,8 @@ const HomeTwo = (props) => {
         setSelectedDate(myDate)
 
         async function getData(url = '') {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'GET', 
                 mode: 'cors',
@@ -34,7 +41,7 @@ const HomeTwo = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 }
             });
 
@@ -56,32 +63,21 @@ const HomeTwo = (props) => {
 
     // map todays booked drivers
     var chart
-    var todaysDrivers
-    if (schedule) {
-        var randomDate 
-        randomDate = theDateRandom.toDateString()
-        let localNum = 0
-        let dbs2Drivers = 0
-        let dex2Drivers = 0
-        let dsn1Drivers = 0
-        schedule.forEach( (ele, id) => {
-            if (ele.date === randomDate.toString()) {
-                if (ele.location === 'DBS2') {
-                    dbs2Drivers++
-                } else if (ele.loaction === 'DEX2') {
-                    dex2Drivers++
-                } else {
-                    dsn1Drivers++
+    useEffect( () => {
+        if (schedule) {
+            var randomDate 
+            randomDate = theDateRandom.toDateString()
+            let localNum = 0
+            schedule.forEach( (ele, id) => {
+                if (ele.date === randomDate.toString() && ele.location === selectedCity) {
+                    localNum++
                 }
-            }
-            if (ele.date === randomDate.toString() && ele.location === selectedCity) {
-                localNum++
-            }
-        })
-        todaysDrivers = (
-            <h3>Drivers Today at {selectedCity}: {localNum}</h3>
-        )
-    }
+            })
+            setTodaysDrivers(
+                <h3>Drivers Today at {selectedCity}: {localNum}</h3>
+            )
+        }
+    }, [schedule, selectedCity])
 
     // set city
     const handleSelectCity = (e, city) => {
@@ -121,7 +117,6 @@ const HomeTwo = (props) => {
         if (data) {
             data.data.images.forEach( image => {
                 // docs for verification part
-                console.log(image)
                 if (image.verified !== ('True' || 'False')) {
                     pending++
                 } else if (image.verified === 'True'){
@@ -142,7 +137,6 @@ const HomeTwo = (props) => {
                 <div className='pending_div'><h3 className='remove_padding'>{pending} Pending</h3></div>
             </div>
         )
-        console.log(expirationDatesArray)
         setVerifiedDocumentsDivs(localArray)
         expirationDatesArray.forEach( (image, imageID) => {
             expirationDatesArrayDivs.push(
@@ -176,7 +170,7 @@ const HomeTwo = (props) => {
     if (loadGate > 0) {
         content = (
             <div className='home_content'>
-            <NavigationBar title='Home' superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}/>
+            <NavigationBar title='Home' superUser={props.superUser ? true : false}/>
                 <div className='main_content_home_two'>
                     <div className='calandar_container'>
                         <div>
@@ -189,7 +183,8 @@ const HomeTwo = (props) => {
                                             <ol className="sub-menu">
                                                 <li className="menu-item" id='item_white_one' onClick={(e, city) => handleSelectCity(e, 'DBS2')}><a href="#0" id='menu_text_white'>Bristol</a></li>
                                                 <li className="menu-item" id='item_white_two' onClick={(e, city) => handleSelectCity(e, 'DSN1')}><a href="#0" id='menu_text_white'>Swansea</a></li>
-                                                <li className="menu-item" id='item_white_three' onClick={(e, city) => handleSelectCity(e, 'DEX2 ')}><a href="#0" id='menu_text_white'>Exeter</a></li>
+                                                <li className="menu-item" id='item_white_three' onClick={(e, city) => handleSelectCity(e, 'DEX2')}><a href="#0" id='menu_text_white'>Exeter</a></li>
+                                                <li className="menu-item" id='item_white_three' onClick={(e, city) => handleSelectCity(e, 'DXP1')}><a href="#0" id='menu_text_white'>Plymouth</a></li>
                                             </ol>
                                         </li>
                                     </ol>
@@ -243,58 +238,3 @@ const HomeTwo = (props) => {
 }
 
 export default HomeTwo
-
-
-// var segment1 
-//         var segment2 
-//         if (dbs2Drivers || dex2Drivers || dsn1Drivers) {
-//             console.log('dbs2: ', dbs2Drivers, 'dex2: ', dex2Drivers, 'dsn1: ', dsn1Drivers)
-//             let theSum = dbs2Drivers + dex2Drivers + dsn1Drivers
-
-//             if (dbs2Drivers === 0 && dsn1Drivers === 0 && dex2Drivers !== 0 ) {
-//                 segment1 = 0
-//                 segment2 = 0
-//             }
-//             // dbs2
-//             if (dbs2Drivers !== 0) {
-//                 if (dbs2Drivers/theSum === 1) {
-//                     segment1 = 360
-//                     segment2 = 0
-//                 }
-//                 segment1 = (dbs2Drivers/theSum) * 100
-//             } else {
-//                 segment1 = 0
-//             }
-
-//             // dsn1
-//             if (dsn1Drivers !== 0) {
-//                 if (dex2Drivers === 0) {
-//                     segment2 = 100
-//                 } else if (dsn1Drivers/theSum === 1) {
-//                     segment2 = 360
-//                     segment1 = 0
-//                 } else {
-//                     segment2 = (dsn1Drivers/theSum) * 100
-//                 }
-//             } else {
-//                 segment2 = 0
-//             }
-//         }
-//         if (segment1 || segment2) {
-//             chart = (
-//                 <div className='chart_overall'>
-//                     <div className='names_label'>
-//                         <h3>DBS2 <div className='colordivsblue'></div></h3>
-//                         <h3>DSN1 <div className='colordivsgreen'></div></h3>
-//                         <h3>DEX2 <div className='colordivsyellow'></div></h3>
-//                     </div>
-//                     <div 
-//                         className="pie" 
-//                         style={{
-//                             backgroundImage:
-//                                 `conic-Gradient(#232F3E ${3.6 * segment1}deg, rgb(16, 109, 16) 0 ${3.6 * segment2}deg, rgb(134, 134, 45) 0)`
-//                         }}>
-//                     </div>
-//                 </div>
-//             )
-//         }

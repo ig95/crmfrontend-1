@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
 import axios from 'axios'
@@ -5,6 +7,7 @@ import 'react-dropdown/style.css';
 
 var myInterval
 const Home = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ currentDate, setCurrentDate ] = useState(new Date())
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
@@ -26,6 +29,8 @@ const Home = (props) => {
         }
         setSelectedDate(myDate)
         async function getData(url = '') {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'GET', 
                 mode: 'cors',
@@ -33,7 +38,7 @@ const Home = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 }
             });
 
@@ -133,7 +138,6 @@ const Home = (props) => {
         let pending = 0
         let thirtyDaysNotice = currentDate.setDate(currentDate.getDate() + 30)
         if (data) {
-            console.log(data)
             data.data.images.forEach( image => {
                 // docs for verification part
                 console.log(image)
@@ -157,7 +161,6 @@ const Home = (props) => {
                 <div className='pending_div'><h3 className='remove_padding'>{pending} Pending</h3></div>
             </div>
         )
-        console.log(expirationDatesArray)
         setVerifiedDocumentsDivs(localArray)
         expirationDatesArray.forEach( (image, imageID) => {
             expirationDatesArrayDivs.push(
@@ -192,7 +195,7 @@ const Home = (props) => {
         content = (
             <>
                 <div className='home_content'>
-                <NavigationBar title='Home' superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}/>
+                <NavigationBar title='Home' superUser={props.superUser ? true : false}/>
                     <div className='main_content_home_two'>
                         <div className='calandar_container'>
                             <div>
@@ -206,6 +209,7 @@ const Home = (props) => {
                                                     <li className="menu-item" id='item_white_one' onClick={(e, city) => handleSelectCity(e, 'DBS2')}><a href="#0" id='menu_text_white'>Bristol</a></li>
                                                     <li className="menu-item" id='item_white_two' onClick={(e, city) => handleSelectCity(e, 'DSN1')}><a href="#0" id='menu_text_white'>Swindon</a></li>
                                                     <li className="menu-item" id='item_white_three' onClick={(e, city) => handleSelectCity(e, 'DEX2 ')}><a href="#0" id='menu_text_white'>Exeter</a></li>
+                                                    <li className="menu-item" id='item_white_three' onClick={(e, city) => handleSelectCity(e, 'DXP1')}><a href="#0" id='menu_text_white'>Plymouth</a></li>
                                                 </ol>
                                             </li>
                                         </ol>
@@ -302,58 +306,3 @@ const Home = (props) => {
 }
 
 export default Home
-
-
-
-        // var segment1 
-        // var segment2 
-        // if (dbs2Drivers || dex2Drivers || dsn1Drivers) {
-        //     let theSum = dbs2Drivers + dex2Drivers + dsn1Drivers
-
-        //     if (dbs2Drivers === 0 && dsn1Drivers === 0 && dex2Drivers !== 0 ) {
-        //         segment1 = 0
-        //         segment2 = 0
-        //     }
-        //     // dbs2
-        //     if (dbs2Drivers !== 0) {
-        //         if (dbs2Drivers/theSum === 1) {
-        //             segment1 = 360
-        //             segment2 = 0
-        //         }
-        //         segment1 = (dbs2Drivers/theSum) * 100
-        //     } else {
-        //         segment1 = 0
-        //     }
-
-        //     // dsn1
-        //     if (dsn1Drivers !== 0) {
-        //         if (dex2Drivers === 0) {
-        //             segment2 = 100
-        //         } else if (dsn1Drivers/theSum === 1) {
-        //             segment2 = 360
-        //             segment1 = 0
-        //         } else {
-        //             segment2 = (dsn1Drivers/theSum) * 100
-        //         }
-        //     } else {
-        //         segment2 = 0
-        //     }
-        // }
-        // if (segment1 || segment2) {
-        //     chart = (
-        //         <div className='chart_overall'>
-        //             <div className='names_label'>
-        //                 <h3>DBS2 <div className='colordivsblue'></div></h3>
-        //                 <h3>DSN1 <div className='colordivsgreen'></div></h3>
-        //                 <h3>DEX2 <div className='colordivsyellow'></div></h3>
-        //             </div>
-        //             <div 
-        //                 className="pie" 
-        //                 style={{
-        //                     backgroundImage:
-        //                         `conic-Gradient(#232F3E ${3.6 * segment1}deg, rgb(16, 109, 16) 0 ${3.6 * segment2}deg, rgb(134, 134, 45) 0)`
-        //                 }}>
-        //             </div>
-        //         </div>
-        //     )
-        // }

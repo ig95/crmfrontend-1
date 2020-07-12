@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import logo from '../images/coloration.png'
@@ -7,6 +9,7 @@ import logo from '../images/coloration.png'
 
 var myInterval
 const NavigationBar = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ currentDate, setCurrentDate ] = useState(new Date())
     const [ subMenuText, setSubMenuText ] = useState('Compliance Menu')
     const [ makeVisible, setMakeVisible ] = useState('menu_rota_sub_none')
@@ -156,6 +159,11 @@ const NavigationBar = (props) => {
                 <Link to="/rentalvantracker" className='links'>
                     <div className='link_style'>
                         Rental Van Tracker
+                    </div>
+                </Link>
+                <Link to="/summary" className='links'>
+                    <div className='link_style'>
+                        Payroll
                     </div>
                 </Link>
             </div>

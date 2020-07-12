@@ -1,8 +1,11 @@
 /* eslint-disable no-loop-func */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react'
 import spinner from '../images/spinner.svg'
 
 const DivSingleWeek = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ topRow, setTopRow ] = useState([])
     const [ middleRow, setMiddleRow ] = useState([])
     const [ bottomRow, setBottomRow ] = useState([])
@@ -18,6 +21,8 @@ const DivSingleWeek = (props) => {
 
     useEffect( () => {
         async function getData(url = '') {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'GET', 
                 mode: 'cors',
@@ -25,7 +30,7 @@ const DivSingleWeek = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 }
             });
             return response ? response.json() : console.log('no reponse')
@@ -211,7 +216,8 @@ const DivSingleWeek = (props) => {
             let optionsArray = [
                 'CT',
                 'RT',
-                'Holiday'
+                'Holiday',
+                'OFF'
             ]
             bookingOptions.push (
                 <li className="menu-item" id='sub_menu_options' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -222,19 +228,24 @@ const DivSingleWeek = (props) => {
                         <ol>
                             <li className="menu-item"><a href="#0" id='menu_rota_zed' >Station</a>
                                 <ol className="sub-menu" >
-                                    <li className="menu-item" id='sub_menu_options'>
+                                    <li className="menu-item" id='sub_menu_options_two'>
                                         <a href="#0" id='dropdown_text_rota'>
                                             DSN1
                                         </a>
                                     </li>
-                                    <li className="menu-item" id='sub_menu_options'>
+                                    <li className="menu-item" id='sub_menu_options_two'>
                                         <a href="#0" id='dropdown_text_rota'>
                                             DBS2
                                         </a>
                                     </li>
-                                    <li className="menu-item" id='sub_menu_options'>
+                                    <li className="menu-item" id='sub_menu_options_two'>
                                         <a href="#0" id='dropdown_text_rota'>
                                             DEX2
+                                        </a>
+                                    </li>
+                                    <li className="menu-item" id='sub_menu_options_two'>
+                                        <a href="#0" id='dropdown_text_rota'>
+                                            DXP1
                                         </a>
                                     </li>
                                 </ol>
@@ -261,7 +272,8 @@ const DivSingleWeek = (props) => {
             let optionsArray = [
                 'CT',
                 'RT',
-                'Holiday'
+                'Holiday',
+                'OFF'
             ]
             bookingOptions.push (
                 <li className="menu-item" id='sub_menu_options' onMouseEnter={handleMouseEnterSeven} onMouseLeave={handleMouseLeave}>
@@ -292,7 +304,7 @@ const DivSingleWeek = (props) => {
             middleRows = () => {
                 let mappedProps = []
                 data.data.drivers.forEach( (ele, id) => {
-                    if (ele.location === props.selectedCity) {
+                    if (ele.location === props.selectedCity && ele.status === 'Active') {
                         let localArray = []
                         localArray.push(
                             <div key={Math.random()} className='cal_divs_single_first'>
@@ -315,37 +327,56 @@ const DivSingleWeek = (props) => {
                             )  
                         }
                         if (parseInt(props.divAmount) === 14) {
+                            console.log('hello')
                             let localSevenDayCheck = []
+                            let localDateEle = []
+                            let sevenDayCheckFound = []
                             // eslint-disable-next-line no-loop-func
+                            console.log(ele)
+                            let alreadyFinished = -1
                             ele.datesArray.forEach( (dateEle) => {
                                 if (checkForDate.includes(dateEle.date)) {
                                     let colorChange
                                     // eslint-disable-next-line default-case
                                     switch (dateEle.location) {
-                                        case 'DEX2':
-                                            colorChange = 'menu_rota_blue' 
+                                        case `${props.selectedCity}`:
+                                            colorChange = 'menu_rota_in' 
                                             break;
-                                        case 'DSN1':
-                                            colorChange = 'menu_rota_yellow' 
-                                            break;
-                                        case `DBS2`:
-                                            colorChange = 'menu_rota_in'
-                                            break;
-                                        case 'MFN':
-                                            colorChange = 'menu_rota_purple'  
-                                            break; 
-                                        case 'CT':
-                                            colorChange = 'menu_rota_purple'  
-                                            break; 
-                                        case 'RT':
-                                            colorChange = 'menu_rota_purple'  
-                                            break; 
                                         case 'Holiday':
                                             colorChange = 'menu_rota_holiday'  
                                             break; 
+                                        case 'CT':
+                                            colorChange = 'menu_rota_purple'
+                                            break;
+                                        case 'RT':
+                                            colorChange = 'menu_rota_purple'
+                                            break;
+                                        case 'OFF':
+                                            colorChange = 'menu_rota'
+                                            break;
+                                        default:
+                                            colorChange = 'menu_rota_yellow';    
+                                            break; 
                                     }
-                                    localSevenDayCheck.push(checkForDate.indexOf(dateEle.date)+1)
-                                    console.log(checkForDate.indexOf(dateEle.date)+1)
+                                    if (dateEle.location === '7DayHoliday') {
+                                        console.log('inside the 7daycheck check')
+                                        alreadyFinished = checkForDate.indexOf(dateEle.date)+1
+                                        sevenDayCheckFound.push(alreadyFinished)
+                                    } else {
+                                        if (dateEle.location !== 'OFF' && dateEle.location !== '7DayHoliday') {
+                                            if (alreadyFinished > 0) {
+                                                console.log(alreadyFinished)
+                                                if (checkForDate.indexOf(dateEle.date)+1 - alreadyFinished > 5) {
+                                                    localSevenDayCheck.push(checkForDate.indexOf(dateEle.date)+1)
+                                                    localDateEle.push(ele)
+                                                }
+                                            } else {
+                                                console.log('pushing data')
+                                                localSevenDayCheck.push(checkForDate.indexOf(dateEle.date)+1)
+                                                localDateEle.push(ele)
+                                            }
+                                        }
+                                    }
                                     localArray[checkForDate.indexOf(dateEle.date)+1] = (
                                         <nav className={colorChange}>
                                             <ol>
@@ -360,53 +391,161 @@ const DivSingleWeek = (props) => {
                                 }
                             })
                             let warningVar = []
+                            let modifiedSevendayCheck = []
                             if (localSevenDayCheck.length > 5) {
-                                quicksort(localSevenDayCheck)
-                                console.log(localSevenDayCheck)
-                                let checkForConsecutive = 0
-                                let countInRow = 1
-                                localSevenDayCheck.forEach( (dateBooked, dateBookedID) => {
-                                    // set the current index equal to the number found in array
-                                    if (countInRow === 5) {
-                                        if (dateBooked+1 <= 14 ) {
-                                            warningVar.push(dateBooked+1) 
-                                        } 
-                                        if (dateBooked-6 > 0) {
-                                            warningVar.push(dateBooked-6)
+                                if (sevenDayCheckFound.length === 0) {
+                                    quicksort(localSevenDayCheck)
+                                    let checkForConsecutive = 0
+                                    let countInRow = 1
+                                    localSevenDayCheck.forEach( (dateBooked, dateBookedID) => {
+                                        // set the current index equal to the number found in array
+                                        console.log(dateBooked)
+                                        if (countInRow === 5) {
+                                            if (dateBooked+1 <= 14 ) {
+                                                warningVar.push(dateBooked+1) 
+                                            } 
+                                            if (dateBooked-6 > 0) {
+                                                warningVar.push(dateBooked-6)
+                                            }
+                                            countInRow = 1
+                                            checkForConsecutive = 0
+                                            return
                                         }
-                                        countInRow = 1
-                                        checkForConsecutive = 0
-                                        return
+    
+                                        if (checkForConsecutive === 0) {
+                                            checkForConsecutive = dateBooked
+                                            return
+                                        }
+                                        // check if the next number is consecutive
+                                        if (dateBooked === (checkForConsecutive+1)) {
+                                            countInRow++
+                                            checkForConsecutive++
+                                            return
+                                        } else {
+                                            checkForConsecutive = 0
+                                            countInRow = 1
+                                            return
+                                        }
+                                    })
+                                } else {
+                                    quicksort(sevenDayCheckFound)
+                                    localSevenDayCheck.forEach( element => {
+                                        if (element < sevenDayCheckFound[0] && element > sevenDayCheckFound[1]) {
+                                            console.log(element)
+                                            modifiedSevendayCheck.push(element)
+                                        }
+                                    })
+                                    if (modifiedSevendayCheck.length > 5) {
+                                        quicksort(modifiedSevendayCheck)
+                                        let checkForConsecutive = 0
+                                        let countInRow = 1
+                                        modifiedSevendayCheck.forEach( (dateBooked, dateBookedID) => {
+                                            // set the current index equal to the number found in array
+                                            console.log(dateBooked)
+                                            if (countInRow === 5) {
+                                                if (dateBooked+1 <= 14 ) {
+                                                    warningVar.push(dateBooked+1) 
+                                                } 
+                                                if (dateBooked-6 > 0) {
+                                                    warningVar.push(dateBooked-6)
+                                                }
+                                                countInRow = 1
+                                                checkForConsecutive = 0
+                                                return
+                                            }
+        
+                                            if (checkForConsecutive === 0) {
+                                                checkForConsecutive = dateBooked
+                                                return
+                                            }
+                                            // check if the next number is consecutive
+                                            if (dateBooked === (checkForConsecutive+1)) {
+                                                countInRow++
+                                                checkForConsecutive++
+                                                return
+                                            } else {
+                                                checkForConsecutive = 0
+                                                countInRow = 1
+                                                return
+                                            }
+                                        })
                                     }
-
-                                    if (checkForConsecutive === 0) {
-                                        checkForConsecutive = dateBooked
-                                        return
-                                    }
-                                    // check if the next number is consecutive
-                                    if (dateBooked === (checkForConsecutive+1)) {
-                                        countInRow++
-                                        checkForConsecutive++
-                                        return
-                                    } else {
-                                        checkForConsecutive = 0
-                                        countInRow = 1
-                                        return
-                                    }
-                                })
+                                }
                             }
-                            if (warningVar.length > 0) {
-                                warningVar.forEach( element => {
-                                    localArray[element] = (
-                                        <div className='enforced_holiday'>
-                                            Enforced Holiday
-                                        </div>
-                                    )
-                                })
+                            if (warningVar.length > 0 ) {
+                                console.log('inside the warningvar length gretaer than 0')
+                                let myDate = new Date(checkForDate[warningVar[0]])
+                                let firstDate = new Date(myDate.setDate(myDate.getDate() -1 )).toDateString()
+                                let mySecondDate = new Date(checkForDate[warningVar[1]])
+                                let secondDate = new Date(mySecondDate.setDate(mySecondDate.getDate() -1 )).toDateString()
+                                console.log(firstDate)
+                                        // send data to database from from
+                                const handleSubmitButtonEnforced = () => {
+                                    let myDateTime = new Date()
+                                    let hours = myDateTime.getHours()
+                                    let minutes = myDateTime.getMinutes()
+
+                                    let timeEntry = `${hours}:${minutes}`
+                                    async function postData(url = '', data = {}) {
+                                        let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+                                        let originalText = bytes.toString(CryptoJS.enc.Utf8);
+                                        const response = await fetch(url, {
+                                            method: 'POST', 
+                                            mode: 'cors',
+                                            cache: 'no-cache',
+                                            credentials: 'same-origin',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'Authorization': `Token ${originalText}`
+                                            },
+                                            body: JSON.stringify(data)
+                                            });
+                            
+                                        return response ? response.json() : console.log('no reponse')
+                                    };
+                                    postData(`https://pythonicbackend.herokuapp.com/schedule/`, {
+                                        date: firstDate,
+                                        logIn_time: timeEntry,
+                                        logOut_time: timeEntry,
+                                        location: '7DayHoliday',
+                                        driver_id: `https://pythonicbackend.herokuapp.com/drivers/${localDateEle[0].driver_id}/`
+                                    }).then( response => {
+                                        console.log(response)
+                                        if (data) {
+                                            let matchingId = /\d/.exec(response.driver_id)
+                                            data.data.drivers.forEach( (ele, id) => {
+                                                if (ele.driver_id === matchingId) {
+                                                    ele.datesArray.push(response)
+                                                }
+                                            })
+                                        }
+                                        postData(`https://pythonicbackend.herokuapp.com/schedule/`, {
+                                            date: secondDate,
+                                            logIn_time: timeEntry,
+                                            logOut_time: timeEntry,
+                                            location: '7DayHoliday',
+                                            driver_id: `https://pythonicbackend.herokuapp.com/drivers/${localDateEle[0].driver_id}/`
+                                            }).then( response => {
+                                            console.log(response)
+                                            getData ? setGetData(false) : setGetData(true)
+                                            // if (data) {
+                                            //     let matchingId = /\d/.exec(response.driver_id)
+                                            //     data.data.drivers.forEach( (ele, id) => {
+                                            //         if (ele.driver_id === matchingId) {
+                                            //             ele.datesArray.push(response)
+                                            //         }
+                                            //     })
+                                            //     // setMiddleRow(middleRows())
+                                            // }
+                                        })
+                                    })
+                                }
+                                handleSubmitButtonEnforced()
                             }
                             mappedProps.push(localArray)
                         } else {
                             // dropdown menu options
+                            console.log('here')
                             const optionsThree = getSundaysSeven()
                             let localArray= []
                             localArray.push(
@@ -436,26 +575,14 @@ const DivSingleWeek = (props) => {
                                     let colorChange
                                     // eslint-disable-next-line default-case
                                     switch (dateEle.location) {
-                                        case 'DEX2':
+                                        case `${props.selectedCity}`:
                                             colorChange = 'menu_rota_in_seven' 
                                             break;
-                                        case 'DSN1':
-                                            colorChange = 'menu_rota_in_seven' 
-                                            break;
-                                        case `DBS2`:
-                                            colorChange = 'menu_rota_in_seven'
-                                            break;
-                                        case 'MFN':
-                                            colorChange = 'menu_rota_purple_seven'  
-                                            break; 
-                                        case 'CT':
-                                            colorChange = 'menu_rota_purple_seven'  
-                                            break; 
-                                        case 'RT':
-                                            colorChange = 'menu_rota_purple_seven'  
-                                            break; 
                                         case 'Holiday':
                                             colorChange = 'menu_rota_holiday_seven'  
+                                            break; 
+                                        default:
+                                            colorChange = 'menu_rota_yellow_seven';    
                                             break; 
                                     }
                                     localSevenDayCheck.push(checkForDate.indexOf(dateEle.date)+1)
@@ -475,36 +602,37 @@ const DivSingleWeek = (props) => {
                             let warningVar = []
                             if (localSevenDayCheck.length > 5) {
                                 quicksort(localSevenDayCheck)
-                                console.log(localSevenDayCheck)
                                 let checkForConsecutive = 0
                                 let countInRow = 1
                                 localSevenDayCheck.forEach( (dateBooked, dateBookedID) => {
                                     // set the current index equal to the number found in array
-                                    if (countInRow === 5) {
-                                        if (dateBooked+1 <= 7 ) {
-                                            warningVar.push(dateBooked+1) 
-                                        } 
-                                        if (dateBooked-6 > 0) {
-                                            warningVar.push(dateBooked-6)
+                                    if (dateBooked !== 'OFF') {
+                                        if (countInRow === 5) {
+                                            if (dateBooked+1 <= 7 ) {
+                                                warningVar.push(dateBooked+1) 
+                                            } 
+                                            if (dateBooked-6 > 0) {
+                                                warningVar.push(dateBooked-6)
+                                            }
+                                            countInRow = 1
+                                            checkForConsecutive = 0
+                                            return
                                         }
-                                        countInRow = 1
-                                        checkForConsecutive = 0
-                                        return
-                                    }
-
-                                    if (checkForConsecutive === 0) {
-                                        checkForConsecutive = dateBooked
-                                        return
-                                    }
-                                    // check if the next number is consecutive
-                                    if (dateBooked === (checkForConsecutive+1)) {
-                                        countInRow++
-                                        checkForConsecutive++
-                                        return
-                                    } else {
-                                        checkForConsecutive = 0
-                                        countInRow = 1
-                                        return
+    
+                                        if (checkForConsecutive === 0) {
+                                            checkForConsecutive = dateBooked
+                                            return
+                                        }
+                                        // check if the next number is consecutive
+                                        if (dateBooked === (checkForConsecutive+1)) {
+                                            countInRow++
+                                            checkForConsecutive++
+                                            return
+                                        } else {
+                                            checkForConsecutive = 0
+                                            countInRow = 1
+                                            return
+                                        }
                                     }
                                 })
                             }
@@ -562,6 +690,8 @@ const DivSingleWeek = (props) => {
 
             let timeEntry = `${hours}:${minutes}`
             async function postData(url = '', data = {}) {
+                let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+                let originalText = bytes.toString(CryptoJS.enc.Utf8);
                 const response = await fetch(url, {
                     method: 'POST', 
                     mode: 'cors',
@@ -569,7 +699,7 @@ const DivSingleWeek = (props) => {
                     credentials: 'same-origin',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${localStorage.getItem('token')}`
+                        'Authorization': `Token ${originalText}`
                     },
                     body: JSON.stringify(data)
                     });
@@ -597,14 +727,13 @@ const DivSingleWeek = (props) => {
         }
 
         const handleSubmitButtonPut = (myDate, id, location) => {
+            console.log(location)
             let scheduleDateId = -1
             data.data.drivers.forEach( ele => {
                 if (ele.driver_id === id) {
                     ele.datesArray.forEach( element => {
-                        console.log(element.date, myDate)
                         if (element.date === myDate) {
                             scheduleDateId = element.date_id
-                            console.log('found date')
                         }
                     })
                 }
@@ -615,6 +744,8 @@ const DivSingleWeek = (props) => {
 
             let timeEntry = `${hours}:${minutes}`
             async function postData(url = '', data = {}) {
+                let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+                let originalText = bytes.toString(CryptoJS.enc.Utf8);
                 const response = await fetch(url, {
                     method: 'PUT', 
                     mode: 'cors',
@@ -622,14 +753,13 @@ const DivSingleWeek = (props) => {
                     credentials: 'same-origin',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${localStorage.getItem('token')}`
+                        'Authorization': `Token ${originalText}`
                     },
                     body: JSON.stringify(data)
                     });
     
                 return response ? response.json() : console.log('no reponse')
             };
-            console.log(scheduleDateId, `https://pythonicbackend.herokuapp.com/drivers/${id}/`)
             
             postData(`https://pythonicbackend.herokuapp.com/schedule/${scheduleDateId}/`, {
                 logIn_time: timeEntry,
@@ -672,6 +802,7 @@ const DivSingleWeek = (props) => {
             } else {
                 locationvar = e.target.text
             }
+            console.log(locationvar)
             handleSubmitButtonPut(weekDaySelected, id, locationvar)
             // setMiddleRow(makeForm(null, weekDaySelected, theName, datesList, id, location))
         }

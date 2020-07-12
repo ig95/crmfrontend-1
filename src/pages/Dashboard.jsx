@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
-import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
@@ -9,6 +10,7 @@ import triangle from '../images/triangledark.png'
 
 var myInterval
 const Dashboard = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ drivers, setDrivers ] = useState(null)
     const [ selectedDate, setSelectedDate ] = useState(new Date())
     const [ schedule, setSchedule ] = useState(null)
@@ -23,6 +25,7 @@ const Dashboard = (props) => {
     const [ listOfRoutes, setListOfRoutes ] = useState([])
     const [ triangleToggle, setTriangleToggle ] = useState('triangle_dashboard_page')
     const [ updateVariable, setUpdateVariable ] = useState(0)
+    const [ overallDay, setOverallDay ] = useState([])
 
 
     var dayArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
@@ -46,6 +49,8 @@ const Dashboard = (props) => {
             setSelectedCitySort(props.station)
         }
         async function getDataNext(url = '') {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'GET', 
                 mode: 'cors',
@@ -53,7 +58,7 @@ const Dashboard = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 }
             });
             return response ? response.json() : console.log('no reponse')
@@ -65,10 +70,13 @@ const Dashboard = (props) => {
               setSchedule(response.results)
             })
           })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect( () => {
         async function getData(url = '') {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'GET', 
                 mode: 'cors',
@@ -76,7 +84,7 @@ const Dashboard = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 }
             });
 
@@ -85,30 +93,34 @@ const Dashboard = (props) => {
         };
 
         getData('https://pythonicbackend.herokuapp.com/data/').then( (response) => {
-            console.log(response.data)
             setData(response.data)
             let localArray = []
-            response.data.drivers.forEach( element => {
-                if (element.location === selectedCitySort) {
-                    element.datesArray.forEach( ele => {
-                        if (new Date(ele.date).toDateString() === selectedDate.toDateString()) {
-                            localArray.push(element)
-                        }
-                    })
-                }
-            })
-            console.log(localArray)
+            let overallArray = []
+            if (response.data) {
+                response.data.drivers.forEach( element => {
+                    if (element.status !== 'Offboardedforever') {
+                        element.datesArray.forEach( ele => {
+                            if (ele.location !== 'OFF') {
+                                if (new Date(ele.date).toDateString() === selectedDate.toDateString() && ele.location === selectedCitySort) {
+                                    localArray.push(element)
+                                }
+                                if (new Date(ele.date).toDateString() === selectedDate.toDateString()) {
+                                    overallArray.push(ele)
+                                }
+                            }
+                        })
+                    }
+                })
+            }
             setTodaysRoutes(localArray)
-           
+            setOverallDay(overallArray)
             setListOfRoutes(listComponents(localArray))
         })
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCitySort, selectedDate, updateVariable])
 
     const listComponents = (theRoutes, sortingValue=null) => {
-        if (sortingValue) {
-            console.log(sortingValue)
-        }
 
         let quicksort = (arr, min, max) => {
             // set the quicksort pointer to the first element in the array
@@ -172,7 +184,6 @@ const Dashboard = (props) => {
             setSelectedModification(dateForChange)
         }
         
-        console.log('the routes: ', theRoutes, selectedDate)
         let localArrayTwo = []
         theRoutes.forEach( ele => {
             ele.datesArray.forEach( element => {
@@ -200,54 +211,48 @@ const Dashboard = (props) => {
             localArrayTwo.forEach( ele => {
                 localArrayThree.push(
                     <div className='list_overall_flex_dashboard'>
-                    <div className='elements_in_list_dashboard_names'>
-                        <div className='list_spacer_content_location'>
-                            <h4 className='remove_h3_padding'>{ele.driver.location}</h4>
+                        <div className='elements_in_list_dashboard_names'>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{selectedCitySort}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{ele.driver.name}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{ele.date.routeNumber === '0' ? '--' : ele.date.routeNumber}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{ele.date.route === '0' ? '--' : ele.date.route }</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{ele.date.logIn_time}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{ele.date.logOut_time}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{ele.date.timeDifference[0] === '0:00:00' ? '--' : ele.date.timeDifference[0]}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{ele.date.start_mileage}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{ele.date.finish_mileage ? ele.date.finish_mileage : '--'}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{ele.date.supportSum ? ele.date.supportSum : '--'}</h4>
+                            </div>
+                            <div className='list_spacer_content'>
+                                <h4 className='remove_h3_padding'>{ele.date.deductionSum ? ele.date.deductionSum : '--'}</h4>
+                            </div>
                         </div>
-                        <div className='list_spacer_content_name'>
-                            <h4 className='remove_h3_padding'>{ele.driver.name}</h4>
-                        </div>
-                        <div className='list_spacer_content_routeNumber'>
-                            <h4 className='remove_h3_padding'>{ele.date.routeNumber === '0' ? '--' : ele.date.routeNumber}</h4>
-                        </div>
-                        <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.route === '0' ? '--' : ele.date.route }</h4>
-                        </div>
-                        <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.logIn_time}</h4>
-                        </div>
-                        <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.logOut_time}</h4>
-                        </div>
-                        <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.timeDifference[0] === '0:00:00' ? '--' : ele.date.timeDifference[0]}</h4>
-                        </div>
-                        <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.start_mileage}</h4>
-                        </div>
-                        <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.finish_mileage ? ele.date.finish_mileage : '--'}</h4>
-                        </div>
-                        <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.deductions === 'GB£0.00' ? '--' : ele.date.deductions}</h4>
-                        </div>
-                        <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.support === 'GB£0.00' ? '--' : ele.date.support}</h4>
-                        </div>
-                        <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.deductions === 'GB£0.00' ? '--' : ele.date.deductions}</h4>
-                        </div>
-                        <div className='list_spacer_content'>
-                            <h4 className='remove_h3_padding'>{ele.date.deductions === 'GB£0.00' ? '--' : ele.date.deductions}</h4>
-                        </div>
+                        <button className='modify_button' onClick={(e, elements) => onClick(e, ele.date)}>
+                            <h4>Modify</h4>
+                        </button>
+                        <button className='modify_button_delete'>
+                            <h4>x</h4>
+                        </button>
                     </div>
-                    <button className='modify_button' onClick={(e, elements) => onClick(e, ele.date)}>
-                        <h4>Modify</h4>
-                    </button>
-                    <button className='modify_button_delete'>
-                        <h4>x</h4>
-                    </button>
-                </div>
                 )
             })
         )
@@ -265,8 +270,8 @@ const Dashboard = (props) => {
 
     useEffect( () => {
         let localArray = []
-        let labelArray =[`${selectedCity}`, 'Da Name', 'Route No', 'Route Type', 'Log In', 'Log Out', 'TORH', 'Start Mileage', 'Finish Mileage', 'Late Wave Payment', 'Support', 'Deduction', 'Fuel Card Change']
-        for (let i = 0; i < 13; i++) {
+        let labelArray =[`${selectedCity}`, 'DA Name', 'Route No', 'Route Type', 'Log In Time', 'Log Out Time', 'TORH', 'Start Mileage', 'Finish Mileage', 'Support', 'Deduction']
+        for (let i = 0; i < 11; i++) {
             localArray.push(
                 <div className='dashboard_top_rectangles' onClick={(e, targetValue) => handleSorting(e, labelArray[i])}>
                     <h4 className='remove_h3_padding' >{labelArray[i]}</h4>   
@@ -284,8 +289,10 @@ const Dashboard = (props) => {
             setSelectedCitySort('DBS2')
         } else if (city === 'Swindon - DSN1') {
             setSelectedCitySort('DSN1')
-        } else {
+        } else if (city === 'Exeter - DEX2'){
             setSelectedCitySort('DEX2')
+        } else {
+            setSelectedCitySort('DXP1')
         }
         let x = logicalGate
         x = x+1
@@ -294,17 +301,33 @@ const Dashboard = (props) => {
 
     // map data into the top box
     var routesBox
-    if (todaysRoutes.length > 0) {
-        let routesTotal = todaysRoutes.length
+    if (overallDay.length > 0) {
+        let routesTotal = overallDay.length
         let DBS2Num = 0
-        let CTNum = 0
-        let MFNNum = 0
+        let DSN1Num = 0
+        let DEX2Num = 0
+        let DXP1Num = 0
+        overallDay.forEach( ele => {
+            if (ele.location === 'DBS2') {
+                DBS2Num++
+            }
+            if (ele.location === 'DEX2') {
+                DEX2Num++
+            }
+            if (ele.location === 'DSN1') {
+                DSN1Num++
+            }
+            if (ele.location === 'DXP1') {
+                DXP1Num++
+            }
+        })
         routesBox = (
             <div className='dashboard_route_type_list'>
                 <h4>{routesTotal} Full Routes</h4>
                 <h4>{DBS2Num} DBS2</h4>
-                <h4>{CTNum} CT</h4>
-                <h4>{MFNNum} MFN</h4>
+                <h4>{DSN1Num} DSN1</h4>
+                <h4>{DEX2Num} DEX2</h4>
+                <h4>{DXP1Num } DXP1</h4>
             </div>
         )
     } else {
@@ -386,12 +409,9 @@ clockAndCalendar = (
                         <li className="menu-item" id='white_top'><a href="#0" id='menu_text_white'>{selectedCity}</a>
                             <ol className="sub-menu">
                                 <li className="menu-item" id='item_white_one' onClick={(e, city) => handleSelectCity(e, 'Bristol - DBS2')}><a href="#0" id='menu_text_white'>Bristol - DBS2</a></li>
-<<<<<<< Updated upstream
                                 <li className="menu-item" id='item_white_two' onClick={(e, city) => handleSelectCity(e, 'Swindon - DSN1')}><a href="#0" id='menu_text_white'>Swindon - DSN1</a></li>
-=======
-                                <li className="menu-item" id='item_white_two' onClick={(e, city) => handleSelectCity(e, 'Swindon - DSN1')}><a href="#0" id='menu_text_white'>Southampton - DSN1</a></li>
->>>>>>> Stashed changes
                                 <li className="menu-item" id='item_white_three' onClick={(e, city) => handleSelectCity(e, 'Exeter - DEX2')}><a href="#0" id='menu_text_white'>Exeter - DEX2</a></li>
+                                <li className="menu-item" id='item_white_three' onClick={(e, city) => handleSelectCity(e, 'Plymouth - DXP1')}><a href="#0" id='menu_text_white'>Plymouth - DXP1</a></li>
                             </ol>
                         </li>
                     </ol>
@@ -413,12 +433,6 @@ clockAndCalendar = (
                     updateParentFunction={updateParent}
                     managerStation={props.station ? props.station : null}
                 />
-                <div className='dashboard_form_divs_comments'>    
-                    <div>
-                        <label className='dashboard_labels_dashboard'>Comments </label>
-                    </div>
-                        <textarea className='dashboard_text_field' type="text" name='Comment' />
-                </div>
             </div>
         </div>
     )

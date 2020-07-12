@@ -11,7 +11,9 @@
   $transparent-gray: rgba(0, 0, 0, 0.3);
   $transparent-white: rgba(255, 255, 255, 0.15);
   $greyBoxBackground: #202020;
+  $greyBoxBackNew:  #9c9898;
   $greyBoxContrast: rgb(195, 205, 211);
+  $stationList: rgb(6, 55, 88);
   $offRotaColor: #F4666B;
   $inRotaColor:   #B2FFC8;
 
@@ -51,11 +53,13 @@
     text-decoration: none;
   }
 
+  //settings for daily service boxes 
   %input_bars {
     border-radius: .25rem;
     border: 1px solid $amazon_blue;
     width: 15vw;
-    height: 2.5vh;
+    height: 2.6vh;
+    box-align: start;
     padding: 5px;
     font-family: $ubuntu_font;
     font-size: 1.2em;
@@ -111,14 +115,16 @@
 .menu {
   height: 5vh;
   margin: auto 0;
-  z-index: 1;
+  z-index: .99;
 	ol {
 		list-style: none;
 		padding: 0;
     margin: 0;
+    z-index: 1;
 
 		&:first-child {
       width: 15vw;
+      z-index: .99;
 
 			align-items: center;
       box-shadow: 0px 3px 8px $transparent-gray;
@@ -203,6 +209,7 @@
 		}
 
 		a {
+      z-index: .99;
       margin: 0 auto;
       width: 15vw; 
       height: 5vh;
@@ -788,7 +795,15 @@
   background-color: white;
 }
 
+#sub_menu_options_two {
+  background-color: white;
+}
+
 #sub_menu_options:hover {
+  background-color: rgb(194, 194, 194);
+}
+
+#sub_menu_options_two:hover {
   background-color: rgb(194, 194, 194);
 }
 
@@ -2259,8 +2274,119 @@
 		}
 	}
 }
+//holiday version
+.menu_rota_yellow_seven {
+  height: 3vh;
+  @extend %calendar_divs_class;
+  display: flex;
+  align-items: center;
+  flex: 1 0 12%;
+  margin-bottom: 1px;
+	ol {
+		list-style: none;
+		padding: 0;
+    margin: 0;
+    flex: 1 0 5%;
+
+		&:first-child {
+			align-items: center;
+      box-shadow: 0px 3px 8px $transparent-gray;
+      background-color:  rgb(246, 255, 122);
+		}
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-top: 2px solid $blue;
+    position: relative;
+    height: 5vh;
+		transition: background 0.3s ease-in-out;
+
+		@for $i from 1 through 1 {
+			&:nth-child(#{$i}) > a::before {
+				font-family: "Font Awesome 5 Free";
+				font-size: 1.2rem;
+				display: block;
+				margin-bottom: 1rem;
+        font-weight: 400;
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				text-rendering: auto;
+				line-height: 1;
+				color: $blue;
+
+				@media (min-width: 768px) {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.sub-menu > a {
+			color: red;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid $transparent-white;
+		}
+
+		.sub-menu {
+			position: absolute;
+      top: 100%;
+			width: 100%;
+			transform-origin: top;
+			transform: rotateX(-90deg);
+			transition: transform 0.3s linear;
+      background-color: $yellow;
+      
+
+			.menu-item {
+				border-color: $transparent-white;
+
+				a::before {
+          content: "";
+				}
+
+				&:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		&:hover,
+		&.active {
+			border-top: 2px solid $yellow;
+			background-color: $transparent-white;
+
+			a::before {
+				color: white;
+			}
+		}
+
+		&:hover .sub-menu {
+			transform: rotateX(0deg);
+		}
+
+		a {
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+			color: $offWhite;
+			text-decoration: none;
+		}
+	}
+}
 
 .menu_rota_holiday_seven:hover {
+  z-index: 1;
+}
+.menu_rota_yellow_seven:hover {
   z-index: 1;
 }
 
@@ -3746,6 +3872,10 @@
     padding: 0;
   }
 
+  #Make_this_less {
+    z-index: .1;
+  }
+
   .new_driver_form_container {
     animation-name: fadeToExist;
     -webkit-animation-name: fadeToExist;
@@ -3763,7 +3893,6 @@
     z-index: 1;
     overflow: clip;
     opacity: 0;
-
   }
 
   @keyframes fadeToExist {
@@ -3821,6 +3950,21 @@
     padding-bottom: 5rem;
     animation-name: loadingStyle;
     animation-duration: 1s;
+  }
+
+  #deduction_textarea {
+    width: 15vw;
+    border-radius: .5rem;
+    padding: 4px;
+    height: 10vh;
+  }
+
+  #drop_down_style {
+    border-radius: 1rem;
+  }
+
+  .solve_this {
+    width: 16vw;
   }
 
   .list_of_routes_dashboard {
@@ -3901,19 +4045,21 @@
 
   .dashboard_route_type_list {
     width: 11vw;
-    height: 7vh;
+    height: 10vh;
     padding: 15px;
     margin: 0 auto 1rem;
-    background-color: $greyBoxBackground;
-    border: 3px solid grey;
-    color: $greyBoxContrast;
-    border-radius: .5rem;
+    background-color: #AFCCFE;
+    border: 3px solid rgb(1, 1, 5);
+    color: rgb(0, 2, 3);
+    border-radius: .3rem;
     display: flex;
     flex-direction: column;
   }
 
+
+
   .dashboard_labels {
-    margin: 1rem;
+    margin: 1.2rem;
   }
 
   .span_in_Button_add {
@@ -3951,7 +4097,7 @@
 
   .input_dashboard_page {
     @extend %input_bars;
-    border: 1px solid rgba(35, 47, 62, 0.247);
+    border: 1.2px solid rgba(35, 47, 62, 0.247);
   }
 
   .title_for_dashboard {
@@ -3964,9 +4110,12 @@
   }
 
   .list_spacer_content {
-    width: 4vw;
+    @extend %centerThings;
+    width: 4.5vw;
     margin-left: 1.5vw;
     margin-right: 1.5vw;
+    align-content: center;
+    align-items: center;
     padding: 0;
     text-align: center;
   }
@@ -3980,6 +4129,7 @@
 
   .list_spacer_content_name {
     width: 4vw;
+    font-size: 14px;
     margin-left: 1.5vw;
     margin-right: .5vw;
     padding: 0;
@@ -4004,22 +4154,53 @@
     padding: 0;
   }
 
-  .button_daily_service {
-    background-color: $greyBoxBackground;
-    color: $greyBoxContrast;
-    width: 7vw;
-    height: 4vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid $amazon_blue;
-    border-radius: .5rem;
-    margin: 1rem auto;
-  }
+  // .button_daily_service {
+  //   background-color: $greyBoxBackground;
+  //   color: $greyBoxContrast;
+  //   width: 7vw;
+  //   height: 4vh;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   border: 2px solid $amazon_blue;
+  //   border-radius: .5rem;
+  //   margin: 1rem auto;
+  // }
 
+  // .button_daily_service:hover {
+  //   background-color: rgb(89, 90, 90);
+  //   transform: translateY(-.1rem);
+  // }
+
+
+
+  .button_daily_service {
+    display: block;
+    background-color: $greyBoxBackground;
+    position: relative;
+    height: 5vh;
+    width: 7vw;
+    display: flex;
+    border: none;
+    background: linear-gradient(to right, $amazon_blue_hover 50%, $amazon_blue 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    color: $offWhite;
+    width: 7vw;
+    //font-weight: 400;
+    font-family: $ubuntu_font;
+    //font-size: 1.2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 3px 8px $transparent-gray;
+    transition: all .3s ease-in-out;
+    margin: 1rem auto;
+    border-radius: .5rem;
+  }
+  
   .button_daily_service:hover {
-    background-color: rgb(89, 90, 90);
-    transform: translateY(-.1rem);
+    background-position: left bottom;
   }
 
   .dashboard_form_divs_comments {
@@ -4051,12 +4232,19 @@
   .dashboard_form {
     display: flex;
     flex-wrap: wrap;
-    padding: 1rem 0 0 8rem;
+    // padding: 1rem 0rem 0 8rem;
   }
 
   .dashboard_form_divs {
     width: 32vw;
-    margin-top: .5rem;
+    margin-top: .7rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .dashboard_form_divs_texty {
+    width: 32vw;
+    margin-top: 0.7rem;
     display: flex;
     justify-content: flex-end;
   }
@@ -4093,6 +4281,8 @@
 
   .list_overall_flex_dashboard {
     display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .modify_button {
@@ -4123,13 +4313,14 @@
   }
 
   .dashboard_top_rectangles {
-    width: 4vw;
-    border-radius: .5rem;
-    padding: 5px;
+    width: 5vw;
+    border-radius: .4rem;
+    padding: 4px;
     margin-left: 1.5vw;
     border:2px solid $amazon_blue;
     display: flex;
     align-items: center;
+    align-content: center;
     justify-content: center;
     background-color: #E7F0FF;
   }
@@ -5043,12 +5234,57 @@
       width: 5vw;
     }
     
-  /****************************************  FORMS/DOCUMENTS PAGE ************************************************************/
+  /****************************************  COMPLAINCE PAGE ************************************************************/
   .top_container_compliance_page {
     width: 100%;
     padding: 2rem;
     display: flex;
-    justify-content: space-around;
+  }
+
+  .imageThumbs {
+    max-height: 24vh;
+    max-width: 24vw;
+    margin: 1vh;
+    box-shadow: 2px 2px 4px;
+  }
+
+  .imageArrayLocal {
+    height: 50vh;
+    overflow: scroll;
+    display: flex;
+  }
+
+  .imageIconBox {
+    text-align: center;
+  }
+
+  .offboarded_drivers_style {
+    display: flex;
+  }
+
+  .listOfOffboardedDrivers {
+    width: 15vw;
+    height: 75vh;
+    margin-bottom: 3vh;
+    overflow-y: scroll;
+    border-right: 2px solid $amazon_blue;
+  }
+  
+  .selectedOffboardedDriver {
+    width: 75vw;
+    height: 75vh;
+    overflow-y: scroll;
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
+  #spaceMeLeftPlease {
+    margin-left: 40vw;
+    margin-right: 3vw;
+  }
+
+  #offboarded_drivers_style {
+    height: 5.2vh;
   }
   
   .main_content_compliance {
@@ -5196,6 +5432,20 @@
     width: 100%;
     overflow: scroll;
   }
+
+  .complianceCheck_title {
+    display: flex;
+    align-items: center;
+    width: 80vw;
+  }
+
+  .compliance_check_center_this {
+    margin: 0;
+    padding: 0;
+    font-size: 1.2em;
+    padding-left: 21vw;
+    color: $amazon_blue;
+  }
   
   .compliance_check_container {
     display: flex;
@@ -5208,7 +5458,7 @@
   .row_container {
     display: flex;
     flex-wrap: wrap;
-    width: 3190px;
+    width: 1765px;
   }
   
   .labels_for_compliance_check_name {
@@ -5216,16 +5466,18 @@
     background-color: rgb(171, 238, 171);
     border: 1px solid black;
     text-align: center;
-    width: 250px;
-    height: 50px;
+    width: 150px;
+    height: 40px;
+    font-size: .8em;
   }
 
   .labels_for_compliance_check_documents {
     @extend %centerThings;
     border: 1px solid black;
     text-align: center;
-    width: 120px;
-    height: 50px;
+    width: 65px;
+    height: 40px;
+    font-size: .7em;
     background-color: rgb(238, 151, 151);
   }
 
@@ -5234,8 +5486,9 @@
     text-align: center;
     border: 1px solid black;
     background-color: rgb(171, 194, 243);
-    width: 120px;
-    height: 50px;
+    width: 65px;
+    height: 40px;
+    font-size: .7em;
   }
   
   .labels_for_compliance_check_manager {
@@ -5243,34 +5496,49 @@
     text-align: center;
     border: 1px solid black;
     background-color: rgb(99, 231, 95);
-    width: 120px;
-    height: 50px;
+    width: 65px;
+    height: 40px;
+    font-size: .7em;
   }
+
   // end of label ones
   
   .drivers_for_compliance_check_name {
     @extend %centerThings;
     border: 1px solid black;
-    width: 120px;
+    width: 65px;
     text-align: center;
-    height: 50px;
+    height: 40px;
+    font-size: .7em;
   }
   
   .drivers_for_compliance_check_documents {
     @extend %centerThings;
     border: 1px solid black;
-    width: 120px;
-    height: 50px;
+    width: 65px;
+    height: 40px;
     text-align: center;
+    font-size: .7em;
+  }
+
+  .drivers_for_compliance_check_documents:hover {
+    font-size: .8em;
+    transition: ease-in .2s;
   }
   
   .drivers_for_compliance_check_documents_check {
     @extend %centerThings;
     border: 1px solid black;
     background-color: rgb(171, 238, 171);
-    width: 120px;
-    height: 50px;
+    width: 65px;
+    height: 40px;
     text-align: center;
+    font-size: .7em;
+  }
+
+  .drivers_for_compliance_check_documents_check:hover {
+    font-size: .8em;
+    transition: ease-in .2s;
   }
   
   // end of driver found ones
@@ -5279,8 +5547,9 @@
     border: 1px solid black;
     background-color: rgb(228, 110, 110);
     text-align: center;
-    width: 120px;
-    height: 50px;
+    width: 65px;
+    height: 40px;
+    font-size: .7em;
   }
 
   .drivers_for_compliance_check_documents_missing_verify {
@@ -5288,8 +5557,9 @@
     border: 1px solid black;
     background-color: rgb(240, 128, 128);
     text-align: center;
-    width: 120px;
-    height: 50px;
+    width: 65px;
+    height: 40px;
+    font-size: .7em;
   }
 
   .drivers_for_compliance_check_documents_missing_verify:hover {
@@ -5301,8 +5571,9 @@
     text-align: center;
     border: 1px solid black;
     background-color: rgb(189, 36, 36);
-    width: 120px;
-    height: 50px;
+    width: 65px;
+    height: 40px;
+    font-size: .7em;
   }
   
   /****************************************  VANS PAGES ************************************************************/
@@ -5469,34 +5740,151 @@
     color: $logoColor;
   } 
   
-  /****************************************  VANS PAGES ************************************************************/
+  /****************************************  Rental Van Tracker VANS PAGES ************************************************************/
   .van_Horizontal {
     display: flex;
     padding-left: 1rem;
     width: 1200px;
   }
-
+  
   .van_vertical {
     width: 300px;
     padding: 10px;
     border: 1px solid black;
   }
-
+  
   .van_vertical_weekday {
     width: 100px;
     padding: 10px;
     border: 1px solid black;
   }
 
+  .van_vertical_weekday_registration {
+    
+  }
+  
   .van_vertical_weekday_total {
     width: 100px;
     padding: 10px;
     background-color: rgb(238, 116, 116);
     border: 1px solid black;
   }
-
+  
   .van_rental_tracker_overall {
     overflow: scroll;
+  }
+
+  .registrationListRentalVanTracker {
+    display: none;
+    overflow-y: scroll;
+    height: 3vh;
+  }
+
+  .inputRentalVanTracker {
+    width: 82px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 0;
+  }
+
+  .inputRentalVanTracker:hover {
+    background-color: rgb(243, 242, 242);
+  }
+  /****************************************  SUMMARY PAGES ************************************************************/
+
+  .summary_data {
+    padding: 2rem;
+    overflow: scroll;
+  }
+
+  .top_labels_summary {
+    display: flex;
+  }
+
+  .label_boxes_summary_top {
+    width: 70px;
+    font-size: .8em;
+    border: 1px solid black;
+    @extend %centerThings;
+    background-color: rgb(204, 232, 241);
+  }
+  
+  .label_boxes_summary_name_top {
+    width: 180px;
+    border: 1px solid black;
+    @extend %centerThings;
+    background-color: rgb(194, 214, 177);
+  }
+
+  .label_boxes_summary {
+    width: 70px;
+    font-size: .8em;
+    border: 1px solid black;
+    @extend %centerThings;
+  }
+
+  .label_boxes_summary_name {
+    width: 180px;
+    font-size: .8em;
+    border: 1px solid black;
+    @extend %centerThings;
+  }
+
+  .summary_hover_div {
+    display: none;
+  }
+
+  .label_boxes_summary:hover .summary_hover_div {
+    position: absolute;
+    width: 70px;
+    background-color: lightcoral;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .label_boxes_summary:hover .summary_hover_div_full {
+    position: absolute;
+    width: 70px;
+    background-color: rgb(150, 240, 128);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .label_boxes_summary_top_end {
+    width: 120px;
+    font-size: .8em;
+    border: 1px solid black;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .main_content_driver_summary{
+    grid-area: main_content;
+    background-color: $offWhite;
+    animation-name: loadingStyle;
+    animation-duration: 1s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #summary_button {
+    margin-left: 2rem;
+    text-decoration: none;
+  }
+
+  .label_boxes_summary_end {
+    width: 120px;
+    font-size: .8em;
+    border: 1px solid black;
+    @extend %centerThings;
+  }
+
+  .summary_hover_div_full {
+    display: none;
   }
   
   @keyframes searchBarDrop {

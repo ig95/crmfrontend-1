@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState} from 'react'
 
 const DriversList = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ selectedCityDrivers, setSelectedCityDrivers ] = useState([])
     const [ divsToRender, setDivsToRender ] = useState([])
 

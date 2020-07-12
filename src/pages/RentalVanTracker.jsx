@@ -1,11 +1,17 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState} from 'react'
 import NavigationBar from '../components/NavBar'
 
 const RentalVanTracker = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ data, setData ] = useState(null)
     const [ vanData, setVanData ] = useState([])
     const [ mathSunday, setMathSunday ] = useState('14')
     const [ sunday, setSunday ] = useState(new Date())
+    const [ driverData, setDriverData ] = useState([])
+    const [ vehicleData, setVehicleData ] = useState([])
+    const [ registrationSearch, setRegistrationSearch ] = useState([])
 
     // eslint-disable-next-line no-extend-native
     Date.prototype.getWeek = function () {
@@ -33,6 +39,8 @@ const RentalVanTracker = (props) => {
 
     useEffect(() => {
         async function getData(url = '') {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'GET', 
                 mode: 'cors',
@@ -40,7 +48,7 @@ const RentalVanTracker = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 }
             });
 
@@ -48,8 +56,14 @@ const RentalVanTracker = (props) => {
 
         };
 
-        getData('https://pythonicbackend.herokuapp.com/data/').then( (response) => {
+        getData('https://pythonicbackend.herokuapp.com/vandata/').then( (response) => {
             setData(response.data)
+            getData('https://pythonicbackend.herokuapp.com/drivers/').then( response => {
+                setDriverData(response.results)
+                getData('https://pythonicbackend.herokuapp.com/vehicles/').then( response => {
+                    setVehicleData(response.results)
+                })
+            })
         })  
         let myDate = new Date()
         while (myDate.getDay() > 0) {
@@ -58,9 +72,35 @@ const RentalVanTracker = (props) => {
         setMathSunday(myDate.toDateString())
     }, [])
 
+    const mapRegistrations = (letters) => {
+        var registrationList = []
+        if (vehicleData.length > 0) {
+            vehicleData.forEach( (ele, eleId) => {
+                if (ele.registration.includes(letters)) {
+                    registrationList.push(
+                        <div key={eleId}>{ele.registration}</div>
+                    )
+                }
+            })
+        }
+        return registrationList
+    }
+
+    const handleChange = (e, key) => {
+        let myVanData = vanData
+        console.log(myVanData[key+1].props.children.props.children[1])
+        myVanData[key+1].props.children.props.children[1] = (
+            <div>
+                <input type="text" className='inputRentalVanTracker' />
+                {mapRegistrations(e.target.value)}
+            </div>
+        )
+    }
+
     useEffect( () => {
         let localArray = []
-        if (data) {
+        mapRegistrations('I')
+        if (data && vehicleData && driverData) {
             localArray.push(
                 <div className='van_Horizontal'>
                     <div className='van_vertical'>
@@ -104,62 +144,54 @@ const RentalVanTracker = (props) => {
                 new Date(sunday.setDate(sunday.getDate() + 1)).toDateString(),
                 new Date(sunday.setDate(sunday.getDate() + 1)).toDateString()
             ]
-            data.drivers.forEach( (driver, driverID) => {
-                if (driver.vehicleArray.length > 0) {
-                    let myDateArrayLocal = []
-                    driver.datesArray.forEach( (date, dateID) => {
-                        if (localArrayOfDate.includes(new Date(date.date).toDateString())) {
-                            myDateArrayLocal.push(date.date)
-                        }
-                    })
-                    localArray.push (
-                        <div className='van_Horizontal'>
+            driverData.forEach( (driver, vanID) => {
+                localArray.push (
+                    <form key={vanID} onChange={(e) => handleChange(e, vanID)}>
+                        <div className='van_Horizontal' >
                             <div className='van_vertical'>
                                 {driver.name}
                             </div>
-                            <div className='van_vertical_weekday'>
-                                {driver.vehicleArray[0].registration}
+                            <div className='van_vertical_weekday_registration' >
+                                <input type="text" className='inputRentalVanTracker' />
                             </div>
                             <div className='van_vertical_weekday'>
-                                {myDateArrayLocal.includes(localArrayOfDate[0]) ? 1 : 0}
+                                
                             </div>
                             <div className='van_vertical_weekday'>
-                                {myDateArrayLocal.includes(localArrayOfDate[1])  ? 1 : 0}
-                            </div>
-                            <div className='van_vertical_weekday'>  
-                                {myDateArrayLocal.includes(localArrayOfDate[2])  ? 1 : 0}
+                                
                             </div>
                             <div className='van_vertical_weekday'>
-                                {myDateArrayLocal.includes(localArrayOfDate[3])  ? 1 : 0}
+                                
                             </div>
                             <div className='van_vertical_weekday'>
-                                {myDateArrayLocal.includes(localArrayOfDate[4])  ? 1 : 0}
+                                
                             </div>
                             <div className='van_vertical_weekday'>
-                                {myDateArrayLocal.includes(localArrayOfDate[5])  ? 1 : 0}
+                                
                             </div>
                             <div className='van_vertical_weekday'>
-                                {myDateArrayLocal.includes(localArrayOfDate[6])  ? 1 : 0}
+                                
                             </div>
-                            <div className='van_vertical_weekday_total'>
-                                {myDateArrayLocal.length}
+                            <div className='van_vertical_weekday'>
+                                
+                            </div>
+                            <div className='van_vertical_weekday'>
+                                
                             </div>
                         </div>
-                    )
-                }
+                    </form>
+                )
             })
             
         }
-        console.log(localArray)
         setVanData(localArray)
-    }, [data])
+    }, [data, driverData, vehicleData])
 
     return (
         <div className='home_content' >
             <NavigationBar title='Rental Van Tracker' superUser={props.user_email === process.env.REACT_APP_EMAIL_VERIFICATION ? true : false}/>
             <div className='van_rental_tracker_overall'>
                 {vanData}
-
             </div>
         </div >
     )

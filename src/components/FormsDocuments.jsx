@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState} from 'react'
 import axios from 'axios'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 
 const FormsDocuments = (props) => {
-    const [  valueForSubmit, setValueForSubmit ] = useState('')
+    var CryptoJS = require("crypto-js");
+    const [ valueForSubmit, setValueForSubmit ] = useState('')
     const [ dateSelected, setDateSelected ] = useState(new Date())
     const [ calendarGate, setCalendarGate] = useState(false)
     const [ nameFromListArray, setNameFromListArray] = useState([])
@@ -37,6 +40,8 @@ const FormsDocuments = (props) => {
         e.preventDefault()
 
         async function postData(url = '', data = {}) {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'POST', 
                 mode: 'cors',
@@ -44,7 +49,7 @@ const FormsDocuments = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 },
                 body: JSON.stringify(data)
                 });
@@ -59,11 +64,12 @@ const FormsDocuments = (props) => {
             expiryDate: dateSelected,
             driver_id: `https://pythonicbackend.herokuapp.com/drivers/${props.selectedDriver.driver_id}/`
         }).then( response => {
-            console.log(response)
             setSubmitted()
             setValueForSubmit('')
             setNameFromList('')
             setCountryFromList('')
+            setCountryFromListArray([])
+            setDisplayCountryArray('names_list_array_container_none')
         })
     }
 
@@ -88,7 +94,6 @@ const FormsDocuments = (props) => {
 
     // calendar function
     const handleMakingCalendar = () => {
-        console.log('clicked')
         setCalendarGate(true)
     }
 
@@ -360,27 +365,6 @@ const FormsDocuments = (props) => {
         setDisplayCountryArray('names_list_array_container_none')
     }   
 
-    // function for mouse leaving names list
-    const mouseLeaveCountry = () => {
-        setCountryFromListArray([])
-        setDisplayCountryArray('names_list_array_container_none')
-    }
-
-    // Mouse enter country names input
-    const mouseEnterCountry = () => {
-        let localArray = []
-        countryList.forEach( (ele, id) => {
-            localArray.push(
-                <div key={id} className='names_in_names_list_array_forms' onClick={(e, targetName) => handleCountryClick(e, ele)}>
-                    <p>{ele}</p>
-                </div>    
-            )
-        })
-        setCountryFromListArray(localArray)
-        setDisplayCountryArray('names_list_array_container')
-    }
-
-
     // handle selecting name of document
     const handleNameClick = (e, targetName) => {
         setNameFromList(targetName)
@@ -425,6 +409,23 @@ const FormsDocuments = (props) => {
         'POA'
     ]
 
+    const handleChange = (e) => {
+        let localArray = []
+        if (e.target.value) {
+            countryList.forEach( (ele, id) => {
+                if (ele.includes(e.target.value)) {
+                    localArray.push(
+                        <div key={id} className='names_in_names_list_array_forms' onClick={(e, targetName) => handleCountryClick(e, ele)}>
+                            <p>{ele}</p>
+                        </div> 
+                    )
+                }
+            })
+        }
+        setCountryFromListArray(localArray)
+        setDisplayCountryArray('names_list_array_container')
+    }
+
     // function for submitting files
     var submitFilesDiv
     if (props.selectedDriver) {
@@ -456,8 +457,8 @@ const FormsDocuments = (props) => {
                                 </div>
                                 <div className='inner_input_information_documents_tab'>
                                     <h3 className='documents_h3'>Country of Issue:</h3>
-                                        <input type="text" name="country" value={countryFromList} className='document_input_forms' autoComplete='off' onMouseEnter={mouseEnterCountry}/>
-                                        <div className={displayCountryArray} onMouseLeave={mouseLeaveCountry}>
+                                        <input type="text" name="country" value={countryFromList} className='document_input_forms' autoComplete='off' onChange={handleChange} />
+                                        <div className={displayCountryArray} >
                                             {countryFromListArray}
                                         </div>
                                 </div>

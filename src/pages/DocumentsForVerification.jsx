@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react'
 import Documents from '../components/Documents'
 import NavigationBar from '../components/NavBar'
@@ -5,15 +7,16 @@ import 'react-dropdown/style.css'
 import folderPic from '../images/folder.png'
 
 const DocumentsForVerification = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ selectedDriver, setSelectedDriver ] = useState(null)
-    const [ drivers, setDrivers ] = useState(null)
     const [ dataset, setDataset ] = useState(null)
     const [ selectedCity, setSelectedCity ] = useState('DBS2')
 
     // fetch call to the db for all data related to drivers and schedule
     useEffect(() => {
-        console.log('firing')
         async function getData(url = '') {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'GET', 
                 mode: 'cors',
@@ -21,7 +24,7 @@ const DocumentsForVerification = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 }
             });
 
@@ -29,11 +32,8 @@ const DocumentsForVerification = (props) => {
 
         };
 
-        getData('https://pythonicbackend.herokuapp.com/drivers/').then( (response) => {
-            setDrivers(response.results)
-            getData('https://pythonicbackend.herokuapp.com/data/').then( (response) => {
-                setDataset(response.data.drivers)
-            })
+        getData('https://pythonicbackend.herokuapp.com/data/').then( (response) => {
+            setDataset(response.data.drivers)
         })
     }, [selectedDriver])
     
@@ -56,13 +56,15 @@ const DocumentsForVerification = (props) => {
         let localArray = []
         if (dataset) {
             dataset.forEach( (ele, id) => {
-                if (ele.location === selectedCity) {
-                    localArray.push(
-                        <h3 className='name_list_documents' onClick={(e, name )=> handleClick(e, ele)}>
-                            {ele.name} 
-                            <img src={folderPic} alt="Folder" className='image_in_documents_folder'/>
-                        </h3>
-                    )
+                if (ele.status !== 'OffboardedForever') {
+                    if (ele.location === selectedCity) {
+                        localArray.push(
+                            <h3 className='name_list_documents' onClick={(e, name )=> handleClick(e, ele)}>
+                                {ele.name} 
+                                <img src={folderPic} alt="Folder" className='image_in_documents_folder'/>
+                            </h3>
+                        )
+                    }
                 }
             })
         }
@@ -87,6 +89,7 @@ const DocumentsForVerification = (props) => {
                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DBS2')}><a href="#0">DBS2</a></li>
                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DSN1')}><a href="#0">DSN1</a></li>
                                     <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DEX2')}><a href="#0">DEX2</a></li>
+                                    <li className="menu-item" onClick={(e, city) => handleSelectCity(e, 'DXP1')}><a href="#0">DXP1</a></li>
                                 </ol>
                             </li>
                         </ol>

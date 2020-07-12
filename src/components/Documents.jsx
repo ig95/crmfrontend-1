@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState} from 'react'
-import axios from 'axios'
-import ReCAPTCHA from "react-google-recaptcha"
-import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 
 const Documents = (props) => {
+    var CryptoJS = require("crypto-js");
     const [  valueForSubmit, setValueForSubmit ] = useState('')
     const [ imageArray, setImageArray ] = useState([])
     const [ submitFilesDivSelection, setSubmitFilesDivSelection ] = useState(false)
@@ -27,7 +27,6 @@ const Documents = (props) => {
     }
 
     useEffect( () => {
-        console.log('on the docs page', props.selectedDriver.imgArray)
         let ImageArray = []
         if (props.selectedDriver.imgArray) {
             props.selectedDriver.imgArray.forEach( (ele, id) => {
@@ -56,6 +55,8 @@ const Documents = (props) => {
     // verification process
     const getDivsBackAndVerify = (e) => {
         async function postData(url = '', data = {}) {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'PUT', 
                 mode: 'cors',
@@ -63,7 +64,7 @@ const Documents = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 },
                 body: JSON.stringify(data)
                 });
@@ -90,6 +91,8 @@ const Documents = (props) => {
 
     const getDivsBackAndVerifyFalse = (e) => {
         async function postData(url = '', data = {}) {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'PUT', 
                 mode: 'cors',
@@ -97,7 +100,7 @@ const Documents = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 },
                 body: JSON.stringify(data)
                 });
@@ -162,7 +165,6 @@ const Documents = (props) => {
 
     // make the big picture appear ------ defining content
     if (highlightedPicture) {
-        console.log(highlightedImageDetails)
         content = (
             <div className='big_picture_div'>
                 <div className='button_div_box_top'>

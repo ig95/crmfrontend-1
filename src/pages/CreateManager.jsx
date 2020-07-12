@@ -1,16 +1,20 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react'
 import NavigationBar from '../components/NavBar'
 import '../App.css'
 
 const CreateManager = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ submitPressed, setSubmitPressed ] = useState('Submit')
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(e.target.email.value)
         // email bit
         async function getData(url = '', data={}) {
+            let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('token'), process.env.REACT_APP_ENCRYPTION_TYPE);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
             const response = await fetch(url, {
                 method: 'POST', 
                 mode: 'cors',
@@ -18,7 +22,7 @@ const CreateManager = (props) => {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
+                    'Authorization': `Token ${originalText}`
                 },
                 body: JSON.stringify(data)
             });
@@ -30,7 +34,6 @@ const CreateManager = (props) => {
             email: e.target.email.value,
             station: e.target.station.value
         }).then( response => {
-            console.log(response)
             setSubmitPressed('Created')
         })
     }

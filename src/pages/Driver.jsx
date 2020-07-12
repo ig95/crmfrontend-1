@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect} from 'react'
 import NavigationBar from '../components/NavBar'
 import Documents from '../components/Documents'
@@ -7,6 +9,7 @@ import Invoices from '../components/Invoices'
 import Training from '../components/Training'
 
 const Driver = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ selectedDriver, setSelectedDriver ] = useState(null)
     const [ selectedDate, setSelectedDate ] = useState(new Date())
 
@@ -38,9 +41,7 @@ const Driver = (props) => {
         let finalDate = new Date(selectedDate.slice(0,3).concat(' ').concat(selectedDate.slice(3, 6)).concat(' ').concat(selectedDate.slice(6,8)).concat(' ').concat(selectedDate.slice(8,12)))
         setSelectedDate(finalDate)
         props.driver_data.forEach( (ele, id) => {
-            console.log(ele.employee_id, ' ', driverID)
             if (ele.employee_id === driverID) {
-                console.log(ele)
                 setSelectedDriver(ele)
                 setSelectedDate(finalDate)
             }

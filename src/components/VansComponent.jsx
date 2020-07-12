@@ -1,15 +1,17 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect} from 'react'
 import VansDocument from './VansDocument'
 import folderPic from '../images/folder.png'
 import DocumentVans from './DocumentVans'
 
 const VansComponent = (props) => {
+    var CryptoJS = require("crypto-js");
     const [ vanList, setVanList ] = useState([])
     const [ content, setContent ] = useState(null)
 
     // handle mapping owned vans
     useEffect( () => {
-        console.log(props)
         setContent(null)
         let localArray = []
         if (props.data) {
